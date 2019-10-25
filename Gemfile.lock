@@ -58,10 +58,21 @@ GEM
       zeitwerk (~> 2.1, >= 2.1.8)
     addressable (2.7.0)
       public_suffix (>= 2.0.2, < 5.0)
+    annotate (2.6.5)
+      activerecord (>= 2.3.0)
+      rake (>= 0.8.7)
+    babel-source (5.8.35)
+    babel-transpiler (0.7.0)
+      babel-source (>= 4.0, < 6)
+      execjs (~> 2.0)
+    bcrypt (3.1.13)
     bindex (0.8.1)
     bootsnap (1.4.5)
       msgpack (~> 1.0)
     builder (3.2.3)
+    bullet (6.0.2)
+      activesupport (>= 3.0.0)
+      uniform_notifier (~> 1.11)
     byebug (11.0.1)
     capybara (3.29.0)
       addressable
@@ -73,8 +84,10 @@ GEM
       xpath (~> 3.2)
     childprocess (3.0.0)
     concurrent-ruby (1.1.5)
+    connection_pool (2.2.2)
     crass (1.0.5)
     erubi (1.9.0)
+    execjs (2.7.0)
     ffi (1.11.1)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
@@ -82,6 +95,10 @@ GEM
       concurrent-ruby (~> 1.0)
     jbuilder (2.9.1)
       activesupport (>= 4.2.0)
+    launchy (2.4.3)
+      addressable (~> 2.3)
+    letter_opener (1.7.0)
+      launchy (~> 2.2)
     listen (3.1.5)
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
@@ -99,9 +116,11 @@ GEM
     mini_portile2 (2.4.0)
     minitest (5.12.2)
     msgpack (1.3.1)
+    ngrok-tunnel (2.1.1)
     nio4r (2.5.2)
     nokogiri (1.10.4)
       mini_portile2 (~> 2.4.0)
+    pg (1.1.4)
     public_suffix (4.0.1)
     puma (3.12.1)
     rack (2.0.7)
@@ -139,6 +158,12 @@ GEM
     rb-fsevent (0.10.3)
     rb-inotify (0.10.0)
       ffi (~> 1.0)
+    react-rails (2.6.0)
+      babel-transpiler (>= 0.7.0)
+      connection_pool
+      execjs
+      railties (>= 3.2)
+      tilt
     regexp_parser (1.6.0)
     ruby_dep (1.5.0)
     rubyzip (2.0.0)
@@ -156,6 +181,9 @@ GEM
     selenium-webdriver (3.142.6)
       childprocess (>= 0.5, < 4.0)
       rubyzip (>= 1.2.2)
+    slim (4.0.1)
+      temple (>= 0.7.6, < 0.9)
+      tilt (>= 2.0.6, < 2.1)
     spring (2.1.0)
     spring-watcher-listen (2.0.1)
       listen (>= 2.7, < 4.0)
@@ -167,7 +195,7 @@ GEM
       actionpack (>= 4.0)
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
-    sqlite3 (1.4.1)
+    temple (0.8.2)
     thor (0.20.3)
     thread_safe (0.3.6)
     tilt (2.0.10)
@@ -176,6 +204,7 @@ GEM
     turbolinks-source (5.2.0)
     tzinfo (1.2.5)
       thread_safe (~> 0.1)
+    uniform_notifier (1.13.0)
     web-console (4.0.1)
       actionview (>= 6.0.0)
       activemodel (>= 6.0.0)
@@ -200,18 +229,25 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  annotate
+  bcrypt (~> 3.1.7)
   bootsnap (>= 1.4.2)
+  bullet
   byebug
   capybara (>= 2.15)
   jbuilder (~> 2.7)
+  letter_opener
   listen (>= 3.0.5, < 3.2)
+  ngrok-tunnel
+  pg
   puma (~> 3.11)
   rails (~> 6.0.0)
+  react-rails
   sass-rails (~> 5)
   selenium-webdriver
+  slim
   spring
   spring-watcher-listen (~> 2.0.0)
-  sqlite3 (~> 1.4)
   turbolinks (~> 5)
   tzinfo-data
   web-console (>= 3.3.0)
