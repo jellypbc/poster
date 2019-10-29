@@ -1,0 +1,14 @@
+= form_with(model: upload, local: true) do |form|
+  - if upload.errors.any?
+    #error_explanation
+      h2 #{pluralize(upload.errors.count, "error")} prohibited this upload from being saved:
+
+      ul
+        - upload.errors.full_messages.each do |message|
+          li = message
+
+  = form.hidden_field :file, value: @upload.cached_file_data
+  = form.file_field :file
+
+  .actions
+    = form.submit
