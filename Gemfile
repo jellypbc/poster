@@ -13,6 +13,8 @@ gem 'jbuilder', '~> 2.7'
 gem 'bcrypt', '~> 3.1.7'
 gem 'slim'
 gem 'react-rails'
+gem 'shrine', "~> 3.0"
+gem "shrine-google_cloud_storage"
 
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'
