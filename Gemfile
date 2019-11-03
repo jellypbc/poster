@@ -16,6 +16,10 @@ gem 'react-rails'
 gem 'shrine', "~> 3.0"
 gem "shrine-google_cloud_storage"
 gem 'bugsnag'
+gem 'inline_svg'
+gem 'fast_jsonapi'
+gem 'sanitize'
+gem 'sitemap_generator'
 
 gem 'pdf-reader'
 gem 'ox' # xml parse
@@ -54,6 +58,10 @@ group :test do
   gem 'capybara', '>= 2.15'
   gem 'selenium-webdriver'
   gem 'webdrivers'
+end
+
+group :production do
+  gem 'newrelic_rpm'
 end
 
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
