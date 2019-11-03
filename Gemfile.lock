@@ -1,6 +1,7 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    Ascii85 (1.0.3)
     actioncable (6.0.0)
       actionpack (= 6.0.0)
       nio4r (~> 2.0)
@@ -58,6 +59,7 @@ GEM
       zeitwerk (~> 2.1, >= 2.1.8)
     addressable (2.7.0)
       public_suffix (>= 2.0.2, < 5.0)
+    afm (0.2.2)
     annotate (2.6.5)
       activerecord (>= 2.3.0)
       rake (>= 0.8.7)
@@ -83,6 +85,7 @@ GEM
       regexp_parser (~> 1.5)
       xpath (~> 3.2)
     childprocess (3.0.0)
+    coderay (1.1.2)
     concurrent-ruby (1.1.5)
     connection_pool (2.2.2)
     content_disposition (1.0.0)
@@ -90,6 +93,10 @@ GEM
     declarative (0.0.10)
     declarative-option (0.1.0)
     digest-crc (0.4.1)
+    dotenv (2.7.5)
+    dotenv-rails (2.7.5)
+      dotenv (= 2.7.5)
+      railties (>= 3.2, < 6.1)
     down (5.0.0)
       addressable (~> 2.5)
     erubi (1.9.0)
@@ -125,6 +132,7 @@ GEM
       multi_json (~> 1.11)
       os (>= 0.9, < 2.0)
       signet (~> 0.12)
+    hashery (2.1.2)
     httpclient (2.8.3)
     i18n (1.7.0)
       concurrent-ruby (~> 1.0)
@@ -160,7 +168,17 @@ GEM
     nokogiri (1.10.4)
       mini_portile2 (~> 2.4.0)
     os (1.0.1)
+    ox (2.11.0)
+    pdf-reader (2.2.1)
+      Ascii85 (~> 1.0.0)
+      afm (~> 0.2.1)
+      hashery (~> 2.0)
+      ruby-rc4
+      ttfunk
     pg (1.1.4)
+    pry (0.12.2)
+      coderay (~> 1.1.0)
+      method_source (~> 0.9.0)
     public_suffix (4.0.1)
     puma (3.12.1)
     rack (2.0.7)
@@ -210,6 +228,7 @@ GEM
       declarative-option (< 0.2.0)
       uber (< 0.2.0)
     retriable (3.1.2)
+    ruby-rc4 (0.1.5)
     ruby_dep (1.5.0)
     rubyzip (2.0.0)
     sass (3.7.4)
@@ -255,6 +274,7 @@ GEM
     thor (0.20.3)
     thread_safe (0.3.6)
     tilt (2.0.10)
+    ttfunk (1.5.1)
     turbolinks (5.2.1)
       turbolinks-source (~> 5.2)
     turbolinks-source (5.2.0)
@@ -292,11 +312,15 @@ DEPENDENCIES
   bullet
   byebug
   capybara (>= 2.15)
+  dotenv-rails
   jbuilder (~> 2.7)
   letter_opener
   listen (>= 3.0.5, < 3.2)
   ngrok-tunnel
+  ox
+  pdf-reader
   pg
+  pry
   puma (~> 3.11)
   rails (~> 6.0.0)
   react-rails

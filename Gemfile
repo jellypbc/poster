@@ -16,6 +16,14 @@ gem 'react-rails'
 gem 'shrine', "~> 3.0"
 gem "shrine-google_cloud_storage"
 
+gem 'pdf-reader'
+gem 'ox' # xml parse
+
+# gem 'wicked_pdf'
+# gem 'prawn'
+# gem 'origami'
+# gem 'hexapdf'
+
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'
 
@@ -26,6 +34,7 @@ gem 'bootsnap', '>= 1.4.2', require: false
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+  gem 'dotenv-rails'
 end
 
 group :development do
@@ -37,6 +46,7 @@ group :development do
   gem 'ngrok-tunnel'
   gem 'letter_opener'
   gem 'annotate'
+  gem 'pry'
 end
 
 group :test do

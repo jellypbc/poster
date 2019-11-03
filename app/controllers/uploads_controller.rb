@@ -18,6 +18,11 @@ class UploadsController < ApplicationController
   def create
     @upload = Upload.new(upload_params)
 
+    if @upload.post.nil?
+      post = Post.create!
+      @upload.post = post
+    end
+
     respond_to do |format|
       if @upload.save
         format.html { redirect_to @upload, notice: 'Upload was successfully created.' }
