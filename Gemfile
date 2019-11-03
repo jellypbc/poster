@@ -15,6 +15,7 @@ gem 'slim'
 gem 'react-rails'
 gem 'shrine', "~> 3.0"
 gem "shrine-google_cloud_storage"
+gem 'bugsnag'
 
 gem 'pdf-reader'
 gem 'ox' # xml parse
