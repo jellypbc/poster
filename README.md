@@ -6,3 +6,11 @@ The app is mainly two main chunks: server for parsing documents into serialized 
 
 ### Files
 This app uses Shrine for files.
+
+
+### Running GCE commands
+
+Running Migraitons on GCE
+```shell
+bundle exec rake appengine:exec -- bundle exec rake db:migrate
+```

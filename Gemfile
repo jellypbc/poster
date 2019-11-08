@@ -15,6 +15,7 @@ gem 'slim'
 gem 'react-rails'
 gem 'shrine', "~> 3.0"
 gem "shrine-google_cloud_storage"
+gem 'appengine'
 
 gem 'bugsnag'
 gem 'inline_svg'

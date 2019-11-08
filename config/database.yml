@@ -16,5 +16,9 @@ test:
 
 production:
   <<: *default
-  url: <%= ENV['DATABASE_URL'] %>
-  pool: <%= ENV['DB_POOL'] || ENV['PUMA_MAX_THREADS'] || 5 %>
+  # url: <%= ENV['DATABASE_URL'] %>
+  # pool: <%= ENV['DB_POOL'] || ENV['PUMA_MAX_THREADS'] || 5 %>
+  username: "postgres"
+  password: "postgres"
+  database: "jellyposter-prod"
+  host:   "/cloudsql/jellyposter:us-west1:jellyposter-prod-pg"
