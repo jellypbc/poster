@@ -1,6 +1,6 @@
 runtime: ruby
 env: flex
-entrypoint: bundle exec ruby app.rb
+entrypoint: bundle exec rails server Puma -p $PORT
 
 # This sample incurs costs to run on the App Engine flexible environment.
 # The settings below are to reduce costs during testing and are not appropriate
