@@ -14,3 +14,6 @@ resources:
   disk_size_gb: 10
 
 # env_variables:
+
+beta_settings:
+  cloud_sql_instances: jellyposter:us-west1:jellyposter-prod-pg
