@@ -12,5 +12,20 @@ This app uses Shrine for files.
 
 Running Migraitons on GCE
 ```shell
-bundle exec rake appengine:exec -- bundle exec rake db:migrate
+bundle exec rake appengine:exec -- bundle exec rake db:create
+```
+
+
+### Docker
+
+To recreate web image:
+```
+docker-compose build
+docker-compose up --force-recreate
+```
+
+To set up
+```
+docker-compose run web bundle install
+docker-compose run web yarn
 ```

@@ -1,8 +1,9 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '2.6.5'
+ruby '2.5.7'
 
+gem 'bundler'
 gem 'rails', '~> 6.0.0'
 gem 'pg'
 gem 'puma', '~> 3.11'
@@ -16,15 +17,19 @@ gem 'react-rails'
 gem 'shrine', "~> 3.0"
 gem "shrine-google_cloud_storage"
 gem 'appengine'
+gem 'httparty'
+gem 'httmultiparty'
+gem 'font-awesome-sass'
 
 gem 'bugsnag'
-gem 'inline_svg'
-gem 'fast_jsonapi'
-gem 'sanitize'
-gem 'sitemap_generator'
 
-gem 'pdf-reader'
-gem 'ox' # xml parse
+# gem 'inline_svg'
+# gem 'fast_jsonapi'
+# gem 'sanitize'
+# gem 'sitemap_generator'
+
+# gem 'pdf-reader'
+# gem 'ox' # xml parse
 
 # gem 'wicked_pdf'
 # gem 'prawn'

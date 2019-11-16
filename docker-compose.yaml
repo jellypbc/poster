@@ -1,0 +1,28 @@
+version: '3'
+services:
+  web:
+    # command: bundle exec rails server -p 3000 -b '0.0.0.0'
+    build: .
+    command: bundle exec rails server --port 3000 --binding 0.0.0.0
+    volumes: 
+      - .:/app
+    # environment:
+      # - BUNDLE_PATH=/bundle_cache
+      # - BUNDLE_PATH=/bundle/vendor
+    ports:
+      - "3000:3000"
+    # links:
+    #   - db
+    #   - grobid
+#   db:
+#     image: postgres:11-alpine
+#     environment:
+#       - POSTGRES_PASSWORD
+#     volumes:
+#       - db-data:/var/lib/postgresql/data
+#   # grobid:
+#   #   image: lfoppiano/grobid:0.5.6
+
+
+# volumes:
+#   db-data:

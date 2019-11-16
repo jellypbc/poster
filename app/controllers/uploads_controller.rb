@@ -25,7 +25,11 @@ class UploadsController < ApplicationController
 
     respond_to do |format|
       if @upload.save
-        format.html { redirect_to @upload, notice: 'Upload was successfully created.' }
+
+        @upload.processFulltextDocument
+        @upload.processTitle
+
+        format.html { redirect_to @upload.post, notice: 'Upload was successfully created.' }
         format.json { render :show, status: :created, location: @upload }
       else
         format.html { render :new }

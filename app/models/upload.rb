@@ -10,6 +10,7 @@
 
 class Upload < ApplicationRecord
 	include FileUploader::Attachment(:file)
+	include GrobidParser
 
 	belongs_to :post
 

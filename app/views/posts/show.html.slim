@@ -1,0 +1,11 @@
+p id="notice" = notice
+
+p title
+h1 
+	= @post.title
+
+= raw @post.body
+
+
+br 
+= link_to 'Back', posts_path
