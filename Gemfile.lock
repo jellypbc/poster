@@ -109,6 +109,8 @@ GEM
     execjs (2.7.0)
     faraday (0.17.0)
       multipart-post (>= 1.2, < 3)
+    fast_jsonapi (1.5)
+      activesupport (>= 4.2)
     ffi (1.11.2)
     font-awesome-sass (5.11.2)
       sassc (>= 1.11)
@@ -381,6 +383,7 @@ DEPENDENCIES
   byebug
   capybara (>= 2.15)
   dotenv-rails
+  fast_jsonapi
   font-awesome-sass
   httmultiparty
   httparty

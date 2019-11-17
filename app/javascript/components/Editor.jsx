@@ -4,34 +4,24 @@ import PropTypes from "prop-types"
 import {schema} from "prosemirror-schema-basic"
 import {EditorState} from "prosemirror-state"
 import {EditorView} from "prosemirror-view"
+import {DOMParser} from "prosemirror-model"
 
 import {undo, redo, history} from "prosemirror-history"
 import {keymap} from "prosemirror-keymap"
 
-import {DOMParser} from "prosemirror-model"
-// import {EditorState} from "prosemirror-state"
-// import {schema} from "prosemirror-schema-basic"
-
 class Editor extends React.Component {
+
+  constructor(props){
+    super(props);
+    this.state = { post: this.props.post }
+  }
+
   render () {
+
   	let elem = document.getElementById('editor')
 
-  	// let state = EditorState.create({schema})
-		// let view = new EditorView(elem, {state})
-
-		// let state = EditorState.create({schema})
-		// let view = new EditorView(elem, {
-		//   state,
-		//   dispatchTransaction(transaction) {
-		//   	console.log(transaction)
-		//     console.log("Document size went from", transaction.before.content.size,
-		//                 "to", transaction.doc.content.size)
-		//     let newState = view.state.apply(transaction)
-		//     view.updateState(newState)
-		//   }
-		// })
 		let doc = schema.node("doc", null, [
-		  schema.node("paragraph", null, [schema.text("One.")]),
+		  schema.node("paragraph", null, [schema.text("this is a prosemirror editor.")]),
 		  schema.node("horizontal_rule"),
 		  schema.node("paragraph", null, [schema.text("Two!")])
 		])
@@ -43,6 +33,8 @@ class Editor extends React.Component {
 		    keymap({"Mod-z": undo, "Mod-y": redo})
 		  ]
 		})
+
+
 		// let view = new EditorView(elem, {state})
 		let view = new EditorView(elem, {
 			state,
@@ -56,9 +48,13 @@ class Editor extends React.Component {
 			}
 		})
 
+    console.log(this.state)
+
     return (
       <React.Fragment>
-        <p>render</p>
+        <p>hello i am the component</p>
+        <p>ID: {this.state.post.data.id}</p>
+        <p>body: {this.state.post.data.attributes.body}</p>
       </React.Fragment>
     );
   }
