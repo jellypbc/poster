@@ -7,5 +7,10 @@ h1
 = raw @post.body
 
 
-br 
+br
 = link_to 'Back', posts_path
+
+hr
+
+#editor
+= react_component 'Editor', post: PostSerializer.new(@post).serializable_hash

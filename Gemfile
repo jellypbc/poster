@@ -24,7 +24,7 @@ gem 'font-awesome-sass'
 gem 'bugsnag'
 
 # gem 'inline_svg'
-# gem 'fast_jsonapi'
+gem 'fast_jsonapi'
 # gem 'sanitize'
 # gem 'sitemap_generator'
 
