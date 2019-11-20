@@ -22,9 +22,9 @@ gem 'httmultiparty'
 gem 'font-awesome-sass'
 
 gem 'bugsnag'
+gem 'fast_jsonapi'
 
 # gem 'inline_svg'
-gem 'fast_jsonapi'
 # gem 'sanitize'
 # gem 'sitemap_generator'
 

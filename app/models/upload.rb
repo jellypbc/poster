@@ -2,10 +2,11 @@
 #
 # Table name: uploads
 #
-#  id         :integer          not null, primary key
+#  id         :bigint           not null, primary key
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #  file_data  :text
+#  post_id    :integer
 #
 
 class Upload < ApplicationRecord

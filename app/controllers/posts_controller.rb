@@ -1,4 +1,5 @@
 class PostsController < ApplicationController
+  # skip_before_filter :verify_authenticity_token
   before_action :set_post, only: [:show, :edit, :update, :destroy]
 
   def index
@@ -21,7 +22,8 @@ class PostsController < ApplicationController
     respond_to do |format|
       if @post.save
         format.html { redirect_to @post, notice: 'Post was successfully created.' }
-        format.json { render :show, status: :created, location: @post }
+        # format.json { render :show, status: :created, location: @post }
+        format.json { render json: { redirect_to: post_url(@post) } }
       else
         format.html { render :new }
         format.json { render json: @post.errors, status: :unprocessable_entity }
@@ -30,10 +32,13 @@ class PostsController < ApplicationController
   end
 
   def update
+    # binding.pry
+
     respond_to do |format|
       if @post.update(post_params)
         format.html { redirect_to @post, notice: 'Post was successfully updated.' }
-        format.json { render :show, status: :ok, location: @post }
+        # format.json { render :show, status: :ok, location: @post }
+        format.json { render json: { redirect_to: post_url(@post) } }
       else
         format.html { render :edit }
         format.json { render json: @post.errors, status: :unprocessable_entity }
