@@ -4,11 +4,9 @@
 
 This is a Rails toy application that converts PDFs into XML/JSON with a collaborative editor with JSON.
 
-The app is mainly three main chunks: a Rails server for file uploads that feeds a Grobid server for parsing documents into serialized JSON, and the editor which is built on ProseMirror.
+The app is mainly two main chunks: a Rails server for file uploads and the editor which is built on ProseMirror. It also uses a Grobid server for parsing PDFs into XML/JSON for the editor.
 
-
-### Files
-This app uses Shrine and Google Cloud Engine for files.
+Shrine and Google Cloud Engine are used for file storage.
 
 
 ### Development 
@@ -62,7 +60,7 @@ docker-compose up --force-recreate
 
 ### Development
 
-Check out the wiki and issues to see the current status.
+Check out the [wiki](https://github.com/jellypbc/poster/wiki) and issues to see the current status.
 
 
 ### Running GCE commands
