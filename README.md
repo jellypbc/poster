@@ -2,11 +2,13 @@
 
 **http://jellypbc.com**
 
-This is a Rails toy application that converts PDFs into XML/JSON with a collaborative editor with JSON.
+This is a Rails toy application that converts PDFs into XML/JSON with a collaborative editor with JSON, for science.
 
-The app is mainly two main chunks: a Rails server for file uploads and the editor which is built on ProseMirror. It also uses a Grobid server for parsing PDFs into XML/JSON for the editor.
+The app is mainly two main chunks: a Rails server for file uploads and the editor which is built on ProseMirror. It also uses a [Grobid](https://github.com/kermitt2/grobid) server for parsing PDFs into XML/JSON for the editor.
 
 Shrine and Google Cloud Engine are used for file storage.
+
+This app is pre-alpha, so please mind the cracks.
 
 
 ### Development 
@@ -36,19 +38,19 @@ bin/webpack-dev-server
 
 ### Docker
 
-To set up
+If you prefer to use Docker, you can quickly set things up using:
 ```
+docker-compose build
 docker-compose run web bundle install
 docker-compose run web yarn
 docker-compose run web rake db:create db:setup
 ```
 
-And then to start everything up, just do `docker-compose up`.
+And then to start services, just do `docker-compose up`.
 
-When hacking, it is useful to recreate the web image:
+When hacking, it is useful to sometimes recreate the web image:
 
 ```
-docker-compose build
 docker-compose up --force-recreate
 ```
 
