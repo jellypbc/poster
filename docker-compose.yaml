@@ -1,28 +1,46 @@
 version: '3'
 services:
   web:
-    # command: bundle exec rails server -p 3000 -b '0.0.0.0'
     build: .
-    command: bundle exec rails server --port 3000 --binding 0.0.0.0
+    command: ["./docker/web-startup.sh"]
     volumes: 
       - .:/app
-    # environment:
-      # - BUNDLE_PATH=/bundle_cache
-      # - BUNDLE_PATH=/bundle/vendor
     ports:
       - "3000:3000"
-    # links:
-    #   - db
-    #   - grobid
-#   db:
-#     image: postgres:11-alpine
-#     environment:
-#       - POSTGRES_PASSWORD
-#     volumes:
-#       - db-data:/var/lib/postgresql/data
-#   # grobid:
-#   #   image: lfoppiano/grobid:0.5.6
+    links:
+      - db
+      - webpacker
+      - grobid
+    environment:
+      - DB_HOST=db
+      - DB_USER=postgres
+      - DB_PASSWORD=foobar123
+      - RAILS_ENV=development
+      - RAILS_MAX_THREADS
+      - PGHOST=db
+      - PGUSER=postgres
+    depends_on:
+      - db
+
+  webpacker:
+    build: .
+    command: ["./docker/webpacker-startup.sh"]
+    ports:
+      - 3035:3035
+
+  db:
+    image: postgres:11-alpine
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_PASSWORD
+      - POSTGRES_USER=postgres
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+  grobid:
+    image: lfoppiano/grobid:0.5.6
 
 
-# volumes:
-#   db-data:
+volumes:
+  db-data:

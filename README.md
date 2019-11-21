@@ -1,31 +1,73 @@
 # Jelly Posters
-This is a Rails toy app demo for turning files (PDFs, PPTXs, DOCS, etc) into a collaborative editor with JSON (ideally MobileDoc). 
 
-The app is mainly two main chunks: server for parsing documents into serialized JSON, and the editor.
+**http://jellypbc.com**
+
+This is a Rails toy application that converts PDFs into XML/JSON with a collaborative editor with JSON.
+
+The app is mainly three main chunks: a Rails server for file uploads that feeds a Grobid server for parsing documents into serialized JSON, and the editor which is built on ProseMirror.
 
 
 ### Files
-This app uses Shrine for files.
+This app uses Shrine and Google Cloud Engine for files.
 
 
-### Running GCE commands
+### Development 
+To get started with this app, make sure you have Ruby (check out [https://github.com/rbenv/rbenv](rbenv)) and Node/Yarn set up.
 
-Running Migraitons on GCE
-```shell
-bundle exec rake appengine:exec -- bundle exec rake db:create
+```
+rbenv install 2.5.7; rbenv local 2.5.7
+gem install bundler
+bundle install
+yarn
+rake db:create db:setup
+```
+
+To start the server, run:
+
+
+```
+rails server
+```
+
+And also run the webpack-dev-server:
+
+```
+bin/webpack-dev-server
 ```
 
 
 ### Docker
 
-To recreate web image:
+To set up
+```
+docker-compose run web bundle install
+docker-compose run web yarn
+docker-compose run web rake db:create db:setup
+```
+
+And then to start everything up, just do `docker-compose up`.
+
+When hacking, it is useful to recreate the web image:
+
 ```
 docker-compose build
 docker-compose up --force-recreate
 ```
 
-To set up
-```
-docker-compose run web bundle install
-docker-compose run web yarn
+
+### Deploying
+
+**TBD**
+
+
+### Development
+
+Check out the wiki and issues to see the current status.
+
+
+### Running GCE commands
+
+Running Migrations on GCE
+```shell
+bundle exec rake appengine:exec -- bundle exec rake db:create
 ```

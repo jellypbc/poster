@@ -2,13 +2,13 @@ require "shrine"
 require "shrine/storage/file_system"
 require "shrine/storage/google_cloud_storage"
 
-# if Rails.env.development?
-# 	Shrine.storages = { 
-# 	  cache: Shrine::Storage::FileSystem.new("public", prefix: "uploads/cache"),
-# 	  store: Shrine::Storage::FileSystem.new("public", prefix: "uploads"), 
-# 	}
+if Rails.env.development?
+	Shrine.storages = { 
+	  cache: Shrine::Storage::FileSystem.new("public", prefix: "uploads/cache"),
+	  store: Shrine::Storage::FileSystem.new("public", prefix: "uploads"), 
+	}
 
-# elsif Rails.env.staging? || Rails.env.production?
+elsif Rails.env.staging? || Rails.env.production?
 	Shrine.storages = {
 	  cache: Shrine::Storage::GoogleCloudStorage.new(bucket: "jellyposter-cache"),
 	  store: Shrine::Storage::GoogleCloudStorage.new(
@@ -19,7 +19,7 @@ require "shrine/storage/google_cloud_storage"
   		}
   	)
 	}
-# end
+end
  
 Shrine.plugin :activerecord # or :activerecord 
 Shrine.plugin :cached_attachment_data # for retaining the cached file across form redisplays 
