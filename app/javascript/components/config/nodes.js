@@ -1,5 +1,5 @@
-// import { nodes } from 'prosemirror-schema-basic'
-import { nodes } from './schema-basic'
+import { nodes } from 'prosemirror-schema-basic'
+// import { nodes } from './schema-basic'
 
 import { orderedList, bulletList, listItem } from 'prosemirror-schema-list'
 // import { orderedList, bulletList, listItem } from './schema-list'

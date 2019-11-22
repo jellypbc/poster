@@ -2,7 +2,6 @@ module GrobidParser
 	include ActiveSupport::Concern
 	require 'open-uri'
 
-
 	# model.processFulltextDocument(post_id)
 	def processFulltextDocument
 		# get the uploads url

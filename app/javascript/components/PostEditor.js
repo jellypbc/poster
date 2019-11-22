@@ -6,8 +6,8 @@ import HtmlEditor from './HtmlEditor'
 import Editor from './Editor'
 import Floater from './Floater'
 import MenuBar from './MenuBar'
-import { options, menu } from './config/index'
-// import { options, menu } from '@aeaton/react-prosemirror-config-default'
+// import { options, menu } from './config/index'
+import { options, menu } from '@aeaton/react-prosemirror-config-default'
 import superagent from 'superagent'
 
 class PostEditor extends React.Component {
