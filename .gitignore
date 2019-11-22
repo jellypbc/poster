@@ -21,6 +21,7 @@
 /storage/*
 !/storage/.keep
 
+/public/uploads
 /public/assets
 .byebug_history
 

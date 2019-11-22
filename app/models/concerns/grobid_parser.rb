@@ -10,6 +10,8 @@ module GrobidParser
 		# get the uploads url
 		url = self.file.url
 
+		url = ("./public" + url) if Rails.env.development?
+
 		# open the url
 		file = open(url)
 
