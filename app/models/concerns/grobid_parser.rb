@@ -2,7 +2,10 @@ module GrobidParser
 	include ActiveSupport::Concern
 	require 'open-uri'
 
-	# model.processFulltextDocument(post_id)
+	GROBID_HOST = ENV['GROBID_URL'] || "http://localhost:8070"
+
+	# Here are some sample grobid tasks from grobid service
+
 	def processFulltextDocument
 		# get the uploads url
 		url = self.file.url
@@ -11,7 +14,7 @@ module GrobidParser
 		file = open(url)
 
 		# grobid url
-		endpoint = 'http://localhost:8070/api/processFulltextDocument'
+		endpoint = "#{GROBID_HOST}/api/processFulltextDocument"
 		
 		resp = HTTParty.post(
 			endpoint,
@@ -22,13 +25,11 @@ module GrobidParser
 			}
 		)
 
-		# save the response on the post
-		# post.save(body: JSON.parse(resp.body) )
 		xml = resp["TEI"].to_xml
 		post.update(body: xml)
 	end
 
-	def processTitle
+	def processHeaderDocument
 		post = self.post
 
 		# get the uploads url
@@ -38,7 +39,7 @@ module GrobidParser
 		file = open(url)
 
 		# grobid url
-		endpoint = 'http://localhost:8070/api/processHeaderDocument'
+		endpoint = "#{GROBID_HOST}/api/processHeaderDocument"
 		
 		resp = HTTParty.post(
 			endpoint,

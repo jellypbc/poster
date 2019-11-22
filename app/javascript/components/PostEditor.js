@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom'
 import styled from 'styled-components'
 
 import HtmlEditor from './HtmlEditor'
-import Editor from './Editor'
 import Floater from './Floater'
 import MenuBar from './MenuBar'
 
@@ -97,16 +96,16 @@ class PostEditor extends React.Component {
 
     let elem = document.getElementById('editor')
 
-    var thing = post.data.attributes.body
-    console.log(thing)
+    var postXML = post.data.attributes.body
+    console.log(postXML)
 
     return (
       <div>
         <h2>Input</h2>
         
-        <Editor 
+        <HtmlEditor 
           onChange={doc => this.setState({ doc })}
-          value={thing}
+          value={postXML}
           options={options}
           autoFocus
           render={({ editor, view }) => (

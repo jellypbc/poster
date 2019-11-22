@@ -36,6 +36,7 @@ bin/webpack-dev-server
 ```
 
 
+
 ### Docker
 
 If you prefer to use Docker, you can quickly set things up using:
@@ -58,6 +59,7 @@ docker-compose up --force-recreate
 ### Deploying
 
 **TBD**
+*Will need to do some configuration set up for GCE storage*
 
 
 ### Development

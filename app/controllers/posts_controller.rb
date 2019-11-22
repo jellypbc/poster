@@ -22,7 +22,6 @@ class PostsController < ApplicationController
     respond_to do |format|
       if @post.save
         format.html { redirect_to @post, notice: 'Post was successfully created.' }
-        # format.json { render :show, status: :created, location: @post }
         format.json { render json: { redirect_to: post_url(@post) } }
       else
         format.html { render :new }
@@ -32,12 +31,9 @@ class PostsController < ApplicationController
   end
 
   def update
-    # binding.pry
-
     respond_to do |format|
       if @post.update(post_params)
         format.html { redirect_to @post, notice: 'Post was successfully updated.' }
-        # format.json { render :show, status: :ok, location: @post }
         format.json { render json: { redirect_to: post_url(@post) } }
       else
         format.html { render :edit }

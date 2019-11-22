@@ -19,6 +19,7 @@ services:
       - RAILS_MAX_THREADS
       - PGHOST=db
       - PGUSER=postgres
+      - GROBID_HOST=http://localhost:8070/
     depends_on:
       - db
 
