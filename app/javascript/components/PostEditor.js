@@ -6,8 +6,10 @@ import HtmlEditor from './HtmlEditor'
 import Editor from './Editor'
 import Floater from './Floater'
 import MenuBar from './MenuBar'
+
 // import { options, menu } from './config/index'
 import { options, menu } from '@aeaton/react-prosemirror-config-default'
+
 import superagent from 'superagent'
 
 class PostEditor extends React.Component {
@@ -104,9 +106,9 @@ class PostEditor extends React.Component {
       <div>
         <h2>Input</h2>
         
-        <HtmlEditor 
+        <Editor 
           // post={this.props.post.data.attributes.body}
-          // onChange={doc => this.setState({ doc })}
+          onChange={doc => this.setState({ doc })}
           value={thing}
           options={options}
           autoFocus
