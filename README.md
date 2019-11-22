@@ -87,4 +87,5 @@ Here are some of the things we will playing around with in this toy app, kind of
 - full data export
 - offline
 - mobile support
+- gRPC/xml-rpc for code remote eval
 - mobileDoc

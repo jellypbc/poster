@@ -55,7 +55,6 @@ class PostEditor extends React.Component {
         .set('X-CSRF-Token', token)
         .set('accept', 'application/json')
         .end((err, res) => {
-          // console.log(JSON.parse(res.text).redirect_to)
           var redirect = JSON.parse(res.text).redirect_to
           window.location.href = redirect;
         })
@@ -67,7 +66,6 @@ class PostEditor extends React.Component {
         .set('X-CSRF-Token', token)
         .set('accept', 'application/json')
         .end((err, res) => {
-          // console.log(JSON.parse(res.text).redirect_to)
           var redirect = JSON.parse(res.text).redirect_to
           window.location.href = redirect;
         })
@@ -107,7 +105,6 @@ class PostEditor extends React.Component {
         <h2>Input</h2>
         
         <Editor 
-          // post={this.props.post.data.attributes.body}
           onChange={doc => this.setState({ doc })}
           value={thing}
           options={options}
