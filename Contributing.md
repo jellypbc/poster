@@ -13,22 +13,6 @@ Contributions are welcome! Please check out the below for how to get involved wi
 * [Running Examples](#running-examples)
 
 
-## Roadmap / Product Horizons
-- multiplayer RT-crdt
-- comments
-- render inline react components
-  - inline comments
-  - footnotes
-  - @ hyperlinks for posts, users
-- lab note templates
-- encryption
-- activitypub / federation
-- full data export
-- offline
-- mobile
-- mobileDoc
-
-
 ## Reporting Bugs
 
 **For now, please note that this project is pre-alpha.** If you run into weird behavior, feel free to open a new issue in this repository. Issues should aim to include code to reproduce the bug with minimal setup, a GIF showing the issue in action, and a clear explanation of what the issue is.

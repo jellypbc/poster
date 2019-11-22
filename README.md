@@ -71,3 +71,20 @@ Running Migrations on GCE
 ```shell
 bundle exec rake appengine:exec -- bundle exec rake db:create
 ```
+
+## Roadmap / Product Horizons
+Here are some of the things we will playing around with in this toy app, kind of like a list of to-do's.
+
+- multiplayer RT-crdt based syncing
+- render inline react components
+  - inline comments
+  - footnotes
+  - @ hyperlinks for posts, users, projects
+- biblioglutton for automagically grabbing referenced citations
+- lab note templates
+- encryption
+- activitypub / federation
+- full data export
+- offline
+- mobile support
+- mobileDoc
