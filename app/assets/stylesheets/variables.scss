@@ -1,0 +1,162 @@
+// Grays
+$white:           #FFF;
+$gray:            #555;
+$grayLight:       #aaa;
+$grayLightish:    #bababa;
+$grayLighter:     #ddd;
+$grayLighterer:   #F2F3F4;
+$grayLightest:    #f5f5f5;
+$grayDark:        #444;
+$grayDarker:      #222;
+$black:           #000;
+
+// Brand
+$footerColor: #FDF0EF;
+$newsletterForm: #FEECB1;
+
+// Colors
+$blue:                     #049cdb;
+$blueDark:                 #0064cd;
+$blueGreen:                #1486b3;
+$green:                    #46a546;
+$red:                      #9d261d;
+$yellow:                   #ffc40d;
+$orange:                   #f89406;
+$pink:                     #c3325f;
+$purple:                   #7a43b6;
+$faintPink:                #faeee9;
+$turquoise:                #5db1be;
+$seafoam:                  #27a387;
+$orangeyRose:              #FEB09B;
+$metrics_fill_color:       #C8E4F0;
+$teal:                     #43B596;
+$dark_nav:                 #1D2225;
+$offWhite:                 #fafafa;
+$highlight_font_color:     #69ccad;  // Greenish
+$contrast_font_color:      #ff6969;  // Redish
+$edit_action_font_color:   #4c83a7;  // Bluish
+$shadow_font_color:        #004e6d;  // Dark Blue
+$dark_shadow_font_color:   #143F44;  // Dark Greyish
+$metrics_graph_color:      #559da4;  // Lighter Bluish
+$metrics_fill_color:       #C8E4F0;
+$heart:                    #D97471;
+$hearting:                 #FF746F;
+$hearted:                  #DB5854;
+
+// Experiment brand
+$shale:           #4a5658;
+$shaleLight:      #9Ba5aa;
+$shaleLighter:    #D4D9DB;
+$shaleLightest:   #F9FBFB;
+$shaleKindaLight: #A5A7A8;
+$shaleDark:       #1a2024;
+
+$brandKellyGreen: #29BD31;
+$brandGreen:      #36ac9c;
+$brandLime:       #8BCEA3;
+$brandBlue:       #5eb0c0;
+$brandOcean:      #004E6D;
+$brandOrange:     #F6694B;
+$brandRed:        #E5502A;
+
+$brandShale:      #435660;
+$brandYellow:     #f89406;
+
+$brandLinks:      #26B8AD;
+$brandFocus:      rgba(85,178,127,.8);
+
+$error:           #FF7979; // form validations etc
+$faintPink:       #faeee9;
+$brandWarning:    #ffbd00;
+$warning:         #ffbd00;
+$warningLighter:  #FCEFC1;
+$adminInfo:       #fff0bc;
+
+// Social colors
+$facebook:        #3B5998;
+$twitter:         #00AAF1;
+$reddit:          #FF3A00;
+
+// Project cards
+$mainTextColor:   $shaleDark;
+$subtleTextColor: #9B9B9B;
+
+// hints
+$info_border_color:         #83c5cd;
+$info_font_color:           #439ca7;
+$info_background_color:     #f0f8f9;
+$payout_background_color:   #F5FBFC;
+
+
+// labnotes
+$supplement:          $shale;
+$supplementIcon:      #344453;
+$supplementTextSize:  14px;
+$selectionColor:      #E1F0EE;
+
+// Type variables
+$baseFontFamily:      'PT Sans', Helvetica, Arial, sans-serif;
+// $serifFontFamily:     'Copernicus', Times;
+$markupFontFamily:     Monaco, Menlo, Consolas, "Courier New", monospace;
+
+$textColor:           $grayLight;
+$backgroundColor:     $grayLightest;
+$baseLineHeight:      20px;
+
+// Global measurements
+$desktop-min-width: 768px;
+$screen-non-mobile: 768px;
+
+$screen-small: 768px;
+$screen-medium: 1250px;
+
+// For devices larger than mobile
+// 768px is arbitrary, I stole it from bootstrap
+$screen-non-mobile: 768px;
+
+// Z-index values
+$zindex-navbar: 50;
+$zindex-dropdown: 1050;
+$zindex-overlay: 1100;
+$zindex-modal: 1200;
+
+// Category variable colors
+$project_categories: (
+  all:                #333,
+  political_science:  #6c5cab,
+  anthropology:       #B96D9E,
+  art_and_design:     #7E7DEC,
+  social_science:     #89BEF7,
+  economics:          #456DB4,
+  biology:            #1486b3,
+  chemistry:          #5EB0C0,
+  ecology:            #29a286,
+  physics:            #67D6C1,
+  materials_science:  #7BCF93,
+  earth_science:      #96b94f,
+  education:          #FFAD55,
+  paleontology:       #fca88a,
+  medicine:           #F86B48,
+  neuroscience:       #FF5D58,
+  psychology:         #DF587C,
+  computer_science:   #91CBDD,
+  data_science:       #CED5E9,
+  engineering:        #989898,
+  mathematics:        #434343
+);
+
+// Flash colors
+$flash_types: (
+  info: rgb(240, 248, 249),
+  success: rgb(235, 247, 245),
+  error: rgb(255, 241, 241),
+  warning: rgb(255, 249, 229),
+);
+
+// Project state colors
+$state_colors: (
+  approved: $brandGreen,
+  private: #CD8D29,
+  ready: #D98083,
+  finished: #5B7A87
+);

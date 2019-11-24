@@ -9,7 +9,6 @@ module GrobidParser
 	def processFulltextDocument
 		# get the uploads url
 		url = self.file.url
-
 		url = ("./public" + url) if Rails.env.development?
 
 		# open the url
@@ -32,10 +31,9 @@ module GrobidParser
 	end
 
 	def processHeaderDocument
-		post = self.post
-
 		# get the uploads url
 		url = self.file.url
+		url = ("./public" + url) if Rails.env.development?
 
 		# open the url
 		file = open(url)
