@@ -1,9 +1,22 @@
-// Place all the styles related to the posts controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
-
-#ditor {
+#editor {
 	border: 1px solid #333;
 	border-radius: 4px;
 	padding: 20px;
+}
+
+.post {
+  border: 2px solid #eee;
+  border-radius: 4px;
+  padding: 20px;
+  margin: 20px 0;
+
+  .title {
+    font-size: 18px;
+    font-weight: 700;
+    padding-bottom: 12px;
+  }
+  .date {
+    font-size: 13px;
+    color: #ccc;
+  }
 }

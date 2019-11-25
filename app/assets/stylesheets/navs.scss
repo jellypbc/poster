@@ -1,0 +1,15 @@
+nav {
+  min-height: 60px;
+  a {
+    color: #000;
+    font-weight: 700;
+    font-size: 16px;
+  }
+  a:hover {
+    background: none;
+    color: green;
+    text-decoration: none;
+  }
+
+  padding-top: 15px;
+}

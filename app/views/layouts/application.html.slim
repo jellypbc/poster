@@ -2,7 +2,7 @@ doctype html
 html lang='en-us'
   head
     title Jellyposter
-    
+
     = csrf_meta_tags
     = csp_meta_tag
 
@@ -10,4 +10,5 @@ html lang='en-us'
     = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' 
 
   body
+    = render "shared/nav"
     = yield
