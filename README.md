@@ -44,7 +44,7 @@ If you prefer to use Docker, you can quickly set things up using:
 docker-compose build
 docker-compose run web bundle install
 docker-compose run web yarn
-docker-compose run web rake db:create db:setup
+docker-compose run web bundle exec rake db:create db:setup
 ```
 
 And then to start services, just do `docker-compose up`.
