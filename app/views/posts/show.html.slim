@@ -1,10 +1,11 @@
-p id="notice" = notice
-= link_to 'Back', posts_path
+.container
+  p id="notice" = notice
+  = link_to 'Back', posts_path
 
-p Title: #{@post.title}
-/ p Body: #{@post.body}
+  p Title: #{@post.title}
+  / p Body: #{@post.body}
 
-#editor
-= react_component 'PostEditor', post: PostSerializer.new(@post).serializable_hash
+  #editor
+  = react_component 'PostEditor', post: PostSerializer.new(@post).serializable_hash
 
-= link_to "Home", root_path
+  = link_to "Home", root_path
