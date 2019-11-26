@@ -120,10 +120,6 @@ class PostEditor extends React.Component {
 
         <button onClick={this.handleFormSubmit.bind(this)}>Submit</button>
 
-        <h2>Output</h2>
-        <pre><code>{JSON.stringify(this.state.doc, null, 2)}</code></pre>
-
-
       </div>
     )
   }

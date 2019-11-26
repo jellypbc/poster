@@ -4,8 +4,13 @@
     .header-nav
       .back-url
         = link_to 'Back', posts_path
-      .pdf-url
-        = 'View original PDF'
+      - if @post.uploads
+        .pdf-url
+          - if @post.uploads.first.file
+            - if @post.uploads.first.file.metadata["mime_type"].include?("image")
+              = image_tag @post.uploads.first.file_url
+            - elsif @post.uploads.first.file.metadata["mime_type"].include?("pdf")
+              = link_to 'View Original PDF', @post.uploads.first.file_url, target: '_blank'
     .title
       = @post.title || "Title"
     .authors
@@ -16,5 +21,3 @@
 
   #editor
   = react_component 'PostEditor', post: PostSerializer.new(@post).serializable_hash
-
-  = link_to "Home", root_path
