@@ -1,9 +1,18 @@
 .container
-  p id="notice" = notice
-  = link_to 'Back', posts_path
-
-  p Title: #{@post.title}
-  / p Body: #{@post.body}
+  .header
+    p id="notice" = notice
+    .header-nav
+      .back-url
+        = link_to 'Back', posts_path
+      .pdf-url
+        = 'View original PDF'
+    .title
+      = @post.title || "Title"
+    .authors
+      = @post.authors
+    .publisher
+      = "Published by "
+      = link_to @post.publisher
 
   #editor
   = react_component 'PostEditor', post: PostSerializer.new(@post).serializable_hash
