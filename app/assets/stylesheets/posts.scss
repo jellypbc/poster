@@ -2,6 +2,33 @@
 	padding: 20px;
 }
 
+.posts-index-header {
+  .btn-primary {
+    background-color: green;
+    border-color: transparent;
+    padding: 10px 5px;
+    text-align: center;
+    border-radius: 8px;
+    a {
+      color: white;
+      text-decoration: none;
+    }
+    &:hover {
+      color: #fff;
+      background-color: green;
+      opacity: 0.8;
+    }
+  }
+}
+
+.posts-index {
+  td, th {
+    padding: 10px 20px;
+  }
+  font-size: 12px;
+  padding-bottom: 100px;
+}
+
 .post {
   border: 2px solid #eee;
   border-radius: 4px;
