@@ -14,10 +14,11 @@
     .title
       = @post.title || "Title"
     .authors
-      = @post.authors
+      = @post.authors if @post.authors
     .publisher
-      = "Published by "
-      = link_to @post.publisher
+      - if @post.publisher
+        = "Published by "
+        = link_to @post.publisher
 
   #editor
   = react_component 'PostEditor', post: PostSerializer.new(@post).serializable_hash
