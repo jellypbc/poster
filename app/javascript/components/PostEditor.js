@@ -6,8 +6,7 @@ import HtmlEditor from './HtmlEditor'
 import Floater from './Floater'
 import MenuBar from './MenuBar'
 
-// import { options, menu } from './config/index'
-import { options, menu } from '@aeaton/react-prosemirror-config-default'
+import { options, menu } from './config/index'
 
 import superagent from 'superagent'
 
@@ -116,11 +115,16 @@ class PostEditor extends React.Component {
           )}
         />
 
-        <button onClick={this.handleFormSubmit.bind(this)}>Submit</button>
+        <button
+          onClick={this.handleFormSubmit.bind(this)}
+          className="btn btn-primary"
+        >
+          Submit
+        </button>
 
       </div>
     )
   }
 }
 
-export default PostEditor
+export default PostEditor;
