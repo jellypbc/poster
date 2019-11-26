@@ -2,8 +2,6 @@
   .header
     p id="notice" = notice
     .header-nav
-      .back-url
-        = link_to 'Back', posts_path
       - if @post.uploads
         .pdf-url
           - if @post.uploads.first.file
