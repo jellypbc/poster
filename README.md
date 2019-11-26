@@ -1,6 +1,6 @@
-# Jelly Posters
+# Jelly Poster
 
-**http://jellypbc.com**
+**http://jellyposter.herokuapp.com**
 
 This is a Rails toy application that converts PDFs into XML/JSON with a collaborative editor with JSON, for science.
 
@@ -19,8 +19,10 @@ rbenv install 2.5.7; rbenv local 2.5.7
 gem install bundler
 bundle install
 yarn
-rake db:create db:setup
+rake db:create db:setup db:seed
 ```
+
+This will also create a sample post to just for showing the post editor.
 
 To start the server, run:
 
@@ -34,7 +36,7 @@ And also run the webpack-dev-server:
 bin/webpack-dev-server
 ```
 
-To run Grobid, it helps to use docker.
+This app requires Grobid, a machine learning PDF parsing library, to run alongside the app. To run Grobid separately, you can do so easily using docker and the public grobid image. Make sure you have docker set up and do:
 ```
 docker pull lfoppiano/grobid:0.6.0     
 docker run -t --rm --init -p 8080:8070 -p 8081:8071 lfoppiano/grobid:0.6.0
@@ -43,7 +45,7 @@ docker run -t --rm --init -p 8080:8070 -p 8081:8071 lfoppiano/grobid:0.6.0
 
 ### Docker
 
-If you prefer to use Docker, you can quickly set things up using:
+If you prefer to use Docker Compose, you can quickly set things up using:
 ```
 docker-compose build
 docker-compose run web bundle install
