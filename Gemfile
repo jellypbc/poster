@@ -5,7 +5,7 @@ ruby '2.5.7'
 
 gem 'bundler'
 gem 'rails', '~> 6.0.0'
-gem 'pg'
+gem 'pg', '~> 1.1'
 gem 'puma', '~> 3.11'
 gem 'sass-rails', '~> 5'
 gem 'webpacker', '~> 4.0'
@@ -20,28 +20,8 @@ gem 'appengine'
 gem 'httparty'
 gem 'httmultiparty'
 gem 'font-awesome-sass'
-
-gem 'bugsnag'
 gem 'fast_jsonapi'
-
-# gem 'inline_svg'
-# gem 'sanitize'
-# gem 'sitemap_generator'
-
-# gem 'pdf-reader'
-# gem 'ox' # xml parse
-
-# gem 'wicked_pdf'
-# gem 'prawn'
-# gem 'origami'
-# gem 'hexapdf'
-
-# Use Redis adapter to run Action Cable in production
-# gem 'redis', '~> 4.0'
-
-# Use Active Storage variant
-# gem 'image_processing', '~> 1.2'
-
+gem 'bugsnag'
 gem 'bootsnap', '>= 1.4.2', require: false
 
 group :development, :test do

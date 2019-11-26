@@ -12,7 +12,6 @@ import { options, menu } from '@aeaton/react-prosemirror-config-default'
 import superagent from 'superagent'
 
 class PostEditor extends React.Component {
-
   constructor (props) {
     super(props)
     this.state = {
