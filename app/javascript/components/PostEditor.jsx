@@ -94,7 +94,6 @@ class PostEditor extends React.Component {
     let elem = document.getElementById('editor')
 
     var postXML = post.data.attributes.body
-    console.log(postXML)
 
     return (
       <div>
