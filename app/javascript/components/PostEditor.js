@@ -90,8 +90,6 @@ class PostEditor extends React.Component {
     `
 
     const editorStyle = {
-      background: '#eee',
-      padding: 5
     };
 
     let elem = document.getElementById('editor')
@@ -101,16 +99,15 @@ class PostEditor extends React.Component {
 
     return (
       <div>
-        <h2>Input</h2>
-        
-        <HtmlEditor 
+
+        <HtmlEditor
           onChange={doc => this.setState({ doc })}
           value={postXML}
           options={options}
           autoFocus
           render={({ editor, view }) => (
             <div style={editorStyle}>
-              <MenuBar menu={menu} view={view} />
+              <MenuBar view={view} />
 
               <Floater view={view}>
                 <MenuBar menu={{ marks: menu.marks }} view={view} />
@@ -122,10 +119,6 @@ class PostEditor extends React.Component {
         />
 
         <button onClick={this.handleFormSubmit.bind(this)}>Submit</button>
-        
-        <h2>Output</h2>
-        <pre><code>{JSON.stringify(this.state.doc, null, 2)}</code></pre>
-
 
       </div>
     )

@@ -1,11 +1,23 @@
 .container
-  p id="notice" = notice
-  = link_to 'Back', posts_path
-
-  p Title: #{@post.title}
-  / p Body: #{@post.body}
+  .header
+    p id="notice" = notice
+    .header-nav
+      .back-url
+        = link_to 'Back', posts_path
+      - if @post.uploads
+        .pdf-url
+          - if @post.uploads.first.file
+            - if @post.uploads.first.file.metadata["mime_type"].include?("image")
+              = image_tag @post.uploads.first.file_url
+            - elsif @post.uploads.first.file.metadata["mime_type"].include?("pdf")
+              = link_to 'View Original PDF', @post.uploads.first.file_url, target: '_blank'
+    .title
+      = @post.title || "Title"
+    .authors
+      = @post.authors
+    .publisher
+      = "Published by "
+      = link_to @post.publisher
 
   #editor
   = react_component 'PostEditor', post: PostSerializer.new(@post).serializable_hash
-
-  = link_to "Home", root_path

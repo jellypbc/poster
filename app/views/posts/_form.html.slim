@@ -7,10 +7,17 @@
         - post.errors.full_messages.each do |message|
           li = message
 
-
   .field
     = form.label :title
     = form.text_field :title
+    
+  .field 
+    = form.label :authors
+    = form.text_field :authors
+
+  .field
+    = form.label :publisher
+    = form.text_field :publisher
 
   .field
     = form.label :body

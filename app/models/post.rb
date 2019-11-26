@@ -8,7 +8,7 @@
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #  slug       :string
-#
+#  publisher  :string
 
 class Post < ApplicationRecord
 	has_many :uploads
