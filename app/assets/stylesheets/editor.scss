@@ -1,0 +1,21 @@
+.loading-indicator {
+	i {
+		margin-right: 3.5px;
+		font-size: 6px;
+		bottom: 1.5px;
+		position: relative;
+		color: #a3d9ae;
+	}
+	font-size: 12px;
+	color: #999;
+  position: fixed;
+  right: 10px;
+  bottom: 10px;
+}
+
+.active {
+  i {
+  	color: grey;
+  	transition-duration: 0.4s;
+  }
+}

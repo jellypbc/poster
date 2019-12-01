@@ -1,4 +1,5 @@
 import React from 'react'
+// import _ from 'lodash'
 import debounce from 'lodash/debounce'
 import { DOMParser, DOMSerializer } from 'prosemirror-model'
 
@@ -28,7 +29,7 @@ const serializer = schema => {
 
 class HtmlEditor extends React.Component {
   componentWillMount () {
-    const { value, onChange, options, post } = this.props
+    const { value, onChange, options } = this.props
     const { schema } = options
 
     const parse = parser(schema)
@@ -36,11 +37,27 @@ class HtmlEditor extends React.Component {
 
     options.doc = parse(value)
 
-    // instead send a function to fire request to save the body?
-    this.onChange = debounce(doc => {
+    this.wrapOnChangeToDebounce = debounce(doc =>  {
+      console.log("dodoggogo")
       onChange(serialize(doc))
-    }, 1000, { maxWait: 1000 })
+    }, 2000, { maxWait: 2000 })
   }
+
+  combineCindyWithOnChange(doc) {
+    const { onChange, setCindy, options } = this.props
+    const { schema } = options
+
+    const serialize = serializer(schema)
+
+    setCindy(true)
+    onChange(serialize(doc))
+
+    this.thing(doc)
+  }
+
+  // todo: come back to this later, add timeout gate to
+  // debounce onchange events
+  thing = (doc) => debounce(console.log('hi'), 500 )
 
   render () {
     const {
@@ -57,7 +74,8 @@ class HtmlEditor extends React.Component {
         options={options}
         attributes={attributes}
         render={render}
-        onChange={this.onChange}
+        // onChange={this.wrapOnChangeToDebounce}
+        onChange={(doc) => this.combineCindyWithOnChange(doc)}
         nodeViews={nodeViews}
       />
     )
