@@ -8,7 +8,20 @@
           li = message
 
   = form.hidden_field :file, value: @upload.cached_file_data
-  = form.file_field :file
 
-  .actions
-    = form.submit
+  .input-group.my-4
+    .custom-file
+      = form.file_field :file, type: "file", class:"custom-file-input", id: "inputFile"
+
+      label class="custom-file-label"  id="label" for="inputFile"
+        | Choose file
+
+  .actions.my-3
+    = form.submit "Submit", class: 'btn btn-primary'
+
+javascript:
+  document.getElementById('inputFile')
+    .addEventListener("change", function(){
+      var fileName = document.getElementById('inputFile').files[0].name
+      document.getElementById('label').textContent = fileName;
+    });

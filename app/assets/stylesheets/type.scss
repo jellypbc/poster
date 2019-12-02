@@ -1,0 +1,56 @@
+html, body, p, h1, h2, h3, h4, h5,
+ul, ol, li, blockquote, label, form,
+input, span, a {
+  font-family: 'Roboto', sans-serif;
+  color: $black;
+}
+
+a {
+  color: $brandGreen;
+}
+
+a:hover {
+  color: darken($brandGreen, 14);
+  text-decoration: none;
+}
+
+p, li {
+  line-height: 24px;
+  font-size: 16px;
+}
+
+ul,
+ol {
+  padding-left: 20px;
+}
+
+ul li,
+ol li {
+  margin: 10px 0;
+}
+
+h1 { font-size: 25px; }
+h2 { font-size: 18px; }
+h3 { font-size: 16px; font-weight: 700; }
+
+pre {
+  border-radius: 3px;
+  background-color: #eee;
+  padding: 5px 10px;
+  font-size: 11px;
+}
+
+label {
+  display: block;
+}
+
+th { padding-bottom: 5px; }
+td { padding: 0 5px 7px; }
+
+.muted {
+  color: $grayLight;
+}
+
+.success {
+  color: $brandGreen;
+}

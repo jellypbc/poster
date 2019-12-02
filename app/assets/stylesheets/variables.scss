@@ -51,8 +51,7 @@ $shaleLightest:   #F9FBFB;
 $shaleKindaLight: #A5A7A8;
 $shaleDark:       #1a2024;
 
-$brandKellyGreen: #29BD31;
-$brandGreen:      #36ac9c;
+$brandGreen:      #29BD31;
 $brandLime:       #8BCEA3;
 $brandBlue:       #5eb0c0;
 $brandOcean:      #004E6D;
@@ -95,9 +94,10 @@ $supplementTextSize:  14px;
 $selectionColor:      #E1F0EE;
 
 // Type variables
-$baseFontFamily:      'PT Sans', Helvetica, Arial, sans-serif;
-// $serifFontFamily:     'Copernicus', Times;
-$markupFontFamily:     Monaco, Menlo, Consolas, "Courier New", monospace;
+$baseFontFamily:      'Roboto', Helvetica, Arial, sans-serif;
+$serifFontFamily:     'Sumana', Times;
+$markupFontFamily:    'PT Mono', Monaco, Menlo, Consolas, monospace;
+// $markupFontFamily:     Monaco, Menlo, Consolas, "Courier New", monospace;
 
 $textColor:           $grayLight;
 $backgroundColor:     $grayLightest;

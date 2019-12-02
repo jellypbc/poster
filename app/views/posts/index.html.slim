@@ -1,32 +1,34 @@
 .container
-  p#notice = notice
+  .row
+    p#notice = notice
 
   .posts-index-header
     .row
-      .col-md-10
-        p All Posts
-      .col-md-2
-        .btn-primary
-          = link_to 'Upload a PDF', new_upload_path
-  .posts-index
-    table
-      thead
-        tr
-          th ID
-          th Title
-          th Authors
-          th Publisher
-          th colspan="3"
+      .col-md-12
+        h1 All Posts
 
-      tbody
-        - @posts.each do |post|
-          tr
-            td = post.id
-            td = post.title
-            td = post.authors
-            td = post.publisher
-            td = link_to 'Show', post
-            td = link_to 'Edit', edit_post_path(post)
-            td = link_to 'Destroy', post, method: :delete, data: { confirm: 'Are you sure?' }
+  .posts-index
+    .row
+      .col-md-12
+        table
+          thead
+            tr
+              th ID
+              th Title
+              th Authors
+              th Publisher
+              th colspan="3"
+                | Actions
+
+          tbody
+            - @posts.each do |post|
+              tr
+                td = post.id
+                td = post.title
+                td = post.authors
+                td = post.publisher
+                td = link_to 'Show', post
+                td = link_to 'Edit', edit_post_path(post)
+                td = link_to 'Destroy', post, method: :delete, data: { confirm: 'Are you sure?' }
 
 

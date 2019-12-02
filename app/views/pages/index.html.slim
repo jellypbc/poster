@@ -10,7 +10,9 @@
 
 					span or drag and drop something here
 
-					p For example: Molecular Structure of Nucleic Acids
+					p
+						| For example:&nbsp;
+						em Molecular Structure of Nucleic Acids
 	.row
 		.col-md-12
 			- @posts.each do |post|
@@ -20,3 +22,5 @@
 							= post.title || "Title"
 						.date
 							= post.created_at.strftime("%b %d, %Y")
+						.link
+							= link_to "⌞ View article", post_path(post)
