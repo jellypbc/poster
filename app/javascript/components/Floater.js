@@ -1,5 +1,4 @@
 import React from 'react'
-import classes from './Floater.module.css'
 
 class Floater extends React.Component {
   constructor (props) {
@@ -29,7 +28,7 @@ class Floater extends React.Component {
 
   render () {
     return (
-      <div ref={this.menuRef} className={classes.floater} style={this.state.style}>
+      <div ref={this.menuRef} className="floater" style={this.state.style}>
         {this.props.children}
       </div>
     )

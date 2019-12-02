@@ -2,7 +2,6 @@ import React from 'react'
 import { EditorState } from 'prosemirror-state'
 import { EditorView } from 'prosemirror-view'
 import 'prosemirror-view/style/prosemirror.css'
-import './Editor.css'
 
 class Editor extends React.Component {
   constructor (props) {
