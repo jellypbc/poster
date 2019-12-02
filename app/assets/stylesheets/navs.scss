@@ -1,20 +1,30 @@
 nav {
   min-height: 60px;
   a {
-    color: #000;
+    color: $shaleDark;
     font-weight: 700;
     font-size: 16px;
   }
   a:hover {
     background: none;
-    color: green;
     text-decoration: none;
   }
 
   .fa-menu,
   .navbar-toggler {
-    color: black;
-    border-color: black;
+    color: $shaleDark;
+    border-color: $shaleDark;
+  }
+
+  .nav-link {
+    font-size: 15px;
+  }
+
+  .btn {
+    color: $shaleDark;
+    padding: 8px 10px;
+    font-size: 14px;
+    font-weight: 700;
   }
 
   padding-top: 15px;

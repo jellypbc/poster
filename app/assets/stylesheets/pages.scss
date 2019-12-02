@@ -16,26 +16,26 @@ header {
     padding: 50px 0;
 
     .btn-primary {
-      color: #000;
-      background-color: #ddd;
+      color: $white;
+      background-color: $brandGreen;
       border-color: transparent;
       padding: 12px 20px;
       &:hover {
-        background-color: green;
-        color: #fff;
+        background-color: darken($brandGreen, 12);
+        color: $grayLighterer;
       }
     }
 
     span {
       padding-left: 10px;
-      color: #999;
+      color: $grayLight;
       font-size: 14px;
     }
 
     p {
       margin-top: 50px;
       font-size: 12px;
-      color: #999;
+      color: $grayLight;
     }
   }
 }

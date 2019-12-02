@@ -3,24 +3,19 @@ nav.navbar.navbar-expand-lg
     = link_to "Poster", root_path, class: "navbar-brand"
 
     button.navbar-toggler type="button" data-toggle="collapse" data-target="#menu" aria-controls="menu" aria-expanded="false" aria-label="Toggle navigation"
-      i.fa.fa-hotdog
+      i.fa.fa-hamburger
 
     #menu.collapse.navbar-collapse
       ul class="navbar-nav ml-auto"
         li class="nav-item active"
-          = link_to 'Browse Posts', posts_path, class: "nav-link"
+          = link_to 'Browse Posts', posts_path, class: "nav-link mr-3"
 
-        li class="nav-item dropdown"
-          a class="nav-link dropdown-toggle" href="#" id="dropdown07XL" data-toggle="dropdown" aria-expanded="false"
-            | Dropdown
-          div class="dropdown-menu" aria-labelledby="dropdown07XL"
-            a class="dropdown-item" href="#" Action
-            a class="dropdown-item" href="#" Another action
-            a class="dropdown-item" href="#" Something else here
+        li class="nav-item active"
+          = link_to 'Create Upload', new_upload_path, class: "btn btn-outline-dark"
 
-    / ul.nav.nav-fill
-    /   li.nav-item
-    /   li.nav-item
-    /     .justify-content-end
-    /
+        / li class="nav-item dropdown"
+        /   a class="nav-link dropdown-toggle" href="#" id="dropdown07XL" data-toggle="dropdown" aria-expanded="false"
+        /     | Dropdown
+        /   div class="dropdown-menu" aria-labelledby="dropdown07XL"
+        /     a class="dropdown-item" href="#" Action
 

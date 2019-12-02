@@ -52,7 +52,7 @@ class HtmlEditor extends React.Component {
     setCindy(true)
     onChange(serialize(doc))
 
-    this.thing(doc)
+    // this.thing(doc)
   }
 
   // todo: come back to this later, add timeout gate to

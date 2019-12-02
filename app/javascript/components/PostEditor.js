@@ -55,7 +55,7 @@ class PostEditor extends React.Component {
 
     return (
       <div>
-        <h1>am i typing?: {this.state.loading.toString()}</h1>
+        {/*<h1>am i typing?: {this.state.loading.toString()}</h1>*/}
         <HtmlEditor
           onChange={(doc) => this.handleFormChange(doc)}
           setCindy={(boolean) => this.setState({loading: boolean})}
@@ -64,12 +64,9 @@ class PostEditor extends React.Component {
           autoFocus
           render={({ editor, view }) => (
             <div>
-              <MenuBar view={view} />
-
               <Floater view={view}>
                 <MenuBar menu={{ marks: menu.marks }} view={view} />
               </Floater>
-
               {editor}
             </div>
           )}
