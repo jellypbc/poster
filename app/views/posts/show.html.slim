@@ -19,4 +19,4 @@
         = link_to @post.publisher
 
   #editor
-  = react_component 'PostEditor', post: PostSerializer.new(@post).serializable_hash
+  = react_component "PostEditor", { post: PostSerializer.new(@post).serializable_hash }

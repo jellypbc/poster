@@ -1,7 +1,21 @@
-nav
+nav.navbar.navbar-expand-lg
   .container
-    .row
-      .col-md-10
-        = link_to "Poster", root_path
-      .col-md-2
-        = link_to 'Browse Posts', posts_path
+    = link_to "Poster", root_path, class: "navbar-brand"
+
+    button.navbar-toggler type="button" data-toggle="collapse" data-target="#menu" aria-controls="menu" aria-expanded="false" aria-label="Toggle navigation"
+      i.fa.fa-hamburger
+
+    #menu.collapse.navbar-collapse
+      ul class="navbar-nav ml-auto"
+        li class="nav-item active"
+          = link_to 'Browse Posts', posts_path, class: "nav-link mr-3"
+
+        li class="nav-item active"
+          = link_to 'Create Upload', new_upload_path, class: "btn btn-outline-dark"
+
+        / li class="nav-item dropdown"
+        /   a class="nav-link dropdown-toggle" href="#" id="dropdown07XL" data-toggle="dropdown" aria-expanded="false"
+        /     | Dropdown
+        /   div class="dropdown-menu" aria-labelledby="dropdown07XL"
+        /     a class="dropdown-item" href="#" Action
+

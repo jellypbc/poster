@@ -6,8 +6,7 @@ import HtmlEditor from './HtmlEditor'
 import Floater from './Floater'
 import MenuBar from './MenuBar'
 
-// import { options, menu } from './config/index'
-import { options, menu } from '@aeaton/react-prosemirror-config-default'
+import { options, menu } from './config/index'
 
 import superagent from 'superagent'
 
@@ -16,6 +15,7 @@ class PostEditor extends React.Component {
     super(props)
     this.state = {
       post: this.props.post,
+      loading: false,
       doc: {}
     }
   }
@@ -24,104 +24,63 @@ class PostEditor extends React.Component {
     console.log(this.props)
   }
 
-  handleFormSubmit(e){
-    e.preventDefault();
+  handleFormChange(doc) {
+    this.setState({ doc })
+
     var { post } = this.props
-    var token = document.head.querySelector("[name~=csrf-token][content]").content
+    var url = (post && post.data && post.data.attributes) ?
+      post.data.attributes.form_url :
+      '/posts'
+    var data = { body: this.state.doc }
+    var method = (post && post.data && post.data.attributes) ?
+      "put" :
+      "post"
+    var token = document.head
+      .querySelector("[name~=csrf-token][content]")
+      .content
 
-    // var url = post.data.attributes.form_url || '/posts'
-    if (post && post.data && post.data.attributes) {
-      var url = post.data.attributes.form_url
-    } else {
-      var url = '/posts'
-    }
-
-
-    // build the data
-    var postBody = JSON.stringify(this.state.doc, null, 2)
-
-    var data = {
-      body: postBody
-    }
-
-
-    // send the request
-    if (post.data) {
-      superagent
-        .put(url)
-        .send(data)
-        .set('X-CSRF-Token', token)
-        .set('accept', 'application/json')
-        .end((err, res) => {
-          var redirect = JSON.parse(res.text).redirect_to
-          window.location.href = redirect;
-        })
-
-    } else {
-      superagent
-        .post(url)
-        .send(data)
-        .set('X-CSRF-Token', token)
-        .set('accept', 'application/json')
-        .end((err, res) => {
-          var redirect = JSON.parse(res.text).redirect_to
-          window.location.href = redirect;
-        })
-    }
-
+    superagent[method](url)
+      .send(data)
+      .set('X-CSRF-Token', token)
+      .set('accept', 'application/json')
+      .end((err, res) => {
+        this.setState({loading: false})
+      })
   }
 
   render(){
     var { post } = this.props
-
-    const Container = styled('div')`
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-    `
-
-    const Input = styled('div')`
-      width: 100%;
-      height: 50%;
-      overflow-y: auto;
-    `
-
-    const editorStyle = {
-    };
-
     let elem = document.getElementById('editor')
-
-    var postXML = post.data.attributes.body
-    console.log(postXML)
+    var postBody = post.data.attributes.body
 
     return (
       <div>
-
+        {/*<h1>am i typing?: {this.state.loading.toString()}</h1>*/}
         <HtmlEditor
-          onChange={doc => this.setState({ doc })}
-          value={postXML}
+          onChange={(doc) => this.handleFormChange(doc)}
+          setCindy={(boolean) => this.setState({loading: boolean})}
+          value={postBody}
           options={options}
           autoFocus
           render={({ editor, view }) => (
-            <div style={editorStyle}>
-              <MenuBar view={view} />
-
+            <div>
               <Floater view={view}>
                 <MenuBar menu={{ marks: menu.marks }} view={view} />
               </Floater>
-
               {editor}
             </div>
           )}
         />
 
-        <button onClick={this.handleFormSubmit.bind(this)}>Submit</button>
-
+        <div className={"loading-indicator " + (this.state.loading && "active")}>
+          <i className="fa fa-circle" />
+          <span>
+            {this.state.loading ? "Saving..." : "Last saved x ago"}
+          </span>
+        </div>
       </div>
     )
   }
 }
 
-export default PostEditor
+export default PostEditor;
