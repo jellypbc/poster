@@ -24,6 +24,7 @@ class Upload < ApplicationRecord
 	def process
 		processFulltextDocument
 		processHeaderDocument
+		post.process
 		# Diborg.new(self).build_citations
 	end
 

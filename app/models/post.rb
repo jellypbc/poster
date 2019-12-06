@@ -18,10 +18,14 @@
 #
 
 class Post < ApplicationRecord
+	# include GrobidParser
+
 	has_many :uploads
 	has_many :citations
 
 	accepts_nested_attributes_for :uploads
+
+	# after_create :process
 
 	# debug
 	def process

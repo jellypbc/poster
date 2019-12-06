@@ -11,17 +11,17 @@ export const nodes = {
     content: "inline*",
     group: "block",
     defining: true,
-    parseDOM: [{tag: "head"}],
+    parseDOM: [{tag: "head", preserveWhitespace: false}],
     // toDOM() { return [{tag: "h7", attrs: {level: 1}}]}
-    toDOM() { return ["h3", 0] }
+    toDOM() { return ["p", 0] }
   },
 
-  content: {
-    content: "inline*",
-    group: "block",
-    parseDom: [{tag: "<__content__>"}],
-    toDOM() { return ["p", 0]}
-  },
+  // content: {
+  //   content: "inline*",
+  //   group: "block",
+  //   parseDom: [{tag: "<__content__>"}],
+  //   toDOM() { return ["p", 0]}
+  // },
 
   // :: NodeSpec The top level document node.
   doc: {

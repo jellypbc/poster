@@ -29,9 +29,11 @@ class PostSerializer
   end
 
   attribute :body do |object|
-  	object.body
-  		.gsub("<__content__>", "<br/>")
-  		.gsub("</__content__>", "")
+    if object.body
+    	object.body
+    		.gsub("<__content__>", "<br/>")
+    		.gsub("</__content__>", "")
+    end
   end
 
 end

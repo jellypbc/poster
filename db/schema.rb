@@ -20,6 +20,13 @@ ActiveRecord::Schema.define(version: 2019_12_06_001255) do
     t.datetime "updated_at", precision: 6, null: false
     t.integer "post_id"
     t.json "body"
+    t.string "title"
+    t.string "authors"
+    t.string "imprint_date"
+    t.string "imprint_type"
+    t.string "target"
+    t.string "publisher"
+    t.integer "generated_post_id"
     t.index ["post_id"], name: "index_citations_on_post_id"
   end
 
