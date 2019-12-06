@@ -7,16 +7,21 @@ const pDOM = ["p", 0], blockquoteDOM = ["blockquote", 0], hrDOM = ["hr"],
 // [Specs](#model.NodeSpec) for the nodes defined in this schema.
 export const nodes = {
   header: {
-    attrs: {level: {default: 1}},
+    attrs: {level: {default: 0}},
     content: "inline*",
     group: "block",
     defining: true,
     parseDOM: [{tag: "head"}],
     // toDOM() { return [{tag: "h7", attrs: {level: 1}}]}
-    toDOM() { return ["h1", 0] }
+    toDOM() { return ["h3", 0] }
   },
 
-
+  content: {
+    content: "inline*",
+    group: "block",
+    parseDom: [{tag: "<__content__>"}],
+    toDOM() { return ["p", 0]}
+  },
 
   // :: NodeSpec The top level document node.
   doc: {
