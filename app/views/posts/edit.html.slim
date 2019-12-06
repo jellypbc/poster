@@ -1,0 +1,12 @@
+.container
+	.row
+		.col-md-12
+
+			h1 Editing Post
+
+			= link_to 'View Post', @post
+			span &nbsp;|&nbsp;
+			= link_to 'Back', posts_path
+
+			= render 'form', post: @post
+

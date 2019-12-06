@@ -3,10 +3,14 @@
 # Table name: uploads
 #
 #  id         :bigint           not null, primary key
+#  file_data  :text
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
-#  file_data  :text
 #  post_id    :integer
+#
+# Indexes
+#
+#  index_uploads_on_post_id  (post_id)
 #
 
 class Upload < ApplicationRecord
@@ -14,5 +18,13 @@ class Upload < ApplicationRecord
 	include GrobidParser
 
 	belongs_to :post
+
+	after_create :process
+
+	def process
+		processFulltextDocument
+		processHeaderDocument
+		# Diborg.new(self).build_citations
+	end
 
 end

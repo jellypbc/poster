@@ -5,7 +5,6 @@ module GrobidParser
 	GROBID_HOST = ENV['GROBID_URL'] || "http://localhost:8070"
 
 	# Here are some sample grobid tasks from grobid service
-
 	def processFulltextDocument
 		# get the uploads url
 		url = self.file.url
@@ -16,7 +15,7 @@ module GrobidParser
 
 		# grobid url
 		endpoint = "#{GROBID_HOST}/api/processFulltextDocument"
-		
+
 		resp = HTTParty.post(
 			endpoint,
 			{
@@ -40,7 +39,7 @@ module GrobidParser
 
 		# grobid url
 		endpoint = "#{GROBID_HOST}/api/processHeaderDocument"
-		
+
 		resp = HTTParty.post(
 			endpoint,
 			{

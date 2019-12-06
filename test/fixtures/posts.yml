@@ -2,12 +2,19 @@
 #
 # Table name: posts
 #
-#  id         :bigint           not null, primary key
-#  title      :string
-#  body       :json
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
-#  slug       :string
+#  id           :bigint           not null, primary key
+#  authors      :string
+#  body         :json
+#  publish_date :datetime
+#  publisher    :string
+#  slug         :string
+#  title        :string
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
+#
+# Indexes
+#
+#  index_posts_on_slug  (slug) UNIQUE
 #
 
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html

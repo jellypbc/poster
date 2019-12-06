@@ -1,33 +1,34 @@
-p id="notice"
-  = notice
+.container
+  .row
+    p id="notice"
+      = notice
 
-h1 Uploads
+    h1 Uploads
 
-table
-  thead
-    tr
-      th colspan="3"
+    table
+      thead
+        tr
+          th colspan="3"
 
-  tbody
-    - @uploads.each do |upload|
-      tr
-        td = upload.id 
-        td
-          - if upload.file
-            - if upload.file.metadata["mime_type"].include?("image")
-              = link_to upload.file_url do
-                i.fa.fa-image
+      tbody
+        - @uploads.each do |upload|
+          tr
+            td = upload.id
+            td
+              - if upload.file
+                - if upload.file.metadata["mime_type"].include?("image")
+                  = link_to upload.file_url do
+                    i.fa.fa-image
 
-            - elsif upload.file.metadata["mime_type"].include?("pdf")
-              = link_to upload.file_url do
-                i.fa.fa-book
+                - elsif upload.file.metadata["mime_type"].include?("pdf")
+                  = link_to upload.file_url do
+                    i.fa.fa-book
 
-        
-        td = upload.file.metadata['mime_type'] if upload.file 
-        td = link_to 'Show', upload 
-        td = link_to 'Edit', edit_upload_path(upload) 
-        td = link_to 'Destroy', upload, method: :delete, data: { confirm: 'Are you sure?' } 
+            td = upload.file.metadata['mime_type'] if upload.file
+            td = link_to 'Show', upload
+            td = link_to 'Edit', edit_upload_path(upload)
+            td = link_to 'Destroy', upload, method: :delete, data: { confirm: 'Are you sure?' }
 
-br
+    br
 
-= link_to 'New Upload', new_upload_path 
+    = link_to 'New Upload', new_upload_path, class: 'btn btn-outline-dark ml-3'

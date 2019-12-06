@@ -1,16 +1,13 @@
 .container
   .row
-    p#notice = notice
+    .col-md-12
+      p#notice = notice
 
-  .posts-index-header
-    .row
-      .col-md-12
+      .posts-index-header.my-5
         h1 All Posts
 
-  .posts-index
-    .row
-      .col-md-12
-        table
+      .posts-index
+        table.table.table-hover
           thead
             tr
               th ID
@@ -31,4 +28,4 @@
                 td = link_to 'Edit', edit_post_path(post)
                 td = link_to 'Destroy', post, method: :delete, data: { confirm: 'Are you sure?' }
 
-
+        = will_paginate @posts

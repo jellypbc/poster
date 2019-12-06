@@ -1,22 +1,17 @@
 # == Schema Information
 #
-# Table name: uploads
+# Table name: citations
 #
 #  id         :bigint           not null, primary key
-#  file_data  :text
+#  body       :json
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #  post_id    :integer
 #
 # Indexes
 #
-#  index_uploads_on_post_id  (post_id)
+#  index_citations_on_post_id  (post_id)
 #
 
-require 'test_helper'
-
-class UploadTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+class Citation < ApplicationRecord
 end

@@ -22,6 +22,8 @@ gem "httmultiparty"
 gem "font-awesome-sass"
 gem "fast_jsonapi"
 gem "bugsnag"
+gem "will_paginate"
+gem "nokogiri"
 gem "bootsnap", ">= 1.4.2", require: false
 
 group :development, :test do
