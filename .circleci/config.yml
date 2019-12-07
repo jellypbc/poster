@@ -16,7 +16,7 @@ jobs:
       CIRCLE_TEST_REPORTS: "/tmp/circleci-test-results"
       RAILS_ENV: test
       RACK_ENV: test
-      PG_HOST: localhost
+      PG_HOST: 127.0.0.1
       PG_USER: jellyposter
     steps:
       - checkout
