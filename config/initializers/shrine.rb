@@ -10,7 +10,13 @@ if Rails.env.development?
 
 elsif Rails.env.staging? || Rails.env.production?
 	Shrine.storages = {
-	  cache: Shrine::Storage::GoogleCloudStorage.new(bucket: "jellyposter-cache"),
+	  cache: Shrine::Storage::GoogleCloudStorage.new(
+	  	bucket: "jellyposter-cache",
+		  default_acl: 'publicRead',
+		  object_options: {
+	 	   cache_control: 'public, max-age: 7200'
+  		}
+  	),
 	  store: Shrine::Storage::GoogleCloudStorage.new(
 	  	bucket: "jellyposter-store",
 		  default_acl: 'publicRead',
