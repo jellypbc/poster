@@ -3,9 +3,9 @@ require "shrine/storage/file_system"
 require "shrine/storage/google_cloud_storage"
 
 if Rails.env.development?
-	Shrine.storages = { 
+	Shrine.storages = {
 	  cache: Shrine::Storage::FileSystem.new("public", prefix: "uploads/cache"),
-	  store: Shrine::Storage::FileSystem.new("public", prefix: "uploads"), 
+	  store: Shrine::Storage::FileSystem.new("public", prefix: "uploads"),
 	}
 
 elsif Rails.env.staging? || Rails.env.production?
@@ -20,10 +20,10 @@ elsif Rails.env.staging? || Rails.env.production?
   	)
 	}
 end
- 
-Shrine.plugin :activerecord # or :activerecord 
-Shrine.plugin :cached_attachment_data # for retaining the cached file across form redisplays 
-Shrine.plugin :restore_cached_data # re-extract metadata when attaching a cached file 
+
+Shrine.plugin :activerecord # or :activerecord
+Shrine.plugin :cached_attachment_data # for retaining the cached file across form redisplays
+Shrine.plugin :restore_cached_data # re-extract metadata when attaching a cached file
 
 Shrine.plugin :upload_endpoint
 Shrine.plugin :presign_endpoint
