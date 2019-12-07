@@ -19,13 +19,12 @@ class Upload < ApplicationRecord
 
 	belongs_to :post
 
-	after_create :process
+	after_create_commit :process
 
 	def process
 		processFulltextDocument
 		processHeaderDocument
 		post.process
-		# Diborg.new(self).build_citations
 	end
 
 end
