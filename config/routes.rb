@@ -1,8 +1,6 @@
 Rails.application.routes.draw do
 	require 'sidekiq/web'
-	authenticate :user, lambda { |u| u.admin? } do
-	  mount Sidekiq::Web => '/sidekiq'
-	end
+  mount Sidekiq::Web,     at: '/sidekiq', constraints: AdminConstraint.new
 
   resources :uploads
   resources :posts
