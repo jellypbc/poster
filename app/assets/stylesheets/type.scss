@@ -54,3 +54,12 @@ td { padding: 0 5px 7px; }
 .success {
   color: $brandGreen;
 }
+
+.markup {
+  font-family: $markupFontFamily;
+  background: $grayLightest;
+  color: $shale;
+  font-size: 13px;
+  padding: 7px;
+  border-radius: 4px;
+}

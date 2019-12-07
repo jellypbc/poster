@@ -23,9 +23,6 @@ class Post < ApplicationRecord
 
 	accepts_nested_attributes_for :uploads
 
-	# debug
-	def process
-		Diborg.new(self).run
-	end
+	scope :primary, -> { joins(:uploads) }
 
 end
