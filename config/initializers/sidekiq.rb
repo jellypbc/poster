@@ -42,6 +42,3 @@ end
 Sidekiq.configure_client do |config|
   config.redis = { namespace: 'sidekiq' }
 end
-
-# Don't include delay extensions
-Sidekiq.remove_delay!
