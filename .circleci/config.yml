@@ -1,0 +1,110 @@
+version: 2
+jobs:
+  build_and_test:
+    docker:
+      - image: circleci/ruby:2.4.1-node-browsers
+      - image: circleci/postgres:11.6-alpine-ram
+        environment:
+          POSTGRES_USER: postgres
+          POSTGRES_DB: jellyposter_test
+          POSTGRES_PASSWORD: ""
+      - image: redis:3.2
+    working_directory: ~/repo
+    shell: /bin/bash --login
+    environment:
+      CIRCLE_ARTIFACTS: "/tmp/circleci-artifacts"
+      CIRCLE_TEST_REPORTS: "/tmp/circleci-test-results"
+      RAILS_ENV: test
+      RACK_ENV: test
+      PG_HOST: localhost
+      PG_USER: jellyposter
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - ruby257-{{ .Branch }}-
+            - ruby257-master-
+      - run: yarn install --cache-folder ~/.cache/yarn
+      - run:
+          name: install dependencies
+          command: |
+            bundle install --jobs=4 --retry=3 --path vendor/bundle
+      - run:
+          name: Wait for Postgres
+          command: dockerize -wait tcp://localhost:5432 -timeout 2m
+      - run:
+          name: Wait for Redis
+          command: dockerize -wait tcp://localhost:6379 -timeout 2m
+      - run:
+          name: Install Postgres Tools
+          command: |
+            sudo apt-get update
+            sudo apt-get install postgresql-client
+      - run:
+          name: Install Redis Tools
+          command: |
+            sudo apt-get install redis-tools ; while ! redis-cli ping 2>/dev/null ; do sleep 1 ; done
+      - run:
+          command: 'sudo redis-cli ping >/dev/null 2>&1 || sudo service redis-server start'
+
+
+      # Database setup
+      - run: bundle exec rake db:create
+      - run: bundle exec rake db:schema:load
+
+      # run tests!
+      - run:
+          name: run tests
+          command: |
+            mkdir /tmp/test-results
+            TEST_FILES="$(circleci tests glob "spec/**/*_spec.rb" | \
+              circleci tests split --split-by=timings)"
+
+            bundle exec rspec \
+              --format progress \
+              --format RspecJunitFormatter \
+              --out /tmp/test-results/rspec.xml \
+              --format progress \
+              $TEST_FILES
+
+      - store_test_results:
+          path: /tmp/test-results
+      - store_artifacts:
+          path: /tmp/test-results
+          destination: test-results
+      - save_cache:
+          paths:
+            - /usr/local/bundle/config
+            - vendor/bundle
+            - ~/.cache/yarn
+            - ./node_modules
+          key: ruby257-{{ .Branch }}-{{ epoch }}
+
+  deploy:
+    docker:
+      - image: circleci/ruby:2.5.3-node-browsers
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - run: bash .circleci/setup-heroku.sh
+      - add_ssh_keys:
+          fingerprints:
+            - $HEROKU_SSH_FINGERPRINT
+      - run: heroku run -a jellyposter bundle exec rails sidekiq:quiet
+      - run: git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP.git master
+      - run: heroku run -a jellyposter bundle exec rails db:migrate
+      - run: heroku run -a jellyposter bundle exec rails bugsnag:deploy BUGSNAG_REVISION=$CIRCLE_SHA1 BUGSNAG_REPOSITORY=git@github.com:jellypbc/poster.git
+      - run: heroku run -a jellyposter newrelic deployments --revision=$CIRCLE_SHA1 --user=$CIRCLE_USERNAME
+      - run: heroku restart -a jellyposter
+
+workflows:
+  version: 2
+  build_test_and_deploy:
+    jobs:
+      - build_and_test
+      - deploy:
+          requires:
+            - build_and_test
+          filters:
+            branches:
+              only: master

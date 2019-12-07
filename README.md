@@ -11,7 +11,7 @@ Shrine and Google Cloud Engine are used for file storage.
 This app is pre-alpha, so please mind the cracks.
 
 
-### Development 
+### Development
 To get started with this app, make sure you have Ruby (check out [https://github.com/rbenv/rbenv](rbenv)) and Node/Yarn set up.
 
 ```
@@ -38,7 +38,7 @@ bin/webpack-dev-server
 
 This app requires Grobid, a machine learning PDF parsing library, to run alongside the app. To run Grobid separately, you can do so easily using docker and the public grobid image. Make sure you have docker set up and do:
 ```
-docker pull lfoppiano/grobid:0.6.0     
+docker pull lfoppiano/grobid:0.6.0
 docker run -t --rm --init -p 8080:8070 -p 8081:8071 lfoppiano/grobid:0.6.0
 ```
 
