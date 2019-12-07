@@ -97,11 +97,11 @@ jobs:
 #       - run: heroku run -a jellyposter newrelic deployments --revision=$CIRCLE_SHA1 --user=$CIRCLE_USERNAME
 #       - run: heroku restart -a jellyposter
 
-# workflows:
-#   version: 2
-#   build_test_and_deploy:
-#     jobs:
-#       - build_and_test
+workflows:
+  version: 2
+  build_test_and_deploy:
+    jobs:
+      - build_and_test
 #       - deploy:
 #           requires:
 #             - build_and_test
