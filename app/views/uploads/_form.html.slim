@@ -1,4 +1,4 @@
-= form_with(model: upload, local: true) do |form|
+= form_with model: upload, local: true, html: {id: "form"} do |form|
   - if upload.errors.any?
     #error_explanation
       h2 #{pluralize(upload.errors.count, "error")} prohibited this upload from being saved:
@@ -11,7 +11,7 @@
 
   .input-group.my-4
     .custom-file
-      = form.file_field :file, type: "file", class:"custom-file-input", id: "inputFile"
+      = form.file_field :file, type: "file", required: true, class:"custom-file-input", id: "inputFile"
 
       label class="custom-file-label"  id="label" for="inputFile"
         | Choose file
@@ -25,3 +25,11 @@ javascript:
       var fileName = document.getElementById('inputFile').files[0].name
       document.getElementById('label').textContent = fileName;
     });
+
+  // document.getElementById('breck')
+  //   .addEventListener("click", function(){
+  //     var url = "https://storage.googleapis.com/jellyposter-store/31c92b8e8daec9799010eb5f30fc7e95.pdf"
+  //     document.getElementById('inputFile').value = url
+  //     document.getElementById('label').textContent = fileName;
+  //     document.getElementById('form').submit()
+  //   });

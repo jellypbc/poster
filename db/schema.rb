@@ -10,10 +10,25 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_26_004956) do
+ActiveRecord::Schema.define(version: 2019_12_07_031845) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "citations", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.integer "post_id"
+    t.json "body"
+    t.string "title"
+    t.string "authors"
+    t.string "imprint_date"
+    t.string "imprint_type"
+    t.string "target"
+    t.string "publisher"
+    t.integer "generated_post_id"
+    t.index ["post_id"], name: "index_citations_on_post_id"
+  end
 
   create_table "posts", force: :cascade do |t|
     t.string "title"
@@ -23,7 +38,16 @@ ActiveRecord::Schema.define(version: 2019_11_26_004956) do
     t.string "slug"
     t.string "publisher"
     t.string "authors"
+    t.datetime "publish_date"
     t.index ["slug"], name: "index_posts_on_slug", unique: true
+  end
+
+  create_table "upload_teis", force: :cascade do |t|
+    t.integer "upload_id"
+    t.jsonb "body"
+    t.jsonb "header"
+    t.jsonb "references"
+    t.index ["upload_id"], name: "index_upload_teis_on_upload_id"
   end
 
   create_table "uploads", force: :cascade do |t|

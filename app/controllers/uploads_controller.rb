@@ -2,7 +2,8 @@ class UploadsController < ApplicationController
   before_action :set_upload, only: [:show, :edit, :update, :destroy]
 
   def index
-    @uploads = Upload.all
+    @uploads = Upload.order(created_at: :desc)
+      .paginate(page: params[:page], per_page: 50)
   end
 
   def show
@@ -25,9 +26,6 @@ class UploadsController < ApplicationController
 
     respond_to do |format|
       if @upload.save
-
-        @upload.processFulltextDocument
-        @upload.processHeaderDocument
 
         format.html { redirect_to @upload.post, notice: 'Upload was successfully created.' }
         format.json { render :show, status: :created, location: @upload }

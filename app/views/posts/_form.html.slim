@@ -1,27 +1,28 @@
 = form_with(model: post, local: true) do |form|
-  - if post.errors.any?
-    #error_explanation
-      h2 #{pluralize(post.errors.count, "error")} prohibited this post from being saved:
+  .form.form-group
+    - if post.errors.any?
+      #error_explanation
+        h2 #{pluralize(post.errors.count, "error")} prohibited this post from being saved:
 
-      ul
-        - post.errors.full_messages.each do |message|
-          li = message
+        ul
+          - post.errors.full_messages.each do |message|
+            li = message
 
-  .field
-    = form.label :title
-    = form.text_field :title
+    .field.my-4
+      = form.label :title
+      = form.text_field :title, class: 'form-control form-control-lg'
 
-  .field
-    = form.label :authors
-    = form.text_field :authors
+    .field.my-4
+      = form.label :authors
+      = form.text_field :authors, class: 'form-control'
 
-  .field
-    = form.label :publisher
-    = form.text_field :publisher
+    .field.my-4
+      = form.label :publisher
+      = form.text_field :publisher, class: 'form-control'
 
-  .field
-    = form.label :body
-    = form.text_field :body
+    .field.my-4
+      = form.label :body
+      = form.text_area :body, class: 'form-control', rows: "10"
 
-  .actions
-    = form.submit "Submit", class: "btn btn-primary my-3"
+    .actions
+      = form.submit "Upload", class: "btn btn-primary my-3"

@@ -74,3 +74,25 @@
 .publisher {
   font-size: 10px;
 }
+
+.post-show {
+  .reference {
+    margin: 12px 0;
+    .icon {
+      display: inline-block;
+      vertical-align: top;
+      margin: 0 12px;
+      i {
+        font-size: 21px;
+      }
+    }
+    .restofit {
+      display: inline-block;
+      p {
+        font-size: 15px;
+        line-height: 21px;
+        margin: 0;
+      }
+    }
+  }
+}
