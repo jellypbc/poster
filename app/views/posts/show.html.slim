@@ -11,7 +11,7 @@
               - elsif @post.uploads.first.file.metadata["mime_type"].include?("pdf")
                 = link_to 'View Original PDF', @post.uploads.first.file_url, target: '_blank'
       .title
-        = @post.title.html_safe || "Title"
+        = @post.title.html_safe if @post.title
       .authors
         = @post.authors.html_safe if @post.authors
       .publisher

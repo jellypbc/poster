@@ -5,7 +5,13 @@ module GrobidParser
 	GROBID_HOST = ENV['GROBID_URL'] || "http://localhost:8070"
 
 	# Here are some sample grobid tasks from grobid service
+
 	def processFulltextDocument
+		# get the uploads url
+		url = self.file.url
+		url = ("./public" + url) if Rails.env.development?
+
+		# open the url
 		file = open(url)
 
 		# grobid url
@@ -25,6 +31,11 @@ module GrobidParser
 	end
 
 	def processHeaderDocument
+		# get the uploads url
+		url = self.file.url
+		url = ("./public" + url) if Rails.env.development?
+
+		# open the url
 		file = open(url)
 
 		# grobid url
@@ -41,11 +52,6 @@ module GrobidParser
 
 		title = resp.dig("TEI", "teiHeader", "fileDesc", "titleStmt", "title", "__content__")
 		post.update(title: title)
-	end
-
-	def url
-		url = self.file.url
-		url = ("./public" + url) if Rails.env.development?
 	end
 
 end
