@@ -5,11 +5,11 @@ default: &default
 
 development:
   <<: *default
-  database: db/jellyposter_development
+  database: jellyposter_development
 
 test:
   <<: *default
-  database: db/jellyposter_test
+  database: jellyposter_test
 
 production:
   <<: *default
