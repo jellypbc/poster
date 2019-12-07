@@ -24,6 +24,11 @@ gem "fast_jsonapi"
 gem "bugsnag"
 gem "will_paginate"
 gem "nokogiri"
+gem "sidekiq"
+gem "sidekiq-cron"
+gem "redis"
+gem "redis-namespace"
+
 gem "bootsnap", ">= 1.4.2", require: false
 
 group :development, :test do
