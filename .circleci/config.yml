@@ -2,7 +2,7 @@ version: 2
 jobs:
   build_and_test:
     docker:
-      - image: circleci/ruby:2.4.1-node-browsers
+      - image: circleci/ruby:2.5.7-node-browsers
       - image: circleci/postgres:11.6-alpine-ram
         environment:
           POSTGRES_USER: postgres
@@ -24,7 +24,9 @@ jobs:
           keys:
             - ruby257-{{ .Branch }}-
             - ruby257-master-
-      - run: yarn install --cache-folder ~/.cache/yarn
+      - run:
+          name: Yarn install
+          command: yarn install --cache-folder ~/.cache/yarn
       - run:
           name: install dependencies
           command: |

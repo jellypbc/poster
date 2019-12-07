@@ -2,7 +2,7 @@
   "name": "jellyposter",
   "private": true,
   "engines": {
-    "node": "10.x"
+    "node": "12.x"
   },
   "dependencies": {
     "@aeaton/react-prosemirror-config-default": "^0.12.0",
