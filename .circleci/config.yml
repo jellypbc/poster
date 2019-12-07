@@ -56,7 +56,7 @@ jobs:
       # Database setup
       - run:
         environment:
-          DATABASE_URL: "postgres://jellyposter@localhost:5432/jellyposter_test"
+          DATABASE_URL: "postgres://postgres@localhost:5432/jellyposter_test"
         command: bundle exec rake db:create && bundle exec rake db:schema:load
 
       # run tests!
