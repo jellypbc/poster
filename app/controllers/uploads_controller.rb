@@ -2,7 +2,8 @@ class UploadsController < ApplicationController
   before_action :set_upload, only: [:show, :edit, :update, :destroy]
 
   def index
-    @uploads = Upload.all
+    @uploads = Upload.order(created_at: :desc)
+      .paginate(page: params[:page], per_page: 50)
   end
 
   def show
