@@ -28,6 +28,9 @@ jobs:
           name: Yarn install
           command: yarn install --cache-folder ~/.cache/yarn
       - run:
+          name: update bundle
+          command: gem update --system && gem install bundler
+      - run:
           name: install dependencies
           command: |
             bundle install --jobs=4 --retry=3 --path vendor/bundle
