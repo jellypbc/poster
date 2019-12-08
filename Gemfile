@@ -24,11 +24,20 @@ gem "fast_jsonapi"
 gem "bugsnag"
 gem "will_paginate"
 gem "nokogiri"
+gem "sidekiq"
+gem "sidekiq-cron"
+gem "redis"
+gem "redis-namespace"
+
 gem "bootsnap", ">= 1.4.2", require: false
 
 group :development, :test do
   gem "byebug", platforms: [:mri, :mingw, :x64_mingw]
   gem "dotenv-rails"
+  gem "rspec-rails"
+  gem "rails-controller-testing"
+  gem "factory_bot"
+  gem "factory_bot_rails"
 end
 
 group :development do
@@ -41,6 +50,8 @@ group :development do
   gem "letter_opener"
   gem "annotate"
   gem "pry"
+  gem "pry-rails"
+  gem "bullet"
 end
 
 group :test do
