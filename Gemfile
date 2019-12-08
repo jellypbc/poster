@@ -38,6 +38,7 @@ group :development, :test do
   gem "rails-controller-testing"
   gem "factory_bot"
   gem "factory_bot_rails"
+  gem "rspec_junit_formatter"
 end
 
 group :development do
@@ -51,7 +52,6 @@ group :development do
   gem "annotate"
   gem "pry"
   gem "pry-rails"
-  gem "bullet"
 end
 
 group :test do

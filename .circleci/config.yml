@@ -1,118 +1,86 @@
 version: 2
 jobs:
-  build_and_test:
+  build:
+    working_directory: ~/my-app
     docker:
       - image: circleci/ruby:2.5.7-node-browsers
-      - image: circleci/postgres:11.6-alpine-ram
         environment:
-          POSTGRES_USER: postgres
-          POSTGRES_DB: jellyposter_test
-      - image: redis:3.2
-    working_directory: ~/repo
-    shell: /bin/bash --login
-    environment:
-      CIRCLE_ARTIFACTS: "/tmp/circleci-artifacts"
-      CIRCLE_TEST_REPORTS: "/tmp/circleci-test-results"
-      RAILS_ENV: test
-      RACK_ENV: test
-      PG_HOST: localhost
-      PG_USER: root
-      PGUSER: root
-      # POSTGRES_PASSWORD: password
+          BUNDLE_RETRY: 3
+          BUNDLE_PATH: vendor/bundle
+          DATABASE_URL: postgres://postgres:password@localhost:5432/jellyposter_test
+          RAILS_ENV: test
+          REDIS_URL: redis://127.0.0.1:6379
+      - image: circleci/postgres:11-alpine
+      - image: circleci/redis:3.2-alpine
     steps:
       - checkout
       - restore_cache:
           keys:
-            - ruby257-{{ .Branch }}-
-            - ruby257-master-
+            - my-app-bundle-v1-{{ checksum "Gemfile.lock" }}
+            - my-app-bundle-v1-
+      - run:
+          name: Configure Bundler
+          command: |
+            echo 'export BUNDLER_VERSION=$(cat Gemfile.lock | tail -1 | tr -d " ")' >> $BASH_ENV
+            source $BASH_ENV
+            gem install bundler
       - run:
           name: Yarn install
           command: yarn install --cache-folder ~/.cache/yarn
       - run:
-          name: update bundle
-          command: gem update --system && gem install bundler
-      - run:
-          name: install dependencies
-          command: |
-            bundle install --jobs=4 --retry=3 --path vendor/bundle
-      - run:
-          name: Wait for Postgres
-          command: dockerize -wait tcp://localhost:5432 -timeout 2m
-      - run:
-          name: Wait for Redis
-          command: dockerize -wait tcp://localhost:6379 -timeout 2m
-      - run:
-          name: Install Postgres Tools
-          command: |
-            sudo apt-get update
-            sudo apt-get install postgresql-client
-      - run:
-          name: Install Redis Tools
-          command: |
-            sudo apt-get install redis-tools ; while ! redis-cli ping 2>/dev/null ; do sleep 1 ; done
-      - run:
-          command: 'sudo redis-cli ping >/dev/null 2>&1 || sudo service redis-server start'
-
-
-      # Database setup
-      - run:
-          environment:
-              DATABASE_URL: "postgres://postgres@localhost:5432/jellyposter_test"
-          command: bundle exec rake db:create && bundle exec rake db:schema:load
-
-      # run tests!
-      - run:
-          name: run tests
-          command: |
-            mkdir /tmp/test-results
-            TEST_FILES="$(circleci tests glob "spec/**/*_spec.rb" | \
-              circleci tests split --split-by=timings)"
-
-            bundle exec rspec \
-              --format progress \
-              --format RspecJunitFormatter \
-              --out /tmp/test-results/rspec.xml \
-              --format progress \
-              $TEST_FILES
-
-      - store_test_results:
-          path: /tmp/test-results
-      - store_artifacts:
-          path: /tmp/test-results
-          destination: test-results
+          name: Bundle Install
+          command: bundle check || bundle install
       - save_cache:
+          key: my-app-bundle-v1-{{ checksum "Gemfile.lock" }}
           paths:
+            - vendor/bundle
             - /usr/local/bundle/config
             - vendor/bundle
             - ~/.cache/yarn
             - ./node_modules
-          key: ruby257-{{ .Branch }}-{{ epoch }}
+      - run:
+          name: Wait for DB
+          command: dockerize -wait tcp://127.0.0.1:5432 -timeout 1m
+      - run:
+          name: Database setup
+          command: RAILS_ENV=test bin/rails db:create db:schema:load --trace
+      - run:
+          name: Run rspec in parallel
+          command: |
+            bundle exec rspec --profile 10 \
+                             --format RspecJunitFormatter \
+                             --out /tmp/test-results/rspec.xml \
+                             --format progress \
+                             $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
+      - store_test_results:
+          path: /tmp/test-results
 
-#   deploy:
-#     docker:
-#       - image: circleci/ruby:2.5.3-node-browsers
-#     working_directory: ~/repo
-#     steps:
-#       - checkout
-#       - run: bash .circleci/setup-heroku.sh
-#       - add_ssh_keys:
-#           fingerprints:
-#             - $HEROKU_SSH_FINGERPRINT
-#       - run: heroku run -a jellyposter bundle exec rails sidekiq:quiet
-#       - run: git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP.git master
-#       - run: heroku run -a jellyposter bundle exec rails db:migrate
-#       - run: heroku run -a jellyposter bundle exec rails bugsnag:deploy BUGSNAG_REVISION=$CIRCLE_SHA1 BUGSNAG_REPOSITORY=git@github.com:jellypbc/poster.git
-#       - run: heroku run -a jellyposter newrelic deployments --revision=$CIRCLE_SHA1 --user=$CIRCLE_USERNAME
-#       - run: heroku restart -a jellyposter
+  deploy:
+    docker:
+      - image: circleci/ruby:2.5.3-node-browsers
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - run: bash .circleci/setup-heroku.sh
+      # - add_ssh_keys:
+      #     fingerprints:
+      #       - $HEROKU_SSH_FINGERPRINT
+      - run: heroku run -a jellyposter bundle exec rails sidekiq:quiet
+      - run: git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP.git master
+      - run: heroku run -a jellyposter bundle exec rails db:migrate
+      - run: heroku run -a jellyposter bundle exec rails bugsnag:deploy BUGSNAG_REVISION=$CIRCLE_SHA1 BUGSNAG_REPOSITORY=git@github.com:jellypbc/poster.git
+      - run: heroku run -a jellyposter newrelic deployments --revision=$CIRCLE_SHA1 --user=$CIRCLE_USERNAME
+      - run: heroku restart -a jellyposter
+
 
 workflows:
   version: 2
-  build_test_and_deploy:
+  build_and_deploy:
     jobs:
-      - build_and_test
-#       - deploy:
-#           requires:
-#             - build_and_test
-#           filters:
-#             branches:
-#               only: master
+      - build
+      - deploy:
+          requires:
+            - build
+          filters:
+            branches:
+              only: master
