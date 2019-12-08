@@ -1,0 +1,86 @@
+version: 2
+jobs:
+  build:
+    working_directory: ~/my-app
+    docker:
+      - image: circleci/ruby:2.5.7-node-browsers
+        environment:
+          BUNDLE_RETRY: 3
+          BUNDLE_PATH: vendor/bundle
+          DATABASE_URL: postgres://postgres:password@localhost:5432/jellyposter_test
+          RAILS_ENV: test
+          REDIS_URL: redis://127.0.0.1:6379
+      - image: circleci/postgres:11-alpine
+      - image: circleci/redis:3.2-alpine
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - my-app-bundle-v1-{{ checksum "Gemfile.lock" }}
+            - my-app-bundle-v1-
+      - run:
+          name: Configure Bundler
+          command: |
+            echo 'export BUNDLER_VERSION=$(cat Gemfile.lock | tail -1 | tr -d " ")' >> $BASH_ENV
+            source $BASH_ENV
+            gem install bundler
+      - run:
+          name: Yarn install
+          command: yarn install --cache-folder ~/.cache/yarn
+      - run:
+          name: Bundle Install
+          command: bundle check || bundle install
+      - save_cache:
+          key: my-app-bundle-v1-{{ checksum "Gemfile.lock" }}
+          paths:
+            - vendor/bundle
+            - /usr/local/bundle/config
+            - vendor/bundle
+            - ~/.cache/yarn
+            - ./node_modules
+      - run:
+          name: Wait for DB
+          command: dockerize -wait tcp://127.0.0.1:5432 -timeout 1m
+      - run:
+          name: Database setup
+          command: RAILS_ENV=test bin/rails db:create db:schema:load --trace
+      - run:
+          name: Run rspec in parallel
+          command: |
+            bundle exec rspec --profile 10 \
+                             --format RspecJunitFormatter \
+                             --out /tmp/test-results/rspec.xml \
+                             --format progress \
+                             $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
+      - store_test_results:
+          path: /tmp/test-results
+
+  deploy:
+    docker:
+      - image: circleci/ruby:2.5.3-node-browsers
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - run: bash .circleci/setup-heroku.sh
+      # - add_ssh_keys:
+      #     fingerprints:
+      #       - $HEROKU_SSH_FINGERPRINT
+      - run: heroku run -a jellyposter bundle exec rails sidekiq:quiet
+      - run: git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP.git master
+      - run: heroku run -a jellyposter bundle exec rails db:migrate
+      - run: heroku run -a jellyposter bundle exec rails bugsnag:deploy BUGSNAG_REVISION=$CIRCLE_SHA1 BUGSNAG_REPOSITORY=git@github.com:jellypbc/poster.git
+      - run: heroku run -a jellyposter newrelic deployments --revision=$CIRCLE_SHA1 --user=$CIRCLE_USERNAME
+      - run: heroku restart -a jellyposter
+
+
+workflows:
+  version: 2
+  build_and_deploy:
+    jobs:
+      - build
+      - deploy:
+          requires:
+            - build
+          filters:
+            branches:
+              only: master

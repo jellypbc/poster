@@ -2,6 +2,8 @@
 
 **http://jellyposter.herokuapp.com**
 
+[![CircleCI](https://circleci.com/gh/jellypbc/poster/tree/master.svg?style=svg)](https://circleci.com/gh/jellypbc/poster/tree/master)
+
 This is a Rails toy application that converts PDFs into XML/JSON with a collaborative editor with JSON, for science.
 
 The app is mainly two main chunks: a Rails server for file uploads and the editor which is built on ProseMirror. It also uses a [Grobid](https://github.com/kermitt2/grobid) server for parsing PDFs into XML/JSON for the editor.
@@ -11,7 +13,7 @@ Shrine and Google Cloud Engine are used for file storage.
 This app is pre-alpha, so please mind the cracks.
 
 
-### Development 
+### Development
 To get started with this app, make sure you have Ruby (check out [https://github.com/rbenv/rbenv](rbenv)) and Node/Yarn set up.
 
 ```
@@ -38,7 +40,7 @@ bin/webpack-dev-server
 
 This app requires Grobid, a machine learning PDF parsing library, to run alongside the app. To run Grobid separately, you can do so easily using docker and the public grobid image. Make sure you have docker set up and do:
 ```
-docker pull lfoppiano/grobid:0.6.0     
+docker pull lfoppiano/grobid:0.6.0
 docker run -t --rm --init -p 8080:8070 -p 8081:8071 lfoppiano/grobid:0.6.0
 ```
 
