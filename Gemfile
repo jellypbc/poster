@@ -28,11 +28,10 @@ gem "sidekiq"
 gem "sidekiq-cron"
 gem "redis"
 gem "redis-namespace"
-
 gem "bootsnap", ">= 1.4.2", require: false
 
 group :development, :test do
-  gem "byebug", platforms: [:mri, :mingw, :x64_mingw]
+  gem 'guard'
   gem "dotenv-rails"
   gem "rspec-rails"
   gem "rails-controller-testing"
@@ -42,6 +41,7 @@ group :development, :test do
 end
 
 group :development do
+  gem "byebug", platforms: :mri
   gem "web-console", ">= 3.3.0"
   gem "listen", ">= 3.0.5", "< 3.2"
   gem "spring"
@@ -52,6 +52,9 @@ group :development do
   gem "annotate"
   gem "pry"
   gem "pry-rails"
+  gem "pry-byebug"
+  gem 'guard-livereload'
+  gem 'guard-rspec', require: false
 end
 
 group :test do

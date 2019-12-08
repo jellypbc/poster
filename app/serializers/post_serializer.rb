@@ -24,8 +24,7 @@ class PostSerializer
   attributes :title, :id, :created_at
 
   attribute :form_url do |object|
-    object.id.present? ? "/posts/#{object.id}" : "/posts"
-    # object.id.present? ? "/posts/#{object.slug}" : "/posts"
+    object.id.present? ? "/posts/#{object.slug}" : "/posts"
   end
 
   attribute :body do |object|
