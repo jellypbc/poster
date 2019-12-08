@@ -19,6 +19,6 @@
 
 FactoryBot.define do
   factory :post do
-    
+    sequence(:title) {|n| "Awesome Post #{n}" }
   end
 end

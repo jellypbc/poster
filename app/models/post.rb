@@ -29,6 +29,8 @@ class Post < ApplicationRecord
 
 	accepts_nested_attributes_for :uploads
 
+  validates :title, length: { maximum: 120 }
+
 	scope :primary, -> { joins(:uploads) }
 
 	def to_param

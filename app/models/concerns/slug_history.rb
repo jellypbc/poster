@@ -5,7 +5,7 @@ module SlugHistory
 
   module ClassMethods
     def remember_slug
-      after_commit :save_slug_if_changed
+      after_create :save_slug_if_changed
     end
 
     def lookup_by_slug(slug)
