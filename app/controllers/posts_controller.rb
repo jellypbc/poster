@@ -54,11 +54,27 @@ class PostsController < ApplicationController
   private
 
     def set_post
-      @post = Post.find(params[:id])
+      id_or_slug = params[:slug] || params[:id] || params[:post_id]
+      @post ||= begin
+        Post.find_by! slug: id_or_slug
+      rescue ActiveRecord::RecordNotFound => e
+        # Lookup by old slug
+        if (post = Post.lookup_by_slug(id_or_slug))
+          post
+        # If admin, attempt to lookup by id
+        elsif user_is_admin?
+          Post.find id_or_slug
+        else
+          raise e
+        end
+      end
     end
 
 
     def post_params
-      params.require(:post).permit(:title, :body, :publisher, :authors)
+      params.require(:post).permit(
+        :title, :body, :publisher, :authors,
+        :slug
+      )
     end
 end

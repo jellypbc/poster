@@ -18,11 +18,21 @@
 #
 
 class Post < ApplicationRecord
+  include Slugged
+  include SlugHistory
+
+  slug :title, attribute: :slug
+  remember_slug
+
 	has_many :uploads
 	has_many :citations
 
 	accepts_nested_attributes_for :uploads
 
 	scope :primary, -> { joins(:uploads) }
+
+	def to_param
+    slug
+  end
 
 end
