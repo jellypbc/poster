@@ -7,7 +7,6 @@ jobs:
         environment:
           POSTGRES_USER: postgres
           POSTGRES_DB: jellyposter_test
-          POSTGRES_PASSWORD: ""
       - image: redis:3.2
     working_directory: ~/repo
     shell: /bin/bash --login
@@ -16,8 +15,10 @@ jobs:
       CIRCLE_TEST_REPORTS: "/tmp/circleci-test-results"
       RAILS_ENV: test
       RACK_ENV: test
-      PG_HOST: 127.0.0.1
-      PG_USER: jellyposter
+      PG_HOST: localhost
+      PG_USER: root
+      PGUSER: root
+      # POSTGRES_PASSWORD: password
     steps:
       - checkout
       - restore_cache:
@@ -55,9 +56,9 @@ jobs:
 
       # Database setup
       - run:
-        environment:
-          DATABASE_URL: "postgres://postgres@localhost:5432/jellyposter_test"
-        command: bundle exec rake db:create && bundle exec rake db:schema:load
+          environment:
+              DATABASE_URL: "postgres://postgres@localhost:5432/jellyposter_test"
+          command: bundle exec rake db:create && bundle exec rake db:schema:load
 
       # run tests!
       - run:
