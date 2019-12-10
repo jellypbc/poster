@@ -20,7 +20,7 @@ class GrobidService
 	def initialize(upload_tei)
 		@upload_tei = upload_tei
 		@upload = @upload_tei.upload
-		@file = open(file_url)
+		@file = File.open(open(file_url))
 	end
 
 	def call
@@ -53,9 +53,8 @@ class GrobidService
 		end
 
 		def fire_away(endpoint)
-			baby_yoda = File.open(@file)
 			resp = HTTParty.post(
-				endpoint, { body: { input: baby_yoda } }
+				endpoint, { body: { input: @file } }
 			)
 		end
 
@@ -65,7 +64,7 @@ class GrobidService
 
 		def file_url
 			url = @upload.file.url
-			url = ("./public" + url) if Rails.env.development?
+			Rails.env.development? ? "./public" + url : url
 		end
 
 end

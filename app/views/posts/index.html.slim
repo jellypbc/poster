@@ -16,8 +16,8 @@
               th Authors
               th Publisher
               th Citations
-              th colspan="3"
-                | Actions
+              th Created
+              th Actions
 
           tbody
             - @posts.each do |post|
@@ -31,8 +31,14 @@
                 td = post.authors
                 td = post.publisher
                 td = post.citations.count
-                td = link_to 'Show', post
-                td = link_to 'Edit', edit_post_path(post)
-                td = link_to 'Destroy', post, method: :delete, data: { confirm: 'Are you sure?' }
+                td
+                  - if Time.now - post.created_at > 1.day
+                    = post.created_at.strftime("%b %e, %l:%M %p")
+                  - else
+                    = time_ago_in_words(post.created_at) + " ago"
+                td
+                  = link_to 'Show', post, class: 'btn btn-xs btn-outline-primary mr-2 my-1'
+                  = link_to 'Edit', edit_post_path(post), class: 'btn btn-xs btn-outline-primary mr-2 my-1'
+                  = link_to 'Destroy', post, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-xs btn-outline-primary my-1'
 
         = will_paginate @posts
