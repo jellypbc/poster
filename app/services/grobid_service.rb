@@ -20,7 +20,7 @@ class GrobidService
 	def initialize(upload_tei)
 		@upload_tei = upload_tei
 		@upload = @upload_tei.upload
-		@file = open(file_url)
+		@file = File.open(open(file_url))
 	end
 
 	def call
@@ -53,9 +53,8 @@ class GrobidService
 		end
 
 		def fire_away(endpoint)
-			baby_yoda = File.open(@file)
 			resp = HTTParty.post(
-				endpoint, { body: { input: baby_yoda } }
+				endpoint, { body: { input: @file } }
 			)
 		end
 
