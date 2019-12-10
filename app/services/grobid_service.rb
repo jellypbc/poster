@@ -64,7 +64,7 @@ class GrobidService
 
 		def file_url
 			url = @upload.file.url
-			url = ("./public" + url) if Rails.env.development?
+			Rails.env.development? ? "./public" + url : url
 		end
 
 end
