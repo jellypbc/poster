@@ -3,12 +3,12 @@
 # Table name: posts
 #
 #  id           :bigint           not null, primary key
-#  authors      :string
+#  authors      :text
 #  body         :json
 #  publish_date :datetime
 #  publisher    :string
 #  slug         :string
-#  title        :string
+#  title        :text
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
 #
@@ -29,7 +29,7 @@ class Post < ApplicationRecord
 
 	accepts_nested_attributes_for :uploads
 
-  validates :title, length: { maximum: 120 }
+  validates :title, length: { maximum: 800 }
 
 	scope :primary, -> { joins(:uploads) }
 

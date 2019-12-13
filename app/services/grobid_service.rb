@@ -10,7 +10,8 @@ class GrobidService
 	# Here are some sample grobid tasks from grobid service
 	GROBID_ENDPOINTS = {
 		full: "processFulltextDocument",
-		header: "processHeaderDocument"
+		header: "processHeaderDocument",
+		asset: "processFulltextAssetDocument"
 	}
 
 	def self.call(*args)
@@ -34,7 +35,15 @@ class GrobidService
 		# processHeaderDocument
 	end
 
-	private
+	# private
+
+		def processFulltextAssetDocument
+			endpoint = grobid_call(:asset)
+			resp = fire_away(endpoint)
+
+			body = resp["TEI"].to_xml
+			@upload_tei.update_attributes!(body: body)
+		end
 
 		def processFulltextDocument
 			endpoint = grobid_call(:full)
@@ -54,7 +63,16 @@ class GrobidService
 
 		def fire_away(endpoint)
 			resp = HTTParty.post(
-				endpoint, { body: { input: @file } }
+				endpoint, {
+					body: {
+						# teiCoordinates: "formula",
+						# teiCoordinates: "biblStruct",
+						# teiCoordinates: "ref",
+						teiCoordinates: "figure",
+						includeRawCitations: 1,
+						input: @file
+					}
+				}
 			)
 		end
 

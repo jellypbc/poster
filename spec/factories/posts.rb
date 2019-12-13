@@ -3,12 +3,12 @@
 # Table name: posts
 #
 #  id           :bigint           not null, primary key
-#  authors      :string
+#  authors      :text
 #  body         :json
 #  publish_date :datetime
 #  publisher    :string
 #  slug         :string
-#  title        :string
+#  title        :text
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
 #
