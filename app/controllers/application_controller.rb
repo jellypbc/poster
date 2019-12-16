@@ -6,4 +6,16 @@ class ApplicationController < ActionController::Base
 	# or if you can create an anonymous post. If this happens,
 	# move this filter or create a new base controller without it.
 	before_action :authenticate_user!
+
+	layout :layout_by_resource
+
+  private
+
+  def layout_by_resource
+    if devise_controller?
+      "devise"
+    else
+      "application"
+    end
+  end
 end

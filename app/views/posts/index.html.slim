@@ -1,44 +1,43 @@
-.container
-  .row
-    .col-md-12
-      p#notice = notice
+.row
+  .col-md-12
+    p#notice = notice
 
-      .posts-index-header.my-5
-        h1 All Posts
+    .posts-index-header.my-5
+      h1 All Posts
 
-      .posts-index
-        table.table.table-hover
-          thead
+    .posts-index
+      table.table.table-hover
+        thead
+          tr
+            th ID
+            th Uploads
+            th Title
+            th Authors
+            th Publisher
+            th Citations
+            th Created
+            th Actions
+
+        tbody
+          - @posts.each do |post|
             tr
-              th ID
-              th Uploads
-              th Title
-              th Authors
-              th Publisher
-              th Citations
-              th Created
-              th Actions
+              td = post.id
+              td
+                - if post.uploads.any?
+                  - post.uploads.each do |upload|
+                    = link_to upload.id, upload
+              td = post.title
+              td = post.authors
+              td = post.publisher
+              td = post.citations.count
+              td
+                - if Time.now - post.created_at > 1.day
+                  = post.created_at.strftime("%b %e, %l:%M %p")
+                - else
+                  = time_ago_in_words(post.created_at) + " ago"
+              td
+                = link_to 'Show', post, class: 'btn btn-xs btn-outline-primary mr-2 my-1'
+                = link_to 'Edit', edit_post_path(post), class: 'btn btn-xs btn-outline-primary mr-2 my-1'
+                = link_to 'Destroy', post, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-xs btn-outline-primary my-1'
 
-          tbody
-            - @posts.each do |post|
-              tr
-                td = post.id
-                td
-                  - if post.uploads.any?
-                    - post.uploads.each do |upload|
-                      = link_to upload.id, upload
-                td = post.title
-                td = post.authors
-                td = post.publisher
-                td = post.citations.count
-                td
-                  - if Time.now - post.created_at > 1.day
-                    = post.created_at.strftime("%b %e, %l:%M %p")
-                  - else
-                    = time_ago_in_words(post.created_at) + " ago"
-                td
-                  = link_to 'Show', post, class: 'btn btn-xs btn-outline-primary mr-2 my-1'
-                  = link_to 'Edit', edit_post_path(post), class: 'btn btn-xs btn-outline-primary mr-2 my-1'
-                  = link_to 'Destroy', post, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-xs btn-outline-primary my-1'
-
-        = will_paginate @posts
+      = will_paginate @posts

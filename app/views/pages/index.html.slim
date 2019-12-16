@@ -1,26 +1,25 @@
-.container
-	.row
-		.col-md-12
-			header
-				h1 Create a new post
-				p Upload a scientific paper in PDF form, and this page will parse it into an editable doc.
+.row
+	.col-md-12
+		header
+			h1 Create a new post
+			p Upload a scientific paper in PDF form, and this page will parse it into an editable doc.
 
-				.header-link
-					= link_to "Choose a PDF to upload", new_upload_path, class: 'btn btn-primary'
+			.header-link
+				= link_to "Choose a PDF to upload", new_upload_path, class: 'btn btn-primary'
 
-					span or drag and drop something here
+				span or drag and drop something here
 
-					p
-						| For example:&nbsp;
-						em Molecular Structure of Nucleic Acids
-	.row
-		.col-md-12
-			- @posts.each do |post|
-				= link_to post do
-					.post
-						.title
-							= post.title || "Title"
-						.date
-							= post.created_at.strftime("%b %d, %Y")
-						.link
-							= link_to "⌞ View article", post_path(post)
+				p
+					| For example:&nbsp;
+					em Molecular Structure of Nucleic Acids
+.row
+	.col-md-12
+		- @posts.each do |post|
+			= link_to post do
+				.post
+					.title
+						= post.title || "Title"
+					.date
+						= post.created_at.strftime("%b %d, %Y")
+					.link
+						= link_to "⌞ View article", post_path(post)

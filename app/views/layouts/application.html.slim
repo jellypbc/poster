@@ -22,4 +22,4 @@ html lang='en-us'
       - if alert
         #alert.flash.mb-3 = alert
 
-      = yield
+      = content_for?(:content) ? yield(:content) : yield
