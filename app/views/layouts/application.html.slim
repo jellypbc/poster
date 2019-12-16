@@ -15,4 +15,11 @@ html lang='en-us'
 
   body
     = render "shared/nav"
-    = yield
+
+    .container
+      - if notice
+        #notice.flash.mb-3 = notice
+      - if alert
+        #alert.flash.mb-3 = alert
+
+      = yield
