@@ -19,30 +19,38 @@ class DiborgService
 
 		# TODO: gracefully nil these in case nothing is found
 		if title = find_header_title
-			@post.update_attributes(title: title)
+			@post.update_attributes!(title: title)
 		end
 		if body = build_body
-			@post.update_attributes(body: body)
+			@post.update_attributes!(body: body)
 		end
 	end
 
 	# private
 
 		def parse_bib_with_side_effects
+			@post.citations.destroy_all if @post.citations.any?
+
 			new_citations = []
 			new_posts = []
 			@bib.children.css('biblStruct').map do |bibStruct|
 
+				# build the citation
 				citation_data = build_citation(bibStruct)
 				citation = @post.citations.create(citation_data)
 
+				# build the new generated post
 				post_data = build_post(bibStruct)
-				post = Post.create(post_data)
+				generated_post = Post.create!(post_data)
+
+				# add the citation to the post
 				@post.citations << citation
 
-				citation.update_attributes(generated_post_id: post.id)
+				# add the generated post to the citation
+				citation.update_attributes(generated_post_id: generated_post.id)
 
-				new_posts << post
+				# debug
+				new_posts << generated_post
 				new_citations << citation
 			end
 
@@ -80,16 +88,18 @@ class DiborgService
 				.first
 				.content
 				.titleize
+				.truncate(120)
 		end
 
 		# returns a string
 		def find_title(bibStruct)
-			puts bibStruct.css('title').empty?
-			bibStruct.css('title')
+			title = bibStruct.css('title')
 				.css('__content__')
 				.try(:first)
 				.try(:content)
 				.try(:titleize)
+
+			title || "Title"
 		end
 
 		# returns a string, even if there is an array of authors

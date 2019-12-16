@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_07_031845) do
+ActiveRecord::Schema.define(version: 2019_12_10_215019) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,8 +20,8 @@ ActiveRecord::Schema.define(version: 2019_12_07_031845) do
     t.datetime "updated_at", precision: 6, null: false
     t.integer "post_id"
     t.json "body"
-    t.string "title"
-    t.string "authors"
+    t.text "title"
+    t.text "authors"
     t.string "imprint_date"
     t.string "imprint_type"
     t.string "target"
@@ -31,13 +31,13 @@ ActiveRecord::Schema.define(version: 2019_12_07_031845) do
   end
 
   create_table "posts", force: :cascade do |t|
-    t.string "title"
+    t.text "title"
     t.json "body"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "slug"
     t.string "publisher"
-    t.string "authors"
+    t.text "authors"
     t.datetime "publish_date"
     t.index ["slug"], name: "index_posts_on_slug", unique: true
   end

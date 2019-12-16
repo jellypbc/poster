@@ -21,7 +21,8 @@
 			- @bib = @doc.css("biblStruct[@type='array']")
 
 			h3 Debug Bib
-			/ .markup
+			.markup
+				= @doc.to_xml
 				/ = @doc.css("biblStruct[@type='array']").children.to_xml.gsub("\n", "<br/>").gsub(" ", "-")
 
 			- @doc.css("biblStruct[@type='array']").children.css('biblStruct').each do |biblStruct|

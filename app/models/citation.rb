@@ -3,13 +3,13 @@
 # Table name: citations
 #
 #  id                :bigint           not null, primary key
-#  authors           :string
+#  authors           :text
 #  body              :json
 #  imprint_date      :string
 #  imprint_type      :string
 #  publisher         :string
 #  target            :string
-#  title             :string
+#  title             :text
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
 #  generated_post_id :integer
@@ -22,6 +22,6 @@
 
 class Citation < ApplicationRecord
 	belongs_to :post
-	belongs_to :generated_post, class_name: 'Post', foreign_key: 'generated_post_id'
+	belongs_to :generated_post, class_name: 'Post', foreign_key: 'generated_post_id', dependent: :destroy
 
 end
