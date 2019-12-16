@@ -4,12 +4,11 @@
   <%= render "devise/shared/error_messages", resource: resource %>
 
   <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+\    <%= f.email_field :email, autofocus: true, autocomplete: "email", placeholder: true, "aria-label": :email %>
   </div>
 
   <div class="actions">
-    <%= f.submit "Resend unlock instructions" %>
+    <%= f.submit "Resend unlock instructions" , class: "btn btn-l btn-primary" %>
   </div>
 <% end %>
 
