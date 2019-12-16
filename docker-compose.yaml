@@ -1,33 +1,75 @@
-version: "3"
+version: "3.4"
+
 services:
-  web:
+  web: &web
     build: .
     command: ["./docker/web-startup.sh"]
     volumes:
       - .:/app
+      - rails_cache:/app/tmp/cache
+      - bundle:/bundle
+      - node_modules:/app/node_modules
+      - packs:/app/public/packs
     ports:
       - "3000:3000"
-    links:
-      - db
-      - webpacker
-      - grobid
     environment:
+      - NODE_ENV=development
       - DB_HOST=db
       - DB_USER=postgres
       - DB_PASSWORD=foobar123
       - RAILS_ENV=development
       - RAILS_MAX_THREADS
+      - REDIS_URL=redis://redis:6379/
       - PGHOST=db
       - PGUSER=postgres
       - GROBID_URL=http://grobid:8070
+      - WEBPACKER_DEV_SERVER_HOST=webpacker
+      - BOOTSNAP_CACHE_DIR=/bundle/bootsnap
+      - EDITOR=vi
+      - MALLOC_ARENA_MAX=2
+    tmpfs:
+      - /tmp
     depends_on:
       - db
+      - redis
+
+  backend: &backend
+    <<: *web
+    stdin_open: true
+    tty: true
+    depends_on:
+      - db
+      - redis
+    volumes:
+      - '.:/app'
+    env_file:
+      - '.env'
+
+  redis:
+    image: 'redis:4-alpine'
+    volumes:
+      - 'redis:/data'
+    ports:
+      - 6379
+
+  sidekiq:
+    <<: *backend
+    command: bundle exec sidekiq -C config/sidekiq.yml
 
   webpacker:
     build: .
     command: ["./docker/webpacker-startup.sh"]
     ports:
       - 3035:3035
+    volumes:
+      - .:/app:cached
+      - bundle:/bundle
+      - node_modules:/app/node_modules
+      - packs:/app/public/packs
+    environment:
+      - NODE_ENV=${NODE_ENV:-development}
+      - RAILS_ENV=${RAILS_ENV:-development}
+      - WEBPACKER_DEV_SERVER_HOST=0.0.0.0
 
   db:
     image: postgres:11-alpine
@@ -49,3 +91,8 @@ services:
 
 volumes:
   db-data:
+  redis:
+  node_modules:
+  bundle:
+  rails_cache:
+  packs:
