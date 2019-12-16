@@ -1,69 +1,91 @@
-version: "3.4"
+version: '2.4'
 
 services:
-  web: &web
-    build: .
-    command: ["./docker/web-startup.sh"]
-    volumes:
-      - .:/app
-      - rails_cache:/app/tmp/cache
-      - bundle:/bundle
-      - node_modules:/app/node_modules
-      - packs:/app/public/packs
-    ports:
-      - "3000:3000"
-    environment:
-      - NODE_ENV=development
-      - DB_HOST=db
-      - DB_USER=postgres
-      - DB_PASSWORD=foobar123
-      - RAILS_ENV=development
-      - RAILS_MAX_THREADS
-      - REDIS_URL=redis://redis:6379/
-      - PGHOST=db
-      - PGUSER=postgres
-      - GROBID_URL=http://grobid:8070
-      - WEBPACKER_DEV_SERVER_HOST=webpacker
-      - BOOTSNAP_CACHE_DIR=/bundle/bootsnap
-      - EDITOR=vi
-      - MALLOC_ARENA_MAX=2
+  app: &app
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+      args:
+        RUBY_VERSION: '2.5.7'
+        PG_MAJOR: '11'
+        NODE_MAJOR: '12'
+        YARN_VERSION: '1.13.0'
+        BUNDLER_VERSION: '2.0.2'
+    image: jelly:1.1.0
     tmpfs:
       - /tmp
-    depends_on:
-      - db
-      - redis
 
   backend: &backend
-    <<: *web
+    <<: *app
     stdin_open: true
     tty: true
+    volumes:
+      - .:/app:cached
+      - rails_cache:/app/tmp/cache
+      - bundle:/usr/local/bundle
+      - node_modules:/app/node_modules
+      - packs:/app/public/packs
+    environment:
+      - NODE_ENV=development
+      - RAILS_ENV=${RAILS_ENV:-development}
+      - REDIS_URL=redis://redis:6379/
+      - DATABASE_URL=postgres://postgres:postgres@postgres:5432
+      - BOOTSNAP_CACHE_DIR=/usr/local/bundle/_bootsnap
+      - WEBPACKER_DEV_SERVER_HOST=webpacker
+      - WEB_CONCURRENCY=1
+      - HISTFILE=/app/log/.bash_history
+      - PSQL_HISTFILE=/app/log/.psql_history
+      - EDITOR=vi
     depends_on:
-      - db
-      - redis
-    volumes:
-      - '.:/app'
-    env_file:
-      - '.env'
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
 
-  redis:
-    image: 'redis:4-alpine'
-    volumes:
-      - 'redis:/data'
+  rails:
+    <<: *backend
+    command: bundle exec rails server -b 0.0.0.0
     ports:
-      - 6379
+      - '3000:3000'
 
   sidekiq:
     <<: *backend
     command: bundle exec sidekiq -C config/sidekiq.yml
 
-  webpacker:
-    build: .
-    command: ["./docker/webpacker-startup.sh"]
+  postgres:
+    image: postgres:11.1
+    volumes:
+      - .psqlrc:/root/.psqlrc:ro
+      - postgres:/var/lib/postgresql/data
+      - ./log:/root/log:cached
+    environment:
+      - PSQL_HISTFILE=/root/log/.psql_history
     ports:
-      - 3035:3035
+      - 5432
+    healthcheck:
+      test: pg_isready -U postgres -h 127.0.0.1
+      interval: 5s
+
+  redis:
+    image: redis:3.2-alpine
+    volumes:
+      - redis:/data
+    ports:
+      - 6379
+    healthcheck:
+      test: redis-cli ping
+      interval: 1s
+      timeout: 3s
+      retries: 30
+
+  webpacker:
+    <<: *app
+    command: ./bin/webpack-dev-server
+    ports:
+      - '3035:3035'
     volumes:
       - .:/app:cached
-      - bundle:/bundle
+      - bundle:/usr/local/bundle
       - node_modules:/app/node_modules
       - packs:/app/public/packs
     environment:
@@ -71,28 +93,10 @@ services:
       - RAILS_ENV=${RAILS_ENV:-development}
       - WEBPACKER_DEV_SERVER_HOST=0.0.0.0
 
-  db:
-    image: postgres:11-alpine
-    ports:
-      - 5432:5432
-    environment:
-      - POSTGRES_PASSWORD
-      - POSTGRES_USER=postgres
-    volumes:
-      - db-data:/var/lib/postgresql/data
-
-  grobid:
-    image: lfoppiano/grobid:0.5.6
-    ports:
-      - "8070:8070"
-      - "8071:8071"
-    expose:
-      - "8070"
-
 volumes:
-  db-data:
+  postgres:
   redis:
-  node_modules:
   bundle:
+  node_modules:
   rails_cache:
   packs:

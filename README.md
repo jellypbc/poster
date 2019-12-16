@@ -14,7 +14,7 @@ This app is pre-alpha, so please mind the cracks.
 
 
 ### Development
-To get started with this app, make sure you have Ruby (check out [https://github.com/rbenv/rbenv](rbenv)) and Node/Yarn set up.
+To get started with this app, make sure you have Ruby (check out [https://github.com/rbenv/rbenv](rbenv)) and [https://nodejs.org/en/download/](Node)/[https://yarnpkg.com/lang/en/docs/install/#mac-stable](Yarn) set up.
 
 ```
 rbenv install 2.5.7; rbenv local 2.5.7
@@ -45,24 +45,26 @@ docker run -t --rm --init -p 8080:8070 -p 8081:8071 lfoppiano/grobid:0.6.0
 ```
 
 
-### Docker
+### Docker Provisioning
 
 If you prefer to use Docker Compose, you can quickly set things up using:
 ```
-docker-compose build
-docker-compose run web bundle install
-docker-compose run web yarn
-docker-compose run web bundle exec rake db:create db:setup
+$ docker-compose build
+$ docker-compose run backend yarn install
+$ docker-compose run backend ./.docker/setup.sh
 ```
 
-And then to start services, just do `docker-compose up`.
-
-When hacking, it is useful to sometimes recreate the web image:
+You can run the Rails up using the following command:
 
 ```
-docker-compose up --force-recreate
+$ docker-compose up rails
 ```
 
+If you want to run Webpack Dev server as well:
+
+```
+$ docker-compose up rails webpacker
+```
 
 ### Deploying
 

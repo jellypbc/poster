@@ -469,7 +469,7 @@ DEPENDENCIES
   bootsnap (>= 1.4.2)
   bugsnag
   bullet
-  bundler
+  bundler (~> 2.0.2)
   byebug
   capybara (>= 2.15)
   dotenv-rails
