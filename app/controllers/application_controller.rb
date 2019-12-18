@@ -9,13 +9,20 @@ class ApplicationController < ActionController::Base
 
 	layout :layout_by_resource
 
-  private
+	protected
 
-  def layout_by_resource
-    if devise_controller?
-      "devise"
-    else
-      "application"
-    end
-  end
+	# https://github.com/plataformatec/devise/tree/master#strong-parameters
+	def configure_permitted_parameters
+		devise_parameter_sanitizer.permit(:sign_up, keys: [:username, :email])
+	end
+
+	private
+	
+	def layout_by_resource
+		if devise_controller?
+			"devise"
+		else
+			"application"
+			end
+		end
 end

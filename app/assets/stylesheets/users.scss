@@ -58,8 +58,22 @@
 }
 
 .devise__sharedLinks {
+  // Forgot Password?
+  // Didn't receive confirmation instructions?
+  // Didn't receive unlock instructions?
   margin-top: 23px;
   margin-bottom: 23px;
+  text-align: center;
+  font-size: smaller;
+
+  // 2 links next to each other (targets 2nd one)
+  a + a {
+    &::before {
+      margin-left: 4px;
+      margin-right: 6px;
+      content: '·'
+    }
+  }
 }
 
 .devise__rememberMe {
