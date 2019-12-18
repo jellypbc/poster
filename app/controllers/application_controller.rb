@@ -6,6 +6,7 @@ class ApplicationController < ActionController::Base
 	# or if you can create an anonymous post. If this happens,
 	# move this filter or create a new base controller without it.
 	before_action :authenticate_user!
+	before_action :configure_permitted_parameters, if: :devise_controller?
 
 	layout :layout_by_resource
 

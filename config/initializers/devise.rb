@@ -136,8 +136,8 @@ Devise.setup do |config|
   # confirming their account.
   # config.allow_unconfirmed_access_for = 2.days
   # NOTE: if this is 0, should show notice about confirming email after creating
-  # a new accoint and redirecting home page to signin page
-  config.allow_unconfirmed_access_for = 30.mins
+  # a new account and redirecting home page to signin page
+  config.allow_unconfirmed_access_for = 30.minutes
 
   # A period that the user is allowed to confirm their account before their
   # token becomes invalid. For example, if set to 3.days, the user can confirm
