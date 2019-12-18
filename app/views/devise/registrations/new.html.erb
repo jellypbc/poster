@@ -14,7 +14,7 @@
   <div class="field">
     <%= f.password_field :password, autocomplete: "new-password", placeholder: true, "aria-label": :password %>
     <% if @minimum_password_length %>
-      <em class="devise--passwordLength">(<%= @minimum_password_length %> characters minimum)</em>
+      <em class="devise__passwordLength">(<%= @minimum_password_length %> characters minimum)</em>
     <% end %>
   </div>
 

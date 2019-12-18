@@ -2,12 +2,12 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-.devise--page {
+.devise__page {
   display: flex;
   justify-content: center;
 }
 
-.devise--content {
+.devise__content {
   text-align: center;
   width: 100%;
   max-width: 420px;
@@ -52,20 +52,20 @@
   }
 }
 
-.devise--registrationPrompt,
-.devise--forgotPasswordHelpText {
+.devise__registrationPrompt,
+.devise__forgotPasswordHelpText {
   margin-bottom: 50px;
 }
 
-.devise--sharedLinks {
+.devise__sharedLinks {
   margin-top: 23px;
   margin-bottom: 23px;
 }
 
-.devise--rememberMe {
+.devise__rememberMe {
   display: none; // hide feature for now
 }
 
-.devise--passwordLength {
+.devise__passwordLength {
   display: none; // hide for now
 }
