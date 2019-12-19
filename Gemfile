@@ -30,6 +30,10 @@ gem "redis"
 gem "redis-namespace"
 gem "bootsnap", ">= 1.4.2", require: false
 
+gem "pdf-reader"
+# gem "docsplit"
+gem "hexapdf"
+
 group :development, :test do
   gem "guard"
   gem "dotenv-rails"

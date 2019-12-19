@@ -34,3 +34,4 @@ Shrine.plugin :restore_cached_data # re-extract metadata when attaching a cached
 Shrine.plugin :upload_endpoint
 Shrine.plugin :presign_endpoint
 Shrine.plugin :download_endpoint
+Shrine.plugin :pretty_location

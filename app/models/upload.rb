@@ -19,11 +19,15 @@ class Upload < ApplicationRecord
 	belongs_to :post
 
 	has_one :upload_tei
+	has_many :upload_images
+
+	accepts_nested_attributes_for :upload_images, allow_destroy: true
 
 	after_create_commit :process
 
 	def process
 		create_upload_tei if is_pdf?
+		ImageExtractService.call(self)
 	end
 
 	def create_upload_tei
@@ -32,6 +36,11 @@ class Upload < ApplicationRecord
 
 	def is_pdf?
 		file.metadata["mime_type"].include?("pdf")
+	end
+
+	def file_url
+		url = file.url
+		Rails.env.development? ? "./public" + url : url
 	end
 
 end
