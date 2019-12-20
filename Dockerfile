@@ -1,73 +1,52 @@
-# FROM ruby:2.5.7-buster
-FROM ruby:2.5.7-slim
-# FROM ruby:2.5.7-alpine
+ARG RUBY_VERSION
+# See explanation below
+FROM ruby:$RUBY_VERSION
 
-ENV GEM_HOME="/usr/local/bundle"
-ENV PATH $GEM_HOME/bin:$GEM_HOME/gems/bin:$PATH
+ARG PG_MAJOR
+ARG NODE_MAJOR
+ARG BUNDLER_VERSION
+ARG YARN_VERSION
 
-# RUN apk add --update --no-cache \
-#     build-base \
-#     linux-headers \
-#     postgresql-dev \
-#     git \
-#     nodejs \
-#     yarn \
-#     libc6-compat \
-#     libxslt-dev \
-#     libxml2-dev \
-#     tzdata
+# Add PostgreSQL to sources list
+RUN curl -sSL https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - \
+  && echo 'deb http://apt.postgresql.org/pub/repos/apt/ stretch-pgdg main' $PG_MAJOR > /etc/apt/sources.list.d/pgdg.list
 
-RUN apt-get update && \
-  apt-get install -qq -y build-essential \
-  curl \
-  gnupg2 \
-  apt-transport-https \
-  libpq-dev \
-  postgresql-client-11 \
-  yarn \
-  --fix-missing --no-install-recommends
+# Add NodeJS to sources list
+RUN curl -sL https://deb.nodesource.com/setup_$NODE_MAJOR.x | bash -
 
-RUN curl --silent --show-error --location https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add -
-RUN echo "deb https://deb.nodesource.com/node_6.x/ stretch main" > /etc/apt/sources.list.d/nodesource.list
-RUN apt-get update
-RUN apt-get install -y nodejs
+# Add Yarn to the sources list
+RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
+  && echo 'deb http://dl.yarnpkg.com/debian/ stable main' > /etc/apt/sources.list.d/yarn.list
 
-# slim yarn
-RUN curl --silent --show-error --location https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
-RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" > /etc/apt/sources.list.d/yarn.list
-RUN apt-get update
-RUN apt-get install -y yarn
+# Install dependencies
+# We use an external Aptfile for that, stay tuned
+COPY .docker/Aptfile /tmp/Aptfile
+RUN apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get -yq dist-upgrade && \
+  DEBIAN_FRONTEND=noninteractive apt-get install -yq --no-install-recommends \
+    build-essential \
+    postgresql-client-$PG_MAJOR \
+    nodejs \
+    yarn=$YARN_VERSION-1 \
+    $(cat /tmp/Aptfile | xargs) && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
+    truncate -s 0 /var/log/*log
 
-ENV APP_HOME /app
-RUN mkdir $APP_HOME
-WORKDIR $APP_HOME
+# Configure bundler and PATH
+ENV LANG=C.UTF-8 \
+  GEM_HOME=/bundle \
+  BUNDLE_JOBS=4 \
+  BUNDLE_RETRY=3
+ENV BUNDLE_PATH $GEM_HOME
+ENV BUNDLE_APP_CONFIG=$BUNDLE_PATH \
+  BUNDLE_BIN=$BUNDLE_PATH/bin
+ENV PATH /app/bin:$BUNDLE_BIN:$PATH
 
-ADD Gemfile* $APP_HOME/
+# Upgrade RubyGems and install required Bundler version
+RUN gem update --system && \
+    gem install bundler:$BUNDLER_VERSION
 
-ENV BUNDLE_GEMFILE=$APP_HOME/Gemfile \
-  BUNDLE_JOBS=2 \
-  BUNDLE_PATH=/bundle
+# Create a directory for the app code
+RUN mkdir -p /app
 
-# RUN bundle config --global frozen 1 \
-RUN gem install bundler -v 2.0.2 --force
-RUN bundle update --bundler
-RUN bundle config --global frozen 1 \
-  && bundle install --jobs 20 --retry 3 \
-  # Remove unneeded files (cached *.gem, *.o, *.c)
-  && rm -rf /usr/local/bundle/cache/*.gem \
-  && find /usr/local/bundle/gems/ -name "*.c" -delete \
-  && find /usr/local/bundle/gems/ -name "*.o" -delete
-
-# Install yarn packages
-COPY package.json yarn.lock /app/
-RUN yarn install
-
-# Add the Rails app
-ADD . $APP_HOME
-
-# COPY entrypoint.sh /usr/bin/
-# RUN chmod +x /usr/bin/entrypoint.sh
-# ENTRYPOINT ["entrypoint.sh"]
-EXPOSE 3000
-
-CMD ["docker/web-startup.sh"]
+WORKDIR /app
