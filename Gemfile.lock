@@ -126,6 +126,7 @@ GEM
     ffi (1.11.2)
     font-awesome-sass (5.11.2)
       sassc (>= 1.11)
+    foreman (0.86.0)
     formatador (0.2.5)
     fugit (1.3.3)
       et-orbi (~> 1.1, >= 1.1.8)
@@ -477,6 +478,7 @@ DEPENDENCIES
   factory_bot_rails
   fast_jsonapi
   font-awesome-sass
+  foreman
   guard
   guard-livereload
   guard-rspec

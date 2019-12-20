@@ -55,6 +55,7 @@ group :development do
   gem "pry-byebug"
   gem 'guard-livereload'
   gem 'guard-rspec', require: false
+  gem "foreman"
 end
 
 group :test do

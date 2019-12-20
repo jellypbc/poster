@@ -14,62 +14,19 @@ This app is pre-alpha, so please mind the cracks.
 
 
 ### Development
-To get started with this app, make sure you have Ruby (check out [https://github.com/rbenv/rbenv](rbenv)) and [https://nodejs.org/en/download/](Node)/[https://yarnpkg.com/lang/en/docs/install/#mac-stable](Yarn) set up.
 
-```
-rbenv install 2.5.7; rbenv local 2.5.7
-gem install bundler
-bundle install
-yarn
-rake db:create db:setup db:seed
-```
+To get this app up and running, follow the [instructions for getting started](https://github.com/jellypbc/poster/wiki/Setup).
 
-This will also create a sample post to just for showing the post editor.
-
-To start the server, run:
-
-```
-rails server
-```
-
-And also run the webpack-dev-server:
-
-```
-bin/webpack-dev-server
-```
-
-This app requires Grobid, a machine learning PDF parsing library, to run alongside the app. To run Grobid separately, you can do so easily using docker and the public grobid image. Make sure you have docker set up and do:
-```
-docker pull lfoppiano/grobid:0.6.0
-docker run -t --rm --init -p 8080:8070 -p 8081:8071 lfoppiano/grobid:0.6.0
-```
-
-
-### Docker Provisioning
-
-If you prefer to use Docker Compose, you can quickly set things up using:
-```
-$ docker-compose build
-$ docker-compose run backend yarn install
-$ docker-compose run backend ./.docker/setup.sh
-```
-
-You can run the Rails up using the following command:
-
-```
-$ docker-compose up rails
-```
-
-If you want to run Webpack Dev server as well:
-
-```
-$ docker-compose up rails webpacker
-```
 
 ### Deploying
 
-**TBD**
-*Will need to do some configuration set up for GCE storage*
+This app depends on Grobid running as a separate service, which you'll want to set a production env variable `GROBID_URL`.
+
+To do so, you'll want to pull the docker image and start it on port 80.
+```
+docker pull lfoppiano/grobid:{version}
+docker run -t --rm --init -p 80:8070 -p 8080:8080 lfoppiano/grobid:{version}
+```
 
 
 ### Development
