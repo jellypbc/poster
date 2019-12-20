@@ -14,60 +14,19 @@ This app is pre-alpha, so please mind the cracks.
 
 
 ### Development
-To get started with this app, make sure you have Ruby (check out [https://github.com/rbenv/rbenv](rbenv)) and Node/Yarn set up.
 
-```
-rbenv install 2.5.7; rbenv local 2.5.7
-gem install bundler
-bundle install
-yarn
-rake db:create db:setup db:seed
-```
-
-This will also create a sample post to just for showing the post editor.
-
-To start the server, run:
-
-```
-rails server
-```
-
-And also run the webpack-dev-server:
-
-```
-bin/webpack-dev-server
-```
-
-This app requires Grobid, a machine learning PDF parsing library, to run alongside the app. To run Grobid separately, you can do so easily using docker and the public grobid image. Make sure you have docker set up and do:
-```
-docker pull lfoppiano/grobid:0.6.0
-docker run -t --rm --init -p 8080:8070 -p 8081:8071 lfoppiano/grobid:0.6.0
-```
-
-
-### Docker
-
-If you prefer to use Docker Compose, you can quickly set things up using:
-```
-docker-compose build
-docker-compose run web bundle install
-docker-compose run web yarn
-docker-compose run web bundle exec rake db:create db:setup
-```
-
-And then to start services, just do `docker-compose up`.
-
-When hacking, it is useful to sometimes recreate the web image:
-
-```
-docker-compose up --force-recreate
-```
+To get this app up and running, follow the [instructions for getting started](https://github.com/jellypbc/poster/wiki/Setup).
 
 
 ### Deploying
 
-**TBD**
-*Will need to do some configuration set up for GCE storage*
+This app depends on Grobid running as a separate service, which you'll want to set a production env variable `GROBID_URL`.
+
+To do so, you'll want to pull the docker image and start it on port 80.
+```
+docker pull lfoppiano/grobid:{version}
+docker run -t --rm --init -p 80:8070 -p 8080:8080 lfoppiano/grobid:{version}
+```
 
 
 ### Development

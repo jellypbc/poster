@@ -3,7 +3,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby "2.5.7"
 
-gem "bundler"
+gem "bundler", "~> 2.0.2"
 gem "rails", "~> 6.0.1"
 gem "pg", "~> 1.1"
 gem "puma", "~> 4.3"
@@ -56,6 +56,7 @@ group :development do
   gem "pry-byebug"
   gem 'guard-livereload'
   gem 'guard-rspec', require: false
+  gem "foreman"
 end
 
 group :test do
