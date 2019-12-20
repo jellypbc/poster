@@ -1,54 +1,53 @@
-.container
-	.row
-		.col-md-12
-			#notice
-				= notice
+.row
+	.col-md-12
+		#notice
+			= notice
 
-			h3 ID
-			p = @upload.id
+		h3 ID
+		p = @upload.id
 
-			h3 File
-			- if @upload.file
-				- if @upload.file.metadata["mime_type"].include?("image")
-					= image_tag @upload.file_url
-				- elsif @upload.file.metadata["mime_type"].include?("pdf")
-					= link_to @upload.file_url do
-						p
-							i.fa.fa-book
-							|&nbsp;#{@upload.file.metadata["filename"]}
+		h3 File
+		- if @upload.file
+			- if @upload.file.metadata["mime_type"].include?("image")
+				= image_tag @upload.file_url
+			- elsif @upload.file.metadata["mime_type"].include?("pdf")
+				= link_to @upload.file_url do
+					p
+						i.fa.fa-book
+						|&nbsp;#{@upload.file.metadata["filename"]}
 
-			- @doc = Nokogiri::XML(@upload.upload_tei.body)
-			- @bib = @doc.css("biblStruct[@type='array']")
+		- @doc = Nokogiri::XML(@upload.upload_tei.body)
+		- @bib = @doc.css("biblStruct[@type='array']")
 
-			h3 Debug Bib
-			.markup
-				= @doc.to_xml
-				/ = @doc.css("biblStruct[@type='array']").children.to_xml.gsub("\n", "<br/>").gsub(" ", "-")
+		h3 Debug Bib
+		.markup
+			= @doc.to_xml
+			/ = @doc.css("biblStruct[@type='array']").children.to_xml.gsub("\n", "<br/>").gsub(" ", "-")
 
-			- @doc.css("biblStruct[@type='array']").children.css('biblStruct').each do |biblStruct|
-				hr.my-5
-					h3 Citation
-					.my-4
-						strong Raw:
-						.markup = biblStruct.inner_html
+		- @doc.css("biblStruct[@type='array']").children.css('biblStruct').each do |biblStruct|
+			hr.my-5
+				h3 Citation
+				.my-4
+					strong Raw:
+					.markup = biblStruct.inner_html
 
-					.reference
-						strong Title:
-						p = biblStruct.css('title').css('__content__').inner_html
+				.reference
+					strong Title:
+					p = biblStruct.css('title').css('__content__').inner_html
 
-						strong Authors:
-						- authors = biblStruct.css("persName")
-						- author_list = []
-						- authors.map do |author|
-							- first = author.css("forename __content__").map{|a| a.inner_html}.join(" ")
-							- last = author.css("surname").inner_html
-							- full = []
-							- full << first if first.present?
-							- full << last if last.present?
-							- full = full.join(" ")
-							- author_list << full
-				  	= author_list.join(", ")
+					strong Authors:
+					- authors = biblStruct.css("persName")
+					- author_list = []
+					- authors.map do |author|
+						- first = author.css("forename __content__").map{|a| a.inner_html}.join(" ")
+						- last = author.css("surname").inner_html
+						- full = []
+						- full << first if first.present?
+						- full << last if last.present?
+						- full = full.join(" ")
+						- author_list << full
+					= author_list.join(", ")
 
-			= link_to 'Edit', edit_upload_path(@upload)
-			br
-			= link_to 'Back', uploads_path
+		= link_to 'Edit', edit_upload_path(@upload)
+		br
+		= link_to 'Back', uploads_path

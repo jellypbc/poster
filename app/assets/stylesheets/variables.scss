@@ -1,3 +1,9 @@
+// INDEX:
+// 1. Colors
+// 2. Layout
+
+// 1. Colors:
+
 // Grays
 $white:           #FFF;
 $gray:            #555;
@@ -64,7 +70,8 @@ $brandYellow:     #f89406;
 $brandLinks:      #26B8AD;
 $brandFocus:      rgba(85,178,127,.8);
 
-$error:           #FF7979; // form validations etc
+$error:           $brandRed; // form validations etc
+$success:         $green;    // form validations etc
 $faintPink:       #faeee9;
 $brandWarning:    #ffbd00;
 $warning:         #ffbd00;
@@ -102,23 +109,6 @@ $markupFontFamily:    'PT Mono', Monaco, Menlo, Consolas, monospace;
 $textColor:           $grayLight;
 $backgroundColor:     $grayLightest;
 $baseLineHeight:      20px;
-
-// Global measurements
-$desktop-min-width: 768px;
-$screen-non-mobile: 768px;
-
-$screen-small: 768px;
-$screen-medium: 1250px;
-
-// For devices larger than mobile
-// 768px is arbitrary, I stole it from bootstrap
-$screen-non-mobile: 768px;
-
-// Z-index values
-$zindex-navbar: 50;
-$zindex-dropdown: 1050;
-$zindex-overlay: 1100;
-$zindex-modal: 1200;
 
 // Category variable colors
 $project_categories: (
@@ -160,3 +150,30 @@ $state_colors: (
   ready: #D98083,
   finished: #5B7A87
 );
+
+// 2. Layout:
+
+// Note: we also have access to the Bootstrap 4 utility classes:
+// https://getbootstrap.com/docs/4.1/utilities/
+
+// Global measurements
+$desktop-min-width: 768px;
+$screen-non-mobile: 768px;
+
+$screen-small: 768px;
+$screen-medium: 1250px;
+
+// For devices larger than mobile
+// 768px is arbitrary, I stole it from bootstrap
+$screen-non-mobile: 768px;
+
+// Z-index values
+$zindex-navbar: 50;
+$zindex-dropdown: 1050;
+$zindex-overlay: 1100;
+$zindex-modal: 1200;
+
+// Border Radii
+$borderRadius-small: 2px;
+$borderRadius-base: 4px;
+$borderRadius-large: 8px;
