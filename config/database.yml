@@ -6,6 +6,9 @@ default: &default
 development:
   <<: *default
   database: jellyposter_development
+  host: localhost
+  port: 5432
+  user: jelly
 
 test:
   <<: *default
@@ -18,4 +21,4 @@ production:
   username: "postgres"
   password: "postgres"
   database: "jellyposter-prod"
-  host:   "/cloudsql/jellyposter:us-west1:jellyposter-prod-pg"
+  host: "/cloudsql/jellyposter:us-west1:jellyposter-prod-pg"
