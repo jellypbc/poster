@@ -1,85 +1,84 @@
+/* eslint-disable jsx-a11y/no-autofocus */
 import React from 'react'
-// import _ from 'lodash'
 import debounce from 'lodash/debounce'
 import { DOMParser, DOMSerializer } from 'prosemirror-model'
 
 import Editor from './Editor'
 
-const parser = schema => {
-  const parser = DOMParser.fromSchema(schema)
+const createParser = schema => {
+	const parser = DOMParser.fromSchema(schema)
 
-  return content => {
-    const container = document.createElement('article')
-    container.innerHTML = content
+	return content => {
+		const container = document.createElement('article')
+		container.innerHTML = content
 
-    return parser.parse(container)
-  }
+		return parser.parse(container)
+	}
 }
 
-const serializer = schema => {
-  const serializer = DOMSerializer.fromSchema(schema)
+const createSerializer = schema => {
+	const serializer = DOMSerializer.fromSchema(schema)
 
-  return doc => {
-    const container = document.createElement('article')
-    container.appendChild(serializer.serializeFragment(doc.content))
+	return doc => {
+		const container = document.createElement('article')
+		container.appendChild(serializer.serializeFragment(doc.content))
 
-    return container.innerHTML
-  }
+		return container.innerHTML
+	}
 }
+
+// TODO: Could this component be combined with Editor.js or PostEditor.js?
 
 class HtmlEditor extends React.Component {
-  componentWillMount () {
-    const { value, onChange, options } = this.props
-    const { schema } = options
+	constructor(props) {
+		super(props)
+		const { value, options } = props
+		const { schema } = options
 
-    const parse = parser(schema)
-    const serialize = serializer(schema)
+		this.parse = createParser(schema)
+		this.serialize = createSerializer(schema)
 
-    options.doc = parse(value)
+		options.doc = this.parse(value) // TODO: don't mutate input prop
+	}
 
-    this.wrapOnChangeToDebounce = debounce(doc =>  {
-      console.log("dodoggogo")
-      onChange(serialize(doc))
-    }, 2000, { maxWait: 2000 })
-  }
+	handleChange = doc => {
+		// Tell the parent component there are changes ("dirty state")
+		// and also call debounced full change handler.
+		const { onHasChanges } = this.props
 
-  combineCindyWithOnChange(doc) {
-    const { onChange, setCindy, options } = this.props
-    const { schema } = options
+		onHasChanges() // don't debounce this, must save dirty state right away
+		this.handleFullChange(doc) // this is debounced to save bandwidth
+	}
 
-    const serialize = serializer(schema)
+	// Debounces change handler so user has to stop typing to save,
+	// but also adds maxWait so that if they type continuously, changes will
+	// still be saved every so often.
+	//
+	// Both network and parsing are expensive, combine component with parent?
+	// TODO: Should debouncing happen around parent's network call or here?
+	handleFullChange = debounce(
+		doc => {
+			const { onChange } = this.props
+			onChange(this.serialize(doc))
+		},
+		350,
+		{ maxWait: 1000 }
+	)
 
-    setCindy(true)
-    onChange(serialize(doc))
+	render() {
+		const { autoFocus, options, attributes, render, nodeViews } = this.props
 
-    // this.thing(doc)
-  }
-
-  // todo: come back to this later, add timeout gate to
-  // debounce onchange events
-  thing = (doc) => debounce(console.log('hi'), 500 )
-
-  render () {
-    const {
-      autoFocus,
-      options,
-      attributes,
-      render,
-      nodeViews
-    } = this.props
-
-    return (
-      <Editor
-        autoFocus={autoFocus}
-        options={options}
-        attributes={attributes}
-        render={render}
-        // onChange={this.wrapOnChangeToDebounce}
-        onChange={(doc) => this.combineCindyWithOnChange(doc)}
-        nodeViews={nodeViews}
-      />
-    )
-  }
+		return (
+			<Editor
+				autoFocus={autoFocus}
+				options={options}
+				attributes={attributes}
+				render={render}
+				onChange={this.handleChange}
+				nodeViews={nodeViews}
+			/>
+		)
+	}
 }
 
 export default HtmlEditor

@@ -14,7 +14,10 @@
 	color: #999;
   position: fixed;
   right: 10px;
-  bottom: 10px;
+	bottom: 10px;
+	background-color: transparentize($white, 0.5);
+	border-radius: $borderRadius-base;
+	border: 1px solid $grayDarker;
 }
 
 .active {
