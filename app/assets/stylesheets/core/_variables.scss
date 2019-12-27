@@ -17,10 +17,6 @@ $grayDark:        #444;
 $grayDarker:      #222;
 $black:           #000;
 
-// Brand
-$footerColor: #FDF0EF;
-$newsletterForm: #FEECB1;
-
 // Colors
 $blue:                     #049cdb;
 $blueDark:                 #0064cd;
@@ -35,22 +31,9 @@ $faintPink:                #faeee9;
 $turquoise:                #5db1be;
 $seafoam:                  #27a387;
 $orangeyRose:              #FEB09B;
-$metrics_fill_color:       #C8E4F0;
 $teal:                     #43B596;
-$dark_nav:                 #1D2225;
-$offWhite:                 #fafafa;
-$highlight_font_color:     #69ccad;  // Greenish
-$contrast_font_color:      #ff6969;  // Redish
-$edit_action_font_color:   #4c83a7;  // Bluish
-$shadow_font_color:        #004e6d;  // Dark Blue
-$dark_shadow_font_color:   #143F44;  // Dark Greyish
-$metrics_graph_color:      #559da4;  // Lighter Bluish
-$metrics_fill_color:       #C8E4F0;
-$heart:                    #D97471;
-$hearting:                 #FF746F;
-$hearted:                  #DB5854;
 
-// Experiment brand
+// brand
 $shale:           #4a5658;
 $shaleLight:      #9Ba5aa;
 $shaleLighter:    #D4D9DB;
@@ -64,13 +47,10 @@ $brandBlue:       #5eb0c0;
 $brandOcean:      #004E6D;
 $brandOrange:     #F6694B;
 $brandRed:        #E5502A;
-
 $brandShale:      #435660;
 $brandYellow:     #f89406;
-
 $brandLinks:      #26B8AD;
 $brandFocus:      rgba(85,178,127,.8);
-
 $error:           $brandRed; // form validations etc
 $success:         $green;    // form validations etc
 $faintPink:       #faeee9;
@@ -86,36 +66,11 @@ $reddit:          #FF3A00;
 
 // Type variables
 $baseFontSize: 				16px;
+$baseLineHeight:      20px;
 $baseFontFamily:      'Roboto', Helvetica, Arial, sans-serif;
 $serifFontFamily:     'Sumana', Times;
 $markupFontFamily:    'PT Mono', Monaco, Menlo, Consolas, monospace;
 $mainTextColor:   		$shaleDark;
-$subtleTextColor: 		#9B9B9B;
-$backgroundColor:     $grayLightest;
-$baseLineHeight:      20px;
-
-
-// Form states and alerts
-$warningText:             #c09853;
-$warningBackground:       #FFE6D3;
-$warningBorder:           lighten($warningBackground, 10%);
-
-$errorText:               #b94a48;
-$errorBackground:         #F7D7D6;
-$errorBorder:             lighten($errorBackground, 10%);
-
-$successText:             #468847;
-$successBackground:       #E6F6EB;
-$successBorder:           lighten($successBackground, 10%);
-
-$infoText:                #3a87ad;
-$infoBackground:          #d9edf7;
-$infoBorder:              lighten($infoBackground, 10%);
-
-$achievementText:         #fff;
-$achievementBackground:   #5db1be;
-$achievementBorder:       lighten($achievementBackground, 10%);
-
 
 // Category variable colors
 $project_categories: (
