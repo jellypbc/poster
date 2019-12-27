@@ -14,14 +14,15 @@ nav.navbar.navbar-expand-lg
           li class="nav-item active"
             = link_to 'Browse Posts', posts_path, class: "nav-link mr-3"
 
-          li class="nav-item active"
-            = link_to 'Upload a File', new_upload_path, class: "btn btn-outline-dark"
         - else
           li class="nav-item active"
             = link_to 'Log In', new_user_session_path, class: "nav-link mr-3"
 
           li class="nav-item active"
             = link_to 'Register', new_user_registration_path, class: "nav-link"
+
+        li class="nav-item active"
+          = link_to 'Upload a File', new_upload_path, class: "ml-3 btn btn-outline-dark"
 
         / li class="nav-item dropdown"
         /   a class="nav-link dropdown-toggle" href="#" id="dropdown07XL" data-toggle="dropdown" aria-expanded="false"
