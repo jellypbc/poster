@@ -1,0 +1,57 @@
+#forms.my-5
+	h2 Forms
+	.container
+		p Text, textareas, select, and inline inputs(s)
+
+		h3 Normal form
+		p.markup .form input.text
+		form.form
+			input.text
+			input.text
+			button.btn.btn-primary Submit
+			button.btn.btn-secondary Cancel
+
+
+		h3 Text area
+		p.markup .form .inline textarea placeholder='Write a comment...'
+		form.form.inline
+			textarea placeholder='Write a comment...'
+			button.btn.btn-primary Submit
+
+		h3 Large form
+		p.markup .form .large input placeholder='Write a comment...'
+		form.form.large
+			input.text placeholder="Write a comment..."
+			button.btn.btn-primary.btn-lg Submit
+			button.btn.btn-secondary.btn-lg Cancel
+
+
+		h3 Inline inputs(s) & button(s)
+		p.markup form.form.inline
+		form.form.inline
+			input.text
+			input.text
+			button.btn.btn-primary Submit
+			button.btn.btn-secondary Cancel
+
+		h3 Full width
+		p.markup form.form.full-width
+		table
+			tr
+				td
+					form.form.full-width
+						input.text
+						input.text
+						button.btn.btn-primary Submit
+				td.markup
+					p form.form.full-width
+					p input.text
+					p input.text
+					p button.btn.btn-primary Submit
+
+		h3 Validation errors
+		p For forms with form class, automatically added from @model.errors, see initializers/field_error_proc.rb
+		p JS is currently not working.
+		= form_for @user, html: { class: 'form' } do |f|
+			= f.text_field :username
+			= f.email_field :email

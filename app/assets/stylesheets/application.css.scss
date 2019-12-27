@@ -4,11 +4,14 @@
 @import "animate.css/animate.min";
 
 @import "variables";
+@import "mixins";
 
+@import "layout";
 @import "type";
 @import "navs";
-@import "layout";
 @import "buttons";
+@import "forms";
+@import "dropdown";
 
 @import "users";
 @import "devise";

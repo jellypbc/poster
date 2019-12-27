@@ -1,0 +1,42 @@
+h2 Variables
+.row.colors
+	.col-md-3
+		table
+			- %w(shaleDark shale shaleLight shaleLighter shaleLightest gray grayLight grayLighter).each do |color|
+				tr
+					td.color-block class==color
+					td.markup
+						| $
+						= color
+
+	.col-md-3
+		table
+			- %w(brandGreen brandLime brandBlue brandOcean brandOrange grayLighterer grayLightest).each do |color|
+				tr
+					td.color-block class==color
+					td.markup
+						| $
+						= color
+
+	.col-md-3
+		table
+			- %w(error warning facebook twitter).each do |color|
+				tr
+					td.color-block class==color
+					td.markup
+						| $
+						= color
+
+	.col-md-3.table-of-contents
+		h2.pt-0 Table of Contents
+		a href="#type" Type
+		a href="#buttons" Buttons
+		a href="#forms" Forms
+		a href="#layout" Layout
+		a href="#grid" Grid
+		a href="#flash" Flash
+		a href="#alerts" Alerts
+		a href="#menus" Menus
+		a href="#animations" Animations
+		a href="#pagination" Pagination
+		a href="#navs" Navs

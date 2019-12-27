@@ -1,0 +1,96 @@
+#buttons.my-5
+	h2 Buttons
+	p Most buttons will fall into a particular type. Hover states will mostly vary opacity by lightening.
+	p
+		| The most up-to-date button is&nbsp;
+		span.markup .btn
+
+	.section.grid
+		table.table
+			- %w(primary secondary alternate inverse danger).each_slice(5) do |variants|
+				tr
+				- variants.each do |variant|
+					td
+						span.markup
+							= ".btn.btn-#{variant}"
+						p
+							a(class="btn btn-#{variant}")
+								= variant.titleize
+
+						- %w(xl lg sm xs).each do |size|
+							span.markup
+								= ".btn.btn-#{variant}.btn-#{size}"
+							p
+								a(class="btn btn-#{variant} btn-#{size}")
+									| Submit
+
+						span.markup
+							= ".btn.btn-#{variant}:disabled"
+						p
+							a(class="btn btn-#{variant}" disabled="disabled")
+								| Disabled
+
+						span.markup
+							= ".btn.btn-#{variant}.btn-block"
+						p
+							a(class="btn btn-#{variant} btn-block")
+								| Submit Block
+
+		p(style="background: #aaa; padding: 10px;")
+			a.btn.btn-outline
+				| .btn.btn-outline
+			| &nbsp; &nbsp;
+			a.btn.btn-outline-dark
+				| .btn.btn-outline-dark
+
+		span.markup.mr-3
+			= ".btn.btn-primary.social.facebook"
+		a.btn.btn-primary.social.facebook
+			| Facebook
+
+		span.markup.mr-3.ml-5
+			= ".btn.btn-primary.social.twitter"
+		a.btn.btn-primary.social.twitter
+			| Twitter
+
+	h3 Button groups
+
+	.btn-group
+		button.btn.btn-primary
+			| One
+		button.btn.btn-primary
+			| Two
+		button.btn.btn-primary
+			| Three
+
+	| &nbsp; &nbsp;
+
+	.btn-group.open.dropdown
+		button.btn.btn-secondary
+			| One
+		button.btn.btn-secondary
+			| Two
+		button.btn.btn-secondary.dropdown-toggle
+		ul.dropdown-menu
+			li
+				a(href="") Option 1
+			li
+				a(href="") Option 2
+
+	br
+	br
+
+	h3 Select
+	table
+		tr
+			td
+				.select-style
+					select
+						option value="carl" Carl Sagan
+						option value="einstein" Albert Einstein
+						option value="curie" Marie Curie
+						option value="goodall" Jane Goodall
+			td.markup
+				p .select-style
+				p select
+				p option value="carl" Carl Sagan

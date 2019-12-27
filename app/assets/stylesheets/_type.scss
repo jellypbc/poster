@@ -1,7 +1,7 @@
 html, body, p, h1, h2, h3, h4, h5,
 ul, ol, li, blockquote, label, form,
 input, span, a {
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Roboto', Helvetica, Arial, sans-serif;
   color: $black;
 }
 
@@ -16,7 +16,7 @@ a:hover {
 
 p, li {
   line-height: 24px;
-  font-size: 16px;
+  font-size: $baseFontSize;
 }
 
 ul,
@@ -32,11 +32,14 @@ ol li {
 h1, h2, h3, h4, h5, h6 {
   font-family: inherit;
   font-weight: 700;
+  text-rendering: optimizelegibility; // Fix the character spacing for headings
 }
 
-h1 { font-size: 25px; }
-h2 { font-size: 18px; }
-h3 { font-size: 16px; font-weight: 700; }
+h1 { font-size: 29px; }
+h2 { font-size: 24px; }
+h3 { font-size: 21px; }
+h4 { font-size: 17px; }
+h5 { font-size: 17px; }
 
 pre {
   border-radius: 3px;
@@ -60,11 +63,38 @@ td { padding: 0 5px 7px; }
   color: $brandGreen;
 }
 
+.uppercase {
+	text-transform: uppercase;
+	letter-spacing: 1.1px;
+}
+
 .markup {
+	p {
+  	font-family: $markupFontFamily;
+  	font-size: 13px;
+  	color: $shale;
+	}
+  display: inline-block;
   font-family: $markupFontFamily;
   background: $grayLightest;
   color: $shale;
   font-size: 13px;
-  padding: 7px;
+  padding: 2px 5px;
+  border: 1px solid $grayLighterer;
   border-radius: 4px;
+  margin: 0 2px;
 }
+
+.list-unstyled {
+  @include list-unstyled;
+}
+
+.list-inline {
+  @include list-unstyled;
+
+  > li {
+    display: inline-block;
+    padding-right: 10px;
+  }
+}
+

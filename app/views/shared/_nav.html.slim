@@ -1,4 +1,7 @@
-nav.navbar.navbar-expand-lg
+- opts ||= opts
+- white_nav ||= @white_nav
+
+nav.navbar.navbar-expand-lg id="#{opts[:id] if opts}" class="#{'white-nav' if white_nav} #{opts[:class] if opts}"
   .container
     = link_to "Poster", root_path, class: "navbar-brand"
 
@@ -22,7 +25,7 @@ nav.navbar.navbar-expand-lg
             = link_to 'Register', new_user_registration_path, class: "nav-link"
 
         li class="nav-item active"
-          = link_to 'Upload a File', new_upload_path, class: "ml-3 btn btn-outline-dark"
+          = link_to 'Upload a File', new_upload_path, class: "ml-3 btn btn-primary"
 
         / li class="nav-item dropdown"
         /   a class="nav-link dropdown-toggle" href="#" id="dropdown07XL" data-toggle="dropdown" aria-expanded="false"

@@ -1,0 +1,242 @@
+//
+// begin .btn
+//
+@mixin button-variant($color, $bg-color, $border-color: null) {
+  color: $color;
+  background-color: $bg-color;
+  border-color: $border-color;
+
+  &:hover,
+  &:focus,
+  &.focus,
+  &:active,
+  &.active {
+    opacity: inherit;
+
+    @if $bg-color {
+      background-color: darken($bg-color, 10%);
+      border-color: darken($bg-color, 10%);
+
+      &:disabled,
+      &[disabled] {
+        background-color: $bg-color;
+      	border-color: $bg-color;
+      }
+    }
+  }
+}
+
+@mixin button-size($padding-vertical, $padding-horizontal, $font-size, $line-height, $border-radius) {
+  padding: $padding-vertical $padding-horizontal;
+  font-size: $font-size;
+  line-height: $line-height;
+  border-radius: $border-radius;
+}
+
+a:not([href]):not([tabindex]).btn,
+.btn {
+  user-select: none;
+  display: inline-block;
+  text-align: center;
+  vertical-align: middle;
+  white-space: nowrap;
+  cursor: pointer;
+  background-image: none; // Reset unusual Firefox-on-Android default style; see https://github.com/necolas/normalize.css/issues/214
+  border: 1px solid transparent;
+  box-sizing: border-box;
+  height: auto;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  @include button-size(6px, 12px, 14px, 1.42857143, 4px);
+
+  &:hover {
+    text-decoration: none;
+    transition-duration: 0.1s;
+  }
+
+  &:focus, &.focus {
+    outline: thin dotted;
+    // outline: 5px auto -webkit-focus-ring-color;
+    outline-offset: -2px;
+  }
+
+  &:active,
+  &.active {
+    outline: 0;
+    background-image: none;
+    box-shadow: inset 0 3px 5px rgba(0,0,0,.125);
+  }
+
+  &:disabled,
+  &[disabled] {
+    cursor: not-allowed;
+    opacity: .65 !important;
+  }
+
+  &.btn-primary {
+    @include button-variant($white, $brandGreen);
+  }
+
+  &.btn-secondary {
+    @include button-variant($gray, $white);
+    border-color: #aaa;
+  }
+
+  &.btn-alternate {
+    @include button-variant($white, $brandBlue);
+  }
+
+  &.btn-inverse {
+    @include button-variant($white, $brandOcean);
+  }
+
+  &.btn-danger {
+    @include button-variant($white, $brandOrange);
+  }
+
+  &.btn-outline {
+    @include button-variant($white, null, $white);
+    &:hover, &:focus, &.focus { opacity: .8; }
+    border-width: 2px;
+  }
+
+  &.btn-outline-dark {
+    @include button-variant($gray, transparent, $gray);
+    &:hover, &:focus, &.focus { opacity: .8; }
+    border-width: 2px;
+  }
+
+  &.btn-xl {
+    @include desktop-styles {
+      @include button-size(15px, 30px, 20px, 1.33, 6px);
+    }
+    @include button-size(15px, 14px, 20px, 1.33, 6px);
+    font-weight: 600;
+    letter-spacing: 0.01rem;
+  }
+
+  &.btn-lg {
+    @include button-size(10px, 16px, 18px, 1.33, 6px);
+    font-weight: 600;
+  }
+
+  &.btn-sm {
+    @include button-size(5px, 10px, 12px, 1.5, 4px);
+    -webkit-font-smoothing: subpixel-antialiased;
+  }
+
+  &.btn-xs {
+    @include button-size(1px, 5px, 12px, 1.5, 3px);
+    -webkit-font-smoothing: subpixel-antialiased;
+  }
+
+  &.btn-block {
+    display: block;
+    width: 100%;
+  }
+
+  &.social {
+    &.facebook {
+      background-color: $facebook;
+      &:hover {
+        background: lighten($facebook, 5%);
+      }
+    }
+
+    &.twitter {
+      background-color: $twitter;
+      &:hover {
+        background: lighten($twitter, 5%);
+      }
+    }
+  }
+}
+.twitter-share:hover {
+  text-decoration: none;
+}
+
+
+.btn-group {
+  $border-color: #ccc;
+
+  display: inline-block;
+
+  .btn + .btn {
+    margin-left: -1px;
+  }
+
+  > .btn {
+    position: relative;
+    float: left;
+
+    &:focus {
+      z-index: 2;
+    }
+
+    &:not(:first-child):not(:last-child):not(.dropdown-toggle) {
+      border-radius: 0;
+      border-left-color: $border-color;
+      border-right-color: $border-color;
+    }
+
+    &:first-child:not(:last-child) {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+      border-right-color: $border-color;
+    }
+
+    &:last-child:not(:first-child),
+    &.dropdown-toggle:not(:first-child) {
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+      border-left-color: $border-color;
+    }
+  }
+}
+
+
+.select-style {
+  border: 1px solid #ccc;
+  width: 120px;
+  border-radius: 3px;
+  overflow: hidden;
+  background: #fafafa url(data:image/svg+xml;utf8;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pgo8IS0tIEdlbmVyYXRvcjogQWRvYmUgSWxsdXN0cmF0b3IgMTYuMC4wLCBTVkcgRXhwb3J0IFBsdWctSW4gLiBTVkcgVmVyc2lvbjogNi4wMCBCdWlsZCAwKSAgLS0+CjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmVyc2lvbj0iMS4xIiBpZD0iQ2FwYV8xIiB4PSIwcHgiIHk9IjBweCIgd2lkdGg9IjE2cHgiIGhlaWdodD0iMTZweCIgdmlld0JveD0iMCAwIDI5Mi4zNjIgMjkyLjM2MiIgc3R5bGU9ImVuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgMjkyLjM2MiAyOTIuMzYyOyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+CjxnPgoJPHBhdGggZD0iTTI4Ni45MzUsNjkuMzc3Yy0zLjYxNC0zLjYxNy03Ljg5OC01LjQyNC0xMi44NDgtNS40MjRIMTguMjc0Yy00Ljk1MiwwLTkuMjMzLDEuODA3LTEyLjg1LDUuNDI0ICAgQzEuODA3LDcyLjk5OCwwLDc3LjI3OSwwLDgyLjIyOGMwLDQuOTQ4LDEuODA3LDkuMjI5LDUuNDI0LDEyLjg0N2wxMjcuOTA3LDEyNy45MDdjMy42MjEsMy42MTcsNy45MDIsNS40MjgsMTIuODUsNS40MjggICBzOS4yMzMtMS44MTEsMTIuODQ3LTUuNDI4TDI4Ni45MzUsOTUuMDc0YzMuNjEzLTMuNjE3LDUuNDI3LTcuODk4LDUuNDI3LTEyLjg0N0MyOTIuMzYyLDc3LjI3OSwyOTAuNTQ4LDcyLjk5OCwyODYuOTM1LDY5LjM3N3oiIGZpbGw9IiMwMDAwMDAiLz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8L3N2Zz4K) no-repeat 90% 50%;
+}
+.select-style select {
+  padding: 5px 8px 5px 10px;
+  display: inline-block;
+  width: 130%;
+  border: none;
+  box-shadow: none;
+  background: transparent;
+  background-image: none;
+  -webkit-appearance: none;
+}
+.select-style select:focus {
+  outline: none;
+  border: none;
+}
+
+
+//
+// bootstrap overrides
+//
+// a:not([href]):not([tabindex]) {
+//   color: inherit;
+//   text-decoration: none;
+// }
+// a:not([href]):not([tabindex]):hover, a:not([href]):not([tabindex]):focus {
+//   color: inherit;
+//   text-decoration: none;
+// }
+// a:not([href]):not([tabindex]):focus {
+// 	color: inherit;
+//   outline: 0;
+// }
+button:focus {
+	outline: 0px -webkit-focus-ring-color;
+  outline: 1px dotted;
+  // outline: 5px auto -webkit-focus-ring-color;
+}

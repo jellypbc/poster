@@ -33,17 +33,18 @@
 
   .field {
     margin-bottom: 13px;
-    
+
     // Layout provided by Devise,
     // make sure we don't conflict with global block display override
     label {
       display: inline;
     }
 
-    input[type="text"], 
+    input[type="text"],
     input[type="password"],
     input[type="email"], {
       width: 100%;
+      height: 55px;
       padding: 1em;
 
       border: 1px solid;

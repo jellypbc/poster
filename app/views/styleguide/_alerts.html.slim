@@ -1,0 +1,18 @@
+#alerts.my-5
+	h2 Flash Alerts
+	p
+		| There’s two types of alerts. There are banner notices (e.g. for endorsements) and form alerts. Alerts should not be full-bleed, except for
+		span.markup 'subtle_flash'
+		|, and copy should try to fit on one line. Alerts can also have icons and links in them.
+
+	table.table
+		- [nil, 'success', 'warning', 'error'].each do |type|
+			tr
+				td
+					.flash class==type
+						| Flash message&nbsp;
+						a href='#' goes here.
+				td.markup
+					| .flash.
+					- if type
+						= type

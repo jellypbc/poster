@@ -7,5 +7,9 @@ Rails.application.routes.draw do
   resources :posts
   resources :users
 
+  if Rails.env.development?
+    resource :styleguide, controller: :styleguide, only: :show
+  end
+
   root to: 'pages#index'
 end

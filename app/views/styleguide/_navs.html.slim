@@ -1,0 +1,47 @@
+#navs.my-5
+	h2 Navs
+	p There are a few different ways to control navs in the app. These options can be combined.
+	h4 Option #1: Pass in a class
+	p You can pass in a local variable when calling the partial (e.g. white_nav: true).
+
+	br
+
+	h4 Option #2: content_for(:nav)
+	p
+		| You can deliver an entirely different nav through content_for, which replaces the default nav, or
+		span.markup
+		 | = render 'shared/nav', white_nav: true
+
+	br
+
+	h4 Option #3: Controller @white_nav
+	p You can set an instance variable which gets called into the nav.
+
+	br
+
+	.markup nav
+
+	.my-4
+		= render 'shared/nav'
+
+	h4 White Nav
+	p This nav is used with a dark background
+
+	.markup white_nav
+
+	.grey.my-4
+		= render 'shared/nav', white_nav: true
+
+
+	h4 Table of z-indices for nav elements:
+	br
+	table.table
+		thead
+			th element
+			th z-index
+		tr
+			td .js-flash-container
+			td 291;
+		tr
+			td .flash-container
+			td 280;

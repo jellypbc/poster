@@ -2,6 +2,7 @@
 // 1. Colors
 // 2. Layout
 
+//
 // 1. Colors:
 
 // Grays
@@ -83,32 +84,38 @@ $facebook:        #3B5998;
 $twitter:         #00AAF1;
 $reddit:          #FF3A00;
 
-// Project cards
-$mainTextColor:   $shaleDark;
-$subtleTextColor: #9B9B9B;
-
-// hints
-$info_border_color:         #83c5cd;
-$info_font_color:           #439ca7;
-$info_background_color:     #f0f8f9;
-$payout_background_color:   #F5FBFC;
-
-
-// labnotes
-$supplement:          $shale;
-$supplementIcon:      #344453;
-$supplementTextSize:  14px;
-$selectionColor:      #E1F0EE;
-
 // Type variables
+$baseFontSize: 				16px;
 $baseFontFamily:      'Roboto', Helvetica, Arial, sans-serif;
 $serifFontFamily:     'Sumana', Times;
 $markupFontFamily:    'PT Mono', Monaco, Menlo, Consolas, monospace;
-// $markupFontFamily:     Monaco, Menlo, Consolas, "Courier New", monospace;
-
-$textColor:           $grayLight;
+$mainTextColor:   		$shaleDark;
+$subtleTextColor: 		#9B9B9B;
 $backgroundColor:     $grayLightest;
 $baseLineHeight:      20px;
+
+
+// Form states and alerts
+$warningText:             #c09853;
+$warningBackground:       #FFE6D3;
+$warningBorder:           lighten($warningBackground, 10%);
+
+$errorText:               #b94a48;
+$errorBackground:         #F7D7D6;
+$errorBorder:             lighten($errorBackground, 10%);
+
+$successText:             #468847;
+$successBackground:       #E6F6EB;
+$successBorder:           lighten($successBackground, 10%);
+
+$infoText:                #3a87ad;
+$infoBackground:          #d9edf7;
+$infoBorder:              lighten($infoBackground, 10%);
+
+$achievementText:         #fff;
+$achievementBackground:   #5db1be;
+$achievementBorder:       lighten($achievementBackground, 10%);
+
 
 // Category variable colors
 $project_categories: (
@@ -151,6 +158,7 @@ $state_colors: (
   finished: #5B7A87
 );
 
+//
 // 2. Layout:
 
 // Note: we also have access to the Bootstrap 4 utility classes:
@@ -159,7 +167,6 @@ $state_colors: (
 // Global measurements
 $desktop-min-width: 768px;
 $screen-non-mobile: 768px;
-
 $screen-small: 768px;
 $screen-medium: 1250px;
 
