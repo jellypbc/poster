@@ -3,10 +3,13 @@
 # Table name: upload_images
 #
 #  id          :bigint           not null, primary key
+#  caption     :text
 #  figure_type :string
 #  height      :integer
 #  image_data  :text
 #  index       :string
+#  name        :string
+#  page        :integer
 #  width       :integer
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null

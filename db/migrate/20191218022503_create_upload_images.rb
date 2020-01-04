@@ -2,8 +2,8 @@ class CreateUploadImages < ActiveRecord::Migration[6.0]
   def change
     create_table :upload_images do |t|
     	t.integer :upload_id
-      t.string :name
       t.text :caption
+      t.string :name
       t.integer :page
     	t.string :figure_type
 			t.integer :width

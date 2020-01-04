@@ -44,6 +44,9 @@ ActiveRecord::Schema.define(version: 2019_12_18_064828) do
 
   create_table "upload_images", force: :cascade do |t|
     t.integer "upload_id"
+    t.text "caption"
+    t.string "name"
+    t.integer "page"
     t.string "figure_type"
     t.integer "width"
     t.integer "height"

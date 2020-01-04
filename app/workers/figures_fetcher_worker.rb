@@ -16,7 +16,7 @@ class FiguresFetcherWorker
       file_path = figure["renderURL"]
       url = FIGURES_HOST + '/' + file_path
 
-      upload_image.type = figure["figType"]
+      upload_image.figure_type = figure["figType"]
       upload_image.caption = figure["caption"]
       upload_image.page = figure["page"]
       upload_image.name = figure["name"]
