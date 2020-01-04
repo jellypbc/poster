@@ -5,7 +5,7 @@ class CreateUploadImages < ActiveRecord::Migration[6.0]
       t.string :name
       t.text :caption
       t.integer :page
-    	t.string :type
+    	t.string :figure_type
 			t.integer :width
 			t.integer :height
 			t.string :index

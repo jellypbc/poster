@@ -2,15 +2,15 @@
 #
 # Table name: upload_images
 #
-#  id         :bigint           not null, primary key
-#  height     :integer
-#  image_data :text
-#  index      :string
-#  type       :string
-#  width      :integer
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
-#  upload_id  :integer
+#  id          :bigint           not null, primary key
+#  figure_type :string
+#  height      :integer
+#  image_data  :text
+#  index       :string
+#  width       :integer
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#  upload_id   :integer
 #
 # Indexes
 #
