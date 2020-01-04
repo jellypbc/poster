@@ -7,11 +7,21 @@ nav.navbar.navbar-expand-lg
 
     #menu.collapse.navbar-collapse
       ul class="navbar-nav ml-auto"
-        li class="nav-item active"
-          = link_to 'Browse Posts', posts_path, class: "nav-link mr-3"
+        - if user_signed_in?
+          li class="nav-item"
+            = link_to 'Log Out', destroy_user_session_path, method: :delete, class: "nav-link mr-3"
 
-        li class="nav-item active"
-          = link_to 'Upload a File', new_upload_path, class: "btn btn-outline-dark"
+          li class="nav-item active"
+            = link_to 'Browse Posts', posts_path, class: "nav-link mr-3"
+
+          li class="nav-item active"
+            = link_to 'Upload a File', new_upload_path, class: "btn btn-outline-dark"
+        - else
+          li class="nav-item active"
+            = link_to 'Log In', new_user_session_path, class: "nav-link mr-3"
+
+          li class="nav-item active"
+            = link_to 'Register', new_user_registration_path, class: "nav-link"
 
         / li class="nav-item dropdown"
         /   a class="nav-link dropdown-toggle" href="#" id="dropdown07XL" data-toggle="dropdown" aria-expanded="false"

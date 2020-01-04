@@ -12,77 +12,78 @@ Shrine and Google Cloud Engine are used for file storage.
 
 This app is pre-alpha, so please mind the cracks.
 
+## Development
 
-### Development
-To get started with this app, make sure you have Ruby (check out [https://github.com/rbenv/rbenv](rbenv)) and Node/Yarn set up.
+### Local Development
 
-```
-rbenv install 2.5.7; rbenv local 2.5.7
-gem install bundler
+To get this app up and running locally, follow these steps:
+
+- Follow the [setup guide in the wiki](https://github.com/jellypbc/poster/wiki/Setup) to install `rbenv`, `bundler`, and `yarn`
+- Install `docker` and `docker-compose` from Brew or through [Docker Desktop](https://www.docker.com/products/docker-desktop)
+  - Make sure to give Docker several GB of memory for the Grobid server
+
+#### Startup
+
+```sh
+# 1. Install packages
 bundle install
-yarn
-rake db:create db:setup db:seed
+# 2. Set up database
+bundle exec rails rails db:schema:load
 ```
 
-This will also create a sample post to just for showing the post editor.
-
-To start the server, run:
-
-```
-rails server
+```sh
+# Start server on default port localhost:3000
+bundle exec rails server
 ```
 
-And also run the webpack-dev-server:
+#### Teardown
 
-```
-bin/webpack-dev-server
-```
+To rebuild the docker environment (for example after changing the service configuration):
 
-This app requires Grobid, a machine learning PDF parsing library, to run alongside the app. To run Grobid separately, you can do so easily using docker and the public grobid image. Make sure you have docker set up and do:
-```
-docker pull lfoppiano/grobid:0.6.0
-docker run -t --rm --init -p 8080:8070 -p 8081:8071 lfoppiano/grobid:0.6.0
-```
-
-
-### Docker
-
-If you prefer to use Docker Compose, you can quickly set things up using:
-```
-docker-compose build
-docker-compose run web bundle install
-docker-compose run web yarn
-docker-compose run web bundle exec rake db:create db:setup
+```sh
+# Stop services
+docker-compose down
+# Pull to rerun init scripts
+docker-compose pull
+# Then follow startup steps again
 ```
 
-And then to start services, just do `docker-compose up`.
+#### Creating Users
 
-When hacking, it is useful to sometimes recreate the web image:
-
-```
-docker-compose up --force-recreate
-```
-
+- Start the services
+- Go to http://localhost:3000/users/sign_up
+- Create an account
+- Look at Rails logs for confirmation email html
+- Click confirmaton link
+- Sign in
 
 ### Deploying
 
-**TBD**
-*Will need to do some configuration set up for GCE storage*
+This app depends on Grobid running as a separate service, which you'll want to set a production env variable `GROBID_URL`.
 
+To do so, you'll want to pull the docker image and start it on port 80.
 
-### Development
+```
+
+docker pull lfoppiano/grobid:{version}
+docker run -t --rm --init -p 80:8070 -p 8080:8080 lfoppiano/grobid:{version}
+
+```
+
+### Wiki
 
 Check out the [wiki](https://github.com/jellypbc/poster/wiki) and issues to see the current status.
-
 
 ### Running GCE commands
 
 Running Migrations on GCE
+
 ```shell
 bundle exec rake appengine:exec -- bundle exec rake db:create
 ```
 
 ## Roadmap / Product Horizons
+
 Here are some of the things we will playing around with in this toy app, kind of like a list of to-do's.
 
 - multiplayer RT-crdt based syncing

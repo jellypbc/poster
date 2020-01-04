@@ -1,0 +1,119 @@
+// Place all the styles related to the devise controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+.devise__page {
+  display: flex;
+  justify-content: center;
+}
+
+.devise__content {
+  text-align: center;
+  width: 100%;
+  max-width: 420px;
+  padding-left: 10px;
+  padding-right: 10px;
+
+  // Nested overrides where specificity requires it:
+  // Many of these could have classes added later
+
+  h2 {
+    font-size: 28px;
+    margin-bottom: 14px;
+    margin-top: 87px;
+  }
+
+  // override some of the default sentence case labels
+  h2,
+  button,
+  input::placeholder,
+  input[type="submit"] {
+      text-transform: capitalize;
+  }
+
+  .field {
+    margin-bottom: 13px;
+    
+    // Layout provided by Devise,
+    // make sure we don't conflict with global block display override
+    label {
+      display: inline;
+    }
+
+    input[type="text"], 
+    input[type="password"],
+    input[type="email"], {
+      width: 100%;
+      padding: 1em;
+
+      border: 1px solid;
+      border-radius: $borderRadius-small;
+    }
+  }
+
+  // Error display:
+  .field_with_errors {
+    display: block; // unset "table" display from devise css
+    background-color: unset;
+
+    input {
+      outline: auto;
+      outline-color: $error;
+    }
+  }
+
+  #error_explanation {
+    width: 100%;
+    border-radius: $borderRadius-base;
+    border-width: 1px;
+    border-color: $error;
+    background-color: transparentize($error, 0.9);
+
+    h2 {
+      color: $error;
+      background-color: transparentize($error, 0.9);
+      font-size: smaller;
+    }
+
+    ul {
+      text-align: left;
+    }
+
+    ul li {
+      font-size: smaller;
+      list-style: unset;
+    }
+  }
+}
+
+.devise__registrationPrompt,
+.devise__forgotPasswordHelpText {
+  margin-bottom: 50px;
+}
+
+.devise__sharedLinks {
+  // Forgot Password?
+  // Didn't receive confirmation instructions?
+  // Didn't receive unlock instructions?
+  margin-top: 23px;
+  margin-bottom: 32px;
+  text-align: center;
+  font-size: smaller;
+
+  // 2 links next to each other (targets 2nd one)
+  a + a {
+    &::before {
+      margin-left: 4px;
+      margin-right: 6px;
+      content: '·'
+    }
+  }
+}
+
+.devise__rememberMe {
+  display: none; // hide feature for now
+}
+
+.devise__passwordLength {
+  display: none; // hide for now
+}

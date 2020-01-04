@@ -12,14 +12,17 @@
 	}
 	font-size: 12px;
 	color: #999;
-  position: fixed;
-  right: 10px;
-  bottom: 10px;
+	position: fixed;
+	right: 10px;
+	bottom: 10px;
+	background-color: transparentize($white, 0.5);
+	border-radius: $borderRadius-base;
+	border: 1px solid $grayDarker;
 }
 
 .active {
-  i {
-  	color: grey;
-  	transition-duration: 0.4s;
-  }
+	i {
+		color: grey;
+		transition-duration: 0.4s;
+	}
 }
