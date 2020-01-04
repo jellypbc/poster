@@ -7,6 +7,7 @@ class FiguresFetcherWorker
   # error handling for when image.save! fails
   # Fetches figures from external figure server and saves them
   def perform(body, upload_id)
+  	# TODO: raise on upload not yet created?
     @upload = Upload.find upload_id
     @upload.upload_images.destroy_all if @upload.upload_images.any?
 
