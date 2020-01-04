@@ -18,8 +18,8 @@ class Upload < ApplicationRecord
 
 	belongs_to :post
 
-	has_one :upload_tei
-	has_many :upload_images
+	has_one :upload_tei, dependent: :destroy
+	has_many :upload_images, dependent: :destroy
 
 	accepts_nested_attributes_for :upload_images, allow_destroy: true
 
@@ -27,7 +27,7 @@ class Upload < ApplicationRecord
 
 	def process
 		create_upload_tei if is_pdf?
-		ImageExtractService.call(self)
+		FiguresExtractWorker.perform_async(id)
 	end
 
 	def create_upload_tei
@@ -40,7 +40,11 @@ class Upload < ApplicationRecord
 
 	def file_url
 		url = file.url
-		Rails.env.development? ? "./public" + url : url
+		if Rails.env.development?
+			"http://localhost:3000/" + url
+		else
+			url
+		end
 	end
 
 end

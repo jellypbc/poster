@@ -27,12 +27,7 @@ gem "nokogiri"
 gem "sidekiq"
 gem "sidekiq-cron"
 gem "redis"
-gem "redis-namespace"
 gem "bootsnap", ">= 1.4.2", require: false
-
-gem "pdf-reader"
-# gem "docsplit"
-gem "hexapdf"
 
 group :development, :test do
   gem "guard"

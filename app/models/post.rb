@@ -27,6 +27,9 @@ class Post < ApplicationRecord
 	has_many :uploads
 	has_many :citations
 
+  # has_many :upload_images, through: :uploads
+  has_many :images, through: :uploads, source: :upload_images, class_name: 'UploadImage'
+
 	accepts_nested_attributes_for :uploads
 
   validates :title, length: { maximum: 800 }

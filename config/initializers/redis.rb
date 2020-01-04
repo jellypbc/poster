@@ -1,6 +1,3 @@
-$redis =
-  if ENV['REDISTOGO_URL']
-    Redis.new(url: ENV['REDISTOGO_URL'])
-  else
-    Redis::Namespace.new(Rails.env, redis: Redis.new)
-  end
+uri = ENV["REDISTOGO_URL"] || "redis://localhost:6379/"
+$redis = Redis.new(url: uri)
+# $redis = Redis.new(Rails.application.config(:redis))

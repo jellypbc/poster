@@ -73,7 +73,6 @@ class GrobidService
 			resp = HTTParty.post(
 				endpoint, {
 					body: {
-						# "figure", "ref", "biblStruct", "formula",
 						teiCoordinates: "figure",
 						includeRawCitations: 1,
 						input: @file
@@ -83,7 +82,7 @@ class GrobidService
 		end
 
 		def grobid_call(api)
-			endpoint = "#{GROBID_HOST}/api/#{GROBID_ENDPOINTS[api]}"
+			"#{GROBID_HOST}/api/#{GROBID_ENDPOINTS[api]}"
 		end
 
 end

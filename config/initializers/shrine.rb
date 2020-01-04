@@ -30,7 +30,8 @@ end
 Shrine.plugin :activerecord # or :activerecord
 Shrine.plugin :cached_attachment_data # for retaining the cached file across form redisplays
 Shrine.plugin :restore_cached_data # re-extract metadata when attaching a cached file
-
+Shrine.plugin :remote_url, max_size: 20*1024*1024
+Shrine.plugin :determine_mime_type
 Shrine.plugin :upload_endpoint
 Shrine.plugin :presign_endpoint
 Shrine.plugin :download_endpoint

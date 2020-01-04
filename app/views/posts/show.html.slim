@@ -22,6 +22,11 @@
     #editor
     = react_component "PostEditor", { post: PostSerializer.new(@post).serializable_hash }
 
+    - if @post.images.any?
+      - @post.images.each do |image|
+        .image
+          = image_tag image.image.url, width: 300
+
     - if @post.citations.any?
       .citations.mt-5
         h3 References

@@ -1,51 +1,33 @@
 version: "3"
+
 services:
-  web:
-    build: .
-    command: ["./docker/web-startup.sh"]
-    volumes:
-      - .:/app
-    ports:
-      - "3000:3000"
-    links:
-      - db
-      - webpacker
-      - grobid
-    environment:
-      - DB_HOST=db
-      - DB_USER=postgres
-      - DB_PASSWORD=foobar123
-      - RAILS_ENV=development
-      - RAILS_MAX_THREADS
-      - PGHOST=db
-      - PGUSER=postgres
-      - GROBID_URL=http://grobid:8070
-    depends_on:
-      - db
-
-  webpacker:
-    build: .
-    command: ["./docker/webpacker-startup.sh"]
-    ports:
-      - 3035:3035
-
-  db:
-    image: postgres:11-alpine
-    ports:
-      - 5432:5432
-    environment:
-      - POSTGRES_PASSWORD
-      - POSTGRES_USER=postgres
-    volumes:
-      - db-data:/var/lib/postgresql/data
-
   grobid:
     image: lfoppiano/grobid:0.5.6
+    restart: on-failure
     ports:
       - "8070:8070"
       - "8071:8071"
     expose:
       - "8070"
-
-volumes:
-  db-data:
+  postgres:
+    image: postgres:12
+    restart: always
+    environment:
+      - POSTGRES_USER=jelly
+    ports:
+      - "5432:5432"
+    expose:
+      - "5432"
+  redis:
+    image: redis:5.0.7
+    restart: always
+    ports:
+      - "6379:6379"
+    expose:
+      - "6379"
+  figures:
+    image: dluan/figures:0.0.2
+    ports:
+      - "4567:4567"
+    expose:
+      - "4567"

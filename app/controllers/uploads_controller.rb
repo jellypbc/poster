@@ -1,5 +1,7 @@
 class UploadsController < ApplicationController
-  before_action :set_upload, only: [:show, :edit, :update, :destroy]
+  before_action :set_upload, only: [
+    :show, :edit, :update, :destroy, :extract_images
+  ]
 
   def index
     @uploads = Upload.order(created_at: :desc)
@@ -24,7 +26,6 @@ class UploadsController < ApplicationController
 
     respond_to do |format|
       if @upload.save
-
         format.html { redirect_to @upload.post, notice: 'Upload was successfully created.' }
         format.json { render :show, status: :created, location: @upload }
       else
@@ -54,9 +55,18 @@ class UploadsController < ApplicationController
     end
   end
 
+  def extract_images
+    FiguresExtractService.extract(@upload.id)
+    redirect_to upload_path(@upload), notice: "Queued upload for figure extraction"
+  end
+
   private
     def set_upload
-      @upload = Upload.find(params[:id])
+      @upload ||= begin
+        Upload.find(params[:id] || params[:upload_id])
+      rescue ActiveRecord::RecordNotFound => e
+        raise e
+      end
     end
 
     def upload_params
