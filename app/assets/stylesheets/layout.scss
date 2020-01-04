@@ -1,5 +1,25 @@
+// TODO: probably superceded by style scoped to .flash below
+// confirm application.html is the only place referencing it
 #notice {
   color: green;
+}
+
+// This wraps alerts injectd by middleware like Devise 
+// TODO: pick accessible color contrasts
+// TODO: Bootstrap has some builtins for this, plus whatever is in variables.scss
+.flash {
+  border: 1px solid;
+  border-radius: $borderRadius-base;
+  padding: 1em;
+
+  &#alert {
+    color: $error;
+    background-color: transparentize($error, 0.9);
+  }
+  &#notice {
+    color: $success;
+    background-color: transparentize($success,  0.9);
+  }
 }
 
 .field_with_errors {

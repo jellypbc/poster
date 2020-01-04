@@ -1,0 +1,20 @@
+<h2>Forgot Password</h2>
+
+<p class="devise__forgotPasswordHelpText">
+  Please enter the email you used to sign up and we’ll maybe send you a reset link.
+</p>
+
+<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
+  <%= render "devise/shared/error_messages", resource: resource %>
+
+  <div class="field">
+    <%= f.email_field :email, autofocus: true, autocomplete: "email", "aria-label": :email, placeholder: true %>
+  </div>
+
+  <%= render "devise/shared/links" %>
+
+  <div class="actions">
+    <%= f.submit "Submit" , class: "btn btn-l btn-primary" %>
+  </div>
+<% end %>
+
