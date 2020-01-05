@@ -25,3 +25,9 @@ services:
       - "6379:6379"
     expose:
       - "6379"
+  figures:
+    image: dluan/figures:0.0.5
+    ports:
+      - "4567:4567"
+    expose:
+      - "4567"

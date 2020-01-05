@@ -1,7 +1,7 @@
 class HardWorker
   include Sidekiq::Worker
 
-  def perform(name, count)
-    # do something
+  def perform(text = "hello world")
+    puts text
   end
 end

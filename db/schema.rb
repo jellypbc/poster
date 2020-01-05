@@ -42,6 +42,21 @@ ActiveRecord::Schema.define(version: 2019_12_18_064828) do
     t.index ["slug"], name: "index_posts_on_slug", unique: true
   end
 
+  create_table "upload_images", force: :cascade do |t|
+    t.integer "upload_id"
+    t.text "caption"
+    t.string "name"
+    t.integer "page"
+    t.string "figure_type"
+    t.integer "width"
+    t.integer "height"
+    t.string "index"
+    t.text "image_data"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["upload_id"], name: "index_upload_images_on_upload_id"
+  end
+
   create_table "upload_teis", force: :cascade do |t|
     t.integer "upload_id"
     t.jsonb "body"

@@ -28,7 +28,6 @@ gem "nokogiri"
 gem "sidekiq"
 gem "sidekiq-cron"
 gem "redis"
-gem "redis-namespace"
 gem "bootsnap", ">= 1.4.2", require: false
 
 group :development, :test do

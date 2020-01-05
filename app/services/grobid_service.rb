@@ -21,7 +21,7 @@ class GrobidService
 	def initialize(upload_tei)
 		@upload_tei = upload_tei
 		@upload = @upload_tei.upload
-		@file = File.open(open(file_url))
+		@file = File.open(open(@upload.file_url))
 	end
 
 	def call
@@ -32,17 +32,25 @@ class GrobidService
 		return unless @file
 
 		processFulltextDocument
-		# processHeaderDocument
 	end
 
-	# private
+	private
 
 		def processFulltextAssetDocument
 			endpoint = grobid_call(:asset)
 			resp = fire_away(endpoint)
 
-			body = resp["TEI"].to_xml
-			@upload_tei.update_attributes!(body: body)
+			body = resp
+
+			if resp.code == 200
+				filename = "tmp/thing.zip"
+	      a = File.open(filename, "w") do |file|
+	        file.binmode
+	        file.write(resp.body)
+	      end
+      end
+
+			# @upload_tei.update_attributes!(body: body)
 		end
 
 		def processFulltextDocument
@@ -65,9 +73,6 @@ class GrobidService
 			resp = HTTParty.post(
 				endpoint, {
 					body: {
-						# teiCoordinates: "formula",
-						# teiCoordinates: "biblStruct",
-						# teiCoordinates: "ref",
 						teiCoordinates: "figure",
 						includeRawCitations: 1,
 						input: @file
@@ -77,12 +82,7 @@ class GrobidService
 		end
 
 		def grobid_call(api)
-			endpoint = "#{GROBID_HOST}/api/#{GROBID_ENDPOINTS[api]}"
-		end
-
-		def file_url
-			url = @upload.file.url
-			Rails.env.development? ? "./public" + url : url
+			"#{GROBID_HOST}/api/#{GROBID_ENDPOINTS[api]}"
 		end
 
 end
