@@ -1,0 +1,28 @@
+#flash-container {
+	animation-duration: 0.4s;
+}
+.flash {
+	border-radius: 5px;
+	border: 2px solid darken(map-get($flash_types, info), 30%);
+	padding: 12px 22px;
+	margin-top: 10px;
+	color: darken(map-get($flash_types, info), 50%);
+	box-shadow: 0px 3px 13px -4px $grayLighterer;
+
+	a {
+		color: darken(map-get($flash_types, info), 50%);
+		text-decoration: underline;
+	}
+
+	@each $type, $color in $flash_types {
+		&.#{$type} {
+			background-color: $white;
+			border: 2px solid (darken($color, 30%));
+			color: darken($color, 50%);
+			a {
+				color: darken($color, 50%);
+			}
+
+		}
+	}
+}

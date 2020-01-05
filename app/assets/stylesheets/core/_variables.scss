@@ -2,6 +2,7 @@
 // 1. Colors
 // 2. Layout
 
+//
 // 1. Colors:
 
 // Grays
@@ -15,10 +16,6 @@ $grayLightest:    #f5f5f5;
 $grayDark:        #444;
 $grayDarker:      #222;
 $black:           #000;
-
-// Brand
-$footerColor: #FDF0EF;
-$newsletterForm: #FEECB1;
 
 // Colors
 $blue:                     #049cdb;
@@ -34,22 +31,9 @@ $faintPink:                #faeee9;
 $turquoise:                #5db1be;
 $seafoam:                  #27a387;
 $orangeyRose:              #FEB09B;
-$metrics_fill_color:       #C8E4F0;
 $teal:                     #43B596;
-$dark_nav:                 #1D2225;
-$offWhite:                 #fafafa;
-$highlight_font_color:     #69ccad;  // Greenish
-$contrast_font_color:      #ff6969;  // Redish
-$edit_action_font_color:   #4c83a7;  // Bluish
-$shadow_font_color:        #004e6d;  // Dark Blue
-$dark_shadow_font_color:   #143F44;  // Dark Greyish
-$metrics_graph_color:      #559da4;  // Lighter Bluish
-$metrics_fill_color:       #C8E4F0;
-$heart:                    #D97471;
-$hearting:                 #FF746F;
-$hearted:                  #DB5854;
 
-// Experiment brand
+// brand
 $shale:           #4a5658;
 $shaleLight:      #9Ba5aa;
 $shaleLighter:    #D4D9DB;
@@ -63,13 +47,10 @@ $brandBlue:       #5eb0c0;
 $brandOcean:      #004E6D;
 $brandOrange:     #F6694B;
 $brandRed:        #E5502A;
-
 $brandShale:      #435660;
 $brandYellow:     #f89406;
-
 $brandLinks:      #26B8AD;
 $brandFocus:      rgba(85,178,127,.8);
-
 $error:           $brandRed; // form validations etc
 $success:         $green;    // form validations etc
 $faintPink:       #faeee9;
@@ -83,32 +64,13 @@ $facebook:        #3B5998;
 $twitter:         #00AAF1;
 $reddit:          #FF3A00;
 
-// Project cards
-$mainTextColor:   $shaleDark;
-$subtleTextColor: #9B9B9B;
-
-// hints
-$info_border_color:         #83c5cd;
-$info_font_color:           #439ca7;
-$info_background_color:     #f0f8f9;
-$payout_background_color:   #F5FBFC;
-
-
-// labnotes
-$supplement:          $shale;
-$supplementIcon:      #344453;
-$supplementTextSize:  14px;
-$selectionColor:      #E1F0EE;
-
 // Type variables
+$baseFontSize: 				16px;
+$baseLineHeight:      20px;
 $baseFontFamily:      'Roboto', Helvetica, Arial, sans-serif;
 $serifFontFamily:     'Sumana', Times;
 $markupFontFamily:    'PT Mono', Monaco, Menlo, Consolas, monospace;
-// $markupFontFamily:     Monaco, Menlo, Consolas, "Courier New", monospace;
-
-$textColor:           $grayLight;
-$backgroundColor:     $grayLightest;
-$baseLineHeight:      20px;
+$mainTextColor:   		$shaleDark;
 
 // Category variable colors
 $project_categories: (
@@ -151,6 +113,7 @@ $state_colors: (
   finished: #5B7A87
 );
 
+//
 // 2. Layout:
 
 // Note: we also have access to the Bootstrap 4 utility classes:
@@ -159,7 +122,6 @@ $state_colors: (
 // Global measurements
 $desktop-min-width: 768px;
 $screen-non-mobile: 768px;
-
 $screen-small: 768px;
 $screen-medium: 1250px;
 

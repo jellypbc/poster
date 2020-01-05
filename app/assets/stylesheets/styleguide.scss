@@ -1,0 +1,83 @@
+@import 'core/variables';
+
+#styleguide {
+	h1, h2 {
+		padding: 20px 0;
+		font-family: $serifFontFamily;
+	}
+	td span.markup { margin-bottom: 10px; }
+	.title { padding: 20px 0; }
+	.no-padding { padding: 0; margin: 7px 0;}
+	.section { margin-bottom: 50px; }
+	.row { margin: 0; }
+	.table-of-contents {
+		position: relative;
+		top: -40px;
+		a { display: block; }
+	}
+
+	.colors {
+		.black { background-color: $black; }
+		.grayDarker { background-color: $grayDarker; }
+		.grayDark { background-color: $grayDark; }
+		.gray { background-color: $gray; }
+		.grayLight { background-color: $grayLight; }
+		.grayLighter { background-color: $grayLighter; }
+		.grayLighterer { background-color: $grayLighterer; }
+		.grayLightest { background-color: $grayLightest; }
+		.white { background-color: $white; }
+
+		.shale { background-color: $shale; }
+		.shaleLight { background-color: $shaleLight; }
+		.shaleLighter { background-color: $shaleLighter; }
+		.shaleLightest { background-color: $shaleLightest; }
+		.shaleDark { background-color: $shaleDark; }
+		.brandGreen { background-color: $brandGreen; }
+		.brandLime { background-color: $brandLime; }
+		.brandBlue { background-color: $brandBlue; }
+		.brandOcean { background-color: $brandOcean; }
+		.brandOrange { background-color: $brandOrange; }
+
+		.error { background-color: $error; }
+		.warning { background-color: $warning; }
+		.facebook { background-color: $facebook; }
+		.twitter { background-color: $twitter; }
+
+		.color-block {
+			display: inline-block;
+			vertical-align: middle;
+			margin-right: 10px;
+			width: 50px;
+			height: 50px;
+			border-radius:4px;
+			margin: 4px 8px 4px 0;
+		}
+	}
+	.flash {
+		width: 500px;
+		margin-right:20px;
+	}
+
+	#type {
+		.row { margin: 10px 0; }
+		.col-md-2 { padding: 0; }
+	}
+
+	#buttons {
+		td {
+			padding-right: 40px;
+			padding-bottom: 20px;
+			vertical-align: top;
+		}
+	}
+	#grid {
+		.tag {
+			background: $grayLightest;
+			border-radius: 12px;
+			border: 2px solid $shaleLighter;
+		}
+	}
+	.grey {
+		background-color: #333;
+	}
+}

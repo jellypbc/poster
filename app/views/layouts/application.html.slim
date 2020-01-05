@@ -1,25 +1,22 @@
 doctype html
 html lang='en-us'
-  head
-    title Jellyposter
+	head
+		title Jellyposter
 
-    = csrf_meta_tags
-    = csp_meta_tag
+		= csrf_meta_tags
+		= csp_meta_tag
 
-    = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
-    = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
+		= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
+		= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
 
-    = favicon_link_tag asset_path('favicon.png')
+		= favicon_link_tag asset_path('favicon.png')
 
-    = stylesheet_link_tag 'https://fonts.googleapis.com/css?family=PT+Mono|Sumana:700|Roboto:400,500,700&display=swap'
+		= stylesheet_link_tag 'https://fonts.googleapis.com/css?family=PT+Mono|Sumana:700|Roboto:400,500,700&display=swap'
 
-  body
-    = render "shared/nav"
+	body
+		= render "shared/nav"
+		= render "shared/flash_notices"
 
-    .container
-      - if notice
-        #notice.flash.mb-3 = notice
-      - if alert
-        #alert.flash.mb-3 = alert
+		.container
 
-      = content_for?(:content) ? yield(:content) : yield
+			= content_for?(:content) ? yield(:content) : yield

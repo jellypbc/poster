@@ -61,21 +61,21 @@
   }
 }
 
-.title {
-  padding: 20px 0;
-  font-size: 24px;
-  font-weight: 700;
-}
-.authors {
-  padding-top: 20px;
-  font-size: 18px;
-  font-weight: 500;
-}
-.publisher {
-  font-size: 10px;
-}
+
 
 .post-show {
+	.title {
+	  padding: 20px 0;
+	  font-size: 24px;
+	}
+	.authors {
+	  padding-top: 20px;
+	  font-size: 18px;
+	  font-weight: 500;
+	}
+	.publisher {
+	  font-size: 10px;
+	}
   .reference {
     margin: 12px 0;
     .icon {

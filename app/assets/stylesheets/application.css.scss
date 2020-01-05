@@ -1,15 +1,22 @@
+// vendor imports
 @import "font-awesome-sprockets";
 @import "font-awesome";
 @import "bootstrap/dist/css/bootstrap";
 @import "animate.css/animate.min";
 
-@import "variables";
+// css reset
+@import "core/modern_reset";
 
-@import "type";
-@import "navs";
-@import "layout";
-@import "buttons";
+// components
+@import "core/variables";
+@import "core/mixins";
+@import "core/layout";
+@import "core/type";
+@import "core/navs";
+@import "core/flash";
+@import "core/buttons";
 
+// views & features
 @import "users";
 @import "devise";
 @import "pages";

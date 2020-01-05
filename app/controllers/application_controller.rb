@@ -20,7 +20,7 @@ class ApplicationController < ActionController::Base
 	end
 
 	private
-	
+
 	def layout_by_resource
 		if devise_controller?
 			"devise"

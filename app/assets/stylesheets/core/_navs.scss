@@ -1,0 +1,56 @@
+nav {
+  @include desktop-styles {
+    display: block;
+    padding: 10px 0;
+    z-index: 270;
+    position: relative;
+    background: transparent;
+  }
+
+  min-height: 60px;
+  padding-top: 15px;
+
+  a {
+    color: $shaleDark;
+    font-weight: 700;
+    font-size: 16px;
+  	&:hover {
+	    background: none;
+	    text-decoration: none;
+  	}
+  }
+
+  .fa-menu,
+  .navbar-toggler {
+    color: $shaleDark;
+    border-color: $shaleDark;
+  }
+
+  .nav-link {
+    font-size: 15px;
+  }
+
+	&.white-nav {
+	  z-index: 230;
+	  color: $white;
+
+	  a {
+	  	color: $white;
+	  }
+
+    li > a {
+      color: $white;
+      opacity: 1;
+
+      &:hover {
+        color: $white;
+        opacity: 0.75;
+      }
+    }
+
+	}
+}
+
+.turbolinks-progress-bar {
+  visibility: hidden;
+}
