@@ -100,3 +100,7 @@ Here are some of the things we will playing around with in this toy app, kind of
 - mobile support
 - gRPC/xml-rpc for code remote eval
 - mobileDoc
+
+## License
+
+The jellypbc project is dual-licensed under [Apache 2.0](http://www.apache.org/licenses/LICENSE-2.0) and [MIT](https://opensource.org/licenses/MIT) terms.
