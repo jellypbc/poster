@@ -7,6 +7,12 @@ ARG NODE_MAJOR
 ARG BUNDLER_VERSION
 ARG YARN_VERSION
 
+ENV RAILS_ENV ${RAILS_ENV}
+ENV RAILS_LOG_TO_STDOUT true
+ENV RAILS_SERVE_STATIC_FILES true
+
+WORKDIR /app
+
 # Add PostgreSQL to sources list
 RUN curl -sSL https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - \
   && echo 'deb http://apt.postgresql.org/pub/repos/apt/ stretch-pgdg main' $PG_MAJOR > /etc/apt/sources.list.d/pgdg.list
@@ -32,6 +38,24 @@ RUN apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get -yq dist-upgrad
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
     truncate -s 0 /var/log/*log
 
+
+# Upgrade RubyGems and install required Bundler version
+ADD Gemfile* /app/
+RUN gem update --system && \
+    gem install bundler:$BUNDLER_VERSION
+RUN bundle config --global frozen 1 \
+ && bundle install -j4 --retry 3 \
+ # Remove unneeded files (cached *.gem, *.o, *.c)
+ && rm -rf /usr/local/bundle/cache/*.gem \
+ && find /usr/local/bundle/gems/ -name "*.c" -delete \
+ && find /usr/local/bundle/gems/ -name "*.o" -delete
+
+ # Install yarn packages
+COPY package.json yarn.lock /app/
+RUN yarn install
+
+ADD . /app
+
 # Configure bundler and PATH
 ENV LANG=C.UTF-8 \
   GEM_HOME=/bundle \
@@ -42,11 +66,5 @@ ENV BUNDLE_APP_CONFIG=$BUNDLE_PATH \
   BUNDLE_BIN=$BUNDLE_PATH/bin
 ENV PATH /app/bin:$BUNDLE_BIN:$PATH
 
-# Upgrade RubyGems and install required Bundler version
-RUN gem update --system && \
-    gem install bundler:$BUNDLER_VERSION
+EXPOSE 3000
 
-# Create a directory for the app code
-RUN mkdir -p /app
-
-WORKDIR /app
