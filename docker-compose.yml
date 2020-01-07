@@ -1,5 +1,4 @@
-version: "3"
-
+version: "3.4"
 services:
   app: &app
     build:
@@ -11,11 +10,11 @@ services:
         NODE_MAJOR: '12'
         YARN_VERSION: '1.13.0'
         BUNDLER_VERSION: '2.1.0'
-    image: jelly:1.1.0
+    image: jelly:1.0.0
     tmpfs:
       - /tmp
     volumes:
-      - .:/app
+      - app-sync:/app:nocopy
       - rails_cache:/app/tmp/cache
       # - bundle:/usr/local/bundle
       - node_modules:/app/node_modules
@@ -52,8 +51,6 @@ services:
   sidekiq:
     <<: *app
     command: bundle exec sidekiq -C config/sidekiq.yml
-    depends_on:
-      - app
 
   webpacker:
     <<: *app
@@ -61,7 +58,7 @@ services:
     ports:
       - '3035:3035'
     volumes:
-      - .:/app:cached
+      - app-sync:/app:nocopy
       # - bundle:/usr/local/bundle
       - node_modules:/app/node_modules
       - packs:/app/public/packs
@@ -111,3 +108,5 @@ volumes:
   node_modules:
   rails_cache:
   packs:
+  app-sync:
+    external: true

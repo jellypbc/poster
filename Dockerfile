@@ -7,9 +7,10 @@ ARG BUNDLER_VERSION
 ARG YARN_VERSION
 ARG RAILS_ENV
 
-ENV RAILS_ENV ${RAILS_ENV}
-ENV SECRET_KEY_BASE=foo
-ENV RAILS_SERVE_STATIC_FILES=true
+ENV RAILS_ENV=${RAILS_ENV} \
+  SECRET_KEY_BASE=foo \
+  RAILS_SERVE_STATIC_FILES=true \
+  RAILS_LOG_TO_STDOUT=true
 
 WORKDIR /app
 
@@ -23,7 +24,6 @@ RUN curl -sL https://deb.nodesource.com/setup_$NODE_MAJOR.x | bash -
 # Add Yarn to the sources list
 RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
   && echo 'deb http://dl.yarnpkg.com/debian/ stable main' > /etc/apt/sources.list.d/yarn.list
-
 
 COPY .docker/Aptfile /tmp/Aptfile
 RUN apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get -yq dist-upgrade && \
@@ -43,7 +43,6 @@ ENV NOKOGIRI_USE_SYSTEM_LIBRARIES 1
 ENV LANG=C.UTF-8 \
   BUNDLE_JOBS=4 \
   BUNDLE_RETRY=3
-# ENV PATH /app/bin:$PATH
 
 # Install gems
 ADD Gemfile* /app/
@@ -52,10 +51,6 @@ RUN gem update --system && \
 
 RUN bundle config --global frozen 1 \
  && bundle install --binstubs -j4 --retry 3
- # Remove unneeded files (cached *.gem, *.o, *.c)
- # && rm -rf /usr/local/bundle/cache/*.gem \
- # && find /usr/local/bundle/gems/ -name "*.c" -delete \
- # && find /usr/local/bundle/gems/ -name "*.o" -delete
 
 # Install yarn packages
 COPY package.json yarn.lock /app/
@@ -63,9 +58,6 @@ RUN yarn install
 
 # Add the Rails app
 ADD . /app
-
-ENV RAILS_LOG_TO_STDOUT true
-ENV RAILS_SERVE_STATIC_FILES true
 
 WORKDIR /app
 

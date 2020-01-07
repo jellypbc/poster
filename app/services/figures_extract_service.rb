@@ -41,7 +41,7 @@ class FiguresExtractService
       body = JSON.parse(resp.body)
       FiguresFetcherWorker.perform_async(body, @upload.id)
     else
-      raise resp
+      raise resp.body
     end
   end
 
