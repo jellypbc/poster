@@ -1,7 +1,7 @@
 class FiguresFetcherWorker
   include Sidekiq::Worker
 
-  FIGURES_HOST = ENV['FIGURE_URL'] || "http://#{ENV['FIGURE_HOST']}:4567" || "http://localhost:4567"
+  FIGURES_HOST = ENV['FIGURE_URL'] || "http://#{ENV['FIGURE_HOST'] || "localhost"}:4567"
 
   # TODO:
   # error handling for when image.save! fails
