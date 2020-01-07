@@ -38,6 +38,7 @@ group :development, :test do
   gem "factory_bot"
   gem "factory_bot_rails"
   gem "rspec_junit_formatter"
+  gem "docker-sync"
 end
 
 group :development do
@@ -53,7 +54,6 @@ group :development do
   gem "pry"
   gem "pry-rails"
   gem "pry-byebug"
-  gem 'guard-livereload'
   gem 'guard-rspec', require: false
   gem "foreman"
 end

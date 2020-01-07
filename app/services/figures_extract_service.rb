@@ -5,7 +5,7 @@
 
 class FiguresExtractService
 
-  FIGURES_HOST = ENV['FIGURE_URL'] || "http://localhost:4567"
+  FIGURES_HOST = ENV['FIGURE_URL'] || "http://#{ENV['FIGURE_HOST']}:4567" || "http://localhost:4567"
 
   def self.extract(*args)
     new(*args).extract
