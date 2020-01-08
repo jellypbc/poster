@@ -5,7 +5,7 @@
 
 class FiguresExtractService
 
-  FIGURES_HOST = ENV['FIGURE_URL'] || "http://localhost:4567"
+	FIGURES_HOST = ENV['FIGURE_URL'] || "http://#{ENV['FIGURE_HOST'] || "localhost"}:4567"
 
   def self.extract(*args)
     new(*args).extract
@@ -41,7 +41,7 @@ class FiguresExtractService
       body = JSON.parse(resp.body)
       FiguresFetcherWorker.perform_async(body, @upload.id)
     else
-      raise resp
+      raise resp.body
     end
   end
 

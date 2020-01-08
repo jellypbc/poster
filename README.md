@@ -36,6 +36,14 @@ bundle exec rails rails db:schema:load
 bundle exec rails server
 ```
 
+Or you can use docker to run the rails server and other services together, using:
+
+```sh
+docker-compose build
+docker-compose run app .docker/startup
+docker-compose up
+```
+
 #### Teardown
 
 To rebuild the docker environment (for example after changing the service configuration):

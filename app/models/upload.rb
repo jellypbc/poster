@@ -41,7 +41,11 @@ class Upload < ApplicationRecord
 	def file_url
 		url = file.url
 		if Rails.env.development?
-			"http://localhost:3000/" + url
+			if ENV['FIGURE_HOST']
+				"http://rails:3000" + url
+			else
+				"http://localhost:3000" + url
+			end
 		else
 			url
 		end

@@ -5,7 +5,7 @@ class GrobidService
 	require 'open-uri'
 
 	# In dev, make sure you have grobid running on 8070 or change this line below
-	GROBID_HOST = ENV['GROBID_URL'] || "http://localhost:8070"
+	GROBID_HOST = ENV['GROBID_URL'] || "http://#{ENV['GROBID_HOST'] || "localhost"}:8070"
 
 	# Here are some sample grobid tasks from grobid service
 	GROBID_ENDPOINTS = {
