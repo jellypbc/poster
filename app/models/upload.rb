@@ -44,7 +44,7 @@ class Upload < ApplicationRecord
 			if ENV['FIGURE_HOST']
 				"http://rails:3000" + url
 			else
-				"http://localhost:3000" + url
+				"http://host.docker.internal:3000" + url
 			end
 		else
 			url

@@ -67,5 +67,6 @@ Rails.application.configure do
 
   config.hosts << "rails"
   config.hosts << "localhost"
+  config.hosts << "host.docker.internal"
 
 end
