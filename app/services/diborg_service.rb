@@ -34,13 +34,11 @@ class DiborgService
 			citations = parse_citations
 
 			citations.each do |citation|
-				puts ">>>>> citation"
 				generated_post = Post.create!(build_new_post(citation))
 				citation = @post.citations.create!(build_new_citation(citation))
 				generated_post.citations << citation
 				citation.update!({generated_post_id: generated_post.id, post_id: @post.id})
 			end
-			binding.pry
 		end
 
 
@@ -146,8 +144,6 @@ class DiborgService
 				authors: parse_authors(bibStruct),
 				imprint_date: parse_publish_date(bibStruct)
 			}
-
-			# need to add post_id and
 		end
 
 		def parse_citations
@@ -157,8 +153,6 @@ class DiborgService
 				.map { |bibStruct|
 					cite_arr << parse_citation(bibStruct)
 				}
-			puts ">>>>> cite_arr"
-			puts cite_arr
 			return cite_arr
 		end
 

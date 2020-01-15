@@ -8,6 +8,7 @@ class PostsController < ApplicationController
   end
 
   def show
+  	@no_footer = true
   end
 
   def new
@@ -15,6 +16,7 @@ class PostsController < ApplicationController
   end
 
   def edit
+  	@no_footer = true
   end
 
   def create

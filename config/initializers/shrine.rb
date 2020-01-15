@@ -2,7 +2,7 @@ require "shrine"
 require "shrine/storage/file_system"
 require "shrine/storage/google_cloud_storage"
 
-if Rails.env.development?
+if Rails.env.development? || Rails.env.test?
 	Shrine.storages = {
 	  cache: Shrine::Storage::FileSystem.new("public", prefix: "uploads/cache"),
 	  store: Shrine::Storage::FileSystem.new("public", prefix: "uploads"),
