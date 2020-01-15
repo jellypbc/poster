@@ -1,0 +1,19 @@
+.citations.my-5
+	h4 References
+	- post.citations.each_with_index do |c, i|
+		- if c.generated_post
+			= link_to post_path(c.generated_post) do
+				.reference
+					.list-index
+						p = "#{i+1}. "
+					.citation-info
+						p
+							|
+							- if c.authors
+								= "#{c.authors.html_safe}. "
+							- if c.title
+								= "#{c.title.html_safe}. "
+							- if c.publisher
+								= "#{c.publisher.html_safe}, "
+							- if c.imprint_date
+								= "#{c.imprint_date.html_safe}."

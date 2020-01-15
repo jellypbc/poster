@@ -3,7 +3,8 @@
 
 nav.navbar.navbar-expand-lg id="#{opts[:id] if opts}" class="#{'white-nav' if white_nav} #{opts[:class] if opts}"
   .container
-    = link_to "Poster", root_path, class: "navbar-brand"
+    = link_to root_path, class: "navbar-brand" do
+  		= image_tag 'jelly.png'
 
     button.navbar-toggler type="button" data-toggle="collapse" data-target="#menu" aria-controls="menu" aria-expanded="false" aria-label="Toggle navigation"
       i.fa.fa-hamburger
@@ -25,7 +26,7 @@ nav.navbar.navbar-expand-lg id="#{opts[:id] if opts}" class="#{'white-nav' if wh
             = link_to 'Register', new_user_registration_path, class: "nav-link"
 
         li class="nav-item active"
-          = link_to 'Upload a File', new_upload_path, class: "ml-2 btn btn-primary"
+          = link_to 'Upload a File', new_upload_path, class: "ml-4 btn btn-dark"
 
         / li class="nav-item dropdown"
         /   a class="nav-link dropdown-toggle" href="#" id="dropdown07XL" data-toggle="dropdown" aria-expanded="false"

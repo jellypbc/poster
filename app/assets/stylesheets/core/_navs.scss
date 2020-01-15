@@ -10,6 +10,16 @@ nav {
   min-height: 60px;
   padding-top: 15px;
 
+  border-bottom: 1px solid $shaleLighter;
+
+  .navbar-brand {
+  	width: 36px;
+		&:hover {
+			opacity: 0.8;
+			transition: 0.3s;
+		}
+  }
+
   a {
     color: $shaleDark;
     font-weight: 700;
@@ -20,6 +30,10 @@ nav {
   	}
   }
 
+  .btn-dark {
+  	font-weight: 600;
+  }
+
   .fa-menu,
   .navbar-toggler {
     color: $shaleDark;
@@ -28,6 +42,7 @@ nav {
 
   .nav-link {
     font-size: 15px;
+    padding-top: 0.3rem;
   }
 
 	&.white-nav {

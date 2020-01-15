@@ -21,7 +21,7 @@
 #
 
 class Citation < ApplicationRecord
-	belongs_to :post
-	belongs_to :generated_post, class_name: 'Post', foreign_key: 'generated_post_id', dependent: :destroy
+	belongs_to :source_post, class_name: 'Post', foreign_key: 'post_id', dependent: :destroy
+	belongs_to :generated_post,class_name: 'Post', foreign_key: 'generated_post_id', dependent: :destroy, optional: true
 
 end

@@ -110,7 +110,9 @@ class PostEditor extends React.Component {
 							<Floater view={view}>
 								<MenuBar menu={{ marks: menu.marks }} view={view} />
 							</Floater>
-							{editor}
+							<div className="post-editor">
+								{editor}
+							</div>
 						</div>
 					)}
 				/>

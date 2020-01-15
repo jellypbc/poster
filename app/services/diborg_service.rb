@@ -1,43 +1,45 @@
-# class DiborgService
-# This is a PORO that handles the UploadTei and the Post
-
 class DiborgService
 
 	def self.call(*args)
     new(*args).call
   end
 
-	def initialize(upload_tei, post)
-		@upload_tei = upload_tei
-		@post = post
+	def initialize(upload_tei_id, post_id)
+		@upload_tei = UploadTei.find(upload_tei_id)
+		@post = Post.find(post_id)
 		@doc = Nokogiri::XML(@upload_tei.body)
 		@bib = @doc.css("biblStruct[@type='array']")
 	end
 
 	def call
-		parse_bib_with_side_effects
+		update_post
+		# generate_citations
 
-		# TODO: gracefully nil these in case nothing is found
-		if title = find_header_title
-			@post.update_attributes!(title: title)
-		end
-		if body = build_body
-			@post.update_attributes!(body: body)
-		end
+		update_citations_and_posts
 	end
 
-	# private
+	private
 
-		def parse_bib_with_side_effects
+		def update_post
+			@post.update!(body: build_body)
+			@post.update!(title: parse_header_title)
+		end
+
+		def generate_citations
 			@post.citations.destroy_all if @post.citations.any?
+			citations = parse_citations
+			citations.each do |citation|
+				Citation.create!(build_citation(citation))
+				Post.create!(build_post(citation))
+			end
+		end
 
-			new_citations = []
-			new_posts = []
-			@bib.children.css('biblStruct').map do |bibStruct|
-
-				# build the citation
+		def update_citations_and_posts
+			@post.citations.destroy_all if @post.citations.any?
+			@bib.children.css('biblStruxct').map do |bibStruct|
+				# build and create the citation
 				citation_data = build_citation(bibStruct)
-				citation = @post.citations.create(citation_data)
+				citation = @post.citations.create!(citation_data)
 
 				# build the new generated post
 				post_data = build_post(bibStruct)
@@ -47,40 +49,33 @@ class DiborgService
 				@post.citations << citation
 
 				# add the generated post to the citation
-				citation.update_attributes(generated_post_id: generated_post.id)
-
-				# debug
-				new_posts << generated_post
-				new_citations << citation
+				citation.update(generated_post_id: generated_post.id)
 			end
-
-			pp "#{new_posts.count} new posts created" # debug
-			pp new_citations # debug
 		end
 
 		def build_post(bibStruct)
 			{
-				title: find_title(bibStruct),
-				authors: find_authors(bibStruct),
-				publish_date: find_publish_date(bibStruct),
+				title: parse_title(bibStruct),
+				authors: parse_authors(bibStruct),
+				publish_date: parse_publish_date(bibStruct),
 			}
 		end
 
 		def build_citation(bibStruct)
 			{
-				title: find_title(bibStruct),
-				authors: find_authors(bibStruct),
-				imprint_date: find_publish_date(bibStruct)
+				title: parse_title(bibStruct),
+				authors: parse_authors(bibStruct),
+				imprint_date: parse_publish_date(bibStruct)
 			}
 		end
 
 		def build_body
-			find_abstract + find_body
+			parse_abstract + parse_body
 		end
 
 		# finds the doc title in the teiHeader
-		def find_header_title
-			title = @doc.css("teiHeader")
+		def parse_header_title
+			title ||= @doc.css("teiHeader")
 				.css("fileDesc")
 				.css("titleStmt")
 				.css("title")
@@ -92,7 +87,7 @@ class DiborgService
 		end
 
 		# returns a string
-		def find_title(bibStruct)
+		def parse_title(bibStruct)
 			title = bibStruct.css('title')
 				.css('__content__')
 				.try(:first)
@@ -103,7 +98,7 @@ class DiborgService
 		end
 
 		# returns a string, even if there is an array of authors
-		def find_authors(bibStruct)
+		def parse_authors(bibStruct)
 			authors = bibStruct.css("persName") unless authors.present?
 			author_list = []
 
@@ -122,7 +117,7 @@ class DiborgService
 	  	author_list.join(", ")
 		end
 
-		def find_publish_date(bibStruct)
+		def parse_publish_date(bibStruct)
 			imprint = bibStruct.css("imprint")
 			case imprint.search("type").inner_html
 			when "published"
@@ -131,25 +126,25 @@ class DiborgService
 			date
 		end
 
-		def find_target(bibStruct)
+		def parse_target(bibStruct)
 			target = bibStruct.css("ptr")
 		end
 
-		def find_abstract
+		def parse_abstract
 			@doc.css('abstract').to_xml
 		end
 
-		def find_body
+		def parse_body
 			@doc.css('body').to_xml
 		end
 
-		# def find_publisher
+		# def parse_publisher
 		# end
 
-		# def find_biblscope
+		# def parse_biblscope
 		# end
 
-		# def find_idno
+		# def parse_idno
 		# end
 
 
