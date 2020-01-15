@@ -26,20 +26,20 @@ class UploadTei < ApplicationRecord
 		DiborgServiceWorker.perform_async(id, post.id)
 	end
 
-	def doc
+	def body_xml
 		Nokogiri::XML(body)
 	end
 
-	def doc_as_hash
-		Hash.from_xml(doc.to_xml)
+	def body_xml_as_hash
+		Hash.from_xml(body_xml.to_xml)
 	end
 
 	def bib
-		doc.css("biblStruct[@type='array']")
+		body_xml.css("biblStruct[@type='array']")
 	end
 
 	def bib_as_arr
-		doc.css("biblStruct[@type='array']")
+		body_xml.css("biblStruct[@type='array']")
 			.children
 			.css("biblStruct")
 			.to_a
@@ -48,7 +48,7 @@ class UploadTei < ApplicationRecord
 
 	def parse_bib
 		bib_arr = []
-		doc.css("biblStruct[@type='array']")
+		body_xml.css("biblStruct[@type='array']")
 			.children
 			.css("biblStruct")
 			.map { |bibStruct|
@@ -68,7 +68,7 @@ class UploadTei < ApplicationRecord
 	end
 
 	def parse_header_title
-		title ||= doc.css("teiHeader")
+		title ||= body_xml.css("teiHeader")
 			.css("fileDesc")
 			.css("titleStmt")
 			.css("title")
@@ -117,10 +117,10 @@ class UploadTei < ApplicationRecord
 	end
 
 	def parse_abstract
-		doc.css('abstract').to_xml
+		body_xml.css('abstract').to_xml
 	end
 
 	def parse_body
-		doc.css('body').to_xml
+		body_xml.css('body').to_xml
 	end
 end

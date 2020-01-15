@@ -13,9 +13,9 @@ class DiborgService
 
 	def call
 		update_post
-		# generate_citations
+		generate_citations
 
-		update_citations_and_posts
+		# update_citations_and_posts
 	end
 
 	private
@@ -23,17 +23,46 @@ class DiborgService
 		def update_post
 			@post.update!(body: build_body)
 			@post.update!(title: parse_header_title)
+			@post.update!(abstract: parse_abstract)
 		end
 
 		def generate_citations
 			@post.citations.destroy_all if @post.citations.any?
+
+			# array of citations
+			# e.g. [{title: "", authors: "", imprint: ""}]
 			citations = parse_citations
+
 			citations.each do |citation|
-				Citation.create!(build_citation(citation))
-				Post.create!(build_post(citation))
+				# generated_post = Post.create!(build_post(citation))
+				generated_post = Post.create!(build_new_citation(citation))
+				citation = post.create!(build_new_citation(citation))
+				generated_post.citations << citation
+				citation.update!(generated_post_id: generated_post.id)
 			end
 		end
 
+
+		# ========
+		# These methods massage the parsed nokogiri data into model form
+
+		def build_new_post(citation_hash)
+			{
+				title: citation_hash[:title],
+				authors: citation_hash[:authors],
+				publish_date: citation_hash[:imprint_date]
+			}
+		end
+
+		def build_new_citation(citation_hash)
+			{
+				title: parse_title(bibStruct),
+				authors: parse_authors(bibStruct),
+				imprint_date: parse_publish_date(bibStruct)
+			}
+		end
+
+		# DEP
 		def update_citations_and_posts
 			@post.citations.destroy_all if @post.citations.any?
 			@bib.children.css('biblStruxct').map do |bibStruct|
@@ -53,6 +82,7 @@ class DiborgService
 			end
 		end
 
+		# DEP
 		def build_post(bibStruct)
 			{
 				title: parse_title(bibStruct),
@@ -61,6 +91,7 @@ class DiborgService
 			}
 		end
 
+		# DEP
 		def build_citation(bibStruct)
 			{
 				title: parse_title(bibStruct),
@@ -72,6 +103,10 @@ class DiborgService
 		def build_body
 			parse_abstract + parse_body
 		end
+
+
+		# ========
+		# These methods return objects from the nokogiri document
 
 		# finds the doc title in the teiHeader
 		def parse_header_title
@@ -134,9 +169,25 @@ class DiborgService
 			@doc.css('abstract').to_xml
 		end
 
+		def parse_header_abstract
+			@doc.css('abstract').inner_text
+		end
+
 		def parse_body
 			@doc.css('body').to_xml
 		end
+
+		def parse_citations
+			cite_arr = []
+			@doc.css("biblStruct[@type='array']")
+				.children
+				.css("biblStruct")
+				.map { |bibStruct|
+					cite_arr << build_citation(bibStruct)
+				}
+			cite_arr
+		end
+
 
 		# def parse_publisher
 		# end
