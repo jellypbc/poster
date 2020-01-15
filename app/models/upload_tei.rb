@@ -20,10 +20,7 @@ class UploadTei < ApplicationRecord
 	after_create_commit :process
 
 	def process
-		# GrobidService.call(id)
-		# DiborgService.call(id, post.id)
 		GrobidServiceWorker.perform_async(id)
-		DiborgServiceWorker.perform_async(id, post.id)
 	end
 
 	def body_xml

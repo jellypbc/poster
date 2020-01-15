@@ -1,5 +1,5 @@
 .citations.my-5
-	h4 References
+	h4.my-3 References
 	- post.citations.each_with_index do |c, i|
 		- if c.generated_post
 			= link_to post_path(c.generated_post) do

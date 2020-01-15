@@ -48,3 +48,22 @@
 label {
   display: block;
 }
+
+
+.footer {
+  position: absolute;
+  left: 0;
+  // bottom: -150px;
+  height: 100px;
+  width: 100%;
+
+  background: #F5F5F5;
+  text-align: center;
+
+  img {
+    height: 43px;
+    top: -20px;
+    margin: 0 auto;
+    position: relative;
+  }
+}

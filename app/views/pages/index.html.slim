@@ -14,15 +14,16 @@
 						| For example:&nbsp;
 						em Molecular Structure of Nucleic Acids
 	.row
-		.col-md-12
+		.col-md-7.mx-auto
 			- @posts.each do |post|
 				= link_to post do
 					.post
 						.title
 							= post.title || "Title"
 						.preview
-							= post.body
-						.date
-							= post.created_at.strftime("%b %d, %Y")
-						.link
-							= link_to "⌞ View article", post_path(post)
+							= post.abstract.truncate(400, seperator: "...") || ""
+						div
+							span.date.mr-4
+								= post.created_at.strftime("%b %d, %Y")
+							span.link
+								| ⌞ View article

@@ -26,6 +26,7 @@ gem "bugsnag"
 gem "will_paginate"
 gem "nokogiri"
 gem "sidekiq"
+gem "sidekiq-batch"
 gem "sidekiq-cron"
 gem "redis"
 gem "bootsnap", ">= 1.4.2", require: false

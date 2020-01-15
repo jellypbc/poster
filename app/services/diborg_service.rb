@@ -8,38 +8,39 @@ class DiborgService
 		@upload_tei = UploadTei.find(upload_tei_id)
 		@post = Post.find(post_id)
 		@doc = Nokogiri::XML(@upload_tei.body)
-		@bib = @doc.css("biblStruct[@type='array']")
 	end
 
 	def call
+		clear_existing_citations
 		update_post
 		generate_citations
-
-		# update_citations_and_posts
 	end
 
 	private
 
+		def clear_existing_citations
+			@post.citations.destroy_all if @post.citations.any?
+		end
+
 		def update_post
 			@post.update!(body: build_body)
 			@post.update!(title: parse_header_title)
-			@post.update!(abstract: parse_abstract)
+			@post.update!(abstract: parse_header_abstract)
 		end
 
 		def generate_citations
-			@post.citations.destroy_all if @post.citations.any?
-
 			# array of citations
 			# e.g. [{title: "", authors: "", imprint: ""}]
 			citations = parse_citations
 
 			citations.each do |citation|
-				# generated_post = Post.create!(build_post(citation))
-				generated_post = Post.create!(build_new_citation(citation))
-				citation = post.create!(build_new_citation(citation))
+				puts ">>>>> citation"
+				generated_post = Post.create!(build_new_post(citation))
+				citation = @post.citations.create!(build_new_citation(citation))
 				generated_post.citations << citation
-				citation.update!(generated_post_id: generated_post.id)
+				citation.update!({generated_post_id: generated_post.id, post_id: @post.id})
 			end
+			binding.pry
 		end
 
 
@@ -56,47 +57,9 @@ class DiborgService
 
 		def build_new_citation(citation_hash)
 			{
-				title: parse_title(bibStruct),
-				authors: parse_authors(bibStruct),
-				imprint_date: parse_publish_date(bibStruct)
-			}
-		end
-
-		# DEP
-		def update_citations_and_posts
-			@post.citations.destroy_all if @post.citations.any?
-			@bib.children.css('biblStruxct').map do |bibStruct|
-				# build and create the citation
-				citation_data = build_citation(bibStruct)
-				citation = @post.citations.create!(citation_data)
-
-				# build the new generated post
-				post_data = build_post(bibStruct)
-				generated_post = Post.create!(post_data)
-
-				# add the citation to the post
-				@post.citations << citation
-
-				# add the generated post to the citation
-				citation.update(generated_post_id: generated_post.id)
-			end
-		end
-
-		# DEP
-		def build_post(bibStruct)
-			{
-				title: parse_title(bibStruct),
-				authors: parse_authors(bibStruct),
-				publish_date: parse_publish_date(bibStruct),
-			}
-		end
-
-		# DEP
-		def build_citation(bibStruct)
-			{
-				title: parse_title(bibStruct),
-				authors: parse_authors(bibStruct),
-				imprint_date: parse_publish_date(bibStruct)
+				title: citation_hash[:title],
+				authors: citation_hash[:authors],
+				imprint_date: citation_hash[:imprint_date]
 			}
 		end
 
@@ -177,15 +140,30 @@ class DiborgService
 			@doc.css('body').to_xml
 		end
 
+		def parse_citation(bibStruct)
+			{
+				title: parse_title(bibStruct),
+				authors: parse_authors(bibStruct),
+				imprint_date: parse_publish_date(bibStruct)
+			}
+
+			# need to add post_id and
+		end
+
 		def parse_citations
 			cite_arr = []
-			@doc.css("biblStruct[@type='array']")
-				.children
+			parse_bib.children
 				.css("biblStruct")
 				.map { |bibStruct|
-					cite_arr << build_citation(bibStruct)
+					cite_arr << parse_citation(bibStruct)
 				}
-			cite_arr
+			puts ">>>>> cite_arr"
+			puts cite_arr
+			return cite_arr
+		end
+
+		def parse_bib
+			@doc.css("biblStruct[@type='array']")
 		end
 
 

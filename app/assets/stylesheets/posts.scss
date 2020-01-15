@@ -32,22 +32,35 @@
 .post {
   border: 2px solid $grayLighterer;
   border-radius: 4px;
-  padding: 20px;
+  padding: 40px;
   margin: 20px 0;
 
   .title {
     color: $black;
     font-size: 19px;
-    font-weight: 700;
+    font-weight: 600;
     padding-bottom: 12px;
+    margin: 20px 0 30px 0;
+  }
+  .preview {
+  	color: $shaleDark;
+  	font-family: $serifFontFamily;
+  	font-size: 14px;
+  	line-height: 20px;
+  	margin: 30px 0;
   }
   .date {
-    font-size: 15px;
+    font-size: 13px;
     color: $shale;
   }
   .link {
     font-size: 13px;
-    margin: 12px 12px 0 12px;
+    color: $brandGreen;
+    // margin: 12px 12px 0 12px;
+  }
+  &:hover {
+  	box-shadow: 1px 1px 15px -1px #eee;
+  	transition: 0.3s;
   }
 }
 
