@@ -17,7 +17,8 @@
 #
 # Indexes
 #
-#  index_upload_figures_on_upload_id  (upload_id)
+#  index_upload_figures_on_figure_type  (figure_type)
+#  index_upload_figures_on_upload_id    (upload_id)
 #
 
 require 'rails_helper'
