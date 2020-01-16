@@ -64,10 +64,10 @@ class PostsController < ApplicationController
         if (post = Post.lookup_by_slug(id_or_slug))
           post
         # If admin, attempt to lookup by id
-        elsif user_is_admin?
-          Post.find id_or_slug
+        # elsif user_is_admin?
         else
-          raise e
+          Post.find id_or_slug
+          # raise e
         end
       end
     end

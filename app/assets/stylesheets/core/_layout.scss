@@ -1,3 +1,5 @@
+body { position: relative; }
+
 // This wraps alerts injectd by middleware like Devise
 // TODO: pick accessible color contrasts
 // TODO: Bootstrap has some builtins for this, plus whatever is in variables.scss
@@ -53,7 +55,7 @@ label {
 .footer {
   position: absolute;
   left: 0;
-  bottom: 0px;
+  bottom: -100px;
   height: 100px;
   width: 100%;
 

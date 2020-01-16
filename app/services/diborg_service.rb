@@ -64,33 +64,58 @@ class DiborgService
 
 
 		# ========
+		# Helper methods for navigating nokogiri doc
+
+		def query_doc(query)
+		  @doc.css(query).inner_text if @doc.css(query).present?
+		end
+
+		def query_bibstruct(bibstruct, query)
+		  bibstruct.css(query).inner_text if @doc.css(query).present?
+		end
+
+		def find_element(digs, bibStruct = nil)
+			value = ""
+			digs.each do |query_path|
+			  value = (bibStruct.present? ? query_bibstruct(bibStruct, query_path) : query_doc(query_path))
+			  break if value.present?
+			end
+			value = "" if value.empty? # override nil / nothing found with just empty string
+			return value
+		end
+
+		# ========
 		# These methods return objects from the nokogiri document
+			### digs_to_try = []
+			# Add any new query paths that return a valid title,
+			# sorted by most common or likely at the top. Breaks
+			# loop on the first found result
 
-		# finds the doc title in the teiHeader
+		# Finds the doc title in the teiHeader
 		def parse_header_title
-			title ||= @doc.css("teiHeader")
-				.css("fileDesc")
-				.css("titleStmt")
-				.css("title")
-				.css("__content__")
-				.first
-				.content
-				.titleize
-				.truncate(120)
+			digs_to_try = [
+				"teiHeader fileDesc titleStmt title __content__",
+				"teiHeader note"
+			]
+
+			title = find_element(digs_to_try) # iterates through possible query paths and grabs the first one found
+			title = fix_titlecase(title) if title.present?
+			title.truncate(400) if title.present?
+			title
 		end
 
-		# returns a string
 		def parse_title(bibStruct)
-			title = bibStruct.css('title')
-				.css('__content__')
-				.try(:first)
-				.try(:content)
-				.try(:titleize)
+			digs_to_try = [
+				"title __content__",
+				"note __content__"
+			]
 
-			title || "Title"
+			title = find_element(digs_to_try, bibStruct)
+			title = fix_titlecase(title) if title.present?
+			title.truncate(400) if title.present?
+			title
 		end
 
-		# returns a string, even if there is an array of authors
 		def parse_authors(bibStruct)
 			authors = bibStruct.css("persName") unless authors.present?
 			author_list = []
@@ -120,7 +145,7 @@ class DiborgService
 		end
 
 		def parse_target(bibStruct)
-			target = bibStruct.css("ptr")
+			bibStruct.css("ptr")
 		end
 
 		def parse_abstract
@@ -167,5 +192,9 @@ class DiborgService
 		# def parse_idno
 		# end
 
-
+		def fix_titlecase(title)
+			title.downcase.titleize if (title.upcase == title)
+			title.titleize if (title.downcase == title)
+			return title
+		end
 end

@@ -26,4 +26,6 @@ class UploadFigure < ApplicationRecord
 	belongs_to :upload
 	has_one :post, through: :upload
 
+	enum figure_type: { image: "image", tabular: "tabular" }
+
 end

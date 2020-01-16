@@ -21,7 +21,8 @@
 						.title
 							= post.title || "Title"
 						.preview
-							= post.abstract.truncate(400, seperator: "...") || ""
+							- if post.abstract
+								= post.abstract.truncate(400, seperator: "...")
 						div
 							span.date.mr-4
 								= post.created_at.strftime("%b %d, %Y")
