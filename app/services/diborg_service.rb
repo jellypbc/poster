@@ -29,10 +29,7 @@ class DiborgService
 		end
 
 		def generate_citations
-			# array of citations
-			# e.g. [{title: "", authors: "", imprint: ""}]
 			citations = parse_citations
-
 			citations.each do |citation|
 				generated_post = Post.create!(build_new_post(citation))
 				citation = @post.citations.create!(build_new_citation(citation))
