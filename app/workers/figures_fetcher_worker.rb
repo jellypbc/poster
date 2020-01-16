@@ -17,7 +17,7 @@ class FiguresFetcherWorker
       file_path = figure_blob["renderURL"]
       url = FIGURES_HOST + '/' + file_path
 
-      figure.figure_type = set_figure_type(figure_blob)
+      figure.figure_type = figure_blob["figType"]
       figure.caption = figure_blob["caption"]
       figure.page = figure_blob["page"]
       figure.name = figure_blob["name"]
@@ -27,16 +27,11 @@ class FiguresFetcherWorker
     end
 
     # callback to figures host for /cleanup
+    puts ">>>>>> figures API response"
+    puts figures_response
+    puts "<<<<<<"
     FiguresExtractService.cleanup(@upload.id)
+    FiguresInlinerService.call(@upload.post.id)
 
-  end
-
-  def set_figure_type(figure_blob)
-  	case figure_blob["figType"]
-  	when "Figure"
-  		"image"
-  	when "Table"
-  		"tabular"
-  	end
   end
 end

@@ -92,6 +92,21 @@
   	strong {
   		font-weight: 600;
   	}
+
+  	img {
+  		padding: 30px;
+	    margin: 0 auto;
+	    border: 1px solid #eee;
+	    margin-top: 20px;
+	    margin-bottom: 0;
+	    border-radius: 2px;
+	    max-width: 100%;
+			max-height: 80vh;
+  	}
+
+  	.figure-caption {
+  		color: $shaleLight;
+  	}
   }
 
 	.title {
@@ -107,14 +122,14 @@
 	  font-size: 10px;
 	}
   .reference {
-    margin: 3px 0;
+    margin: 10px 0;
     .list-index {
     	display: inline-block;
     	margin: 0 8px 0 0;
     	vertical-align: top;
     	p {
-    	font-size: 14px;
-    	color: $black;
+	    	font-size: 13px;
+	    	color: $shale;
     	}
     }
     .citation-info {

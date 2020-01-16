@@ -157,7 +157,7 @@ class DiborgService
 		end
 
 		def parse_body
-			@doc.css('body').to_xml
+			@doc.css('body div').to_xml
 		end
 
 		def parse_citation(bibStruct)
