@@ -1,109 +1,122 @@
-# class DiborgService
-# This is a PORO that handles the UploadTei and the Post
-
 class DiborgService
 
 	def self.call(*args)
     new(*args).call
   end
 
-	def initialize(upload_tei, post)
-		@upload_tei = upload_tei
-		@post = post
+	def initialize(upload_tei_id, post_id)
+		@upload_tei = UploadTei.find(upload_tei_id)
+		@post = Post.find(post_id)
 		@doc = Nokogiri::XML(@upload_tei.body)
-		@bib = @doc.css("biblStruct[@type='array']")
 	end
 
 	def call
-		parse_bib_with_side_effects
-
-		# TODO: gracefully nil these in case nothing is found
-		if title = find_header_title
-			@post.update_attributes!(title: title)
-		end
-		if body = build_body
-			@post.update_attributes!(body: body)
-		end
+		clear_existing_citations
+		update_post
+		generate_citations
 	end
 
-	# private
+	private
 
-		def parse_bib_with_side_effects
+		def clear_existing_citations
 			@post.citations.destroy_all if @post.citations.any?
-
-			new_citations = []
-			new_posts = []
-			@bib.children.css('biblStruct').map do |bibStruct|
-
-				# build the citation
-				citation_data = build_citation(bibStruct)
-				citation = @post.citations.create(citation_data)
-
-				# build the new generated post
-				post_data = build_post(bibStruct)
-				generated_post = Post.create!(post_data)
-
-				# add the citation to the post
-				@post.citations << citation
-
-				# add the generated post to the citation
-				citation.update_attributes(generated_post_id: generated_post.id)
-
-				# debug
-				new_posts << generated_post
-				new_citations << citation
-			end
-
-			pp "#{new_posts.count} new posts created" # debug
-			pp new_citations # debug
 		end
 
-		def build_post(bibStruct)
+		def update_post
+			@post.update!(body: build_body)
+			@post.update!(title: parse_header_title)
+			@post.update!(abstract: parse_header_abstract)
+		end
+
+		def generate_citations
+			citations = parse_citations
+			citations.each do |citation|
+				generated_post = Post.create!(build_new_post(citation))
+				citation = @post.citations.create!(build_new_citation(citation))
+				generated_post.citations << citation
+				citation.update!({generated_post_id: generated_post.id, post_id: @post.id})
+			end
+		end
+
+
+		# ========
+		# These methods massage the parsed nokogiri data into model form
+
+		def build_new_post(citation_hash)
 			{
-				title: find_title(bibStruct),
-				authors: find_authors(bibStruct),
-				publish_date: find_publish_date(bibStruct),
+				title: citation_hash[:title],
+				authors: citation_hash[:authors],
+				publish_date: citation_hash[:imprint_date]
 			}
 		end
 
-		def build_citation(bibStruct)
+		def build_new_citation(citation_hash)
 			{
-				title: find_title(bibStruct),
-				authors: find_authors(bibStruct),
-				imprint_date: find_publish_date(bibStruct)
+				title: citation_hash[:title],
+				authors: citation_hash[:authors],
+				imprint_date: citation_hash[:imprint_date]
 			}
 		end
 
 		def build_body
-			find_abstract + find_body
+			parse_abstract + parse_body
 		end
 
-		# finds the doc title in the teiHeader
-		def find_header_title
-			title = @doc.css("teiHeader")
-				.css("fileDesc")
-				.css("titleStmt")
-				.css("title")
-				.css("__content__")
-				.first
-				.content
-				.titleize
-				.truncate(120)
+
+		# ========
+		# Helper methods for navigating nokogiri doc
+
+		def query_doc(query)
+		  @doc.css(query).inner_text if @doc.css(query).present?
 		end
 
-		# returns a string
-		def find_title(bibStruct)
-			title = bibStruct.css('title')
-				.css('__content__')
-				.try(:first)
-				.try(:content)
-				.try(:titleize)
-
-			title || "Title"
+		def query_bibstruct(bibstruct, query)
+		  bibstruct.css(query).inner_text if @doc.css(query).present?
 		end
 
-		# returns a string, even if there is an array of authors
-		def find_authors(bibStruct)
+		def find_element(digs, bibStruct = nil)
+			value = ""
+			digs.each do |query_path|
+			  value = (bibStruct.present? ? query_bibstruct(bibStruct, query_path) : query_doc(query_path))
+			  break if value.present?
+			end
+			value = "" if value.empty? # override nil / nothing found with just empty string
+			return value
+		end
+
+		# ========
+		# These methods return objects from the nokogiri document
+			### digs_to_try = []
+			# Add any new query paths that return a valid title,
+			# sorted by most common or likely at the top. Breaks
+			# loop on the first found result
+
+		# Finds the doc title in the teiHeader
+		def parse_header_title
+			digs_to_try = [
+				"teiHeader fileDesc titleStmt title __content__",
+				"teiHeader note"
+			]
+
+			title = find_element(digs_to_try) # iterates through possible query paths and grabs the first one found
+			title = fix_titlecase(title) if title.present?
+			title.truncate(400) if title.present?
+			title
+		end
+
+		def parse_title(bibStruct)
+			digs_to_try = [
+				"title __content__",
+				"note __content__"
+			]
+
+			title = find_element(digs_to_try, bibStruct)
+			title = fix_titlecase(title) if title.present?
+			title.truncate(400) if title.present?
+			title
+		end
+
+		def parse_authors(bibStruct)
 			authors = bibStruct.css("persName") unless authors.present?
 			author_list = []
 
@@ -122,7 +135,7 @@ class DiborgService
 	  	author_list.join(", ")
 		end
 
-		def find_publish_date(bibStruct)
+		def parse_publish_date(bibStruct)
 			imprint = bibStruct.css("imprint")
 			case imprint.search("type").inner_html
 			when "published"
@@ -131,26 +144,57 @@ class DiborgService
 			date
 		end
 
-		def find_target(bibStruct)
-			target = bibStruct.css("ptr")
+		def parse_target(bibStruct)
+			bibStruct.css("ptr")
 		end
 
-		def find_abstract
+		def parse_abstract
 			@doc.css('abstract').to_xml
 		end
 
-		def find_body
-			@doc.css('body').to_xml
+		def parse_header_abstract
+			@doc.css('abstract').inner_text
 		end
 
-		# def find_publisher
+		def parse_body
+			@doc.css('body div').to_xml
+		end
+
+		def parse_citation(bibStruct)
+			{
+				title: parse_title(bibStruct),
+				authors: parse_authors(bibStruct),
+				imprint_date: parse_publish_date(bibStruct)
+			}
+		end
+
+		def parse_citations
+			cite_arr = []
+			parse_bib.children
+				.css("biblStruct")
+				.map { |bibStruct|
+					cite_arr << parse_citation(bibStruct)
+				}
+			return cite_arr
+		end
+
+		def parse_bib
+			@doc.css("biblStruct[@type='array']")
+		end
+
+
+		# def parse_publisher
 		# end
 
-		# def find_biblscope
+		# def parse_biblscope
 		# end
 
-		# def find_idno
+		# def parse_idno
 		# end
 
-
+		def fix_titlecase(title)
+			title.downcase.titleize if (title.upcase == title)
+			title.titleize if (title.downcase == title)
+			return title
+		end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_18_064828) do
+ActiveRecord::Schema.define(version: 2020_01_16_035415) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -39,10 +39,11 @@ ActiveRecord::Schema.define(version: 2019_12_18_064828) do
     t.string "publisher"
     t.text "authors"
     t.datetime "publish_date"
+    t.text "abstract"
     t.index ["slug"], name: "index_posts_on_slug", unique: true
   end
 
-  create_table "upload_images", force: :cascade do |t|
+  create_table "upload_figures", force: :cascade do |t|
     t.integer "upload_id"
     t.text "caption"
     t.string "name"
@@ -54,7 +55,8 @@ ActiveRecord::Schema.define(version: 2019_12_18_064828) do
     t.text "image_data"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["upload_id"], name: "index_upload_images_on_upload_id"
+    t.index ["figure_type"], name: "index_upload_figures_on_figure_type"
+    t.index ["upload_id"], name: "index_upload_figures_on_upload_id"
   end
 
   create_table "upload_teis", force: :cascade do |t|

@@ -1,8 +1,9 @@
-.row
-	.col-md-12
-		h1 New Post
+.container
+	.row
+		.col-md-12
+			h1 New Post
 
-		= render 'form', post: @post
+			= render 'form', post: @post
 
-		br
-		= link_to 'Back', posts_path
+			br
+			= link_to 'Back', posts_path

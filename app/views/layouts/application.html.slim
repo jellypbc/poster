@@ -11,11 +11,12 @@ html lang='en-us'
 
 		= favicon_link_tag asset_path('favicon.png')
 
-		= stylesheet_link_tag 'https://fonts.googleapis.com/css?family=PT+Mono|Sumana:700|Roboto:400,500,700&display=swap'
+		= stylesheet_link_tag 'https://fonts.googleapis.com/css?family=PT+Mono|Gelasio:400,400i,600,600i,700|Roboto:400,500,700&display=swap'
 
 	body
 		= render "shared/nav"
 		= render "shared/flash_notices"
 
-		.container
-			= content_for?(:content) ? yield(:content) : yield
+		= content_for?(:content) ? yield(:content) : yield
+
+		= render "shared/footer" unless @no_footer

@@ -32,27 +32,40 @@
 .post {
   border: 2px solid $grayLighterer;
   border-radius: 4px;
-  padding: 20px;
+  padding: 40px;
   margin: 20px 0;
 
   .title {
     color: $black;
-    font-family: $serifFontFamily;
     font-size: 19px;
-    font-weight: 700;
+    font-weight: 400;
     padding-bottom: 12px;
+    margin: 20px 0 30px 0;
+  }
+  .preview {
+  	color: $shaleDark;
+  	font-family: $serifFontFamily;
+  	font-size: 14px;
+  	line-height: 20px;
+  	margin: 30px 0;
   }
   .date {
-    font-size: 15px;
+    font-size: 13px;
     color: $shale;
   }
   .link {
     font-size: 13px;
-    margin: 12px 12px 0 12px;
+    color: $brandGreen;
+    // margin: 12px 12px 0 12px;
+  }
+  &:hover {
+  	box-shadow: 1px 1px 15px -1px #eee;
+  	transition: 0.3s;
   }
 }
 
 .pdf-url {
+	margin-top: 40px;
   padding: 20px 0;
   color: #bbb;
   font-size: 13px;
@@ -61,12 +74,44 @@
   }
 }
 
-
-
 .post-show {
+	width: 640px;
+  display: block;
+  margin: 0 auto;
+
+  // post editor body styles
+  .post-editor {
+  	p,
+  	a,
+  	li {
+  		font-family: $serifFontFamily;
+  		font-size: 15px;
+  		line-height: 25px;
+  	}
+
+  	strong {
+  		font-weight: 600;
+  	}
+
+  	img {
+  		padding: 30px;
+	    margin: 0 auto;
+	    border: 1px solid #eee;
+	    margin-top: 20px;
+	    margin-bottom: 0;
+	    border-radius: 2px;
+	    max-width: 100%;
+			max-height: 80vh;
+  	}
+
+  	.figure-caption {
+  		color: $shaleLight;
+  	}
+  }
+
 	.title {
-	  padding: 20px 0;
-	  font-size: 24px;
+	  padding: 50px 0;
+	  font-size: 27px;
 	}
 	.authors {
 	  padding-top: 20px;
@@ -77,20 +122,23 @@
 	  font-size: 10px;
 	}
   .reference {
-    margin: 12px 0;
-    .icon {
-      display: inline-block;
-      vertical-align: top;
-      margin: 0 12px;
-      i {
-        font-size: 21px;
-      }
+    margin: 10px 0;
+    .list-index {
+    	display: inline-block;
+    	margin: 0 8px 0 0;
+    	vertical-align: top;
+    	p {
+	    	font-size: 13px;
+	    	color: $shale;
+    	}
     }
-    .restofit {
+    .citation-info {
+    	max-width: 595px;
       display: inline-block;
+    	vertical-align: top;
       p {
-        font-size: 15px;
-        line-height: 21px;
+        font-size: 14px;
+        line-height: 18px;
         margin: 0;
       }
     }

@@ -1,8 +1,10 @@
 .container
-	.row
+	.row.mt-5
 		.col-md-12
 			h1 Upload ID
 			p = @upload.id
+
+			br
 
 			h2 File
 			- if @upload.file
@@ -19,13 +21,18 @@
 			- @doc = Nokogiri::XML(@upload.upload_tei.body)
 			- @bib = @doc.css("biblStruct[@type='array']")
 
+			br
+
+			- if @upload.post
+				= link_to "View post", post_path(@upload.post)
+
 			hr.my-5
 
 			h2 Images
 			= link_to "Extract images", upload_extract_images_path(id: @upload.id, upload_id: @upload.id)
 			/ = link_to "Extract images", @upload, upload_extract_images_path, method: :post, confirm: "This will delete existing images, are you sure?", class: "btn btn-sm btn-danger"
-			- if @upload.upload_images
-				- @upload.upload_images.each do |image|
+			- if @upload.upload_figures
+				- @upload.upload_figures.each do |image|
 					.image.my-3
 						= image_tag image.image.url if image.image
 
