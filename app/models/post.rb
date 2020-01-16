@@ -27,7 +27,7 @@ class Post < ApplicationRecord
 
 	has_many :uploads
 	has_many :citations
-  has_many :images, through: :uploads, source: :upload_images, class_name: 'UploadImage'
+  has_many :images, through: :uploads, source: :upload_figures, class_name: 'UploadFigure'
 
 	accepts_nested_attributes_for :uploads
 

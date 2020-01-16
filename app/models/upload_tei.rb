@@ -23,6 +23,9 @@ class UploadTei < ApplicationRecord
 		GrobidServiceWorker.perform_async(id)
 	end
 
+	def find_images
+	end
+
 	def body_xml
 		Nokogiri::XML(body)
 	end

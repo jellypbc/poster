@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: upload_images
+# Table name: upload_figures
 #
 #  id          :bigint           not null, primary key
 #  caption     :text
@@ -17,10 +17,10 @@
 #
 # Indexes
 #
-#  index_upload_images_on_upload_id  (upload_id)
+#  index_upload_figures_on_upload_id  (upload_id)
 #
 
-class UploadImage < ApplicationRecord
+class UploadFigure < ApplicationRecord
 	include ImageUploader::Attachment(:image)
 
 	belongs_to :upload

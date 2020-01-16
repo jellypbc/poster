@@ -9,21 +9,21 @@ class FiguresFetcherWorker
   def perform(body, upload_id)
   	# TODO: raise on upload not yet created?
     @upload = Upload.find upload_id
-    @upload.upload_images.destroy_all if @upload.upload_images.any?
+    @upload.upload_figures.destroy_all if @upload.upload_figures.any?
 
     body.each do |figure|
-      upload_image = @upload.upload_images.new
+      figure = @upload.upload_figures.new
 
       file_path = figure["renderURL"]
       url = FIGURES_HOST + '/' + file_path
 
-      upload_image.figure_type = figure["figType"]
-      upload_image.caption = figure["caption"]
-      upload_image.page = figure["page"]
-      upload_image.name = figure["name"]
-      upload_image.image_remote_url = url
+      figure.figure_type = figure["figType"]
+      figure.caption = figure["caption"]
+      figure.page = figure["page"]
+      figure.name = figure["name"]
+      figure.image_remote_url = url
 
-      upload_image.save!
+      figure.save!
     end
 
     # callback to figures host for /cleanup

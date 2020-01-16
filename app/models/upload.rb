@@ -19,9 +19,9 @@ class Upload < ApplicationRecord
 	belongs_to :post
 
 	has_one :upload_tei, dependent: :destroy
-	has_many :upload_images, dependent: :destroy
+	has_many :upload_figures, dependent: :destroy
 
-	accepts_nested_attributes_for :upload_images, allow_destroy: true
+	accepts_nested_attributes_for :upload_figures, allow_destroy: true
 
 	after_create_commit :process
 

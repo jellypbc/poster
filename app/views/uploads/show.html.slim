@@ -31,8 +31,8 @@
 			h2 Images
 			= link_to "Extract images", upload_extract_images_path(id: @upload.id, upload_id: @upload.id)
 			/ = link_to "Extract images", @upload, upload_extract_images_path, method: :post, confirm: "This will delete existing images, are you sure?", class: "btn btn-sm btn-danger"
-			- if @upload.upload_images
-				- @upload.upload_images.each do |image|
+			- if @upload.upload_figures
+				- @upload.upload_figures.each do |image|
 					.image.my-3
 						= image_tag image.image.url if image.image
 
