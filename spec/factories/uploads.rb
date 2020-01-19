@@ -15,6 +15,7 @@
 
 FactoryBot.define do
   factory :upload do
-    
+    post
+    file { Rack::Test::UploadedFile.new('spec/factories/yunits.pdf', 'application/pdf') }
   end
 end

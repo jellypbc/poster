@@ -1,46 +1,31 @@
-.post-show
-  .header
-    .header-nav
-      - if @post.uploads.any?
-        .pdf-url
-          - if @post.uploads.first.file
-            - if @post.uploads.first.file.metadata["mime_type"].include?("image")
-              = image_tag @post.uploads.first.file_url
-            - elsif @post.uploads.first.file.metadata["mime_type"].include?("pdf")
-              = link_to 'View Original PDF', @post.uploads.first.file_url, target: '_blank'
-    .title
-      = @post.title.html_safe if @post.title
-    .authors
-      = @post.authors.html_safe if @post.authors
-    .publisher
-      - if @post.publisher
-        = "Published by "
-        = link_to @post.publisher.html_safe
+.container
+	.post-show
+	  .header
+	    .header-nav
+	      - if @post.uploads.any?
+	        .pdf-url
+	          - if @post.uploads.first.file
+	            - if @post.uploads.first.file.metadata["mime_type"].include?("image")
+	              = image_tag @post.uploads.first.file_url
+	            - elsif @post.uploads.first.file.metadata["mime_type"].include?("pdf")
+	              = link_to 'View Original PDF', @post.uploads.first.file_url, target: '_blank'
+	    .title
+	      = @post.title.html_safe if @post.title
+	    .authors
+	      = @post.authors.html_safe if @post.authors
+	    .publisher
+	      - if @post.publisher
+	        = "Published by "
+	        = link_to @post.publisher.html_safe
 
-  #editor
-  = react_component "PostEditor", { post: PostSerializer.new(@post).serializable_hash }
+	  #editor
+	  = react_component "PostEditor", { post: PostSerializer.new(@post).serializable_hash }
 
 
-  - if @post.images.any?
-    - @post.images.each do |image|
-      .image
-        = image_tag image.image.url, width: 300
+	  / - if @post.figures.any?
+	  /   - @post.figures.each do |image|
+	  /     .image
+	  /       = image_tag image.image.url, width: 300
 
-  - if @post.citations.any?
-    .citations.mt-5
-      h3 References
-      - @post.citations.each do |c|
-        .reference
-          .icon
-            - if c.post
-              = link_to post_path(c.generated_post) do
-                i.fa.fa-sticky-note
-          .restofit
-            - if c.authors
-              p = "#{c.authors.html_safe}. "
-            - if c.title
-              p = "#{c.title.html_safe}. "
-            - if c.publisher
-              span = "#{c.publisher.html_safe}, "
-            - if c.imprint_date
-              span = "#{c.imprint_date.html_safe}."
+	  - if @post.citations.any?
+	    = render 'citations', post: @post

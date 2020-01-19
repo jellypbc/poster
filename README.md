@@ -6,10 +6,6 @@
 
 This is a Rails toy application that converts PDFs into XML/JSON with a collaborative editor with JSON, for science.
 
-The app is mainly two main chunks: a Rails server for file uploads and the editor which is built on ProseMirror. It also uses a [Grobid](https://github.com/kermitt2/grobid) server for parsing PDFs into XML/JSON for the editor.
-
-Shrine and Google Cloud Engine are used for file storage.
-
 This app is pre-alpha, so please mind the cracks.
 
 ## Development

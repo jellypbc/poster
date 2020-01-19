@@ -17,5 +17,6 @@ html lang='en-us'
 		= render "shared/nav"
 		= render "shared/flash_notices"
 
-		.container
-			= content_for?(:content) ? yield(:content) : yield
+		= content_for?(:content) ? yield(:content) : yield
+
+		= render "shared/footer" unless @no_footer

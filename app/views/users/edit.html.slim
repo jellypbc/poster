@@ -1,0 +1,10 @@
+.container
+	.row
+		.col-md-12
+			h1 Editing User
+
+			= render 'form', user: @user
+
+			= link_to 'Show', @user
+			br
+			= link_to 'Back', users_path

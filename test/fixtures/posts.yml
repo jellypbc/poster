@@ -3,6 +3,7 @@
 # Table name: posts
 #
 #  id           :bigint           not null, primary key
+#  abstract     :text
 #  authors      :text
 #  body         :json
 #  publish_date :datetime

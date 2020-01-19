@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: upload_images
+# Table name: upload_figures
 #
 #  id          :bigint           not null, primary key
 #  caption     :text
@@ -17,11 +17,14 @@
 #
 # Indexes
 #
-#  index_upload_images_on_upload_id  (upload_id)
+#  index_upload_figures_on_figure_type  (figure_type)
+#  index_upload_figures_on_upload_id    (upload_id)
 #
 
-require 'rails_helper'
+class UploadFigure < ApplicationRecord
+	include ImageUploader::Attachment(:image)
 
-RSpec.describe UploadImage, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+	belongs_to :upload
+	has_one :post, through: :upload
+
 end

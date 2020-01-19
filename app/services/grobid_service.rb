@@ -1,4 +1,5 @@
 # class GrobidService
+# params: upload_tei
 # This service object handles an upload object that is a pdf
 
 class GrobidService
@@ -10,18 +11,17 @@ class GrobidService
 	# Here are some sample grobid tasks from grobid service
 	GROBID_ENDPOINTS = {
 		full: "processFulltextDocument",
-		header: "processHeaderDocument",
-		asset: "processFulltextAssetDocument"
+		header: "processHeaderDocument"
 	}
 
 	def self.call(*args)
     new(*args).call
   end
 
-	def initialize(upload_tei)
-		@upload_tei = upload_tei
+	def initialize(upload_tei_id)
+		@upload_tei = UploadTei.find(upload_tei_id)
 		@upload = @upload_tei.upload
-		@file = File.open(open(@upload.file_url))
+		@file = File.open(open(file_url))
 	end
 
 	def call
@@ -32,25 +32,19 @@ class GrobidService
 		return unless @file
 
 		processFulltextDocument
+
+		DiborgServiceWorker.perform_async(@upload_tei.id, @upload_tei.post.id)
 	end
 
 	private
 
-		def processFulltextAssetDocument
-			endpoint = grobid_call(:asset)
-			resp = fire_away(endpoint)
-
-			body = resp
-
-			if resp.code == 200
-				filename = "tmp/thing.zip"
-	      a = File.open(filename, "w") do |file|
-	        file.binmode
-	        file.write(resp.body)
-	      end
-      end
-
-			# @upload_tei.update_attributes!(body: body)
+		def file_url
+			url = @upload.file.url
+			if Rails.env.development?
+				"http://localhost:3000" + url
+			else
+				url
+			end
 		end
 
 		def processFulltextDocument
@@ -58,7 +52,7 @@ class GrobidService
 			resp = fire_away(endpoint)
 
 			body = resp["TEI"].to_xml
-			@upload_tei.update_attributes!(body: body)
+			@upload_tei.update!(body: body)
 		end
 
 		def processHeaderDocument
@@ -66,7 +60,7 @@ class GrobidService
 			resp = fire_away(endpoint)
 
 			header = resp["TEI"]["teiHeader"].to_xml
-			@upload_tei.update_attributes!(header: header)
+			@upload_tei.update!(header: header)
 		end
 
 		def fire_away(endpoint)

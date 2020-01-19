@@ -6,28 +6,32 @@ class FiguresFetcherWorker
   # TODO:
   # error handling for when image.save! fails
   # Fetches figures from external figure server and saves them
-  def perform(body, upload_id)
+  def perform(figures_response, upload_id)
   	# TODO: raise on upload not yet created?
     @upload = Upload.find upload_id
-    @upload.upload_images.destroy_all if @upload.upload_images.any?
+    @upload.upload_figures.destroy_all if @upload.upload_figures.any?
 
-    body.each do |figure|
-      upload_image = @upload.upload_images.new
+    figures_response.each do |figure_blob|
+      figure = @upload.upload_figures.new
 
-      file_path = figure["renderURL"]
+      file_path = figure_blob["renderURL"]
       url = FIGURES_HOST + '/' + file_path
 
-      upload_image.figure_type = figure["figType"]
-      upload_image.caption = figure["caption"]
-      upload_image.page = figure["page"]
-      upload_image.name = figure["name"]
-      upload_image.image_remote_url = url
+      figure.figure_type = figure_blob["figType"]
+      figure.caption = figure_blob["caption"]
+      figure.page = figure_blob["page"]
+      figure.name = figure_blob["name"]
+      figure.image_remote_url = url
 
-      upload_image.save!
+      figure.save!
     end
 
     # callback to figures host for /cleanup
+    puts ">>>>>> figures API response"
+    puts figures_response
+    puts "<<<<<<"
     FiguresExtractService.cleanup(@upload.id)
+    FiguresInlinerService.call(@upload.post.id)
 
   end
 end

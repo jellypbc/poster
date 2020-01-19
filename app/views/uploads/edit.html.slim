@@ -1,8 +1,11 @@
 .container
-	.row.mt-5
+	.row
 		.col-md-12
-			h1 New Upload
+			h1 Editing Upload
 
 			= render 'form', upload: @upload
 
+			= link_to 'Show', @upload
+			br
+			|
 			= link_to 'Back', uploads_path

@@ -1,6 +1,6 @@
 # class FiguresExtractService
 # This service object calls the external figure extractor microservice
-# and creates upload_images for the upload, as well as parses out
+# and creates upload_figures for the upload, as well as parses out
 # the figure information.
 
 class FiguresExtractService
@@ -38,8 +38,8 @@ class FiguresExtractService
     resp = fire_away(endpoint, data)
 
     if resp.code == 200
-      body = JSON.parse(resp.body)
-      FiguresFetcherWorker.perform_async(body, @upload.id)
+      figures_response = JSON.parse(resp.body)
+      FiguresFetcherWorker.perform_async(figures_response, @upload.id)
     else
       raise resp.body
     end

@@ -410,6 +410,8 @@ GEM
       rack (>= 2.0.0)
       rack-protection (>= 2.0.0)
       redis (>= 4.1.0)
+    sidekiq-batch (0.1.6)
+      sidekiq (>= 3)
     sidekiq-cron (1.1.0)
       fugit (~> 1.1)
       sidekiq (>= 4.2.1)
@@ -520,6 +522,7 @@ DEPENDENCIES
   shrine (~> 3.0)
   shrine-google_cloud_storage
   sidekiq
+  sidekiq-batch
   sidekiq-cron
   slim
   spring
