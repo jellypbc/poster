@@ -7,9 +7,7 @@ describe SlugHistory do
 
   describe 'save_slug_if_changed' do
     xit 'stores the slug in redis' do
-      $redis.expects(:SET).with "slug_history:post:slug",
-        post.id
-
+      $redis.expects(:SET).with "slug_history:post:slug", post.id
       post.update_attributes! slug: 'slug'
     end
   end

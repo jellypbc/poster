@@ -39,6 +39,9 @@ RSpec.configure do |config|
   config.include Rails::Controller::Testing::TemplateAssertions
   config.include Rails::Controller::Testing::Integration
 
+  config.include(Shoulda::Matchers::ActiveModel, type: :model)
+  config.include(Shoulda::Matchers::ActiveRecord, type: :model)
+
   config.include Devise::Test::ControllerHelpers, type: :controller
 
   # If you're not using ActiveRecord, or you'd prefer not to run each of your

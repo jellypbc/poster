@@ -23,8 +23,8 @@ class DiborgService
 		end
 
 		def update_post
-			@post.update!(body: build_body)
 			@post.update!(title: parse_header_title)
+			@post.update!(body: build_body)
 			@post.update!(abstract: parse_header_abstract)
 		end
 
