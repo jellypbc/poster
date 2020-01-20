@@ -55,7 +55,7 @@ group :development do
   gem "pry"
   gem "pry-rails"
   gem "pry-byebug"
-  gem 'guard-rspec', require: false
+  gem "guard-rspec", require: false
   gem "foreman"
 end
 
@@ -67,6 +67,7 @@ end
 
 group :production, :staging do
   gem "bugsnag"
+  gem "scout_apm"
 end
 
 gem "tzinfo-data", platforms: [:mingw, :mswin, :x64_mingw, :jruby]
