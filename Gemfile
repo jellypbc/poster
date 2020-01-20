@@ -3,11 +3,11 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby "2.5.7"
 
-gem "bundler", "~> 2.0.2"
+gem "bundler", "~> 2.1.4"
 gem "rails", "~> 6.0.1"
 gem "pg", "~> 1.1"
 gem "puma", "~> 4.3"
-gem "sass-rails", "~> 5"
+gem "sassc-rails", "~> 2.1"
 gem "webpacker", "~> 4.0"
 gem "turbolinks", "~> 5"
 gem "jbuilder", "~> 2.7"
@@ -22,24 +22,23 @@ gem "httparty"
 gem "httmultiparty"
 gem "font-awesome-sass"
 gem "fast_jsonapi"
-gem "bugsnag"
 gem "will_paginate"
 gem "nokogiri"
 gem "sidekiq"
-gem "sidekiq-batch"
-gem "sidekiq-cron"
+gem "sidekiq-batch", require: false
+gem "sidekiq-cron", require: false
 gem "redis"
 gem "bootsnap", ">= 1.4.2", require: false
 
 group :development, :test do
-  gem "guard"
   gem "dotenv-rails"
   gem "rspec-rails"
   gem "rails-controller-testing"
   gem "factory_bot"
   gem "factory_bot_rails"
   gem "rspec_junit_formatter"
-  gem "docker-sync"
+  gem "shoulda-matchers"
+  gem "docker-sync", require: false
 end
 
 group :development do
@@ -47,9 +46,10 @@ group :development do
   gem "web-console", ">= 3.3.0"
   gem "listen", ">= 3.0.5", "< 3.2"
   gem "spring"
+  gem "spring-commands-rspec"
   gem "spring-watcher-listen", "~> 2.0.0"
   gem "bullet"
-  gem "ngrok-tunnel"
+  gem "ngrok-tunnel", require: false
   gem "letter_opener"
   gem "annotate"
   gem "pry"
@@ -63,6 +63,10 @@ group :test do
   gem "capybara", ">= 2.15"
   gem "selenium-webdriver"
   gem "webdrivers"
+end
+
+group :production, :staging do
+  gem "bugsnag"
 end
 
 gem "tzinfo-data", platforms: [:mingw, :mswin, :x64_mingw, :jruby]
