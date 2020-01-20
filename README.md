@@ -74,6 +74,14 @@ docker run -t --rm --init -p 80:8070 -p 8080:8080 lfoppiano/grobid:{version}
 
 ```
 
+### Tests
+
+You can start a guard session to watch file changes and run tests using:
+
+```
+bundle exec guard
+```
+
 ### Wiki
 
 Check out the [wiki](https://github.com/jellypbc/poster/wiki) and issues to see the current status.
