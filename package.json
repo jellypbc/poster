@@ -18,11 +18,16 @@
     "@rails/webpacker": "^4.0.7",
     "@types/react": "^16.9.11",
     "@types/react-dom": "^16.9.3",
+    "@uppy/core": "^1.7.1",
+    "@uppy/drag-drop": "^1.4.2",
+    "@uppy/react": "^1.4.2",
+    "@uppy/xhr-upload": "^1.4.2",
     "animate.css": "^3.7.2",
     "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
     "bootstrap": "^4.3.1",
     "classnames": "^2.2.6",
     "date-fns": "^2.8.1",
+    "es6-promise": "^4.2.8",
     "jquery": "^3.4.1",
     "popper.js": "^1.16.0",
     "prop-types": "^15.7.2",
@@ -41,7 +46,8 @@
     "ts-loader": "^6.2.1",
     "turbolinks": "^5.2.0",
     "typescript": "^3.6.4",
-    "webpack": "^4.41.2"
+    "webpack": "^4.41.2",
+    "whatwg-fetch": "^3.0.0"
   },
   "version": "0.1.0",
   "devDependencies": {

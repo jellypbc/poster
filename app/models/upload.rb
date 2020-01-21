@@ -7,10 +7,12 @@
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #  post_id    :integer
+#  user_id    :integer
 #
 # Indexes
 #
 #  index_uploads_on_post_id  (post_id)
+#  index_uploads_on_user_id  (user_id)
 #
 
 class Upload < ApplicationRecord
@@ -22,6 +24,8 @@ class Upload < ApplicationRecord
 	has_many :upload_figures, dependent: :destroy
 
 	accepts_nested_attributes_for :upload_figures, allow_destroy: true
+
+	validates_presence_of :file
 
 	after_create_commit :process
 

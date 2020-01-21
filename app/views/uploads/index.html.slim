@@ -19,28 +19,7 @@
 
 	      tbody
 	        - @uploads.each do |upload|
-	          tr
-	            td = upload.id
-	            td
-	              - if upload.file
-	                - if upload.file.metadata["mime_type"].include?("image")
-	                  = link_to upload.file_url do
-	                    i.fa.fa-image
-
-	                - elsif upload.file.metadata["mime_type"].include?("pdf")
-	                  = link_to upload.file_url do
-	                    i.fa.fa-book
-	            td = upload.file.metadata['filename'].html_safe if upload.file
-	            td = upload.file.metadata['mime_type'] if upload.file
-	            td
-	              - if Time.now - upload.created_at > 1.day
-	                = upload.created_at.strftime("%b %e, %l:%M %p")
-	              - else
-	                = time_ago_in_words(upload.created_at) + " ago"
-	            td = link_to 'Show', upload
-	            td = link_to 'Edit', edit_upload_path(upload)
-	            td = link_to 'Destroy', upload, method: :delete, data: { confirm: 'Are you sure?' }
-
+	        	= render 'upload', upload: upload
 
 	    = will_paginate @uploads
 
