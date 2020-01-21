@@ -3,6 +3,8 @@
 		.col-md-12
 			h1 New Upload
 
-			= render 'form', upload: @upload
+			.mt-5
+				= react_component "Uploader"
 
-			= link_to 'Back', uploads_path
+			.mt-5
+				= link_to 'Back', root_path

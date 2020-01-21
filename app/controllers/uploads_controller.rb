@@ -3,6 +3,9 @@ class UploadsController < ApplicationController
     :show, :edit, :update, :destroy, :extract_images
   ]
 
+  # skip_before_filter :verify_authenticity_token, only: [:file]
+  protect_from_forgery except: :file
+
   def index
     @uploads = Upload.order(created_at: :desc)
       .paginate(page: params[:page], per_page: 50)
@@ -20,12 +23,11 @@ class UploadsController < ApplicationController
 
   def create
     @upload = Upload.new(upload_params)
-
     @post = Post.create!
     @upload.post = @post
 
     respond_to do |format|
-      if @upload.save
+      if @upload.save!
         format.html { redirect_to @upload.post, notice: 'Upload was successfully created. Please refresh the page!' }
         format.json { render :show, status: :created, location: @upload }
       else
@@ -46,6 +48,38 @@ class UploadsController < ApplicationController
       end
     end
   end
+
+  def file
+    @post = Post.new
+  	@upload = Upload.new
+    @upload.post = @post
+
+    if params[:file_id]
+			file = Shrine.uploaded_file(storage: :store, id: params[:file_id])
+			file.refresh_metadata!
+			@upload.file_attacher.set(file)
+		end
+
+    respond_to do |format|
+      if @upload.save!
+        format.html { redirect_to @upload, notice: 'Upload was successfully updated.' }
+        format.json { render json: { redirect_to: post_path(@upload.post) }, status: :ok, notice: "hooray" }
+      else
+        format.html { render :edit }
+        format.json { render json: @upload.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def presign
+	  # extension = File.extname(params[:filename].to_s)
+	  # location = SecureRandom.hex + extension
+	  # options = { content_type: Rack::Mime.mime_type(extension) }
+	  # storage = Shrine.storages[:cache]
+	  # presign = storage.presign(location, options)
+	  # result  = { url: presign.url, fields: presign.fields }  headers["Cache-Control"] = "no-store" # prevent Safari from caching
+	  # render json: result
+	end
 
   def destroy
     @upload.destroy
@@ -70,6 +104,6 @@ class UploadsController < ApplicationController
     end
 
     def upload_params
-      params.require(:upload).permit(:file)
+      params.require(:upload).permit(:file).to_h
     end
 end

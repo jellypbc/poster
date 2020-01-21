@@ -7,7 +7,7 @@
         - upload.errors.full_messages.each do |message|
           li = message
 
-  = form.hidden_field :file, value: @upload.cached_file_data
+  = form.hidden_field :file, value: upload.cached_file_data
 
   .input-group.my-4
     .custom-file
