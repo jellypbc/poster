@@ -4,7 +4,9 @@ import { gapCursor } from 'prosemirror-gapcursor'
 import { columnResizing, tableEditing } from 'prosemirror-tables'
 import { placeholder } from '@aeaton/prosemirror-placeholder'
 import { footnotes } from '@aeaton/prosemirror-footnotes'
+import { commentPlugin, commentUI } from './plugin-comment'
 
+import './plugin-comment.css'
 import 'prosemirror-tables/style/tables.css'
 import 'prosemirror-gapcursor/style/gapcursor.css'
 import '@aeaton/prosemirror-footnotes/style/footnotes.css'
@@ -14,15 +16,17 @@ import keys from './keys'
 import rules from './rules'
 
 export default [
-  rules,
-  keys,
-  placeholder(),
-  footnotes(),
-  dropCursor(),
-  gapCursor(),
-  history(),
-  columnResizing(),
-  tableEditing()
+	rules,
+	keys,
+	placeholder(),
+	footnotes(),
+	dropCursor(),
+	gapCursor(),
+	history(),
+	columnResizing(),
+	tableEditing(),
+	commentPlugin,
+	commentUI(transaction => this.dispatch({ type: 'transaction', transaction })),
 ]
 
 // for tables

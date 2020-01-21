@@ -26,7 +26,7 @@ class PostEditor extends React.Component {
 	constructor(props) {
 		super(props)
 
-		console.log(props) // DEBUG INIT
+		console.log('POSTEDITOR PROPS', props)
 
 		// TODO: Whole thing needs to reinit if props.post changes identity,
 		//       which can be done with useEffect or componentDidUpdate
@@ -44,6 +44,7 @@ class PostEditor extends React.Component {
 	}
 
 	handleFormChange(doc) {
+		console.log({ doc })
 		// "doc" is the new HTML
 
 		// do not read from this.state after setState, it will not update until rerender
@@ -108,7 +109,7 @@ class PostEditor extends React.Component {
 					render={({ editor, view }) => (
 						<div>
 							<Floater view={view}>
-								<MenuBar menu={{ marks: menu.marks }} view={view} />
+								<MenuBar menu={{ ...menu }} view={view} />
 							</Floater>
 							<div className="post-editor">
 								{editor}

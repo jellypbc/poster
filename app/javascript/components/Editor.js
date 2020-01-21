@@ -4,45 +4,51 @@ import { EditorView } from 'prosemirror-view'
 import 'prosemirror-view/style/prosemirror.css'
 
 class Editor extends React.Component {
-  constructor (props) {
-    super(props)
+	constructor(props) {
+		super(props)
 
-    this.editorRef = React.createRef()
+		this.editorRef = React.createRef()
 
-    this.view = new EditorView(null, {
-      state: EditorState.create(props.options),
-      dispatchTransaction: transaction => {
-        const { state, transactions } = this.view.state.applyTransaction(transaction)
+		console.log('EDITOR OPTIONS', props.options)
 
-        this.view.updateState(state)
+		this.view = new EditorView(null, {
+			state: EditorState.create(props.options),
+			dispatchTransaction: transaction => {
+				const { state, transactions } = this.view.state.applyTransaction(
+					transaction
+				)
 
-        if (transactions.some(tr => tr.docChanged)) {
-          this.props.onChange(state.doc)
-        }
+				this.view.updateState(state)
 
-        this.forceUpdate()
-      },
-      attributes: this.props.attributes,
-      nodeViews: this.props.nodeViews
-    })
-  }
+				if (transactions.some(tr => tr.docChanged)) {
+					this.props.onChange(state.doc)
+				}
 
-  componentDidMount () {
-    this.editorRef.current.appendChild(this.view.dom)
+				this.forceUpdate()
+			},
+			attributes: this.props.attributes,
+			nodeViews: this.props.nodeViews,
+		})
+	}
 
-    if (this.props.autoFocus) {
-      this.view.focus()
-    }
-  }
+	componentDidMount() {
+		this.editorRef.current.appendChild(this.view.dom)
 
-  render () {
-    const editor = <div ref={this.editorRef} />
+		if (this.props.autoFocus) {
+			this.view.focus()
+		}
+	}
 
-    return this.props.render ? this.props.render({
-      editor,
-      view: this.view
-    }) : editor
-  }
+	render() {
+		const editor = <div ref={this.editorRef} />
+
+		return this.props.render
+			? this.props.render({
+					editor,
+					view: this.view,
+			  })
+			: editor
+	}
 }
 
 export default Editor
