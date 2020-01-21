@@ -5,10 +5,13 @@
 }
 
 .comment {
-	background-color: #ff8;
+	font-family: inherit;
+	background-color: #8fa;
+	cursor: pointer;
 }
+
 .currentComment {
-	background-color: #fe0;
+	background-color: #8fa;
 }
 
 .commentList,
@@ -27,7 +30,6 @@
 }
 
 .ProseMirror ul.commentList {
-	font-family: 'Source Sans Pro';
 	font-size: 16px;
 	width: 15em;
 	position: absolute;
@@ -80,59 +82,4 @@ li.commentText + li.commentText {
 
 .commentDelete:hover {
 	color: #f88;
-}
-
-.doclist {
-	z-index: 20;
-	display: block;
-	padding: 2px 2px;
-	margin: 0;
-	border: 1px solid silver;
-	position: absolute;
-	background: white;
-	font-size: 90%;
-	box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	max-height: 15em;
-	overflow-y: auto;
-}
-
-.doclist li {
-	display: block;
-	padding: 1px 3px;
-	margin: 0;
-	cursor: pointer;
-}
-
-.doclist li:hover {
-	background: #5ae;
-	color: white;
-}
-
-.docinfo {
-	position: relative;
-	color: #555;
-}
-
-.ProseMirror-report {
-	position: fixed;
-	top: 0;
-	right: 0;
-	left: 0;
-	border-width: 0;
-	border-style: solid;
-	border-bottom-width: 1px;
-	padding: 3px 27px 5px;
-	white-space: pre;
-	z-index: 1000;
-}
-
-.ProseMirror-report-fail {
-	background: rgb(255, 230, 230);
-	border-color: rgb(200, 150, 150);
-}
-
-.ProseMirror-report-delay {
-	background: rgb(255, 255, 200);
-	border-color: rgb(200, 200, 120);
 }

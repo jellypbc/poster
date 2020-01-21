@@ -1,7 +1,9 @@
 // https://github.com/ProseMirror/website/blob/master/src/collab/client/comment.js
 import crel from 'crel'
-import { Plugin } from 'prosemirror-state'
+import { Plugin, PluginKey } from 'prosemirror-state'
 import { Decoration, DecorationSet } from 'prosemirror-view'
+
+export const pluginKey = new PluginKey('comments')
 
 class Comment {
 	constructor(text, id) {
@@ -104,7 +106,17 @@ class CommentState {
 	}
 }
 
+export function serialize(comment) {
+	return {
+		to: comment.to,
+		from: comment.from,
+		id: comment.comment.id,
+		text: comment.comment.text,
+	}
+}
+
 export const commentPlugin = new Plugin({
+	key: pluginKey,
 	state: {
 		init: CommentState.init,
 		apply(tr, prev) {
@@ -184,15 +196,16 @@ function renderComments(comments, dispatch, state) {
 }
 
 function renderComment(comment, dispatch, state) {
-	let btn = crel(
+	// TODO: implement delete later
+	let deleteBtn = crel(
 		'button',
 		{ class: 'commentDelete', title: 'Delete annotation' },
 		'×'
 	)
-	btn.addEventListener('click', () =>
+	deleteBtn.addEventListener('click', () =>
 		dispatch(
 			state.tr.setMeta(commentPlugin, { type: 'deleteComment', comment })
 		)
 	)
-	return crel('li', { class: 'commentText' }, comment.text, btn)
+	return crel('li', { class: 'commentText' }, comment.text)
 }
