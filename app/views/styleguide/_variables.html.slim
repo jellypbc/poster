@@ -2,7 +2,7 @@ h2 Variables
 .row.colors
 	.col-md-3
 		table
-			- %w(shaleDark shale shaleLight shaleLighter shaleLightest gray grayLight grayLighter).each do |color|
+			- %w(grayDarker grayDark gray grayLight grayLighter grayLighterer grayLightest).each do |color|
 				tr
 					td.color-block class==color
 					td.markup
@@ -11,7 +11,7 @@ h2 Variables
 
 	.col-md-3
 		table
-			- %w(brandGreen brandLime brandBlue brandOcean brandOrange grayLighterer grayLightest).each do |color|
+			- %w(shaleDark shale shaleLight shaleLighter shaleLightest).each do |color|
 				tr
 					td.color-block class==color
 					td.markup
@@ -20,7 +20,7 @@ h2 Variables
 
 	.col-md-3
 		table
-			- %w(error warning facebook twitter).each do |color|
+			- %w(brandGreen brandHighlight error warning).each do |color|
 				tr
 					td.color-block class==color
 					td.markup

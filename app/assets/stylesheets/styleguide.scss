@@ -34,9 +34,7 @@
 		.shaleDark { background-color: $shaleDark; }
 		.brandGreen { background-color: $brandGreen; }
 		.brandLime { background-color: $brandLime; }
-		.brandBlue { background-color: $brandBlue; }
-		.brandOcean { background-color: $brandOcean; }
-		.brandOrange { background-color: $brandOrange; }
+		.brandHighlight { background-color: $brandHighlight; }
 
 		.error { background-color: $error; }
 		.warning { background-color: $warning; }
@@ -73,8 +71,8 @@
 	#grid {
 		.tag {
 			background: $grayLightest;
-			border-radius: 12px;
-			border: 2px solid $shaleLighter;
+			border-radius: 2px;
+			border: 1px solid $shaleLighter;
 		}
 	}
 	.grey {

@@ -1,8 +1,8 @@
-html, body, h1, h2, h3, h4, h5,
+html, body, h1, h2, h3, h4, h5, h6
 ul, ol, li, blockquote, label, form,
 input, span, a {
   font-family: 'Roboto', Helvetica, Arial, sans-serif;
-  color: $black;
+  color: $shaleDark;
 }
 
 a {
@@ -17,7 +17,15 @@ a:hover {
 p, li {
   line-height: 22px;
   font-size: $baseFontSize;
-  font-family: $serifFontFamily;
+  letter-spacing: 0.01em;
+}
+
+.serif {
+	font-family: $serifFontFamily;
+}
+
+.sub {
+	color: $grayLight;
 }
 
 ul,
