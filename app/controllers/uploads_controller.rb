@@ -71,16 +71,6 @@ class UploadsController < ApplicationController
     end
   end
 
-  def presign
-	  # extension = File.extname(params[:filename].to_s)
-	  # location = SecureRandom.hex + extension
-	  # options = { content_type: Rack::Mime.mime_type(extension) }
-	  # storage = Shrine.storages[:cache]
-	  # presign = storage.presign(location, options)
-	  # result  = { url: presign.url, fields: presign.fields }  headers["Cache-Control"] = "no-store" # prevent Safari from caching
-	  # render json: result
-	end
-
   def destroy
     @upload.destroy
     respond_to do |format|
