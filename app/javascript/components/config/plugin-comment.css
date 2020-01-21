@@ -6,12 +6,12 @@
 
 .comment {
 	font-family: inherit;
-	background-color: #8fa;
+	background-color: rgba(50, 230, 150, 0.5);
 	cursor: pointer;
 }
 
 .currentComment {
-	background-color: #8fa;
+	background-color: rgba(50, 230, 150, 0.5);
 }
 
 .commentList,
@@ -59,10 +59,11 @@ ul.commentList::before {
 }
 
 li.commentText {
-	padding: 2px 20px 2px 5px;
+	padding: 2px 8px;
 	position: relative;
 	pointer-events: auto;
 	margin: 0;
+	font-style: normal;
 }
 
 li.commentText + li.commentText {
