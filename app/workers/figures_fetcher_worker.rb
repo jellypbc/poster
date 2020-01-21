@@ -26,12 +26,11 @@ class FiguresFetcherWorker
       figure.save!
     end
 
-    # callback to figures host for /cleanup
-    puts ">>>>>> figures API response"
-    puts figures_response
-    puts "<<<<<<"
+    # calls figures to delete assets
     FiguresExtractService.cleanup(@upload.id)
-    FiguresInlinerService.call(@upload.post.id)
 
+    # TODO: move this step into a batch
+    # run step to inject figures into post body
+    FiguresInlinerService.call(@upload.post.id)
   end
 end

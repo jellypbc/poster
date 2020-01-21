@@ -7,7 +7,7 @@
         - upload.errors.full_messages.each do |message|
           li = message
 
-  = form.hidden_field :file, value: @upload.cached_file_data
+  = form.hidden_field :file, value: upload.cached_file_data
 
   .input-group.my-4
     .custom-file
@@ -25,11 +25,3 @@ javascript:
       var fileName = document.getElementById('inputFile').files[0].name
       document.getElementById('label').textContent = fileName;
     });
-
-  // document.getElementById('breck')
-  //   .addEventListener("click", function(){
-  //     var url = "https://storage.googleapis.com/jellyposter-store/31c92b8e8daec9799010eb5f30fc7e95.pdf"
-  //     document.getElementById('inputFile').value = url
-  //     document.getElementById('label').textContent = fileName;
-  //     document.getElementById('form').submit()
-  //   });

@@ -1,15 +1,23 @@
 Rails.application.routes.draw do
   devise_for :users
-	require 'sidekiq/web'
+	require "sidekiq/web"
 
-  mount Sidekiq::Web,     at: '/sidekiq' #, constraints: AdminConstraint.new
+  mount Sidekiq::Web,     at: "/sidekiq" #, constraints: AdminConstraint.new
 
   mount ImageUploader.upload_endpoint(:cache) => "/images/cache"
   mount ImageUploader.upload_endpoint(:store) => "/images/upload"
 
+  mount FileUploader.upload_endpoint(:cache) => "/file/cache"
+  mount FileUploader.upload_endpoint(:store) => "/file/store"
+
   resources :uploads do
     get :extract_images
+    # collection do
+	   #  get "presign/s3/params", to: "photos#presign"
+	  # end
 	end
+	post "/file", to: "uploads#file"
+
   resources :posts
   resources :users
 
@@ -17,5 +25,5 @@ Rails.application.routes.draw do
     resource :styleguide, controller: :styleguide, only: :show
   end
 
-  root to: 'pages#index'
+  root to: "pages#index"
 end

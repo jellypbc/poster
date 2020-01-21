@@ -16,16 +16,12 @@ header {
     padding: 50px 0;
 
     .btn-primary {
-      color: $white;
-      background-color: $brandGreen;
-      border-color: transparent;
+      // color: $white;
+      // background-color: $brandGreen;
+      // border-color: transparent;
       padding: 12px 20px;
       font-weight: 600;
       font-size: 17px;
-      &:hover {
-        background-color: darken($brandGreen, 12);
-        color: $grayLighterer;
-      }
     }
 
     span {
