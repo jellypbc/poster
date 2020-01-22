@@ -92,9 +92,10 @@ class CommentState {
 	}
 
 	static init(config) {
-		const existingComments = config.doc.comments
-			? config.doc.comments.comments
-			: config.comments.comments
+		const existingComments =
+			(config.doc.comments
+				? config.doc.comments.comments
+				: config.comments.comments) || []
 		let decos = existingComments.map(c =>
 			deco(c.from, c.to, new Comment(c.text, c.id))
 		)
