@@ -26,6 +26,7 @@
     "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
     "bootstrap": "^4.3.1",
     "classnames": "^2.2.6",
+    "crel": "^4.2.0",
     "date-fns": "^2.8.1",
     "es6-promise": "^4.2.8",
     "jquery": "^3.4.1",

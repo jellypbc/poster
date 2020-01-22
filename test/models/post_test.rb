@@ -21,8 +21,10 @@
 #  index_posts_on_user_id  (user_id)
 #
 
-FactoryBot.define do
-  factory :post do
-    sequence(:title) {|n| "Awesome Post #{n}" }
-  end
+require 'test_helper'
+
+class PostTest < ActiveSupport::TestCase
+  # test "the truth" do
+  #   assert true
+  # end
 end

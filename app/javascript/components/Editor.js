@@ -3,46 +3,64 @@ import { EditorState } from 'prosemirror-state'
 import { EditorView } from 'prosemirror-view'
 import 'prosemirror-view/style/prosemirror.css'
 
+import { pluginKey as commentPluginKey } from './config/plugin-comment'
+
 class Editor extends React.Component {
-  constructor (props) {
-    super(props)
+	constructor(props) {
+		super(props)
 
-    this.editorRef = React.createRef()
+		this.editorRef = React.createRef()
 
-    this.view = new EditorView(null, {
-      state: EditorState.create(props.options),
-      dispatchTransaction: transaction => {
-        const { state, transactions } = this.view.state.applyTransaction(transaction)
+		console.log('EDITOR OPTIONS', props.options)
 
-        this.view.updateState(state)
+		this.view = new EditorView(null, {
+			state: EditorState.create(props.options),
+			dispatchTransaction: transaction => {
+				const oldComments = commentPluginKey.getState(this.view.state)
 
-        if (transactions.some(tr => tr.docChanged)) {
-          this.props.onChange(state.doc)
-        }
+				const { state, transactions } = this.view.state.applyTransaction(
+					transaction
+				)
 
-        this.forceUpdate()
-      },
-      attributes: this.props.attributes,
-      nodeViews: this.props.nodeViews
-    })
-  }
+				this.view.updateState(state)
 
-  componentDidMount () {
-    this.editorRef.current.appendChild(this.view.dom)
+				const newComments = commentPluginKey.getState(state)
 
-    if (this.props.autoFocus) {
-      this.view.focus()
-    }
-  }
+				// TODO: docChanged is for tx with steps only
+				// get comments to also call onChange, but ignore selection changes?
+				if (
+					transactions.some(tr => tr.docChanged) ||
+					newComments !== oldComments
+				) {
+					this.props.onChange(state.doc, state)
+				}
 
-  render () {
-    const editor = <div ref={this.editorRef} />
+				// TODO: why?
+				this.forceUpdate()
+			},
+			attributes: this.props.attributes,
+			nodeViews: this.props.nodeViews,
+		})
+	}
 
-    return this.props.render ? this.props.render({
-      editor,
-      view: this.view
-    }) : editor
-  }
+	componentDidMount() {
+		this.editorRef.current.appendChild(this.view.dom)
+
+		if (this.props.autoFocus) {
+			this.view.focus()
+		}
+	}
+
+	render() {
+		const editor = <div ref={this.editorRef} />
+
+		return this.props.render
+			? this.props.render({
+					editor,
+					view: this.view,
+			  })
+			: editor
+	}
 }
 
 export default Editor

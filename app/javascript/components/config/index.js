@@ -4,8 +4,9 @@ import schema from './schema'
 import plugins from './plugins'
 
 export const options = {
-  plugins,
-  schema
+	plugins,
+	schema,
+	comments: { comments: [] },
 }
 
 export { default as menu } from './menu'

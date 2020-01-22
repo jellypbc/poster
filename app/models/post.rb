@@ -6,6 +6,7 @@
 #  abstract     :text
 #  authors      :text
 #  body         :json
+#  plugins      :jsonb            not null
 #  publish_date :datetime
 #  publisher    :string
 #  slug         :string

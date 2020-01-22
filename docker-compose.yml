@@ -1,4 +1,4 @@
-version: "3.4"
+version: '3.2'
 services:
   app: &app
     build:
@@ -29,6 +29,8 @@ services:
       - DB_HOST=postgres
       - DB_USER=postgres
       - DB_PASSWORD=foobar123
+      - POSTGRES_USER=postgres # needed on init to create role matching DB_USER
+      - POSTGRES_PASSWORD=foobar123 # needed on init to create role matching DB_USER
       - BOOTSNAP_CACHE_DIR=/usr/local/bundle/_bootsnap
       - WEBPACKER_DEV_SERVER_HOST=webpacker
       - WEB_CONCURRENCY=1
@@ -73,33 +75,33 @@ services:
     environment:
       - POSTGRES_USER
     ports:
-      - "5432:5432"
+      - '5432:5432'
     expose:
-      - "5432"
+      - '5432'
 
   redis:
     image: redis:5.0.7
     restart: always
     ports:
-      - "6379:6379"
+      - '6379:6379'
     expose:
-      - "6379"
+      - '6379'
 
   grobid:
     image: lfoppiano/grobid:0.5.6
     restart: on-failure
     ports:
-      - "8070:8070"
-      - "8071:8071"
+      - '8070:8070'
+      - '8071:8071'
     expose:
-      - "8070"
+      - '8070'
 
   figures:
     image: dluan/figures:0.0.5
     ports:
-      - "4567:4567"
+      - '4567:4567'
     expose:
-      - "4567"
+      - '4567'
 
 volumes:
   postgres:
