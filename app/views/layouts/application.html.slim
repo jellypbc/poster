@@ -1,22 +1,23 @@
 doctype html
 html lang='en-us'
-	head
-		title Jellyposter
+  head
+    title Jellyposter
 
-		= csrf_meta_tags
-		= csp_meta_tag
+    = csrf_meta_tags
+    = csp_meta_tag
 
-		= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
-		= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
+    = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
+    = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
 
-		= favicon_link_tag asset_path('favicon.png')
+    - favicon = Rails.env.development? ? 'jelly_blue.png' : 'favicon.png'
+    = favicon_link_tag asset_path(favicon)
 
-		= stylesheet_link_tag 'https://fonts.googleapis.com/css?family=Noto+Serif:400,400i,700|PT+Mono|Roboto:400,500,700,700i&display=swap&subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext'
+    = stylesheet_link_tag 'https://fonts.googleapis.com/css?family=Noto+Serif:400,400i,700|PT+Mono|Roboto:400,500,700,700i&display=swap&subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext'
 
-	body
-		= render "shared/nav"
-		= render "shared/flash_notices"
+body
+  = render "shared/nav"
+  = render "shared/flash_notices"
 
-		= content_for?(:content) ? yield(:content) : yield
+  = content_for?(:content) ? yield(:content) : yield
 
-		= render "shared/footer" unless @no_footer
+  = render "shared/footer" unless @no_footer

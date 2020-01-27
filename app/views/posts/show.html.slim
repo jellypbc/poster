@@ -1,8 +1,5 @@
 .container
 	.post-show
-		p messages
-		#hi
-
 		.header
 			.header-nav
 
@@ -23,7 +20,7 @@
 					= link_to @post.publisher.html_safe
 
 		#editor
-		/ = react_component "PostEditor", { post: PostSerializer.new(@post).serializable_hash }
+		= react_component "PostEditor", { post: PostSerializer.new(@post).serializable_hash }
 
 
 		/ - if @post.figures.any?

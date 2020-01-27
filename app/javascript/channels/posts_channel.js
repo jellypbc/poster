@@ -22,5 +22,6 @@ consumer.subscriptions.create("PostsChannel", {
     var el = document.getElementById("hi")
     el.appendChild(node)
     // el.outerHTML = "<div class='newsletter-success animated fadeIn'><p>🎉 Thanks for signing up!</p></div>";
+    location.reload();
   }
 });

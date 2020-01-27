@@ -32,7 +32,7 @@ class FiguresInlinerService
 			end
 
 
-			if @post.body.include?(target)
+			if @post.body && @post.body.include?(target)
 				puts ">>>> replacing #{target} with #{img}"
 				new_body = @post.body.gsub(target, figure_html)
 				@post.update!(body: new_body)
