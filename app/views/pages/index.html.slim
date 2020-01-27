@@ -19,7 +19,7 @@
 			- @posts.each do |post|
 				= link_to post do
 					.post
-						.title
+						h4.title
 							= post.title || "Title"
 						.preview
 							- if post.abstract
