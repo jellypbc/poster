@@ -1,15 +1,9 @@
 #post.container data-post-id=@post.id
-	.post-show
-		- if @post.uploads.any?
-			.pdf-url
-				- if @post.uploads.first.file
-					- if @post.uploads.first.file.metadata["mime_type"].include?("image")
-						= image_tag @post.uploads.first.file_url
-					- elsif @post.uploads.first.file.metadata["mime_type"].include?("pdf")
-						= link_to 'View Original PDF', @post.uploads.first.file_url, target: '_blank'
+  .post-show
+    = render 'placeholder_post', post: @post
 
-		#editor
-		= react_component "PostEditor", { post: PostSerializer.new(@post).serializable_hash, isProcessing: @post.body.nil? }
+    .editor
+      = react_component "PostEditor", { post: PostSerializer.new(@post).serializable_hash, isProcessing: @post.body.nil? }
 
-		- if @post.citations.any?
-			= render 'citations', post: @post
+    - if @post.citations.any?
+      = render 'citations', post: @post

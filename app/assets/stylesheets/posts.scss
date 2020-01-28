@@ -1,4 +1,4 @@
-#editor {
+.editor {
 	padding: 20px;
 }
 
@@ -143,4 +143,52 @@
       }
     }
   }
+  .post-placeholder {
+    .post-placeholder-message {
+      border: 2px solid $grayLighter;
+      background: white;
+      box-shadow: 0 0 15px 4px $grayLighter;
+      border-radius: 6px;
+      padding: 20px;
+      position: relative;
+      width: 80%;
+      top: 130px;
+      margin: 0 auto;
+      z-index: 4;
+      img {
+        display: inline-block;
+        padding-right: 20px;
+        vertical-align: top;
+        width: 35%;
+      }
+      p {
+        line-height: 21px;
+        margin: 10px 0;
+      }
+      i {
+        color: $grayLighter;
+      }
+      .box {
+        width: 65%;
+        display: inline-block;
+      }
+    }
+    .title-shape {
+      border-radius: 7px;
+      background: $grayLightest;
+      width: auto;
+      height: 52px;
+      margin-top: -30px;
+      z-index: 2;
+    }
+    .body-shape {
+      border-radius: 7px;
+      background: $grayLightest;
+      width: auto;
+      height: 350px;
+      margin-top: 100px;
+      z-index: 2;
+    }
+  }
+
 }

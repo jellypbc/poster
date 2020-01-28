@@ -43,4 +43,8 @@ class PostSerializer
     Rails.env.development? ? "ws://localhost:3000/cable" : ENV.fetch("REDIS_URL")
   end
 
+  attribute :upload_url do |object|
+    object.uploads.first.file_url
+  end
+
 end

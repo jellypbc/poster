@@ -65,6 +65,10 @@ class PostEditor extends React.Component {
         console.log(this.state)
       }.bind(this)
     })
+
+    // Remove the static placeholder content once component renders
+    var placeholder = document.getElementsByClassName('placeholder-content')[0]
+    placeholder.remove()
   }
 
 	handleFormChange(doc) {
