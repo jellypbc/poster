@@ -81,13 +81,14 @@
 
   // post editor body styles
   .post-editor {
+		font-family: $serifFontFamily;
+
   	p,
   	a,
-  	li {
-  		font-family: $serifFontFamily;
+		li, {
   		font-size: 15px;
   		line-height: 25px;
-  	}
+		}
 
   	strong {
   		font-weight: 600;
@@ -190,5 +191,4 @@
       z-index: 2;
     }
   }
-
 }

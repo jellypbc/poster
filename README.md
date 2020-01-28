@@ -30,6 +30,8 @@ bundle exec rails rails db:schema:load
 ```sh
 # Start server on default port localhost:3000
 bundle exec rails server
+# If env vars need to be changed
+DATABASE_URL=postgres://localhost:5432 DB_USER=postgres bundle exec rails server
 ```
 
 Or you can use docker to run the rails server and other services together, using:

@@ -2691,6 +2691,11 @@ crel@^4.1.0:
   resolved "https://registry.yarnpkg.com/crel/-/crel-4.1.0.tgz#0ac6ba56cc0615af93e6380b039d22208a39a878"
   integrity sha512-XyoFUxclpB436b63d2aag38Rcj7iArgeoTI0H2Q19hPvPVo9bY2ioarHMojQmRJ7IOZ+serUFj529QBXF/Nh1g==
 
+crel@^4.2.0:
+  version "4.2.0"
+  resolved "https://registry.npmjs.org/crel/-/crel-4.2.0.tgz#56ec0044cb0db524531ace51e6e7f22a76f028f2"
+  integrity sha512-ZBVhTmtapdjEn8rTcTR/ePE0JSNfHzZfDkD3eAnsQEBmkQW9r14mzq6tK5Hkw6r26l7XxlU2Ox1nfHsmGIj0zQ==
+
 cross-spawn@6.0.5, cross-spawn@^6.0.0, cross-spawn@^6.0.5:
   version "6.0.5"
   resolved "https://registry.yarnpkg.com/cross-spawn/-/cross-spawn-6.0.5.tgz#4a5ec7c64dfae22c3a14124dbacdee846d80cbc4"

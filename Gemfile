@@ -51,7 +51,8 @@ group :development do
   gem "spring-watcher-listen", "~> 2.0.0"
   gem "bullet"
   gem "ngrok-tunnel", require: false
-  gem "letter_opener"
+  gem "letter_opener", "~> 1.7"
+  gem "letter_opener_web", "~> 1.3"
   gem "annotate"
   gem "pry"
   gem "pry-rails"

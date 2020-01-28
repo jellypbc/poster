@@ -10,6 +10,8 @@ Rails.application.routes.draw do
   mount FileUploader.upload_endpoint(:cache) => "/file/cache"
   mount FileUploader.upload_endpoint(:store) => "/file/store"
 
+  mount LetterOpenerWeb::Engine, at: '/letter_opener' if Rails.env.development?
+
   resources :uploads do
     get :extract_images
     # collection do

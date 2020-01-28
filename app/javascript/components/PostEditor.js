@@ -11,6 +11,10 @@ import PostMasthead from './PostMasthead'
 import PostProcessingPlaceholder from './PostProcessingPlaceholder'
 
 import { options, menu } from './config/index'
+import {
+	pluginKey as commentPluginKey,
+	serialize as serializeComment,
+} from './config/plugin-comment'
 
 // returns value of "updated_at" or "created_at" as string, or null
 const getTimestamp = (timestampName, post) =>
@@ -28,7 +32,7 @@ class PostEditor extends React.Component {
 	constructor(props) {
 		super(props)
 
-		console.log(props) // DEBUG INIT
+		console.log('POSTEDITOR PROPS', props)
 
 		// TODO: Whole thing needs to reinit if props.post changes identity,
 		//       which can be done with useEffect or componentDidUpdate
@@ -71,7 +75,8 @@ class PostEditor extends React.Component {
     placeholder.remove()
   }
 
-	handleFormChange(doc) {
+
+	handleFormChange = (doc, docState) => {
 		// "doc" is the new HTML
 
 		// do not read from this.state after setState, it will not update until rerender
@@ -81,7 +86,17 @@ class PostEditor extends React.Component {
 		const isNewPost = getIsNewPost(post)
 
 		var url = isNewPost ? '/posts' : post.data.attributes.form_url
-		var data = { body: doc }
+
+		const commentState = commentPluginKey.getState(docState)
+		const newCommentsToSave = commentState.unsent.map(serializeComment)
+		// TODO: serialize JSON on server instead of parsing string?
+		const oldPluginState = JSON.parse(post.data.attributes.plugins)
+		const comments = [...(oldPluginState.comments || []), ...newCommentsToSave]
+
+		var data = {
+			body: doc,
+			plugins: JSON.stringify({ comments }),
+		}
 		var method = isNewPost ? 'post' : 'put'
 		var token = document.head.querySelector('[name~=csrf-token][content]')
 			.content
@@ -115,6 +130,7 @@ class PostEditor extends React.Component {
     } = this.state
     const isNewPost = getIsNewPost(post)
     const postBody = post.data.attributes.body
+    const pluginState = JSON.parse(post.data.attributes.plugins)
     const lastSavedAtDate = new Date(lastSavedAt) // convert to date object
     const hasUnsavedChanges = lastSavedAtDate < lastUnsavedChangeAt
 
@@ -127,21 +143,20 @@ class PostEditor extends React.Component {
           </p>
         ) : null}
         <HtmlEditor
-          onChange={doc => this.handleFormChange(doc)}
+          onChange={this.handleFormChange}
           onHasChanges={() =>
             this.setState({ lastUnsavedChangeAt: new Date() })
           }
-          value={postBody}
+          html={postBody}
+          pluginState={pluginState}
           options={options}
           autoFocus
           render={({ editor, view }) => (
             <div>
               <Floater view={view}>
-                <MenuBar menu={{ marks: menu.marks }} view={view} />
+                <MenuBar menu={{ ...menu }} view={view} />
               </Floater>
-              <div className="post-editor">
-                {editor}
-              </div>
+              <div className="post-editor">{editor}</div>
             </div>
           )}
         />
