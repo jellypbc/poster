@@ -32,8 +32,6 @@ class GrobidService
 		return unless @file
 
 		processFulltextDocument
-
-		# DiborgServiceWorker.perform_async(@upload_tei.id, @upload_tei.post.id)
 	end
 
 	private

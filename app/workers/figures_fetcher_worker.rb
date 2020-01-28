@@ -28,12 +28,5 @@ class FiguresFetcherWorker
 
     # calls figures to delete assets
     FiguresExtractService.cleanup(@upload.id)
-
-    # TODO: move this step into a batch
-    # run step to inject figures into post body
-    # FiguresInlinerService.call(@upload.post.id)
-
-    # TODO: move this into a batch
-    # BroadcastPostsChannelWorker.perform_async(@upload.post.id)
   end
 end

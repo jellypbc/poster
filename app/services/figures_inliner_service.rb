@@ -11,9 +11,6 @@ class FiguresInlinerService
 
   def initialize(post_id)
 		@post = Post.find(post_id)
-
-		# @upload_tei = UploadTei.find(upload_tei_id)
-		# @doc = Nokogiri::XML(@upload_tei.body)
   end
 
 	def call
@@ -46,7 +43,5 @@ class FiguresInlinerService
 			@post.update!(body: new_body)
 		end
 	end
-
-  private
 
 end

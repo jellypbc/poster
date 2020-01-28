@@ -30,14 +30,11 @@ class Upload < ApplicationRecord
 	after_create_commit :process
 
 	def process
-		create_upload_tei if is_pdf?
-    UploadParsePipelineWorker.perform_async(id)
-		# FiguresExtractWorker.perform_async(id)
+    if is_pdf?
+      create_upload_tei
+      UploadParsePipelineWorker.perform_async(id)
+    end
 	end
-
-	# def create_upload_tei
-	# 	UploadTei.create(upload: self)
-	# end
 
 	def is_pdf?
 		file.metadata["mime_type"].include?("pdf")
