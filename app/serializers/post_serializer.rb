@@ -40,7 +40,7 @@ class PostSerializer
   end
 
   attribute :cable_url do |object|
-    Rails.env.development? ? "ws://localhost:3000/cable" : "#{ENV["REDIS_URL"]}"
+    Rails.env.development? ? "ws://localhost:3000/cable" : "ws://#{ENV["HOSTNAME"]}/cable"
   end
 
   attribute :upload_url do |object|
