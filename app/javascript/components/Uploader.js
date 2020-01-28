@@ -1,6 +1,3 @@
-import '@uppy/core/dist/style.css'
-import '@uppy/drag-drop/dist/style.css'
-
 import React from 'react'
 import Uppy from '@uppy/core'
 import XHRUpload from '@uppy/xhr-upload'
