@@ -17,7 +17,7 @@ class UploadTei < ApplicationRecord
 	belongs_to :upload
 	has_one :post, through: :upload
 
-	after_create_commit :process
+	# after_create_commit :process
 
 	def process
 		GrobidServiceWorker.perform_async(id)

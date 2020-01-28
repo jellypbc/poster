@@ -31,12 +31,13 @@ class Upload < ApplicationRecord
 
 	def process
 		create_upload_tei if is_pdf?
-		FiguresExtractWorker.perform_async(id)
+    UploadParsePipelineWorker.perform_async(id)
+		# FiguresExtractWorker.perform_async(id)
 	end
 
-	def create_upload_tei
-		UploadTei.create(upload: self)
-	end
+	# def create_upload_tei
+	# 	UploadTei.create(upload: self)
+	# end
 
 	def is_pdf?
 		file.metadata["mime_type"].include?("pdf")

@@ -33,7 +33,7 @@ class GrobidService
 
 		processFulltextDocument
 
-		DiborgServiceWorker.perform_async(@upload_tei.id, @upload_tei.post.id)
+		# DiborgServiceWorker.perform_async(@upload_tei.id, @upload_tei.post.id)
 	end
 
 	private

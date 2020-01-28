@@ -26,8 +26,8 @@ gem "fast_jsonapi"
 gem "will_paginate"
 gem "nokogiri"
 gem "sidekiq"
-gem "sidekiq-batch", require: false
-gem "sidekiq-cron", require: false
+gem "sidekiq-batch"
+gem "sidekiq-cron"
 gem "redis"
 gem "bootsnap", ">= 1.4.2", require: false
 

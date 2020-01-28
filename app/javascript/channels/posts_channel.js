@@ -14,13 +14,13 @@ consumer.subscriptions.create("PostsChannel", {
     // Called when there's incoming data on the websocket for this channel
     console.log("<<<<< receiving")
     console.log(data)
-    console.log(data.content)
+    // console.log(data.content)
 
-    var node = document.createElement("p");
-    node.innerHTML = data.content
-    // el = document.getElementById("hi").appendChild(node);
-    var el = document.getElementById("hi")
-    el.appendChild(node)
+    // var node = document.createElement("p");
+    // node.innerHTML = data.content
+    // // el = document.getElementById("hi").appendChild(node);
+    // var el = document.getElementById("hi")
+    // el.appendChild(node)
     // el.outerHTML = "<div class='newsletter-success animated fadeIn'><p>🎉 Thanks for signing up!</p></div>";
     location.reload();
   }
