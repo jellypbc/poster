@@ -1,6 +1,7 @@
 class PostsChannel < ApplicationCable::Channel
   def subscribed
-    stream_from "posts_channel"
+    post = Post.find params[:post_id]
+    stream_for post
   end
 
   def unsubscribed

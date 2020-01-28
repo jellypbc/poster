@@ -6,6 +6,7 @@
 #  abstract     :text
 #  authors      :text
 #  body         :json
+#  plugins      :jsonb            not null
 #  publish_date :datetime
 #  publisher    :string
 #  slug         :string
@@ -33,7 +34,7 @@ class Post < ApplicationRecord
 
 	accepts_nested_attributes_for :uploads
 
-  validates :title, length: { maximum: 800 }
+  validates :title, length: { maximum: 1000 }
 
 	scope :primary, -> { joins(:uploads) }
 

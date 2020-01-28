@@ -48,11 +48,12 @@ class PipelineSteps
   def step3(status, options)
     upload_id = options['upload_id']
     @upload = Upload.find(upload_id)
+    post_id = @upload.post.id
 
     overall = Sidekiq::Batch.new(status.parent_bid)
     overall.jobs do
       step = Sidekiq::Batch.new
-      step.on(:success, 'PipelineSteps#finished', 'upload_id' => upload_id)
+      step.on(:success, 'PipelineSteps#finished', 'post_id' => post_id)
       step.jobs do
         FiguresInlinerWorker.perform_async(@upload.post.id)
       end
@@ -62,6 +63,6 @@ class PipelineSteps
 
   # step 4: send websocket response
   def finished(status, options)
-    ActionCable.server.broadcast "posts_channel", content: "finished"
+    BroadcastPostsChannelWorker.perform_async(options['post_id'])
   end
 end

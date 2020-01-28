@@ -6,6 +6,7 @@
 #  abstract     :text
 #  authors      :text
 #  body         :json
+#  plugins      :jsonb            not null
 #  publish_date :datetime
 #  publisher    :string
 #  slug         :string
@@ -36,6 +37,10 @@ class PostSerializer
     		.gsub("<__content__>", "<br/>")
     		.gsub("</__content__>", "")
     end
+  end
+
+  attribute :cable_url do |object|
+    Rails.env.development? ? "ws://localhost:3000/cable" : ENV.fetch("REDIS_URL")
   end
 
 end
