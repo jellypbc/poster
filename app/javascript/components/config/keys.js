@@ -17,6 +17,8 @@ import {
 } from 'prosemirror-commands'
 
 import schema from './schema'
+import { addAnnotation } from './plugin-comment'
+import menu from './menu'
 
 const insertBreak = (state, dispatch) => {
   const br = schema.nodes.hard_break.create()
@@ -43,6 +45,7 @@ const keys = {
   'Mod-i': toggleMark(schema.marks.em),
   'Mod-u': toggleMark(schema.marks.underline),
   'Mod-`': toggleMark(schema.marks.code),
+  'Mod-k': menu.marks.link.run,
   'Shift-Ctrl-8': wrapInList(schema.nodes.bullet_list),
   'Shift-Ctrl-9': wrapInList(schema.nodes.ordered_list),
   'Ctrl->': wrapIn(schema.nodes.blockquote),
@@ -62,7 +65,8 @@ const keys = {
   'Shift-Ctrl-6': setBlockType(schema.nodes.heading, { level: 6 }),
   'Mod-_': insertRule,
   'Tab': goToNextCell(1),
-  'Shift-Tab': goToNextCell(-1)
+  'Shift-Tab': goToNextCell(-1),
+  'Mod-Shift-m': addAnnotation
 }
 
 Object.keys(baseKeymap).forEach(key => {
