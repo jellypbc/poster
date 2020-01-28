@@ -61,12 +61,10 @@ class PostEditor extends React.Component {
       },
 
       received: function(data) {
-        console.log(data)
         this.setState( state => ({
           post: data,
           isProcessing: false
         }))
-        console.log(this.state)
       }.bind(this)
     })
 
