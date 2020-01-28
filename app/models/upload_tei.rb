@@ -17,15 +17,6 @@ class UploadTei < ApplicationRecord
 	belongs_to :upload
 	has_one :post, through: :upload
 
-	after_create_commit :process
-
-	def process
-		GrobidServiceWorker.perform_async(id)
-	end
-
-	def find_images
-	end
-
 	def body_xml
 		Nokogiri::XML(body)
 	end
@@ -63,8 +54,6 @@ class UploadTei < ApplicationRecord
 			authors: parse_authors(bibStruct),
 			imprint_date: parse_publish_date(bibStruct)
 		}
-
-		# need to add post_id and
 	end
 
 	def parse_header_title

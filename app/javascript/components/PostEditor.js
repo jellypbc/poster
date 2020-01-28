@@ -1,18 +1,20 @@
 /* eslint-disable jsx-a11y/no-autofocus */
 import React from 'react'
 import { formatDistanceToNow } from 'date-fns'
+import { createConsumer } from "@rails/actioncable"
+import superagent from 'superagent'
 
 import HtmlEditor from './HtmlEditor'
 import Floater from './Floater'
 import MenuBar from './MenuBar'
+import PostMasthead from './PostMasthead'
+import PostProcessingPlaceholder from './PostProcessingPlaceholder'
 
 import { options, menu } from './config/index'
 import {
 	pluginKey as commentPluginKey,
 	serialize as serializeComment,
 } from './config/plugin-comment'
-
-import superagent from 'superagent'
 
 // returns value of "updated_at" or "created_at" as string, or null
 const getTimestamp = (timestampName, post) =>
@@ -37,15 +39,40 @@ class PostEditor extends React.Component {
 		// TODO: should prevent closing tab while hasChanges state is true
 
 		this.state = {
-			// don't copy props.post into state unless we expect to update it
+      post: this.props.post || null,
 			isLoading: false, // is sending request to server
 			hasChanges: false, // editor has changes (actual onChange may be debounced)
 			error: null, // last server error, if any
 			errorAt: null, // string or null
 			lastSavedAt: getTimestamp('updated_at', props.post), // string or null
 			lastUnsavedChangeAt: null, // Date object or null, used to track dirty state
+      isProcessing: this.props.isProcessing || false,
 		}
 	}
+
+  componentDidMount(){
+    var post = document.getElementById('post').getAttribute("data-post-id")
+    var cableHost = this.state.post.data.attributes.cable_url
+    var cable = createConsumer(cableHost)
+
+    cable.subscriptions.create({channel: "PostsChannel", post_id: post}, {
+      connected() {
+        console.log("connected to PostsChannel")
+      },
+
+      received: function(data) {
+        this.setState( state => ({
+          post: data,
+          isProcessing: false
+        }))
+      }.bind(this)
+    })
+
+    // Remove the static placeholder content once component renders
+    var placeholder = document.getElementsByClassName('placeholder-content')[0]
+    placeholder.remove()
+  }
+
 
 	handleFormChange = (doc, docState) => {
 		// "doc" is the new HTML
@@ -53,7 +80,7 @@ class PostEditor extends React.Component {
 		// do not read from this.state after setState, it will not update until rerender
 		this.setState({ isLoading: true })
 
-		var { post } = this.props
+		var { post } = this.state
 		const isNewPost = getIsNewPost(post)
 
 		var url = isNewPost ? '/posts' : post.data.attributes.form_url
@@ -90,67 +117,79 @@ class PostEditor extends React.Component {
 			})
 	}
 
-	render() {
-		const { post } = this.props
-		const {
-			error,
-			errorAt,
-			isLoading,
-			lastSavedAt,
-			lastUnsavedChangeAt,
-		} = this.state
-		const isNewPost = getIsNewPost(post)
-		const postBody = post.data.attributes.body
-		const pluginState = JSON.parse(post.data.attributes.plugins)
-		const lastSavedAtDate = new Date(lastSavedAt) // convert to date object
-		const hasUnsavedChanges = lastSavedAtDate < lastUnsavedChangeAt
+  renderPost(){
+    const {
+      post,
+      error,
+      errorAt,
+      isLoading,
+      lastSavedAt,
+      lastUnsavedChangeAt,
+    } = this.state
+    const isNewPost = getIsNewPost(post)
+    const postBody = post.data.attributes.body
+    const pluginState = JSON.parse(post.data.attributes.plugins)
+    const lastSavedAtDate = new Date(lastSavedAt) // convert to date object
+    const hasUnsavedChanges = lastSavedAtDate < lastUnsavedChangeAt
 
+    return (
+      <div>
+        <PostMasthead post={post}/>
+        {error ? (
+          <p className="post__error">
+            <strong>{errorAt}</strong>: {error}
+          </p>
+        ) : null}
+        <HtmlEditor
+          onChange={this.handleFormChange}
+          onHasChanges={() =>
+            this.setState({ lastUnsavedChangeAt: new Date() })
+          }
+          html={postBody}
+          pluginState={pluginState}
+          options={options}
+          autoFocus
+          render={({ editor, view }) => (
+            <div>
+              <Floater view={view}>
+                <MenuBar menu={{ ...menu }} view={view} />
+              </Floater>
+              <div className="post-editor">{editor}</div>
+            </div>
+          )}
+        />
+
+        <div
+          className={
+            'py-1 px-2 loading-indicator ' + (this.state.loading && 'active')
+          }
+        >
+          <i className="fa fa-circle" />
+          <span>
+            {isLoading
+              ? 'Saving...'
+              : hasUnsavedChanges
+              ? isNewPost
+                ? 'Not saved yet'
+                : `Last saved ${formatDistanceToNow(lastSavedAtDate, {
+                    includeSeconds: true,
+                    addSuffix: true,
+                  })}`
+              : 'All changes saved'}
+          </span>
+        </div>
+      </div>
+    )
+  }
+
+	render() {
 		return (
 			<div>
-				{error ? (
-					<p className="post__error">
-						<strong>{errorAt}</strong>: {error}
-					</p>
-				) : null}
-				<HtmlEditor
-					onChange={this.handleFormChange}
-					onHasChanges={() =>
-						this.setState({ lastUnsavedChangeAt: new Date() })
-					}
-					html={postBody}
-					pluginState={pluginState}
-					options={options}
-					autoFocus
-					render={({ editor, view }) => (
-						<div>
-							<Floater view={view}>
-								<MenuBar menu={{ ...menu }} view={view} />
-							</Floater>
-							<div className="post-editor">{editor}</div>
-						</div>
-					)}
-				/>
-
-				<div
-					className={
-						'py-1 px-2 loading-indicator ' + (this.state.loading && 'active')
-					}
-				>
-					<i className="fa fa-circle" />
-					<span>
-						{isLoading
-							? 'Saving...'
-							: hasUnsavedChanges
-							? isNewPost
-								? 'Not saved yet'
-								: `Last saved ${formatDistanceToNow(lastSavedAtDate, {
-										includeSeconds: true,
-										addSuffix: true,
-								  })}`
-							: 'All changes saved'}
-					</span>
-				</div>
-			</div>
+        { this.state.isProcessing ?
+          <PostProcessingPlaceholder /> :
+          this.renderPost()
+        }
+      </div>
 		)
 	}
 }

@@ -7,7 +7,7 @@ if Rails.env.development? || Rails.env.test?
 	  cache: Shrine::Storage::FileSystem.new("public", prefix: "uploads/cache"),
 	  store: Shrine::Storage::FileSystem.new("public", prefix: "uploads"),
 	}
-elsif Rails.env.staging? || Rails.env.production?
+elsif Rails.env.production?
 	Shrine.storages = {
 	  cache: Shrine::Storage::GoogleCloudStorage.new(
 	  	bucket: "jellyposter-cache",

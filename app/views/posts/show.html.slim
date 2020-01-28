@@ -1,31 +1,9 @@
-.container
-	.post-show
-	  .header
-	    .header-nav
-	      - if @post.uploads.any?
-	        .pdf-url
-	          - if @post.uploads.first.file
-	            - if @post.uploads.first.file.metadata["mime_type"].include?("image")
-	              = image_tag @post.uploads.first.file_url
-	            - elsif @post.uploads.first.file.metadata["mime_type"].include?("pdf")
-	              = link_to 'View Original PDF', @post.uploads.first.file_url, target: '_blank'
-	    h1.title
-	      = @post.title.html_safe if @post.title
-	    .authors
-	      = @post.authors.html_safe if @post.authors
-	    .publisher
-	      - if @post.publisher
-	        = "Published by "
-	        = link_to @post.publisher.html_safe
+#post.container data-post-id=@post.id
+  .post-show
+    = render 'placeholder_post', post: @post
 
-	  #editor
-	  = react_component "PostEditor", { post: PostSerializer.new(@post).serializable_hash }
+    .editor
+      = react_component "PostEditor", { post: PostSerializer.new(@post).serializable_hash, isProcessing: @post.body.nil? }
 
-
-	  / - if @post.figures.any?
-	  /   - @post.figures.each do |image|
-	  /     .image
-	  /       = image_tag image.image.url, width: 300
-
-	  - if @post.citations.any?
-	    = render 'citations', post: @post
+    - if @post.citations.any?
+      = render 'citations', post: @post
