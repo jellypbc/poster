@@ -3,7 +3,7 @@
     = render 'placeholder_post', post: @post
 
     .editor
-      = react_component "PostEditor", { post: PostSerializer.new(@post).serializable_hash, isProcessing: @post.body.nil? }
+    = react_component "PostEditor", { post: PostSerializer.new(@post).serializable_hash, isProcessing: @post.body.nil? }
 
     - if @post.citations.any?
       = render 'citations', post: @post

@@ -18,9 +18,9 @@ class GrobidService
     new(*args).call
   end
 
-	def initialize(upload_tei_id)
-		@upload_tei = UploadTei.find(upload_tei_id)
-		@upload = @upload_tei.upload
+	def initialize(upload_id)
+		@upload = Upload.find upload_id
+		@upload_tei = @upload.upload_tei
 		@file = File.open(open(file_url))
 	end
 
@@ -65,7 +65,7 @@ class GrobidService
 			resp = HTTParty.post(
 				endpoint, {
 					body: {
-						teiCoordinates: "figure",
+						teiCoordinates: "ref",
 						includeRawCitations: 1,
 						input: @file
 					}
