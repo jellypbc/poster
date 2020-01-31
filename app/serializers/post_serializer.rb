@@ -6,6 +6,8 @@
 #  abstract     :text
 #  authors      :text
 #  body         :json
+#  imprint_date :string
+#  imprint_type :string
 #  plugins      :jsonb            not null
 #  publish_date :datetime
 #  publisher    :string
@@ -33,9 +35,9 @@ class PostSerializer
 
   attribute :body do |object|
     if object.body
-    	object.body
-    		.gsub("<__content__>", "<br/>")
-    		.gsub("</__content__>", "")
+      object.body
+        .gsub("<__content__>", "<br/>")
+        .gsub("</__content__>", "")
     end
   end
 

@@ -15,13 +15,12 @@ class StartPipeline
 
   # step 1: run grobid and figures external services
   def perform(upload_id)
-    @upload = Upload.find(upload_id)
     batch.jobs do
       step1 = Sidekiq::Batch.new
       step1.on(:success, 'PipelineSteps#step2', 'upload_id' => upload_id)
       step1.jobs do
         FiguresExtractWorker.perform_async(upload_id)
-        GrobidServiceWorker.perform_async(@upload.upload_tei.id)
+        GrobidServiceWorker.perform_async(upload_id)
       end
     end
   end
@@ -30,16 +29,15 @@ end
 class PipelineSteps
 
   # step 2: run diborg
+  # Post.update!(body: body)
   def step2(status, options)
     upload_id = options['upload_id']
-    @upload = Upload.find(upload_id)
-
     overall = Sidekiq::Batch.new(status.parent_bid)
     overall.jobs do
       step = Sidekiq::Batch.new
       step.on(:success, 'PipelineSteps#step3', 'upload_id' => upload_id)
       step.jobs do
-        DiborgServiceWorker.perform_async(@upload.upload_tei.id, @upload.post.id)
+        DiborgServiceWorker.perform_async(upload_id)
       end
     end
   end

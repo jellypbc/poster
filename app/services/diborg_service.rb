@@ -4,9 +4,10 @@ class DiborgService
     new(*args).call
   end
 
-	def initialize(upload_tei_id, post_id)
-		@upload_tei = UploadTei.find(upload_tei_id)
-		@post = Post.find(post_id)
+	def initialize(upload_id)
+    @upload = Upload.find(upload_id)
+		@upload_tei = @upload.upload_tei
+		@post = @upload.post
 		@doc = Nokogiri::XML(@upload_tei.body)
 	end
 
@@ -23,18 +24,22 @@ class DiborgService
 		end
 
 		def update_post
-			@post.update!(title: parse_header_title)
-			@post.update!(body: build_body)
-			@post.update!(abstract: parse_header_abstract)
+			@post.update!(
+        title: parse_header_title,
+  			body: build_body,
+  			abstract: parse_header_abstract
+      )
 		end
 
+    # prase_citations returns an array of hashes
+    # creates new linked citations and posts for each of them
 		def generate_citations
 			citations = parse_citations
-			citations.each do |citation|
-				generated_post = Post.create!(build_new_post(citation))
-				citation = @post.citations.create!(build_new_citation(citation))
-				generated_post.citations << citation
-				citation.update!({generated_post_id: generated_post.id, post_id: @post.id})
+			citations.each do |citation_hash|
+				new_citation = @post.citations.create!(build_hash(citation_hash))
+				generated_post = Post.create!(build_hash(citation_hash))
+				generated_post.citations << new_citation
+				new_citation.update!({generated_post_id: generated_post.id, post_id: @post.id})
 			end
 		end
 
@@ -42,15 +47,7 @@ class DiborgService
 		# ========
 		# These methods massage the parsed nokogiri data into model form
 
-		def build_new_post(citation_hash)
-			{
-				title: citation_hash[:title],
-				authors: citation_hash[:authors],
-				publish_date: citation_hash[:imprint_date]
-			}
-		end
-
-		def build_new_citation(citation_hash)
+		def build_hash(citation_hash)
 			{
 				title: citation_hash[:title],
 				authors: citation_hash[:authors],
@@ -74,7 +71,7 @@ class DiborgService
 		  bibstruct.css(query).inner_text if @doc.css(query).present?
 		end
 
-		def find_element(digs, bibStruct = nil)
+		def find_elements(digs, bibStruct = nil)
 			value = ""
 			digs.each do |query_path|
 			  value = (bibStruct.present? ? query_bibstruct(bibStruct, query_path) : query_doc(query_path))
@@ -98,19 +95,20 @@ class DiborgService
 				"teiHeader note"
 			]
 
-			title = find_element(digs_to_try) # iterates through possible query paths and grabs the first one found
+			title = find_elements(digs_to_try) # iterates through possible query paths and grabs the first one found
 			title = fix_titlecase(title) if title.present?
 			title.truncate(400) if title.present?
 			title
 		end
 
+    # Finds title in citations
 		def parse_title(bibStruct)
 			digs_to_try = [
 				"title __content__",
 				"note __content__"
 			]
 
-			title = find_element(digs_to_try, bibStruct)
+			title = find_elements(digs_to_try, bibStruct)
 			title = fix_titlecase(title) if title.present?
 			title.truncate(400) if title.present?
 			title
@@ -157,6 +155,7 @@ class DiborgService
 		end
 
 		def parse_body
+      replace_refs
 			@doc.css('body div').to_xml
 		end
 
@@ -197,4 +196,8 @@ class DiborgService
 			title.titleize if (title.downcase == title)
 			return title
 		end
+
+    def replace_refs
+      @doc.css('ref').map {|r| r.remove }
+    end
 end

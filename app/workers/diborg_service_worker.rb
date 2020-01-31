@@ -1,7 +1,7 @@
 class DiborgServiceWorker
   include Sidekiq::Worker
 
-  def perform(upload_tei_id, post_id)
-  	DiborgService.call(upload_tei_id, post_id)
+  def perform(upload_id)
+  	DiborgService.call(upload_id)
   end
 end

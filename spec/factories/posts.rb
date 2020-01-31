@@ -6,6 +6,8 @@
 #  abstract     :text
 #  authors      :text
 #  body         :json
+#  imprint_date :string
+#  imprint_type :string
 #  plugins      :jsonb            not null
 #  publish_date :datetime
 #  publisher    :string
