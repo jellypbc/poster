@@ -25,10 +25,14 @@ class PostMasthead extends React.Component {
           </div>
 
           <div className='title'>
-            {this.state.title}
+            <h1>
+              {this.state.title}
+            </h1>
           </div>
           <div className='authors'>
-            {this.state.authors}
+            <h1>
+              {this.state.authors}
+            </h1>
           </div>
           <div className='publisher'>
             {this.state.publisher}
