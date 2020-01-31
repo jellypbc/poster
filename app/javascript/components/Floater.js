@@ -36,7 +36,6 @@ class Floater extends React.Component {
 
   calculateStyle (props) {
     const { view } = props
-
     const { selection } = view.state
 
     if (!selection || selection.empty) {
@@ -46,13 +45,20 @@ class Floater extends React.Component {
       }
     }
 
-    const coords = view.coordsAtPos(selection.$anchor.pos)
-
     const { offsetWidth } = this.menuRef.current
+    const anchor = view.coordsAtPos(selection.$anchor.pos)
+    const scrollY = window.scrollY
+
+    var top = anchor.top - 120 > 0 ? anchor.top - 120 + scrollY : anchor.top + 20
+    var left = window.innerWidth - offsetWidth < anchor.left ? anchor.left - offsetWidth + 20 : anchor.left
+
+    if ( left < 5 ) {
+      left = 5;
+    }
 
     return {
-      left: window.innerWidth - offsetWidth < coords.left ? coords.left - offsetWidth + 20 : coords.left,
-      top: coords.top - 40 > 0 ? coords.top - 40 : coords.top + 20
+      left: left,
+      top: top
     }
   }
 }
