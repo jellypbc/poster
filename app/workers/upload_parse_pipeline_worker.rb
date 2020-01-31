@@ -29,6 +29,7 @@ end
 class PipelineSteps
 
   # step 2: run diborg
+  # Post.update!(body: body)
   def step2(status, options)
     upload_id = options['upload_id']
     overall = Sidekiq::Batch.new(status.parent_bid)

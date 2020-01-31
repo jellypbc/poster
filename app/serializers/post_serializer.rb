@@ -38,8 +38,6 @@ class PostSerializer
       object.body
         .gsub("<__content__>", "<br/>")
         .gsub("</__content__>", "")
-        .gsub("<ref>", "")
-        .gsub("</ref>", "")
     end
   end
 

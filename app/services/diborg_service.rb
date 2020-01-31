@@ -71,7 +71,7 @@ class DiborgService
 		  bibstruct.css(query).inner_text if @doc.css(query).present?
 		end
 
-		def find_element(digs, bibStruct = nil)
+		def find_elements(digs, bibStruct = nil)
 			value = ""
 			digs.each do |query_path|
 			  value = (bibStruct.present? ? query_bibstruct(bibStruct, query_path) : query_doc(query_path))
@@ -95,19 +95,20 @@ class DiborgService
 				"teiHeader note"
 			]
 
-			title = find_element(digs_to_try) # iterates through possible query paths and grabs the first one found
+			title = find_elements(digs_to_try) # iterates through possible query paths and grabs the first one found
 			title = fix_titlecase(title) if title.present?
 			title.truncate(400) if title.present?
 			title
 		end
 
+    # Finds title in citations
 		def parse_title(bibStruct)
 			digs_to_try = [
 				"title __content__",
 				"note __content__"
 			]
 
-			title = find_element(digs_to_try, bibStruct)
+			title = find_elements(digs_to_try, bibStruct)
 			title = fix_titlecase(title) if title.present?
 			title.truncate(400) if title.present?
 			title
@@ -154,6 +155,7 @@ class DiborgService
 		end
 
 		def parse_body
+      replace_refs
 			@doc.css('body div').to_xml
 		end
 
@@ -194,4 +196,8 @@ class DiborgService
 			title.titleize if (title.downcase == title)
 			return title
 		end
+
+    def replace_refs
+      @doc.css('ref').map {|r| r.remove }
+    end
 end
