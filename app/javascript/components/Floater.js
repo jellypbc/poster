@@ -1,7 +1,7 @@
 import React from 'react'
 
 class Floater extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     this.state = {
@@ -14,19 +14,19 @@ class Floater extends React.Component {
     this.menuRef = React.createRef()
   }
 
-  componentDidMount () {
+  componentDidMount() {
     this.setState({
       style: this.calculateStyle(this.props)
     })
   }
 
-  componentWillReceiveProps (nextProps) {
+  componentWillReceiveProps(nextProps) {
     this.setState({
       style: this.calculateStyle(nextProps)
     })
   }
 
-  render () {
+  render() {
     return (
       <div ref={this.menuRef} className="floater" style={this.state.style}>
         {this.props.children}
