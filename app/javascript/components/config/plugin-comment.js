@@ -2,6 +2,7 @@
 import crel from 'crel'
 import { Plugin, PluginKey } from 'prosemirror-state'
 import { Decoration, DecorationSet } from 'prosemirror-view'
+import { store } from '../store'
 
 export const pluginKey = new PluginKey('comments')
 
@@ -151,7 +152,7 @@ export const addAnnotation = function(state, dispatch) {
     //       comment: new Comment(text, randomID()),
     //     })
     //   )
-    window._store.dispatch({
+    store.dispatch({
       type: 'addCommentStart',
       payload: {
         // Callbacks are *really* not supposed to go in redux, but we are abusing it
