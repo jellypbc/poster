@@ -19,7 +19,7 @@ function CommentForm() {
   return (
     <div className={`j-commentForm shadow rounded ${modifierClasses}`}>
       <textarea
-        className="j-commentForm__input px-2 py-2"
+        className="j-commentForm__input px-3 py-3"
         defaultValue=""
         placeholder="Comment..."
         ref={textareaRef}
@@ -28,25 +28,23 @@ function CommentForm() {
         id="comment-form-input"
       ></textarea>
       <div className="j-commentForm__actions px-2 pt-1 pb-2 d-flex flex-row-reverse">
-        <div className="">
-          <button
-            type="button"
-            className="btn btn-sm"
-            onClick={() => dispatch({ type: 'addCommentCancel' })}
-          >
-            Cancel
-          </button>{' '}
-          <button
-            type="button"
-            className="btn btn-primary btn-sm"
-            onClick={() => {
-              dispatch({ type: 'addCommentSave', payload: getSavePayload() })
-              textareaRef.current.value = '' // clear (could change this to controlled value too)
-            }}
-          >
-            Post
-          </button>
-        </div>
+        <button
+          type="button"
+          className="btn btn-primary btn-sm"
+          onClick={() => {
+            dispatch({ type: 'addCommentSave', payload: getSavePayload() })
+            textareaRef.current.value = '' // clear (could change this to controlled value too)
+          }}
+        >
+          Post
+        </button>{' '}
+        <button
+          type="button"
+          className="btn btn-sm o"
+          onClick={() => dispatch({ type: 'addCommentCancel' })}
+        >
+          Cancel
+        </button>
       </div>
     </div>
   )

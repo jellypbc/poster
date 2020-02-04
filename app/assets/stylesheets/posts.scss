@@ -204,12 +204,12 @@
 }
 
 .j-commentForm {
-  width: 400px;
+  width: 375px;
   // TODO: Connect to a Floater-style element to track cursor
   // instead of pinning to bottom left.
   position: fixed;
   bottom: 10px;
-  left: 10px;
+  right: 10px;
   border: 1px solid $grayLight;
   border-radius: $borderRadius-base;
   background-color: $white;
@@ -218,13 +218,13 @@
 }
 
 .j-commentForm--inactive {
-  transform: translate(-410px, 0px);
+  transform: translate(410px, 0px);
 }
 
 .j-commentForm__input {
   width: 100%;
   border: none;
-  min-height: 100px;
+  min-height: 150px;
   max-height: 80vh; // it's resizable vertically
   border-bottom: 1px solid $grayLighter;
   border-top-left-radius: $borderRadius-base;
