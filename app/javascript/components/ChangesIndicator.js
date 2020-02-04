@@ -10,6 +10,7 @@ class ChangesIndicator extends React.Component {
       isNewPost,
       lastSavedAtDate,
     } = this.props
+
     return (
       <div
         className={

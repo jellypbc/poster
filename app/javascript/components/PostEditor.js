@@ -1,6 +1,5 @@
 /* eslint-disable jsx-a11y/no-autofocus */
 import React from 'react'
-import { formatDistanceToNow } from 'date-fns'
 import { createConsumer } from "@rails/actioncable"
 import superagent from 'superagent'
 import debounce from 'lodash/debounce'
