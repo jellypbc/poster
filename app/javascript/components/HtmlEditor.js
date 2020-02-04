@@ -1,3 +1,22 @@
+{/*<HtmlEditor
+  onChange={this.handleFormChange}
+  onHasChanges={() =>
+    this.setState({ lastUnsavedChangeAt: new Date() })
+  }
+  html={postBody}
+  pluginState={pluginState}
+  options={options}
+  autoFocus
+  render={({ editor, view }) => (
+    <div>
+      <Floater view={view}>
+        <MenuBar menu={menu} view={view} />
+      </Floater>
+      <div className="post-editor">{editor}</div>
+    </div>
+  )}
+/>*/}
+
 /* eslint-disable jsx-a11y/no-autofocus */
 import React from 'react'
 import debounce from 'lodash/debounce'
@@ -75,7 +94,7 @@ class HtmlEditor extends React.Component {
 				autoFocus={autoFocus}
 				options={options}
 				attributes={attributes}
-				render={render}
+//				render={render}
 				onChange={this.handleChange}
 				nodeViews={nodeViews}
 			/>

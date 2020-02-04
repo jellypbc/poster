@@ -3,16 +3,16 @@ import React from 'react'
 import { formatDistanceToNow } from 'date-fns'
 import { createConsumer } from "@rails/actioncable"
 import superagent from 'superagent'
+import debounce from 'lodash/debounce'
 
 import Editor from './Editor'
 import Floater from './Floater'
 import MenuBar from './MenuBar'
 import PostMasthead from './PostMasthead'
+import ChangesIndicator from './ChangesIndicator'
 import PostProcessingPlaceholder from './PostProcessingPlaceholder'
-
-import debounce from 'lodash/debounce'
-
 import { options, menu } from './config/index'
+
 import {
 	pluginKey as commentPluginKey,
 	serialize as serializeComment,
@@ -45,7 +45,7 @@ class PostEditor extends React.Component {
 			errorAt: null, // string or null
 			lastSavedAt: getTimestamp('updated_at', props.post), // string or null
 			lastUnsavedChangeAt: null, // Date object or null, used to track dirty state
-      isProcessing: this.props.isProcessing || false,
+      isProcessing: this.props.isProcessing || false, // TODO: move this into container
 		}
 
     const schema = options.schema
@@ -83,10 +83,7 @@ class PostEditor extends React.Component {
   handleChange = (doc, docState) => {
     // Tell the parent component there are changes ("dirty state")
     // and also call debounced full change handler.
-    // const { onHasChanges } = this.props
     this.setState({ lastUnsavedChangeAt: new Date() })
-
-    // onHasChanges() // don't debounce this, must save dirty state right away
     this.handleFullChange(doc, docState) // this is debounced to save bandwidth
   }
 
@@ -98,17 +95,14 @@ class PostEditor extends React.Component {
   // TODO: Should debouncing happen around parent's network call or here?
   handleFullChange = debounce(
     (doc, docState) => {
-      const onChange = this.handleFormChange
+      const onChange = this.updatePost
       onChange(this.serialize(doc), docState)
     },
     350,
     { maxWait: 1000 }
   )
 
-	handleFormChange = (doc, docState) => {
-    console.log("from handleFormChange")
-		// "doc" is the new HTML
-
+	updatePost = (doc, docState) => {
 		// do not read from this.state after setState, it will not update until rerender
 		this.setState({ isLoading: true })
 
@@ -166,7 +160,6 @@ class PostEditor extends React.Component {
 
     return (
       <div>
-
         <PostMasthead post={post}/>
 
         {error ? (
@@ -179,10 +172,6 @@ class PostEditor extends React.Component {
           autoFocus
           options={options}
           onChange={this.handleChange}
-          // onChange={this.handleFormChange}
-          onHasChanges={() =>
-            this.setState({ lastUnsavedChangeAt: new Date() })
-          }
           html={postBody}
           pluginState={pluginState}
           render={({ editor, view }) => (
@@ -195,25 +184,12 @@ class PostEditor extends React.Component {
           )}
         />
 
-        <div
-          className={
-            'py-1 px-2 loading-indicator ' + (this.state.loading && 'active')
-          }
-        >
-          <i className="fa fa-circle" />
-          <span>
-            {isLoading
-              ? 'Saving...'
-              : hasUnsavedChanges
-              ? isNewPost
-                ? 'Not saved yet'
-                : `Last saved ${formatDistanceToNow(lastSavedAtDate, {
-                    includeSeconds: true,
-                    addSuffix: true,
-                  })}`
-              : 'All changes saved'}
-          </span>
-        </div>
+        <ChangesIndicator
+          isLoading={isLoading}
+          hasUnsavedChanges={hasUnsavedChanges}
+          isNewPost={isNewPost}
+          lastSavedAtDate={lastSavedAtDate}
+        />
       </div>
     )
   }
