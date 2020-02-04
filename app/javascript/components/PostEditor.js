@@ -84,16 +84,15 @@ class PostEditor extends React.Component {
     // Tell the parent component there are changes ("dirty state")
     // and also call debounced full change handler.
     this.setState({ lastUnsavedChangeAt: new Date() })
-    this.handleFullChange(doc, docState) // this is debounced to save bandwidth
+    this.debounceChanges(doc, docState) // this is debounced to save bandwidth
   }
 
   // Debounces change handler so user has to stop typing to save,
   // but also adds maxWait so that if they type continuously, changes will
   // still be saved every so often.
   //
-  // Both network and parsing are expensive, combine component with parent?
-  // TODO: Should debouncing happen around parent's network call or here?
-  handleFullChange = debounce(
+  // TODO: Move debouncing into updatePost()
+  debounceChanges = debounce(
     (doc, docState) => {
       const onChange = this.updatePost
       onChange(this.serialize(doc), docState)
