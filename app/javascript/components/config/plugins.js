@@ -5,6 +5,7 @@ import { columnResizing, tableEditing } from 'prosemirror-tables'
 import { placeholder } from '@aeaton/prosemirror-placeholder'
 import { footnotes } from '@aeaton/prosemirror-footnotes'
 import { commentPlugin, commentUI } from './plugin-comment'
+import { imagePlugin } from './image-uploader'
 
 import 'prosemirror-tables/style/tables.css'
 import 'prosemirror-gapcursor/style/gapcursor.css'
@@ -26,6 +27,7 @@ export default [
 	tableEditing(),
 	commentPlugin,
 	commentUI(transaction => this.dispatch({ type: 'transaction', transaction })),
+  imagePlugin,
 ]
 
 // for tables

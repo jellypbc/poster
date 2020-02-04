@@ -4,11 +4,13 @@ import { formatDistanceToNow } from 'date-fns'
 import { createConsumer } from "@rails/actioncable"
 import superagent from 'superagent'
 
-import HtmlEditor from './HtmlEditor'
+import Editor from './Editor'
 import Floater from './Floater'
 import MenuBar from './MenuBar'
 import PostMasthead from './PostMasthead'
 import PostProcessingPlaceholder from './PostProcessingPlaceholder'
+
+import debounce from 'lodash/debounce'
 
 import { options, menu } from './config/index'
 import {
@@ -16,17 +18,12 @@ import {
 	serialize as serializeComment,
 } from './config/plugin-comment'
 
-// returns value of "updated_at" or "created_at" as string, or null
-const getTimestamp = (timestampName, post) =>
-	(post &&
-		post.data &&
-		post.data.attributes &&
-		post.data.attributes[timestampName]) ||
-	null
+import {
+  getTimestamp, getIsNewPost, createParser, createSerializer
+} from './postUtils'
 
-// determine if post has been saved to the server
-// returns `false` if the post was already saved (created)
-const getIsNewPost = post => !getTimestamp('created_at', post)
+import 'prosemirror-view/style/prosemirror.css'
+
 
 class PostEditor extends React.Component {
 	constructor(props) {
@@ -37,6 +34,8 @@ class PostEditor extends React.Component {
 		// TODO: Whole thing needs to reinit if props.post changes identity,
 		//       which can be done with useEffect or componentDidUpdate
 		// TODO: should prevent closing tab while hasChanges state is true
+    // TODO: move post out of state once actioncable loading is moved into
+    //       a container component
 
 		this.state = {
       post: this.props.post || null,
@@ -48,6 +47,14 @@ class PostEditor extends React.Component {
 			lastUnsavedChangeAt: null, // Date object or null, used to track dirty state
       isProcessing: this.props.isProcessing || false,
 		}
+
+    const schema = options.schema
+    this.parse = createParser(schema)
+    this.serialize = createSerializer(schema)
+    const postBody = this.state.post.data.attributes.body
+    const pluginState = JSON.parse(this.state.post.data.attributes.plugins)
+    options.doc = this.parse(postBody) // TODO: don't mutate "options"
+    options.doc.comments = { comments: pluginState.comments } // TODO: generalize plugin state restoration
 	}
 
   componentDidMount(){
@@ -73,8 +80,33 @@ class PostEditor extends React.Component {
     placeholder.remove()
   }
 
+  handleChange = (doc, docState) => {
+    // Tell the parent component there are changes ("dirty state")
+    // and also call debounced full change handler.
+    // const { onHasChanges } = this.props
+    this.setState({ lastUnsavedChangeAt: new Date() })
+
+    // onHasChanges() // don't debounce this, must save dirty state right away
+    this.handleFullChange(doc, docState) // this is debounced to save bandwidth
+  }
+
+  // Debounces change handler so user has to stop typing to save,
+  // but also adds maxWait so that if they type continuously, changes will
+  // still be saved every so often.
+  //
+  // Both network and parsing are expensive, combine component with parent?
+  // TODO: Should debouncing happen around parent's network call or here?
+  handleFullChange = debounce(
+    (doc, docState) => {
+      const onChange = this.handleFormChange
+      onChange(this.serialize(doc), docState)
+    },
+    350,
+    { maxWait: 1000 }
+  )
 
 	handleFormChange = (doc, docState) => {
+    console.log("from handleFormChange")
 		// "doc" is the new HTML
 
 		// do not read from this.state after setState, it will not update until rerender
@@ -134,25 +166,29 @@ class PostEditor extends React.Component {
 
     return (
       <div>
+
         <PostMasthead post={post}/>
+
         {error ? (
           <p className="post__error">
             <strong>{errorAt}</strong>: {error}
           </p>
         ) : null}
-        <HtmlEditor
-          onChange={this.handleFormChange}
+
+        <Editor
+          autoFocus
+          options={options}
+          onChange={this.handleChange}
+          // onChange={this.handleFormChange}
           onHasChanges={() =>
             this.setState({ lastUnsavedChangeAt: new Date() })
           }
           html={postBody}
           pluginState={pluginState}
-          options={options}
-          autoFocus
           render={({ editor, view }) => (
             <div>
               <Floater view={view}>
-                <MenuBar menu={{ ...menu }} view={view} />
+                <MenuBar menu={menu} view={view} />
               </Floater>
               <div className="post-editor">{editor}</div>
             </div>

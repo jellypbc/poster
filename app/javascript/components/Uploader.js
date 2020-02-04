@@ -83,9 +83,6 @@ class Uploader extends React.Component {
 		    	<p className="error">{this.state.error}</p>
 		    }
 
-	    	{/*{this.state.fileUrl &&*/}
-	    	{/*}*/}
-
 	      <DragDrop
 	        uppy={this.uppy}
 	        locale={{

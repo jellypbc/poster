@@ -42,6 +42,7 @@ class HtmlEditor extends React.Component {
 		options.doc.comments = { comments: pluginState.comments } // TODO: generalize plugin state restoration
 	}
 
+
 	handleChange = (doc, docState) => {
 		// Tell the parent component there are changes ("dirty state")
 		// and also call debounced full change handler.

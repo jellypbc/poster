@@ -1,7 +1,7 @@
 import React from 'react'
+import { DOMParser, DOMSerializer } from 'prosemirror-model'
 import { EditorState } from 'prosemirror-state'
 import { EditorView } from 'prosemirror-view'
-import 'prosemirror-view/style/prosemirror.css'
 
 import { pluginKey as commentPluginKey } from './config/plugin-comment'
 
