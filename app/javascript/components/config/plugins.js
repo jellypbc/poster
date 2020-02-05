@@ -8,7 +8,8 @@ import { imagePlugin } from './image-uploader'
 // TODO: move directly into components
 import { placeholder } from '@aeaton/prosemirror-placeholder'
 import { footnotes } from '@aeaton/prosemirror-footnotes'
-import 'prosemirror-tables/style/tables.css'
+
+// import 'prosemirror-tables/style/tables.css'
 import 'prosemirror-gapcursor/style/gapcursor.css'
 import '@aeaton/prosemirror-footnotes/style/footnotes.css'
 import '@aeaton/prosemirror-placeholder/style/placeholder.css'

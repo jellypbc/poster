@@ -5,7 +5,7 @@ import classnames from 'classnames'
 const Button = ({ state, dispatch }) => (item, key) => (
   <button
     key={key}
-    type={'button'}
+    type={item.type ||'button'}
     className={classnames({
       button: true,
       active: item.active && item.active(state),
@@ -14,8 +14,10 @@ const Button = ({ state, dispatch }) => (item, key) => (
     title={item.title}
     disabled={item.enable && !item.enable(state)}
     onMouseDown={e => {
-      e.preventDefault()
-      if (item.run) item.run(state, dispatch)
+      if (item.run) {
+        e.preventDefault()
+        item.run(state, dispatch)
+      }
     }}
   >
     {item.content}

@@ -15,6 +15,14 @@ import { addFigure } from './image-uploader'
 import schema from './schema'
 import icons from './icons'
 
+import ImageModal from '../ImageModal'
+
+const promptForFile = () => {
+  return (
+    <ImageModal />
+  )
+}
+
 const markActive = type => state => {
   const { from, $from, to, empty } = state.selection
 
@@ -62,7 +70,14 @@ export default {
     addFigure: {
       title: 'Add Image',
       id: 'image-button',
-      run: addFigure,
+      // run: addFigure,
+      run: (state, dispatch) => {
+        console.log(state)
+        // promptForFile()
+
+        // const img = schema.nodes.image.createAndFill({ src })
+        // dispatch(state.tr.replaceSelectionWith(img))
+      },
       select: state => addFigure(state),
       content: icons.image,
       type: 'file',

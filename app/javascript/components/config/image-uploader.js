@@ -1,18 +1,16 @@
 import { Plugin, PluginKey } from 'prosemirror-state'
 import { Decoration, DecorationSet } from 'prosemirror-view'
-import Uploader from '../Uploader'
+// import Uploader from '../Uploader'
 
 // export const pluginKey = new PluginKey('imageUploader')
 
 export const addFigure = function(state, dispatch) {
   console.log('running addfigure')
+  return true
 
-  return (
-    <div className="modal">
-      <Uploader/>
-    </div>
+  // return (
 
-  )
+  // )
   // let sel = state.selection
   // if (sel.empty) return false
   // if (dispatch) {
@@ -30,21 +28,22 @@ export const addFigure = function(state, dispatch) {
 
 export const imagePlugin = new Plugin({
   state: {
-    init() {
-      return DecorationSet.empty
-    },
+    init() { return DecorationSet.empty },
     apply(tr, set) {
+      console.log(">>>>>> inside imagePlugin.apply")
       // Adjust decoration positions to changes made by the transaction
       set = set.map(tr.mapping, tr.doc)
       // See if the transaction adds or removes any placeholders
       let action = tr.getMeta(this)
       if (action && action.add) {
+        console.log(">>>>>> action is adding")
         let widget = document.createElement('placeholder')
         let deco = Decoration.widget(action.add.pos, widget, {
           id: action.add.id,
         })
         set = set.add(tr.doc, [deco])
       } else if (action && action.remove) {
+        console.log(">>>>>> action is removing")
         set = set.remove(
           set.find(null, null, spec => spec.id == action.remove.id)
         )
@@ -64,19 +63,6 @@ function findPlaceholder(state, id) {
   let found = decos.find(null, null, spec => spec.id == id)
   return found.length ? found[0].from : null
 }
-
-document.addEventListener('DOMContentLoaded', function(event) {
-  document.querySelector('#image-upload').addEventListener('change', e => {
-    console.log('hello!')
-
-    if (
-      view.state.selection.$from.parent.inlineContent &&
-      e.target.files.length
-    )
-      startImageUpload(view, e.target.files[0])
-    view.focus()
-  })
-})
 
 function startImageUpload(view, file) {
   // A fresh object to act as the ID for this upload

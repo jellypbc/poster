@@ -5,7 +5,7 @@ import { DragDrop } from '@uppy/react'
 
 import superagent from 'superagent'
 
-class Uploader extends React.Component {
+class FileUploader extends React.Component {
 	constructor(props) {
 		super(props)
 		this.state = {
@@ -102,4 +102,4 @@ class Uploader extends React.Component {
 	}
 }
 
-export default Uploader
+export default FileUploader
