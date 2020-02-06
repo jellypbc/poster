@@ -4,7 +4,12 @@
 nav.navbar.navbar-expand-lg id="#{opts[:id] if opts}" class="#{'white-nav' if white_nav} #{opts[:class] if opts}"
   .container
     = link_to root_path, class: "navbar-brand" do
-  		= image_tag 'jelly.png'
+      = image_tag 'jelly.png'
+        li class="nav-item active"
+    - if user_signed_in?
+      = link_to 'Posts', posts_path, class: "nav-link mr-3"
+      = link_to 'Private Drafts', posts_path, class: "nav-link mr-3"
+      = link_to 'Search Coming Soon!', posts_path, class: "search-bar mr-3"
 
     button.navbar-toggler type="button" data-toggle="collapse" data-target="#menu" aria-controls="menu" aria-expanded="false" aria-label="Toggle navigation"
       i.fa.fa-hamburger
@@ -12,18 +17,16 @@ nav.navbar.navbar-expand-lg id="#{opts[:id] if opts}" class="#{'white-nav' if wh
     #menu.collapse.navbar-collapse
       ul class="navbar-nav ml-auto"
         - if user_signed_in?
-          li class="nav-item"
-            = link_to 'Log Out', destroy_user_session_path, method: :delete, class: "nav-link mr-3"
-
           li class="nav-item active"
-            = link_to 'Browse Posts', posts_path, class: "nav-link mr-3"
+            = link_to 'Write', new_post_path, class: "nav-link mr-3"
+          li class="nav-item active"
+              = link_to 'Upload a PDF', new_upload_path, class: "btn btn-secondary mr-3"
+          li class="nav-item active"
+            = link_to 'Log Out', destroy_user_session_path, method: :delete, class: "nav-link mr-3"
 
         - else
           li class="nav-item active"
             = link_to 'Log In', new_user_session_path, class: "nav-link mr-3"
-
-          li class="nav-item active"
-            = link_to 'Upload a File', new_upload_path, class: "ml-4 btn btn-dark"
 
         / li class="nav-item dropdown"
         /   a class="nav-link dropdown-toggle" href="#" id="dropdown07XL" data-toggle="dropdown" aria-expanded="false"
