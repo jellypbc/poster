@@ -25,4 +25,12 @@
 
 		}
 	}
+  .dismiss {
+    float: right;
+    cursor: pointer;
+
+    &:hover {
+      opacity: .7;
+    }
+  }
 }

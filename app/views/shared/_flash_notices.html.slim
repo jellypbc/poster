@@ -1,5 +1,7 @@
 - flash.each do | key, value |
-	#flash-container
-		.container
-			.flash.animated.fadeInDown class=key
-				= value
+  #flash-container
+    .container
+      .flash.animated.fadeInDown class=key
+        = value
+        .dismiss.js-flash-dismiss
+          | x
