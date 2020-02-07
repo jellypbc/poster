@@ -40,7 +40,7 @@ class Post < ApplicationRecord
 
 	scope :primary, -> { joins(:uploads) }
 
-  belongs_to :user
+  belongs_to :user, optional: true
 
 	def to_param
     slug
