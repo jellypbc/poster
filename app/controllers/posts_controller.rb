@@ -53,6 +53,27 @@ class PostsController < ApplicationController
     end
   end
 
+  def add_figure
+    @post = Post.find(params[:post_id])
+
+    if params[:file_id]
+      file = Shrine.uploaded_file(storage: :store, id: params[:file_id])
+      file.refresh_metadata!
+
+      # TODO: check file mimetype and only create for images
+      figure = @post.figres.new
+      figure.image_attacher.set(file)
+    end
+
+    respond_to do |format|
+      if figure.save!
+        format.json { render json: { url: figure.image_url }, status: :ok }
+      else
+        format.json { render json: { url: figure.errors }, status: :unprocessable_entity }
+      end
+    end
+  end
+
   private
 
     def set_post

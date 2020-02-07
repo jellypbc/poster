@@ -26,3 +26,16 @@
 		transition-duration: 0.4s;
 	}
 }
+
+.image-modal {
+}
+
+.image-modal-container {
+  background: purple;
+  position: relative;
+  display: block;
+  width: 50%;
+  margin: 0 auto;
+  height: 200px;
+  top: 20vh;
+}

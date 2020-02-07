@@ -1,49 +1,39 @@
 import { Plugin, PluginKey } from 'prosemirror-state'
 import { Decoration, DecorationSet } from 'prosemirror-view'
-// import Uploader from '../Uploader'
+import { store } from '../store'
 
 // export const pluginKey = new PluginKey('imageUploader')
 
 export const addFigure = function(state, dispatch) {
-  console.log('running addfigure')
+  store.dispatch({
+    type: 'addImageStart',
+    payload: {
+    }
+  })
   return true
-
-  // return (
-
-  // )
-  // let sel = state.selection
-  // if (sel.empty) return false
-  // if (dispatch) {
-
-  //   if (
-  //     state.selection.$from.parent.inlineContent &&
-  //     e.target.files.length
-  //   ) {
-  //     startImageUpload(view, e.target.files[0])
-  //   }
-
-  // }
-  // return true
 }
+
+///// stuff below
+
+
 
 export const imagePlugin = new Plugin({
   state: {
     init() { return DecorationSet.empty },
     apply(tr, set) {
-      console.log(">>>>>> inside imagePlugin.apply")
       // Adjust decoration positions to changes made by the transaction
       set = set.map(tr.mapping, tr.doc)
       // See if the transaction adds or removes any placeholders
       let action = tr.getMeta(this)
       if (action && action.add) {
-        console.log(">>>>>> action is adding")
+        console.log(">>>>>> action is adding placeholders")
         let widget = document.createElement('placeholder')
         let deco = Decoration.widget(action.add.pos, widget, {
           id: action.add.id,
         })
         set = set.add(tr.doc, [deco])
       } else if (action && action.remove) {
-        console.log(">>>>>> action is removing")
+        console.log(">>>>>> action is removing placeholders")
         set = set.remove(
           set.find(null, null, spec => spec.id == action.remove.id)
         )

@@ -19,6 +19,7 @@ Rails.application.routes.draw do
 	  # end
 	end
 	post "/file", to: "uploads#file"
+  post "/posts/add_figure", to: "posts#add_figure"
 
   resources :posts
   resources :users

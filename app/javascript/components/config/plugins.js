@@ -3,7 +3,7 @@ import { dropCursor } from 'prosemirror-dropcursor'
 import { gapCursor } from 'prosemirror-gapcursor'
 import { columnResizing, tableEditing } from 'prosemirror-tables'
 import { commentPlugin, commentUI } from './plugin-comment'
-import { imagePlugin } from './image-uploader'
+import { imagePlugin } from './image-plugin'
 
 // TODO: move directly into components
 import { placeholder } from '@aeaton/prosemirror-placeholder'

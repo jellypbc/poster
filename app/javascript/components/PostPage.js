@@ -1,8 +1,14 @@
 import React from 'react'
 import { Provider } from 'react-redux'
 import { store } from './store'
+
 import PostEditor from './PostEditor'
 import CommentForm from './CommentForm'
+import ImageModal from './ImageModal'
+
+import Modal from 'react-modal'
+
+Modal.setAppElement('#root');
 
 // This is where Redux is set up, it has to be a parent component for anything that wants to
 // reference the reducer state in the editor.
@@ -11,6 +17,7 @@ import CommentForm from './CommentForm'
 function PostPage(props) {
   return (
     <Provider store={store}>
+      <ImageModal />
       <PostEditor {...props} />
       <CommentForm />
     </Provider>
