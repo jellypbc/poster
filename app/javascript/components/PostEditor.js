@@ -38,6 +38,7 @@ class PostEditor extends React.Component {
 
 		this.state = {
       post: this.props.post || null,
+      title: this.props.post.data.attributes.title || "Give me a name",
 			isLoading: false, // is sending request to server
 			hasChanges: false, // editor has changes (actual onChange may be debounced)
 			error: null, // last server error, if any
@@ -50,6 +51,7 @@ class PostEditor extends React.Component {
     const schema = options.schema
     this.parse = createParser(schema)
     this.serialize = createSerializer(schema)
+
     const postBody = this.state.post.data.attributes.body
     const pluginState = JSON.parse(this.state.post.data.attributes.plugins)
     options.doc = this.parse(postBody) // TODO: don't mutate "options"
@@ -63,7 +65,6 @@ class PostEditor extends React.Component {
 
     cable.subscriptions.create({channel: "PostsChannel", post_id: post}, {
       connected() {
-        console.log("connected to PostsChannel")
       },
 
       received: function(data) {
@@ -77,6 +78,56 @@ class PostEditor extends React.Component {
     // Remove the static placeholder content once component renders
     var placeholder = document.getElementsByClassName('placeholder-content')[0]
     placeholder.remove()
+  }
+
+  handleTitleChange = (doc, docState) => {
+    this.debounceTitleChanges(doc, docState)
+  }
+
+  debounceTitleChanges = debounce(
+    (doc, docState) => {
+      const onChange = this.updateTitle
+      onChange(this.serialize(doc), docState)
+    },
+    350,
+    { maxWait: 1000 }
+  )
+
+  updateTitle = (doc, docState) => {
+    // do not read from this.state after setState, it will not update until rerender
+    this.setState({ isLoading: true })
+    var { post } = this.state
+    const isNewPost = getIsNewPost(post)
+    var url = isNewPost ? '/posts' : post.data.attributes.form_url
+    var title = doc
+
+    var data = { title: title }
+    var method = isNewPost ? 'post' : 'put'
+    var token = document.head.querySelector('[name~=csrf-token][content]')
+      .content
+
+    superagent[method](url)
+      .send(data)
+      .set('X-CSRF-Token', token)
+      .set('accept', 'application/json')
+      .end((err, res) => {
+        console.log({ res, err }) // DEBUG SAVE
+        // res is just showing a redirect instead of full data,
+        // use the browser timestamp instead of new updated_at
+        const now = new Date().toISOString()
+        this.setState(state => ({
+          isLoading: false,
+          error: err ? err : null,
+          errorAt: err ? now : null,
+          lastSavedAt: err ? state.lastSavedAt : now,
+        }))
+
+        var post = res.body.post
+        if (window.history.replaceState) {
+          window.history.replaceState({}, post.data.attributes.title, post.data.attributes.slug);
+        }
+
+      })
   }
 
   handleChange = (doc, docState) => {
@@ -156,6 +207,10 @@ class PostEditor extends React.Component {
     const lastSavedAtDate = new Date(lastSavedAt) // convert to date object
     const hasUnsavedChanges = lastSavedAtDate < lastUnsavedChangeAt
 
+    const postTitle = this.state.post.data.attributes.title
+    var titleOptions = Object.assign({}, options)
+    titleOptions.doc = this.parse(postTitle)
+
     return (
       <div>
         <PostMasthead post={post}/>
@@ -168,9 +223,27 @@ class PostEditor extends React.Component {
 
         <Editor
           autoFocus
+          options={titleOptions}
+          onChange={this.handleTitleChange}
+          pluginState={pluginState}
+          render={ ({editor, view}) => (
+            <div className='header'>
+              <div className='header-nav'>
+                <Floater view={view}>
+                  <MenuBar menu={menu} view={view} />
+                </Floater>
+                <div className="title">
+                  <h1>{editor}</h1>
+                </div>
+              </div>
+            </div>
+          )}
+        />
+
+        <Editor
+          autoFocus
           options={options}
           onChange={this.handleChange}
-          html={postBody}
           pluginState={pluginState}
           render={({ editor, view }) => (
             <div>
@@ -188,6 +261,7 @@ class PostEditor extends React.Component {
           isNewPost={isNewPost}
           lastSavedAtDate={lastSavedAtDate}
         />
+
       </div>
     )
   }

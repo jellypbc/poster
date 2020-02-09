@@ -37,3 +37,4 @@ yarn-debug.log*
 
 .docker-sync/*
 .docker-sync
+app/models/concerns/slug_history.rb
