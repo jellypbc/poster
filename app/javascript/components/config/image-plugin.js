@@ -1,23 +1,48 @@
 import { Plugin, PluginKey } from 'prosemirror-state'
 import { Decoration, DecorationSet } from 'prosemirror-view'
+
 import { store } from '../store'
 
-// export const pluginKey = new PluginKey('imageUploader')
-
 export const addFigure = function(state, dispatch) {
-  store.dispatch({
-    type: 'addImageStart',
-    payload: {
-    }
-  })
+  store.dispatch({ type: 'addImageStart' })
   return true
 }
 
-///// stuff below
-
-
+export const testFunc = function(dispatch) {
+  return new Plugin({
+    props: {
+      handleDoubleClick() { console.log("Double click!") }
+    },
+    state: {
+      init() { return 0 },
+      apply(tr, value) { return value + 1 }
+    },
+  })
+}
 
 export const imagePlugin = new Plugin({
+  state: {
+    init() { return DecorationSet.empty },
+    apply(tr, set) {
+      // console.log("imagePlugin tr:", tr)
+      // console.log("imagePlugin set:", set)
+
+      // set = set.map(tr.mapping, tr.doc)
+      let action = tr.getMeta(this)
+      if (action && action.add) {
+        console.log(">>>>>> action is adding placeholders")
+      }
+
+    },
+  },
+  props: {
+    decorations(state) {
+      return this.getState(state)
+    }
+  },
+})
+
+export const imagePlaceholderPlugin = new Plugin({
   state: {
     init() { return DecorationSet.empty },
     apply(tr, set) {
@@ -47,6 +72,7 @@ export const imagePlugin = new Plugin({
     },
   },
 })
+
 
 function findPlaceholder(state, id) {
   let decos = imagePlugin.getState(state)

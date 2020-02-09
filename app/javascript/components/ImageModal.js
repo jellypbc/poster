@@ -31,7 +31,7 @@ function ImageModal() {
       autoProceed: true
     })
     .use(XHRUpload, {
-      endpoint: '/file/store',
+      endpoint: '/images/store',
       bundle: true,
       headers: {
         csrf: token
@@ -47,7 +47,7 @@ function ImageModal() {
     console.log(file_id)
 
     // dispatches some action, and returns the file_id
-    dispatch({type: 'addImageSave', payload: { file_id: file_id } })
+    dispatch({type: 'addImageSuccess', payload: { file_id: file_id } })
   })
 
   return (

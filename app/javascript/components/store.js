@@ -74,7 +74,7 @@ const imageReducers = {
   addImageStart: (state, action) => {
     state.isAddingImage = true
   },
-  addImageSave: (state, action) => {
+  addImageSuccess: (state, action) => {
     imagesEffects.onImageAddSuccess(action.payload)
     state.isAddingImage = false
   },

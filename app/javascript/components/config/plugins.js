@@ -3,7 +3,7 @@ import { dropCursor } from 'prosemirror-dropcursor'
 import { gapCursor } from 'prosemirror-gapcursor'
 import { columnResizing, tableEditing } from 'prosemirror-tables'
 import { commentPlugin, commentUI } from './plugin-comment'
-import { imagePlugin } from './image-plugin'
+import { imagePlugin, imagePlaceholderPlugin, testFunc } from './image-plugin'
 
 // TODO: move directly into components
 import { placeholder } from '@aeaton/prosemirror-placeholder'
@@ -30,6 +30,8 @@ export default [
 	commentPlugin,
 	commentUI(transaction => this.dispatch({ type: 'transaction', transaction })),
   imagePlugin,
+  imagePlaceholderPlugin,
+  testFunc(),
 ]
 
 // for tables

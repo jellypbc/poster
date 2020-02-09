@@ -1,7 +1,7 @@
 import { keymap } from 'prosemirror-keymap'
 import { undoInputRule } from 'prosemirror-inputrules'
 import { undo, redo } from 'prosemirror-history'
-import { wrapInList, splitListItem, liftListItem, sinkListItem } from 'prosemirror-schema-list'
+import { wrapInList, splitListItem, liftListItem, sinkListItem } from './schema-list'
 import { goToNextCell } from 'prosemirror-tables'
 import {
   baseKeymap,

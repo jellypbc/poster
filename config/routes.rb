@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   mount Sidekiq::Web,     at: "/sidekiq" #, constraints: AdminConstraint.new
 
   mount ImageUploader.upload_endpoint(:cache) => "/images/cache"
-  mount ImageUploader.upload_endpoint(:store) => "/images/upload"
+  mount ImageUploader.upload_endpoint(:store) => "/images/store"
 
   mount FileUploader.upload_endpoint(:cache) => "/file/cache"
   mount FileUploader.upload_endpoint(:store) => "/file/store"
