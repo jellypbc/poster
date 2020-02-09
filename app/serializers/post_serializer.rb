@@ -27,7 +27,8 @@ class PostSerializer
   include FastJsonapi::ObjectSerializer
   include Rails.application.routes.url_helpers
 
-  attributes :title, :id, :created_at, :updated_at, :plugins
+  attributes :title, :authors, :publisher, :id,
+    :created_at, :updated_at, :plugins, :slug
 
   attribute :form_url do |object|
     object.id.present? ? "/posts/#{object.slug}" : "/posts"

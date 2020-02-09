@@ -11,12 +11,7 @@
               = link_to 'View Original PDF', post.uploads.first.file_url, target: '_blank'
     h1.title
       = post.title.html_safe if post.title
-    .authors
-      = post.authors.html_safe if post.authors
-    .publisher
-      - if post.publisher
-        = "Published by "
-        = link_to post.publisher.html_safe
 
+  br
   .editor
     = post.body.html_safe if post.body

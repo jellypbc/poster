@@ -14,28 +14,15 @@ class PostMasthead extends React.Component {
     }
   }
 
+  // TODO: 1. update actions links below (Copy Share Link... etc) 2. put action links into dropdown
   render() {
     return (
       <div className='header'>
         <div className='header-nav'>
           <div className='pdf-url'>
             <a href={this.state.upload_url} target='_blank'>
-              View Original PDF
+              View Original PDF | Copy Share Link | Export to Markdown | Version History | Make it Perfect ✨ | 🙋🏻‍♀️
             </a>
-          </div>
-
-          <div className='title'>
-            <h1>
-              {this.state.title}
-            </h1>
-          </div>
-          <div className='authors'>
-            <h1>
-              {this.state.authors}
-            </h1>
-          </div>
-          <div className='publisher'>
-            {this.state.publisher}
           </div>
         </div>
       </div>
