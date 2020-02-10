@@ -2,6 +2,34 @@ header {
   text-align: center;
   padding: 30px 0;
 
+  .block {
+    padding-bottom: 16px;
+
+    .btn.btn-secondary {
+      text-decoration: none;
+      border-radius: 0px;
+      padding: 16px;
+      font-size: 1.25em;
+      color: $shaleDark;
+      border-color: $shaleDark;
+    }
+
+    a {
+      color: $grayLight;
+    }
+    .contact-us {
+      color: $grayLight;
+    }
+
+  }
+
+  img {
+    display: inline-block;
+    padding-top: 296px;
+  }
+
+
+
   h1 {
     font-size: 24px;
     padding: 70px 0 20px 0;
