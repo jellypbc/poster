@@ -4,5 +4,7 @@ class PagesController < ApplicationController
     	.last(3)
     	.reverse
     @upload = Upload.new
+
+    @no_header = true
 	end
 end

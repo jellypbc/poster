@@ -1,31 +1,19 @@
 .container
-	.row
-		.col-md-12
-			header
-				h1 Create a new post
-				p Upload a scientific paper in PDF form, and this page will parse it into an editable doc.
+  .row
+    .col-md-12
+      header
+        = image_tag 'favicon.png', class: 'index-icon animated bounceInDown'
+        .header-link
+          .block.request-access
+            = link_to 'Request Early Access', root_path, class: "btn btn-secondary"
+          .block
+            .sign-in
+              = link_to "Already a member? Enter at your own risk.", new_user_session_path
+          .block
+            .contact-us
+              = link_to "blog |", "http://jellypbc.com", target: '_blank'
+              = link_to " slack |", "https://jellypbc.com/follow", target: '_blank'
+              = link_to " twitter |", "http://twitter.com/jellypbc", target: '_blank'
+              = link_to " github |", "http://github.com/jellypbc", target: '_blank'
+              = mail_to "aloha@jellypbc.com", " email"
 
-				.header-link
-					= link_to "Choose a PDF to upload", new_upload_path, class: 'btn btn-primary'
-
-					span or drag and drop something here
-
-					p
-						| For example:&nbsp;
-						em Molecular Structure of Nucleic Acids
-
-	.row
-		.col-md-8.mx-auto
-			- @posts.each do |post|
-				= link_to post do
-					.post
-						h4.title
-							= post.title || "Title"
-						.preview
-							- if post.abstract
-								= post.abstract.truncate(400, seperator: "...")
-						div
-							span.date.mr-4
-								= post.created_at.strftime("%b %d, %Y")
-							span.link
-								| ⌞ View article
