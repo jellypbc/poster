@@ -1,6 +1,6 @@
 <%- if devise_mapping.registerable? && controller_name != 'registrations' %>
   <p class="devise__registrationPrompt">
-    Don’t have an account yet? <%= link_to "Register a new one", new_registration_path(resource_name) %>
+    Not a member yet? <%= link_to "Request early access.", root_path %>
   </p>
 <% else %>
   <p class="devise__registrationPrompt">
