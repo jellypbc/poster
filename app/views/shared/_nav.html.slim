@@ -21,16 +21,19 @@ nav.navbar.navbar-expand-lg id="#{opts[:id] if opts}" class="#{'white-nav' if wh
             = link_to 'Write', new_post_path, class: "nav-link mr-3"
           li class="nav-item active"
               = link_to 'Upload a PDF', new_upload_path, class: "btn btn-secondary mr-3"
-          li class="nav-item active"
-            = link_to 'Log Out', destroy_user_session_path, method: :delete, class: "nav-link mr-3"
+
+          li class="nav-item dropdown"
+            a class="nav-link dropdown-toggle" href="#" id="dropdown07XL" data-toggle="dropdown" aria-expanded="false"
+
+            div class="dropdown-menu" aria-labelledby="dropdown07XL"
+              a class="dropdown-item" href="#" View Dashboard
+              a class="dropdown-item" href="#" Edit Profile
+              a class="dropdown-item" href="#" 🙋🏻‍♀️
+              a class="dropdown-item"
+                = link_to 'Log Out', destroy_user_session_path, method: :delete
 
         - else
           li class="nav-item active"
             = link_to 'Log In', new_user_session_path, class: "nav-link mr-3"
 
-        / li class="nav-item dropdown"
-        /   a class="nav-link dropdown-toggle" href="#" id="dropdown07XL" data-toggle="dropdown" aria-expanded="false"
-        /     | Dropdown
-        /   div class="dropdown-menu" aria-labelledby="dropdown07XL"
-        /     a class="dropdown-item" href="#" Action
 
