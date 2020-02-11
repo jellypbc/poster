@@ -20,6 +20,8 @@ Rails.application.routes.draw do
 	end
 	post "/file", to: "uploads#file"
 
+  get "/write", to: "posts#write"
+
   resources :posts
   resources :users
 

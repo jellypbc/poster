@@ -24,7 +24,9 @@ module SlugHistory
     # Check that slug_attribute (defined by Slugged) was changed
     def save_slug_if_changed
       if previous_changes.keys.include? slug_source.to_s
-        self.set_slug!
+        if self.title?
+          self.set_slug!
+        end
         save_slug! read_attribute(slug_attribute)
       end
 
