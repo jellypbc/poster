@@ -51,7 +51,8 @@ class DiborgService
 			{
 				title: citation_hash[:title],
 				authors: citation_hash[:authors],
-				imprint_date: citation_hash[:imprint_date]
+				imprint_date: citation_hash[:imprint_date],
+        body: ""
 			}
 		end
 
