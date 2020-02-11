@@ -14,6 +14,7 @@ nav {
 
   .navbar-brand {
   	width: 36px;
+    padding: 0px;
 		&:hover {
 			opacity: 0.8;
 			transition: 0.3s;
@@ -22,17 +23,27 @@ nav {
 
   a {
     color: $shaleDark;
-    font-weight: 700;
     font-size: 16px;
+    padding: 12px 8px;
   	&:hover {
 	    background: none;
-	    text-decoration: none;
   	}
   }
 
-  .btn-dark {
-  	font-weight: 600;
+  .btn.btn-secondary {
+    text-decoration: none;
+    border-radius: 0px;
+    padding: 16px;
   }
+
+  .search-bar {
+    text-decoration: none;
+    border: 1px solid black;
+    padding: 16px 88px 16px 36px;
+    font-size: 14px;
+    border-color: $grayLight;
+  }
+
 
   .fa-menu,
   .navbar-toggler {
@@ -41,8 +52,11 @@ nav {
   }
 
   .nav-link {
-    font-size: 15px;
-    padding-top: 0.3rem;
+    font-size: 14px;
+    padding-top: 16px;
+    &:hover {
+      text-decoration: underline;
+    }
   }
 
 	&.white-nav {
