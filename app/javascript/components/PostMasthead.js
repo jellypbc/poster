@@ -18,11 +18,32 @@ class PostMasthead extends React.Component {
     return (
       <div className='header'>
         <div className='header-nav'>
-          <div className='pdf-url'>
-            <a href={this.state.upload_url} target='_blank'>
-              View Original PDF
-            </a>
-          </div>
+          <ul className="navbar-nav ml-auto">
+            <li className="nav-item dropdown post-dropdown">
+              <a className="nav-link dropdown-toggle" href="#" id="dropdown07XL" data-toggle="dropdown" aria-expanded="false">
+              </a>
+              <div className="dropdown-menu" aria-labelledby="dropdown07XL">
+                <a className="dropdown-item" href={this.state.upload_url} target='_blank'>
+                  View Original PDF
+                </a>
+                <a className="dropdown-item" href="#">
+                  Copy Share Link
+                </a>
+                <a className="dropdown-item" href="#">
+                  Export to Markdown
+                </a>
+                <a className="dropdown-item" href="#">
+                  Soon! Version History
+                </a>
+                <a className="dropdown-item" href="#">
+                  Soon! Make it Perfect ✨
+                </a>
+                <a className="dropdown-item" href="#">
+                  🙋🏻‍♀️
+                </a>
+              </div>
+            </li>
+          </ul>
 
           <div className='title'>
             <h1>

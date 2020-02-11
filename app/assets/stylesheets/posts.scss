@@ -296,3 +296,19 @@ li.commentText + li.commentText {
 .commentDelete:hover {
   color: #f88;
 }
+
+a.nav-link {
+  float: right;
+}
+
+.dropdown-menu {
+  border-radius: 0px;
+  padding: 0px;
+}
+
+.dropdown-item {
+  color: $shaleDark;
+  font-size: 14px;
+  text-align: right;
+  padding: 0.25rem 1rem;
+}
