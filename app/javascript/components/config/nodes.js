@@ -6,26 +6,18 @@ const pDOM = ["p", 0], blockquoteDOM = ["blockquote", 0], hrDOM = ["hr"],
       preDOM = ["pre", ["code", 0]], brDOM = ["br"]
 
 const nodes = {
+  // :: NodeSpec The top level document node.
+  doc: {
+    content: "block+"
+  },
+
   header: {
     attrs: {level: {default: 0}},
     content: "inline*",
     group: "block",
     defining: true,
     parseDOM: [{tag: "head", preserveWhitespace: false}],
-    // toDOM() { return [{tag: "h7", attrs: {level: 1}}]}
     toDOM() { return ["p", 0] }
-  },
-
-  // content: {
-  //   content: "inline*",
-  //   group: "block",
-  //   parseDom: [{tag: "<__content__>"}],
-  //   toDOM() { return ["p", 0]}
-  // },
-
-  // :: NodeSpec The top level document node.
-  doc: {
-    content: "block+"
   },
 
   // :: NodeSpec A plain paragraph textblock. Represented in the DOM

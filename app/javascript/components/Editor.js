@@ -2,7 +2,6 @@ import React from 'react'
 import { DOMParser, DOMSerializer } from 'prosemirror-model'
 import { EditorState } from 'prosemirror-state'
 import { EditorView } from 'prosemirror-view'
-
 import { pluginKey as commentPluginKey } from './config/plugin-comment'
 
 class Editor extends React.Component {

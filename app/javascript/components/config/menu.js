@@ -1,17 +1,11 @@
 import {
-  joinUp,
-  lift,
-  setBlockType,
-  toggleMark,
-  wrapIn,
+  joinUp, lift, setBlockType, toggleMark, wrapIn
 } from 'prosemirror-commands'
 import { redo, undo } from 'prosemirror-history'
-import { wrapInList } from 'prosemirror-schema-list'
+import { wrapInList } from './schema-list'
 // import { addColumnAfter, addColumnBefore } from 'prosemirror-tables'
-
 import { addAnnotation } from './plugin-comment'
 import { addFigure } from './image-plugin'
-
 import schema from './schema'
 import icons from './icons'
 
@@ -201,18 +195,18 @@ export default {
     },
   },
   insert: {
-    image: {
-      title: 'Insert image',
-      content: icons.image,
-      enable: canInsert(schema.nodes.image),
-      run: (state, dispatch) => {
-        const src = promptForURL()
-        if (!src) return false
+    // image: {
+    //   title: 'Insert image',
+    //   content: icons.image,
+    //   enable: canInsert(schema.nodes.image),
+    //   run: (state, dispatch) => {
+    //     const src = promptForURL()
+    //     if (!src) return false
 
-        const img = schema.nodes.image.createAndFill({ src })
-        dispatch(state.tr.replaceSelectionWith(img))
-      },
-    },
+    //     const img = schema.nodes.image.createAndFill({ src })
+    //     dispatch(state.tr.replaceSelectionWith(img))
+    //   },
+    // },
     footnote: {
       title: 'Insert footnote',
       content: icons.footnote,

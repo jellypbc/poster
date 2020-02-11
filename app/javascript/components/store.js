@@ -36,33 +36,8 @@ const commentReducers = {
 }
 
 
-// ======== images
-
 const imagesEffects = {
   onImageAddSuccess: (payload) => {
-    console.log("wahoo i got the payload:", payload)
-    console.log("now i will post to posts controller")
-
-    // const fireAway = (post_id, file_id) => {
-    //   const url = '/posts/add_figure'
-    //   const data = {
-    //     post_id: post_id,
-    //     file_id: file_id
-    //   }
-    //   superagent.post(url)
-    //     .send(data)
-    //     .set('X-CSRF-Token', token)
-    //     .set('accept', 'application/json')
-    //     .then(res => {
-    //       console.log(res)
-    //       window.location = res.body.redirect_to
-    //     })
-    //     .catch(err => {
-    //       console.log(err.message)
-    //       // this.setState({error: err.message})
-    //     })
-    // }
-
   }
 }
 
@@ -73,15 +48,20 @@ const imagesReducerDefaultState = {
 const imageReducers = {
   addImageStart: (state, action) => {
     state.isAddingImage = true
+    // runs the image-plugin onImageAddSuccess() payload
+    if (action.payload.onImageAddSuccess) {
+      imagesEffects.onImageAddSuccess = action.payload.onImageAddSuccess
+    }
   },
   addImageSuccess: (state, action) => {
-    imagesEffects.onImageAddSuccess(action.payload)
+    if (imagesEffects.onImageAddSuccess) {
+      imagesEffects.onImageAddSuccess(action)
+    }
     state.isAddingImage = false
   },
   closeImageModal: (state, action) => {
     state.isAddingImage = false
   },
-
 }
 
 const store = configureStore({

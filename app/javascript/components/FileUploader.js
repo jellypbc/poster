@@ -18,7 +18,7 @@ class FileUploader extends React.Component {
 			.content
 
 		this.uppy = Uppy({
-			  meta: { type: 'avatar' },
+			  meta: { type: 'upload' },
 			  restrictions: { maxNumberOfFiles: 1 },
 			  autoProceed: true
 			})

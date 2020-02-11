@@ -17,8 +17,8 @@ Modal.setAppElement('#root');
 function PostPage(props) {
   return (
     <Provider store={store}>
-      <ImageModal />
       <PostEditor {...props} />
+      <ImageModal />
       <CommentForm />
     </Provider>
   )
