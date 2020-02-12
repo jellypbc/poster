@@ -2,13 +2,22 @@ class PostsController < ApplicationController
   before_action :set_post, only: [:show, :edit, :update, :destroy]
 
   def index
-    @posts = Post.primary
+    @posts = Post.all
       .order(created_at: :desc)
       .paginate(page: params[:page], per_page: 40)
   end
 
   def show
   	@no_footer = true
+  end
+
+  def write
+    @post = Post.new(body: "")
+    if user_signed_in?
+      @post.user_id = current_user.id
+    end
+    @post.save!
+    redirect_to post_path(@post)
   end
 
   def new

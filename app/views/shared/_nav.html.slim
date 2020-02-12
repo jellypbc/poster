@@ -17,10 +17,16 @@ nav.navbar.navbar-expand-lg id="#{opts[:id] if opts}" class="#{'white-nav' if wh
     #menu.collapse.navbar-collapse
       ul class="navbar-nav ml-auto"
         - if user_signed_in?
-          li class="nav-item active"
-            = link_to 'Write', new_post_path, class: "nav-link mr-3"
-          li class="nav-item active"
-              = link_to 'Upload a PDF', new_upload_path, class: "btn btn-secondary mr-3"
+          - if @post.present?
+            li class="nav-item active"
+              = link_to 'Save as Draft', root_path, class: "nav-link mr-3"
+            li class="nav-item active"
+              = link_to 'Publish', root_path, class: "btn btn-secondary mr-3"
+          - else
+            li class="nav-item active"
+              = link_to 'Write', write_path, class: "nav-link mr-3"
+            li class="nav-item active"
+                = link_to 'Upload a PDF', new_upload_path, class: "btn btn-secondary mr-3"
 
           li class="nav-item dropdown"
             a class="nav-link dropdown-toggle" href="#" id="dropdown07XL" data-toggle="dropdown" aria-expanded="false"

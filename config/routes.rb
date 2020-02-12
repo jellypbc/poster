@@ -21,6 +21,8 @@ Rails.application.routes.draw do
 	post "/file", to: "uploads#file"
   post "/posts/add_figure", to: "posts#add_figure"
 
+  get "/write", to: "posts#write"
+
   resources :posts
   resources :users
 
