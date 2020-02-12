@@ -51,11 +51,6 @@ class PostEditor extends React.Component {
     const schema = options.schema
     this.parse = createParser(schema)
     this.serialize = createSerializer(schema)
-
-    const postBody = this.state.post.data.attributes.body
-    const pluginState = JSON.parse(this.state.post.data.attributes.plugins)
-    options.doc = this.parse(postBody) // TODO: don't mutate "options"
-    options.doc.comments = { comments: pluginState.comments } // TODO: generalize plugin state restoration
 	}
 
   componentDidMount(){
@@ -67,15 +62,20 @@ class PostEditor extends React.Component {
       connected() {
       },
 
-      received: function(data) {
-        this.setState( state => ({
-          post: data,
+      received: function(resp) {
+        this.setState({
+          post: resp,
           isProcessing: false
-        }))
+        })
+        this.updateURL() // refresh the window history
       }.bind(this)
     })
 
-    // Remove the static placeholder content once component renders
+    this.removeStaticRenderPlaceholder()
+  }
+
+  // Remove the static placeholder content once component renders
+  removeStaticRenderPlaceholder = () => {
     var placeholder = document.getElementsByClassName('placeholder-content')[0]
     placeholder.remove()
   }
@@ -92,6 +92,16 @@ class PostEditor extends React.Component {
     350,
     { maxWait: 1000 }
   )
+
+  updateURL = () => {
+    if (window.history.replaceState) {
+      window.history.replaceState(
+        {},
+        this.state.post.data.attributes.title,
+        this.state.post.data.attributes.slug
+      )
+    }
+  }
 
   updateTitle = (doc, docState) => {
     // do not read from this.state after setState, it will not update until rerender
@@ -111,22 +121,16 @@ class PostEditor extends React.Component {
       .set('X-CSRF-Token', token)
       .set('accept', 'application/json')
       .end((err, res) => {
-        console.log({ res, err }) // DEBUG SAVE
-        // res is just showing a redirect instead of full data,
         // use the browser timestamp instead of new updated_at
         const now = new Date().toISOString()
         this.setState(state => ({
+          post: res.body.post,
           isLoading: false,
           error: err ? err : null,
           errorAt: err ? now : null,
           lastSavedAt: err ? state.lastSavedAt : now,
         }))
-
-        var post = res.body.post
-        if (window.history.replaceState) {
-          window.history.replaceState({}, post.data.attributes.title, post.data.attributes.slug);
-        }
-
+        this.updateURL() // refresh the window history
       })
   }
 
@@ -207,9 +211,15 @@ class PostEditor extends React.Component {
     const lastSavedAtDate = new Date(lastSavedAt) // convert to date object
     const hasUnsavedChanges = lastSavedAtDate < lastUnsavedChangeAt
 
-    const postTitle = this.state.post.data.attributes.title
+    // TODO: eek
+    options.doc = this.parse(postBody) // TODO: don't mutate "options"
+    options.doc.comments = { comments: pluginState.comments } // TODO: generalize plugin state restoration
+
+    const postTitle = post.data.attributes.title
     var titleOptions = Object.assign({}, options)
     titleOptions.doc = this.parse(postTitle)
+
+    console.log("i am renderingpost")
 
     return (
       <div>

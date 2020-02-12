@@ -6,11 +6,13 @@ class PostMasthead extends React.Component {
   constructor(props){
     super(props)
 
+    var { post } = this.props
+
     this.state = {
-      title: this.props.post.data.attributes.title || null,
-      authors: this.props.post.data.attributes.authors || null,
-      publisher: this.props.post.data.attributes.publisher || null,
-      upload_url: this.props.post.data.attributes.upload_url || null,
+      title: post.data.attributes.title || null,
+      authors: post.data.attributes.authors || null,
+      publisher: post.data.attributes.publisher || null,
+      upload_url: post.data.attributes.upload_url || null,
     }
   }
 
