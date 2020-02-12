@@ -39,7 +39,7 @@ module Slugged
 
       def set_placeholder_slug
         unless read_attribute(slug_attribute)
-          placeholder = (0...20).map{(65+rand(26)).chr}.join.downcase
+          placeholder = (0...6).map{(65+rand(26)).chr}.join.downcase
           write_attribute slug_attribute, placeholder
         end
       end
@@ -52,9 +52,20 @@ module Slugged
         self.class._slug_attr
       end
 
-      def generate_slug
+      def munged_source
         source = send slug_source
-        pending_slug = ActionController::Base.helpers.strip_tags(source).parameterize
+        ActionController::Base.helpers.strip_tags(source).parameterize
+      end
+
+      def generate_slug
+        slug_attr = send slug_attribute
+        if slug_attr
+          pending_slug = slug_attr.slice(0..5)
+        end
+
+        if munged_source.present?
+          pending_slug += "-" + munged_source
+        end
 
         if self.class.where("#{slug_attribute}=?", pending_slug).any?
           sequence = self.class.where("#{slug_attribute} like '#{pending_slug}-%'").count + 2

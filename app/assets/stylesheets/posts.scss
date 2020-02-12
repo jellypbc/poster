@@ -57,13 +57,15 @@
   }
 }
 
-.pdf-url {
-	margin-top: 40px;
-  padding: 20px 0;
-  color: #bbb;
-  font-size: 13px;
-  a, a:hover {
+.header{
+  padding-bottom: 40px;
+  .pdf-url {
+    margin-top: 40px;
     color: #bbb;
+    font-size: 13px;
+    a, a:hover {
+      color: #bbb;
+    }
   }
 }
 
