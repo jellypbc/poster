@@ -35,9 +35,39 @@ const commentReducers = {
   },
 }
 
+
+const imagesEffects = {
+  onImageAddSuccess: (payload) => {
+  }
+}
+
+const imagesReducerDefaultState = {
+  isAddingimage: false,
+}
+
+const imageReducers = {
+  addImageStart: (state, action) => {
+    state.isAddingImage = true
+    // runs the image-plugin onImageAddSuccess() payload
+    if (action.payload.onImageAddSuccess) {
+      imagesEffects.onImageAddSuccess = action.payload.onImageAddSuccess
+    }
+  },
+  addImageSuccess: (state, action) => {
+    if (imagesEffects.onImageAddSuccess) {
+      imagesEffects.onImageAddSuccess(action)
+    }
+    state.isAddingImage = false
+  },
+  closeImageModal: (state, action) => {
+    state.isAddingImage = false
+  },
+}
+
 const store = configureStore({
   reducer: {
     comments: createReducer(commentsReducerDefaultState, commentReducers),
+    images: createReducer(imagesReducerDefaultState, imageReducers),
   },
 })
 

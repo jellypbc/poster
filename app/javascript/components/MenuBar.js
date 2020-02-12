@@ -5,7 +5,6 @@ import classnames from 'classnames'
 const Button = ({ state, dispatch }) => (item, key) => (
   <button
     key={key}
-    type={item.type ||'button'}
     className={classnames({
       button: true,
       active: item.active && item.active(state),

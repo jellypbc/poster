@@ -3,7 +3,7 @@ html lang='en-us'
   head
     = render 'layouts/head'
 
-body(*body_attributes)
+body#root(*body_attributes)
   = render "shared/nav" unless @no_header
   = render "shared/flash_notices"
 
