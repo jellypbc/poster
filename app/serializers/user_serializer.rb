@@ -13,7 +13,6 @@
 #  first_name             :string
 #  last_name              :string
 #  locked_at              :datetime
-#  password_digest        :string
 #  remember_created_at    :datetime
 #  reset_password_sent_at :datetime
 #  reset_password_token   :string
