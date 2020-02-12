@@ -1,3 +1,6 @@
+- content_for(:title) { "#{@post.title}" }
+- content_for(:meta_description) { meta_description(@post) }
+
 #post.container data-post-id=@post.id
   .post-show
     = render 'placeholder_post', post: @post

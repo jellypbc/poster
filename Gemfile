@@ -29,6 +29,7 @@ gem "sidekiq"
 gem "sidekiq-batch"
 gem "sidekiq-cron"
 gem "redis"
+gem "sanitize"
 gem "bootsnap", ">= 1.4.2", require: false
 
 group :development, :test do
