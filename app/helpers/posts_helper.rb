@@ -1,6 +1,8 @@
 module PostsHelper
   def meta_description(post)
-    "#{post.title.truncate(120)} | #{post.abstract.truncate(300)}"
+    if post.title
+      "#{post.title.truncate(120)}"
+    end
   end
 
 end
