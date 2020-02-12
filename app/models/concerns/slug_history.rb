@@ -24,9 +24,13 @@ module SlugHistory
     # Check that slug_attribute (defined by Slugged) was changed
     def save_slug_if_changed
       if previous_changes.keys.include? slug_source.to_s
-        if self.title?
+        # TODO: make sure theres a validation that the slug is uniq
+        if self.send(slug_attribute).blank?
+          self.set_placeholder_slug
+        else
           self.set_slug!
         end
+
         save_slug! read_attribute(slug_attribute)
       end
 
