@@ -15,8 +15,7 @@ export const addFigure = function(state, dispatch) {
           let tr = state.tr
           dispatch(
             tr.replaceSelectionWith(
-              // imageType.create({src: imageUrl})
-              fileType.create({src: imageUrl})
+              imageType.create({src: imageUrl})
             )
           )
           return true

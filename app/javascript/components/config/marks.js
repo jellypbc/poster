@@ -1,3 +1,5 @@
+const emDOM = ["em", 0], strongDOM = ["strong", 0], codeDOM = ["code", 0];
+
 const marks = {
   // :: MarkSpec A link. Has `href` and `title` attributes. `title`
   // defaults to the empty string. Rendered and parsed as an `<a>`

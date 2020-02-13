@@ -219,8 +219,6 @@ class PostEditor extends React.Component {
     var titleOptions = Object.assign({}, options)
     titleOptions.doc = this.parse(postTitle)
 
-    console.log("i am renderingpost")
-
     return (
       <div>
         <PostMasthead post={post}/>
