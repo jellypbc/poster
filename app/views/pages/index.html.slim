@@ -1,26 +1,18 @@
-- if user_signed_in?
-  .container
-    .row
-      .col-md-12
-        header
-          = image_tag 'favicon.png', class: 'index-icon'
-
-- else
-  .container
-    .row
-      .col-md-12
-        header
-          = image_tag 'favicon.png', class: 'index-icon animated bounceInDown'
-          .header-link
-            .block.request-access
-              = link_to 'Request Early Access', root_path, class: "btn btn-secondary"
-            .block
-              .sign-in
-                = link_to "Already a member? Enter at your own risk.", new_user_session_path
-            .block
-              .contact-us
-                = link_to "blog |", "http://jellypbc.com", target: '_blank'
-                = link_to " slack |", "https://jellypbc.com/follow", target: '_blank'
-                = link_to " twitter |", "http://twitter.com/jellypbc", target: '_blank'
-                = link_to " github |", "http://github.com/jellypbc", target: '_blank'
-                = mail_to "aloha@jellypbc.com", " email"
+.container
+  .row
+    .col-md-12
+      .header
+        = image_tag 'favicon.png', class: 'index-icon animated bounceInDown'
+        .header-link
+          .block.request-access
+            = link_to 'Request Early Access', root_path, class: "btn btn-secondary"
+          .block
+            .sign-in
+              = link_to "Log in", login_path
+          .block
+            .contact-us
+              = link_to "blog |", "http://jellypbc.com", target: '_blank'
+              = link_to " slack |", "https://jellypbc.com/follow", target: '_blank'
+              = link_to " twitter |", "http://twitter.com/jellypbc", target: '_blank'
+              = link_to " github |", "http://github.com/jellypbc", target: '_blank'
+              = mail_to "aloha@jellypbc.com", " email"

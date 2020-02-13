@@ -1,0 +1,14 @@
+.container
+  .my-5
+    h1 Dashboard
+
+
+    br
+    h2 My published posts
+    .row
+      .col-md-7
+        - if @posts.empty?
+          p.muted.my-3 You haven't created any posts yet!
+
+        - @posts.each do |post|
+          = render 'posts/post', post: post

@@ -1,0 +1,13 @@
+= link_to post do
+  .post
+    h4.title
+      = post.title || "Title"
+    .preview
+      - if post.abstract
+        = post.abstract.truncate(200, seperator: "...")
+    div
+      span.date.mr-4
+        = post.created_at.strftime("%b %d, %Y")
+      span.link
+        | ⌞ View article
+

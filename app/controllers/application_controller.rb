@@ -14,6 +14,14 @@ class ApplicationController < ActionController::Base
 
 	protected
 
+  def after_sign_in_path_for(resource)
+    dashboard_path
+  end
+
+  def after_sign_out_path_for(resource)
+    root_path
+  end
+
 	# https://github.com/plataformatec/devise/tree/master#strong-parameters
 	def configure_permitted_parameters
 		devise_parameter_sanitizer.permit(:sign_up, keys: [:username, :email])
@@ -28,4 +36,7 @@ class ApplicationController < ActionController::Base
 			"application"
 			end
 		end
+
+  protected
+
 end
