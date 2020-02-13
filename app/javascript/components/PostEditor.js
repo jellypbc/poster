@@ -100,8 +100,6 @@ class PostEditor extends React.Component {
       allowedAttributes: {}
     })
 
-    console.log(title)
-
     if (window.history.replaceState) {
       document.title = title
       window.history.replaceState(

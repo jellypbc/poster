@@ -41,10 +41,22 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable,
          :confirmable, :lockable, :timeoutable
 
+  before_save :set_username
+
   has_many :posts
 
 	def send_devise_notification(notification, *args)
 		devise_mailer.send(notification, self, *args).deliver_later
 	end
+
+  def to_param
+    username
+  end
+
+  private
+
+  def set_username
+    self.username = self.email[/^[^@]+/]
+  end
 
 end

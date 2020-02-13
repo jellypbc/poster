@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :fetch_user, only: [:show, :edit, :update, :destroy]
 
   def index
     @users = User.all
@@ -50,8 +50,17 @@ class UsersController < ApplicationController
   end
 
   private
-    def set_user
-      @user = User.find(params[:id])
+    def fetch_user
+      @user ||= begin
+        User.find_by_username(params[:id] || params[:user_id])
+        rescue ActiveRecord::RecordNotFound => e
+          # If admin, attempt to lookup by id
+          if user_is_admin?
+            User.find params[:id]
+          else
+            raise e
+          end
+        end
     end
 
     def user_params
