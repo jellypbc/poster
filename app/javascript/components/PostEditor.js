@@ -3,6 +3,7 @@ import React from 'react'
 import { createConsumer } from "@rails/actioncable"
 import superagent from 'superagent'
 import debounce from 'lodash/debounce'
+import sanitizeHtml from 'sanitize-html'
 
 import Editor from './Editor'
 import Floater from './Floater'
@@ -94,10 +95,18 @@ class PostEditor extends React.Component {
   )
 
   updateURL = () => {
+    var title = sanitizeHtml(this.state.post.data.attributes.title, {
+      allowedTags: [],
+      allowedAttributes: {}
+    })
+
+    console.log(title)
+
     if (window.history.replaceState) {
+      document.title = title
       window.history.replaceState(
         {},
-        this.state.post.data.attributes.title,
+        title,
         this.state.post.data.attributes.slug
       )
     }
