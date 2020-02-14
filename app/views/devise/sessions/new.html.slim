@@ -1,0 +1,20 @@
+h2 Log In
+
+= render "devise/shared/registration_prompt"
+
+= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
+  .field
+    = f.email_field :email, autofocus: true, autocomplete: "email", "aria-label": :email, placeholder: true
+
+  .field
+    = f.password_field :password, autocomplete: "current-password", "aria-label": :password, placeholder: true
+
+  = render "devise/shared/links"
+
+  - if devise_mapping.rememberable?
+    .field.devise__rememberMe
+      = f.check_box :remember_me
+      = f.label :remember_me
+
+  .actions
+    = f.submit "Log in" , class: "btn btn-l btn-primary"

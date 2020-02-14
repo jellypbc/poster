@@ -4,7 +4,7 @@ html lang='en-us'
     = render 'layouts/head'
 
 body#root(*body_attributes)
-  = render "shared/nav" unless @no_header
+  = render "shared/nav" unless @no_nav
   = render "shared/flash_notices"
 
   = content_for?(:content) ? yield(:content) : yield

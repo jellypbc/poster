@@ -1,15 +1,12 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :fetch_user, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!, only: [:index, :edit, :destroy, :update]
 
   def index
     @users = User.all
   end
 
   def show
-  end
-
-  def new
-    @user = User.new
   end
 
   def edit
@@ -44,14 +41,23 @@ class UsersController < ApplicationController
   def destroy
     @user.destroy
     respond_to do |format|
-      format.html { redirect_to users_url, notice: 'User was successfully destroyed.' }
+      format.html { redirect_to root_url, notice: 'User was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
 
   private
-    def set_user
-      @user = User.find(params[:id])
+    def fetch_user
+      @user ||= begin
+        User.find_by_username(params[:id] || params[:user_id])
+        rescue ActiveRecord::RecordNotFound => e
+          # If admin, attempt to lookup by id
+          if user_is_admin?
+            User.find params[:id]
+          else
+            raise e
+          end
+        end
     end
 
     def user_params

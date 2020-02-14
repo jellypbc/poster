@@ -1,10 +1,13 @@
-.container
-	.row
-		.col-md-12
-			h1 Editing User
+.container.my-5
+  .row
+    .col-md-12
+      h1 Editing User
 
-			= render 'form', user: @user
+      = render 'form', user: @user
 
-			= link_to 'Show', @user
-			br
-			= link_to 'Back', users_path
+      = link_to @user, method: :delete, data: { confirm: 'Are you sure?' } do
+        .btn.btn-danger Delete Account
+
+      = link_to 'Show', @user
+      span.mh-3 |
+      = link_to 'Back', users_path

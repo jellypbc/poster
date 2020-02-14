@@ -112,8 +112,6 @@ const nodes = {
   }
 }
 
-const emDOM = ["em", 0], strongDOM = ["strong", 0], codeDOM = ["code", 0]
-
 const listNodes = {
   ordered_list: {
     ...orderedList,

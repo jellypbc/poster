@@ -28,18 +28,18 @@ nav.navbar.navbar-expand-lg id="#{opts[:id] if opts}" class="#{'white-nav' if wh
             li class="nav-item active"
                 = link_to 'Upload a PDF', new_upload_path, class: "btn btn-secondary mr-3"
 
-          li class="nav-item dropdown"
+          li class="nav-item dropleft"
             a class="nav-link dropdown-toggle" href="#" id="dropdown07XL" data-toggle="dropdown" aria-expanded="false"
 
-            div class="dropdown-menu" aria-labelledby="dropdown07XL"
+            div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown07XL"
               a class="dropdown-item" href="#" View Dashboard
               a class="dropdown-item" href="#" Edit Profile
               a class="dropdown-item" href="#" 🙋🏻‍♀️
               a class="dropdown-item"
-                = link_to 'Log Out', destroy_user_session_path, method: :delete
+                = link_to 'Log Out', logout_path, method: :delete
 
         - else
           li class="nav-item active"
-            = link_to 'Log In', new_user_session_path, class: "nav-link mr-3"
+            = link_to 'Log In', login_path, class: "nav-link mr-3"
 
 
