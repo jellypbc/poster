@@ -48,7 +48,9 @@ nav {
   .fa-menu,
   .navbar-toggler {
     color: $shaleDark;
-    border-color: $shaleDark;
+    img {
+      height: 36px;
+    }
   }
 
   .nav-link {
@@ -76,8 +78,15 @@ nav {
         opacity: 0.75;
       }
     }
-
 	}
+  .dropdown-toggle::after {
+    display: none;
+  }
+
+  .avatar {
+    padding: 0;
+    vertical-align: top;
+  }
 }
 
 .turbolinks-progress-bar {

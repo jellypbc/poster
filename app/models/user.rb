@@ -32,6 +32,9 @@
 #
 
 class User < ApplicationRecord
+  include AvatarUploader::Attachment(:avatar)
+
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   # Defaults:
@@ -51,6 +54,11 @@ class User < ApplicationRecord
 
   def to_param
     username
+  end
+
+  def avatar_url
+    "avatar.png"
+    # avatar.present? ? avatar.avatar_url : "avatar.png"
   end
 
   private
