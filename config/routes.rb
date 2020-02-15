@@ -13,6 +13,12 @@ Rails.application.routes.draw do
     delete 'logout', to: 'devise/sessions#destroy'
   end
 
+  resources :users do
+    member do
+      post :remove_avatar
+    end
+  end
+
   resources :uploads do
     get :extract_images
 	end

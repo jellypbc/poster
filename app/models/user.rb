@@ -4,6 +4,7 @@
 #
 #  id                     :bigint           not null, primary key
 #  admin                  :boolean
+#  avatar_data            :text
 #  confirmation_sent_at   :datetime
 #  confirmation_token     :string
 #  confirmed_at           :datetime
@@ -32,11 +33,8 @@
 #
 
 class User < ApplicationRecord
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
-  # Defaults:
-  #   devise :database_authenticatable, :registerable,
-  #      :recoverable, :rememberable, :validatable,
+  include AvatarUploader::Attachment(:avatar)
+
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
          :confirmable, :lockable, :timeoutable
@@ -51,6 +49,27 @@ class User < ApplicationRecord
 
   def to_param
     username
+  end
+
+  def avatar_url(variant = nil)
+    if avatar
+      super
+    else
+      ActionController::Base.helpers.asset_path "avatar.png"
+    end
+  end
+
+  def process_avatars
+    if previous_changes.keys.include?('avatar_data') && avatar_data.present?
+      attacher = AvatarUploader::Attacher.from_model(self, :avatar)
+      UserAvatarDerivativesWorker.perform_async(
+        attacher.class.name,
+        attacher.record.class.name,
+        attacher.record.id,
+        attacher.name,
+        attacher.file_data,
+      )
+    end
   end
 
   private

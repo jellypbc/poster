@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :fetch_user, only: [:show, :edit, :update, :destroy]
+  before_action :fetch_user, only: [:show, :edit, :update, :destroy, :remove_avatar]
   before_action :authenticate_user!, only: [:index, :edit, :destroy, :update]
 
   def index
@@ -17,6 +17,7 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.save
+        @user.process_avatars if @user.avatar
         format.html { redirect_to @user, notice: 'User was successfully created.' }
         format.json { render :show, status: :created, location: @user }
       else
@@ -28,7 +29,8 @@ class UsersController < ApplicationController
 
   def update
     respond_to do |format|
-      if @user.update(user_params)
+      if @user.update!(user_params)
+        @user.process_avatars if @user.avatar
         format.html { redirect_to @user, notice: 'User was successfully updated.' }
         format.json { render :show, status: :ok, location: @user }
       else
@@ -46,6 +48,12 @@ class UsersController < ApplicationController
     end
   end
 
+  def remove_avatar
+    @user.avatar = nil
+    @user.save!
+    redirect_to edit_user_path(@user)
+  end
+
   private
     def fetch_user
       @user ||= begin
@@ -61,6 +69,9 @@ class UsersController < ApplicationController
     end
 
     def user_params
-      params.fetch(:user, {})
+      params.require(:user).permit(
+        :username, :admin, :email, :first_name, :last_name,
+        :username, :avatar
+      )
     end
 end

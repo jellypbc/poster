@@ -1,9 +1,11 @@
-.container.my-5
-	.row
-		.col-md-12
-			h1 = @user.username
+.users.container.my-5
+  .row
+    .col-md-12
+      h1 = @user.username
 
+      .user-avatar
+        = image_tag @user.avatar_url(:small)
 
-			= link_to 'Edit', edit_user_path(@user)
-			br
-			= link_to 'Back', users_path
+      = link_to 'Edit', edit_user_path(@user)
+      br
+      = link_to 'Back', users_path
