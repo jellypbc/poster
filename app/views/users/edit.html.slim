@@ -1,7 +1,19 @@
-.container.my-5
+.users.container.my-5
   .row
     .col-md-12
       h1 Editing User
+
+      = form_for @user do |form|
+        .field.my-4
+          .user-avatar
+            = image_tag @user.avatar_url(:small)
+          - if @user.avatar
+            = link_to "Delete Avatar", remove_avatar_user_path(@user), method: :post, data: {confirm: "ok?"}, class: 'btn btn-secondary btn-xs'
+
+          = form.label :avatar
+          = form.hidden_field :avatar, value: @user.cached_avatar_data
+          = form.file_field :avatar
+          = form.submit "Upload Avatar", class: 'btn btn-primary'
 
       = render 'form', user: @user
 

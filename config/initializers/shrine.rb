@@ -40,9 +40,12 @@ Shrine.plugin :restore_cached_data
 Shrine.plugin :determine_mime_type, analyzer: :mimemagic
 # The pretty_location plugin attempts to generate a nicer folder structure for uploaded files.
 Shrine.plugin :pretty_location
+# Image versions service
+Shrine.plugin :derivatives
+# Use fallback urls for image derivatives
+Shrine.plugin :default_url
 
 Shrine.plugin :remote_url, max_size: 20*1024*1024
 Shrine.plugin :presign_endpoint
 Shrine.plugin :upload_endpoint, url: true
 Shrine.plugin :download_endpoint
-

@@ -49,7 +49,8 @@ nav {
   .navbar-toggler {
     color: $shaleDark;
     img {
-      height: 36px;
+      height: 34px;
+      width: 34px;
     }
   }
 
@@ -83,9 +84,15 @@ nav {
     display: none;
   }
 
-  .avatar {
+  .avatar-link {
     padding: 0;
     vertical-align: top;
+  }
+
+  .avatar {
+    height: 34px;
+    width: 34px;
+    border-radius: 50px;
   }
 }
 

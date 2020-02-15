@@ -1,15 +1,10 @@
-.container.my-5
+.users.container.my-5
   .row
     .col-md-12
       h1 = @user.username
 
-      / - if @user.avatar?
-      /   = image tag 'user avatar path'
-      / - else
-      /   = image_tag 'avatar.png'
-
-      / = image_tag @user.this_persons_avatar
-
+      .user-avatar
+        = image_tag @user.avatar_url(:small)
 
       = link_to 'Edit', edit_user_path(@user)
       br

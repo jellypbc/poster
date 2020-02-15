@@ -123,7 +123,7 @@ GEM
     dotenv-rails (2.7.5)
       dotenv (= 2.7.5)
       railties (>= 3.2, < 6.1)
-    down (5.0.0)
+    down (5.1.1)
       addressable (~> 2.5)
     erubi (1.9.0)
     et-orbi (1.2.2)
@@ -245,6 +245,9 @@ GEM
     httpclient (2.8.3)
     i18n (1.7.0)
       concurrent-ruby (~> 1.0)
+    image_processing (1.10.3)
+      mini_magick (>= 4.9.5, < 5)
+      ruby-vips (>= 2.0.17, < 3)
     jbuilder (2.9.1)
       activesupport (>= 4.2.0)
     jwt (2.2.1)
@@ -274,6 +277,7 @@ GEM
       mime-types-data (~> 3.2015)
     mime-types-data (3.2019.1009)
     mimemagic (0.3.3)
+    mini_magick (4.10.1)
     mini_mime (1.0.2)
     mini_portile2 (2.4.0)
     minitest (5.13.0)
@@ -304,7 +308,7 @@ GEM
       pry (~> 0.10)
     pry-rails (0.3.9)
       pry (>= 0.10.4)
-    public_suffix (4.0.1)
+    public_suffix (4.0.3)
     puma (4.3.1)
       nio4r (~> 2.0)
     raabro (1.1.6)
@@ -389,6 +393,8 @@ GEM
     rspec-support (3.9.0)
     rspec_junit_formatter (0.4.1)
       rspec-core (>= 2, < 4, != 2.12.0)
+    ruby-vips (2.0.17)
+      ffi (~> 1.9)
     ruby_dep (1.5.0)
     rubyzip (2.0.0)
     sanitize (5.1.0)
@@ -411,9 +417,9 @@ GEM
     shellany (0.0.1)
     shoulda-matchers (4.2.0)
       activesupport (>= 4.2.0)
-    shrine (3.0.1)
+    shrine (3.2.1)
       content_disposition (~> 1.0)
-      down (~> 5.0)
+      down (~> 5.1)
     shrine-google_cloud_storage (3.0.0)
       google-cloud-storage (~> 1.6)
       shrine (~> 3.0)
@@ -514,6 +520,7 @@ DEPENDENCIES
   guard-rspec
   httmultiparty
   httparty
+  image_processing (~> 1.8)
   jbuilder (~> 2.7)
   letter_opener (~> 1.7)
   letter_opener_web (~> 1.3)
@@ -537,8 +544,8 @@ DEPENDENCIES
   scout_apm
   selenium-webdriver
   shoulda-matchers
-  shrine (~> 3.0)
-  shrine-google_cloud_storage
+  shrine (~> 3.2)
+  shrine-google_cloud_storage (~> 3.0)
   sidekiq
   sidekiq-batch
   sidekiq-cron
