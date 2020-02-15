@@ -18,35 +18,6 @@ module SessionsHelper
     end
   end
 
-  # def current_user
-    # if session[:user_id]
-    #   @current_user ||= User.find(session[:user_id])
-    # else
-    #   @current_user ||= nil
-    # end
-  # end
-
-  # def current_user?(user)
-  #   user == current_user
-  # end
-
-  # def login(user)
-    # session[:user_id] = user.id
-    # user.reset_remember_token!
-    # cookies.permanent[:remember_token] = user.remember_token
-    # @current_user = user
-    # user.log_session!(request.remote_ip)
-  # end
-
-  # def logout
-  #   session[:user_id] = user.id
-  #   session[:return_to] = nil
-  # end
-
-  # def signed_in?
-  #   !!current_user
-  # end
-
   def set_return_url(url)
     if url.present?
       session[:return_to] = url
@@ -76,8 +47,6 @@ module SessionsHelper
       redirect_to root_path, notice: "Oops, you're already signed in!"
     end
   end
-
-
 
   private
 

@@ -18,4 +18,7 @@ RSpec.describe UploadsController, type: :controller do
 		end
 	end
 
+  describe "GET #edit" do
+  end
+
 end

@@ -41,8 +41,6 @@ class User < ApplicationRecord
 
   before_save :set_username
 
-  # after_save_commit :process_avatars
-
   has_many :posts
 
 	def send_devise_notification(notification, *args)
@@ -62,8 +60,6 @@ class User < ApplicationRecord
   end
 
   def process_avatars
-    # binding.pry
-
     if previous_changes.keys.include?('avatar_data') && avatar_data.present?
       attacher = AvatarUploader::Attacher.from_model(self, :avatar)
       UserAvatarDerivativesWorker.perform_async(
