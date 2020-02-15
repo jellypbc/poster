@@ -2,12 +2,6 @@ require "image_processing/mini_magick"
 
 class AvatarUploader < Shrine
 
-  THUMBNAILS = {
-    small:  [78, 78],
-    medium: [300, 300],
-    large:  [500, 500],
-  }
-
   # resizes to small, medium, and large
   Attacher.derivatives do |original|
     magick = ImageProcessing::MiniMagick.source(original)
