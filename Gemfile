@@ -60,6 +60,7 @@ group :development do
   gem "pry-rails"
   gem "pry-byebug"
   gem "guard-rspec", require: false
+  gem "guard-livereload", "~> 2.5", require: false
   gem "foreman"
 end
 
