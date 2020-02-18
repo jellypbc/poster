@@ -1,5 +1,7 @@
 class PostsController < ApplicationController
   before_action :set_post, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!, only: [:index, :edit, :show, :destroy, :update]
+
 
   def index
     @posts = Post.primary

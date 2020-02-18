@@ -8,7 +8,10 @@ nav.navbar.navbar-expand-lg id="#{opts[:id] if opts}" class="#{'white-nav' if wh
       = image_tag 'jelly.png'
 
     button.navbar-toggler type="button" data-toggle="collapse" data-target="#menu" aria-controls="menu" aria-expanded="false" aria-label="Toggle navigation"
-      = image_tag current_user.avatar_url(:small), class: "avatar"
+      - if current_user
+        = image_tag current_user.avatar_url(:small), class: "avatar"
+      - else
+        i.fa.fa-stream
 
     #menu.collapse.navbar-collapse
       - if user_signed_in?
@@ -19,7 +22,7 @@ nav.navbar.navbar-expand-lg id="#{opts[:id] if opts}" class="#{'white-nav' if wh
       ul class="subnav ml-auto"
         - if user_signed_in?
 
-          - if @post.present? 
+          - if @post.present?
             li class="nav-item active"
               = link_to 'Save as Draft', root_path, class: "nav-link mr-3"
             li class="nav-item active"
@@ -48,6 +51,6 @@ nav.navbar.navbar-expand-lg id="#{opts[:id] if opts}" class="#{'white-nav' if wh
 
         - else
           li class="nav-item active"
-            = link_to 'Log In', login_path, class: "nav-link mr-3"
+            = link_to 'Log In', new_user_session_path, class: "nav-link mr-3"
 
 

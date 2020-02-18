@@ -6,11 +6,12 @@ Rails.application.routes.draw do
   mount FileUploader.upload_endpoint(:cache) => "/file/cache"
   mount FileUploader.upload_endpoint(:store) => "/file/store"
 
-  devise_for :users
+  devise_for :users, skip: [:sessions]
   devise_scope :user do
     get 'supersecretinvitelink', to: 'devise/registrations#new'
-    get 'login', to: 'devise/sessions#new'
-    delete 'logout', to: 'devise/sessions#destroy'
+    get 'login', to: 'devise/sessions#new', as: :new_user_session
+    post 'login', to: 'devise/sessions#create', as: :user_session
+    delete 'logout', to: 'devise/sessions#destroy', as: :destroy_user_session
   end
 
   resources :users do
@@ -23,13 +24,12 @@ Rails.application.routes.draw do
     get :extract_images
 	end
 
+  resources :posts
+
 	post "/file", to: "uploads#file"
   post "/posts/add_figure", to: "posts#add_figure"
-
   get "/write", to: "posts#write"
 
-  resources :posts
-  resources :users
 
   if Rails.env.development?
     resource :styleguide, controller: :styleguide, only: :show
