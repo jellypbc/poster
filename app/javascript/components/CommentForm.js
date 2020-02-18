@@ -22,7 +22,7 @@ function CommentForm({onSubmit, onCancel}) {
       <textarea
         className="j-commentForm__input px-3 py-3"
         defaultValue=""
-        placeholder="Comment..."
+        placeholder="Add a comment..."
         ref={textareaRef}
         /* eslint-disable-next-line jsx-a11y/no-autofocus */
         autoFocus

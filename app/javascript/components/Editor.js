@@ -2,8 +2,7 @@ import React from 'react'
 import { EditorState } from 'prosemirror-state'
 import { EditorView } from 'prosemirror-view'
 import { pluginKey as commentPluginKey } from './config/plugin-comment'
-import applyDevTools from "prosemirror-dev-tools";
-
+// import applyDevTools from "prosemirror-dev-tools";
 
 class Editor extends React.Component {
   constructor(props) {
@@ -45,7 +44,8 @@ class Editor extends React.Component {
       attributes: this.props.attributes,
       nodeViews: this.props.nodeViews,
     })
-    applyDevTools(this.view)
+
+    // applyDevTools(this.view)
   }
 
   componentDidMount() {

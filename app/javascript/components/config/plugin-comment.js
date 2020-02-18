@@ -38,7 +38,6 @@ class CommentState {
   }
 
   apply(tr) {
-    console.log({tr})
     let action = tr.getMeta(commentPlugin),
       actionType = action && action.type
     if (!action && !tr.docChanged) return this
@@ -208,13 +207,13 @@ export const addAnnotation = function(state, dispatch) {
     //   },
     // })
     // let wasAddingComment = store.getState().comments.isAddingComment
-    /* 
+    /*
     1. comment form is open
     1a. user is typing the comment
     2. comment is submitting => handleNewComment (put text in editor state)
     3. comment is saved => updatePost()
     */
-   // 
+   //
   //  const text = await promptForText(); // open the modal, return the text when closed
    // put the text in prosemirror;
 
@@ -274,18 +273,18 @@ function renderComments(comments, dispatch, state) {
 }
 
 function renderComment(comment, dispatch, state) {
-  
+
   let deleteBtn = crel(
     'button',
     { class: 'commentDelete', title: 'Delete annotation' },
-    '×'
+    'Delete Comment'
   )
   deleteBtn.addEventListener('click', () =>
     dispatch(
       state.tr.setMeta(commentPlugin, { type: 'deleteComment', comment })
     )
   )
-  
+
   // if (comment.user === current_user) {
   //   // show the delete button
   // }
@@ -293,15 +292,15 @@ function renderComment(comment, dispatch, state) {
   // if (comment.user != current_user) {
   //   // show the reply button
   // }
-  
+
   return crel(
     'div',
     {class: 'comment-show p-3'},
     crel(
       'p', { class: 'commentText' }, comment.text, deleteBtn
     ),
-    crel(
-      'button', {class: 'btn btn-primary btn-xs'}, "Reply"
-    )
+    // crel(
+    //   'button', {class: 'btn btn-primary btn-xs'}, "Reply"
+    // )
   )
 }
