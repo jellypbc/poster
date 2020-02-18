@@ -9,7 +9,6 @@ nav {
 
   min-height: 60px;
   padding-top: 15px;
-
   border-bottom: 1px solid $shaleLighter;
 
   .navbar-brand {
@@ -33,13 +32,15 @@ nav {
   .btn.btn-secondary {
     text-decoration: none;
     border-radius: 0px;
-    padding: 16px;
+    padding: 8px 16px;
+    border-radius: 4px;
   }
 
   .search-bar {
     text-decoration: none;
     border: 1px solid black;
-    padding: 16px 88px 16px 36px;
+    padding: 8px 12px;
+    border-radius: 4px;
     font-size: 14px;
     border-color: $grayLight;
   }
@@ -55,11 +56,33 @@ nav {
   }
 
   .nav-link {
+    -webkit-font-smoothing: antialiased;
     font-size: 14px;
-    padding-top: 16px;
+    font-weight: 600;
+    padding: 0;
     &:hover {
       text-decoration: underline;
     }
+  }
+
+  .subnav {
+    align-items: center;
+    display: flex;
+    flex-basis: auto;
+  }
+  .dropdown-toggle::after {
+    display: none;
+  }
+
+  .avatar-link {
+    padding: 0;
+    vertical-align: top;
+  }
+
+  .avatar {
+    height: 34px;
+    width: 34px;
+    border-radius: 50px;
   }
 
 	&.white-nav {
@@ -80,20 +103,6 @@ nav {
       }
     }
 	}
-  .dropdown-toggle::after {
-    display: none;
-  }
-
-  .avatar-link {
-    padding: 0;
-    vertical-align: top;
-  }
-
-  .avatar {
-    height: 34px;
-    width: 34px;
-    border-radius: 50px;
-  }
 }
 
 .turbolinks-progress-bar {

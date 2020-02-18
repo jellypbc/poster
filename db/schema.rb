@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_14_021421) do
+ActiveRecord::Schema.define(version: 2020_02_18_002716) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -44,6 +44,9 @@ ActiveRecord::Schema.define(version: 2020_02_14_021421) do
     t.jsonb "plugins", default: "{}", null: false
     t.string "imprint_date"
     t.string "imprint_type"
+    t.datetime "published_at"
+    t.integer "visibility"
+    t.datetime "deleted_at"
     t.index ["slug"], name: "index_posts_on_slug", unique: true
     t.index ["user_id"], name: "index_posts_on_user_id"
   end
