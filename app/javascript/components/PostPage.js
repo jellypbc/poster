@@ -19,7 +19,7 @@ function PostPage(props) {
     <Provider store={store}>
       <PostEditor {...props} />
       <ImageModal />
-      <CommentForm />
+      {/* <CommentForm /> */}
     </Provider>
   )
 }

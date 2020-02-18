@@ -32,6 +32,7 @@ const commentReducers = {
     if (commentsEffects.onCommentAdd) {
       commentsEffects.onCommentAdd(action.payload)
     }
+    state.newestComment = action.payload
   },
 }
 

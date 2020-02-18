@@ -16,19 +16,37 @@ import '@aeaton/prosemirror-placeholder/style/placeholder.css'
 import keys from './keys'
 import rules from './rules'
 
-export default [
-	rules,
-	keys,
-	placeholder(),
-	footnotes(),
-	dropCursor(),
-	gapCursor(),
-	history(),
-	columnResizing(),
-	tableEditing(),
-	commentPlugin,
-	commentUI(transaction => this.dispatch({ type: 'transaction', transaction })),
+// export a function here because some plugins need to be bound to a reference
+// to a state or view object
+const setupPlugins = getView => [
+  rules,
+  keys,
+  placeholder(),
+  footnotes(),
+  dropCursor(),
+  gapCursor(),
+  history(),
+  columnResizing(),
+  tableEditing(),
+  commentPlugin,
+  // commentUI(function(transaction) {
+  //   console.log(transaction)
+  //   self.view.dispatch({ type: 'transaction', transaction })
+  // }),
+  commentUI(transaction => {
+    console.log("this", this)
+    console.log({ view: getView(), transaction })
+    // Not quite working, does a new state object need to be created in the editor
+    // after each transaction?
+    // getView().dispatch({ type: 'transaction', transaction })
+    // getView().state.applyTransaction(transaction)
+
+    // getView().state.apply(transaction)
+    getView().dispatch(transaction)
+  }),
 ]
+
+export default setupPlugins
 
 // for tables
 document.execCommand('enableObjectResizing', false, false)

@@ -1,8 +1,9 @@
 import React from 'react'
-import { DOMParser, DOMSerializer } from 'prosemirror-model'
 import { EditorState } from 'prosemirror-state'
 import { EditorView } from 'prosemirror-view'
 import { pluginKey as commentPluginKey } from './config/plugin-comment'
+import applyDevTools from "prosemirror-dev-tools";
+
 
 class Editor extends React.Component {
   constructor(props) {
@@ -11,10 +12,13 @@ class Editor extends React.Component {
     this.editorRef = React.createRef()
 
     console.log('EDITOR OPTIONS', props.options)
-
+    const getView = () => this.view
     this.view = new EditorView(null, {
       // prosemirror options = { plugins, schema, comments: { comments: [] } }
-      state: EditorState.create(props.options),
+      state: EditorState.create({
+        ...props.options,
+        plugins: props.options.setupPlugins(getView),
+      }),
       dispatchTransaction: transaction => {
         const oldComments = commentPluginKey.getState(this.view.state)
 
@@ -41,6 +45,7 @@ class Editor extends React.Component {
       attributes: this.props.attributes,
       nodeViews: this.props.nodeViews,
     })
+    applyDevTools(this.view)
   }
 
   componentDidMount() {

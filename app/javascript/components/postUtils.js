@@ -22,11 +22,13 @@ export const createParser = schema => {
   }
 }
 
+// TODO: fix me so im not just making weird empty DOM things
 export const createSerializer = schema => {
   const serializer = DOMSerializer.fromSchema(schema)
 
   return doc => {
     const container = document.createElement('article')
+    console.log('serializin', doc.content)
     container.appendChild(serializer.serializeFragment(doc.content))
 
     return container.innerHTML
