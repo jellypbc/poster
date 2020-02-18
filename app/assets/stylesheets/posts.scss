@@ -215,7 +215,6 @@
   border: 1px solid $grayLight;
   border-radius: $borderRadius-base;
   background-color: $white;
-  transition: 1s;
   transform: translate(0px, 0px);
 }
 
@@ -243,37 +242,57 @@
   vertical-align: bottom;
 }
 
+/* inline version of comment list */
+// .ProseMirror ul.commentList {
+//   font-size: 16px;
+//   width: 15em;
+//   position: absolute;
+//   top: calc(100% + 8px);
+//   left: -2em;
+//   font-size: 1rem;
+//   color: black;
+//   background: white;
+//   font-weight: normal;
+//   border: 1px solid #888;
+//   border-radius: 5px;
+//   z-index: 10;
+//   padding: 0;
+// }
+
+/* big sidebar version of comment list */
 .ProseMirror ul.commentList {
   font-size: 16px;
-  width: 15em;
+  width: 300px;
   position: absolute;
-  top: calc(100% + 8px);
-  left: -2em;
+  bottom: 10px;
+  right: 10px;
   font-size: 1rem;
   color: black;
   background: white;
   font-weight: normal;
-  border: 1px solid #888;
-  border-radius: 5px;
+  border: 1px solid $grayLight;
+  border-radius: $borderRadius-base;
+  background-color: $white;
   z-index: 10;
   padding: 0;
 }
 
-ul.commentList::before {
-  border: 5px solid #888;
-  border-top-width: 0px;
-  border-left-color: transparent;
-  border-right-color: transparent;
-  position: absolute;
-  top: -5px;
-  left: calc(2em - 6px);
-  content: ' ';
-  height: 0;
-  width: 0;
-}
+/* "caret" triangle on comment list */
+// ul.commentList::before {
+//   border: 5px solid #888;
+//   border-top-width: 0px;
+//   border-left-color: transparent;
+//   border-right-color: transparent;
+//   position: absolute;
+//   top: -5px;
+//   left: calc(2em - 6px);
+//   content: ' ';
+//   height: 0;
+//   width: 0;
+// }
 
 li.commentText {
-  padding: 2px 8px;
+  padding: 5px 10px;
   position: relative;
   pointer-events: auto;
   margin: 0;
@@ -281,7 +300,7 @@ li.commentText {
 }
 
 li.commentText + li.commentText {
-  border-top: 1px solid silver;
+  border-top: 1px solid $grayLight;
 }
 
 .commentDelete {
