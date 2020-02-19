@@ -15,7 +15,7 @@
 #  publisher    :string
 #  slug         :string
 #  title        :text
-#  visibility   :integer
+#  visibility   :integer          default("public"), not null
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
 #  user_id      :integer

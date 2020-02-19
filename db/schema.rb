@@ -45,7 +45,7 @@ ActiveRecord::Schema.define(version: 2020_02_18_002716) do
     t.string "imprint_date"
     t.string "imprint_type"
     t.datetime "published_at"
-    t.integer "visibility"
+    t.integer "visibility", default: 0, null: false
     t.datetime "deleted_at"
     t.index ["slug"], name: "index_posts_on_slug", unique: true
     t.index ["user_id"], name: "index_posts_on_user_id"

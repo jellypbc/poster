@@ -15,7 +15,7 @@
 #  publisher    :string
 #  slug         :string
 #  title        :text
-#  visibility   :integer
+#  visibility   :integer          default("public"), not null
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
 #  user_id      :integer
@@ -33,11 +33,14 @@ class Post < ApplicationRecord
   slug :title, attribute: :slug
   remember_slug
 
+  enum visibility: [:public, :draft, :private], _suffix: :visibility
+
 	has_many :uploads
 	has_many :citations
   has_many :figures, through: :uploads, source: :upload_figures, class_name: 'UploadFigure'
 
 	accepts_nested_attributes_for :uploads
+
 
   validates :title, length: { maximum: 1000 }
 
