@@ -1,9 +1,0 @@
-<%- if devise_mapping.registerable? && controller_name != 'registrations' %>
-  <p class="devise__registrationPrompt">
-    Not a member yet? <%= link_to "Request early access.", root_path %>
-  </p>
-<% else %>
-  <p class="devise__registrationPrompt">
-    Already have an account? <%= link_to "Log In", new_user_session_path %>
-  </p>
-<% end %>

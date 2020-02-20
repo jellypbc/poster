@@ -50,6 +50,14 @@
       border: 1px solid;
       border-radius: $borderRadius-small;
     }
+
+    input:focus {
+      border-color: #80bdff;
+      outline: 0;
+      box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+      // outline: inherit;
+      // outline-color: $brandGreen;
+    };
   }
 
   // Error display:
