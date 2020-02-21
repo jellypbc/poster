@@ -34,12 +34,10 @@ bundle exec rails server
 DATABASE_URL=postgres://localhost:5432 DB_USER=postgres bundle exec rails server
 ```
 
-Or you can use docker to run the rails server and other services together, using:
+To start all the services together (server, sidekiq, webpack, docker), you can use foreman.
 
 ```sh
-docker-compose build
-docker-compose run app .docker/startup
-docker-compose up
+foreman start -f Procfile.dev
 ```
 
 #### Teardown
