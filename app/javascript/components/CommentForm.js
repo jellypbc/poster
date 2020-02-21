@@ -1,9 +1,9 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
-function CommentForm() {
-  const dispatch = useDispatch()
-  const comments = useSelector(state => state.comments)
+function CommentForm({onSubmit, onCancel}) {
+  // const dispatch = useDispatch()
+  // const comments = useSelector(state => state.comments)
   const textareaRef = React.useRef()
 
   const getSavePayload = () => {
@@ -12,16 +12,17 @@ function CommentForm() {
 
   // TODO: It might be a good idea to separate visibility check into a parent
   // component to keep this component solely concerned with internal state & layout.
-  const modifierClasses = !comments.isAddingComment
-    ? 'j-commentForm--inactive'
-    : ''
+  // const modifierClasses = !comments.isAddingComment
+  //   ? 'j-commentForm--inactive'
+  //   : ''
+  const modifierClasses = ''
 
   return (
     <div className={`j-commentForm shadow rounded ${modifierClasses}`}>
       <textarea
         className="j-commentForm__input px-3 py-3"
         defaultValue=""
-        placeholder="Comment..."
+        placeholder="Add a comment..."
         ref={textareaRef}
         /* eslint-disable-next-line jsx-a11y/no-autofocus */
         autoFocus
@@ -32,8 +33,10 @@ function CommentForm() {
           type="button"
           className="btn btn-primary btn-sm"
           onClick={() => {
-            dispatch({ type: 'addCommentSave', payload: getSavePayload() })
+            const payload = getSavePayload()
+            // dispatch({ type: 'addCommentSave', payload })
             textareaRef.current.value = '' // clear (could change this to controlled value too)
+            if (onSubmit) onSubmit(payload)
           }}
         >
           Post
@@ -41,7 +44,10 @@ function CommentForm() {
         <button
           type="button"
           className="btn btn-sm o"
-          onClick={() => dispatch({ type: 'addCommentCancel' })}
+          onClick={() => {
+            // dispatch({ type: 'addCommentCancel' })
+            if (onCancel) onCancel()
+          }}
         >
           Cancel
         </button>

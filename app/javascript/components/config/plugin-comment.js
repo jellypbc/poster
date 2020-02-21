@@ -3,6 +3,9 @@ import crel from 'crel'
 import { Plugin, PluginKey } from 'prosemirror-state'
 import { Decoration, DecorationSet } from 'prosemirror-view'
 import { store } from '../store'
+import CommentForm from '../CommentForm'
+import ReactDOM from 'react-dom'
+import React from 'react'
 
 export const pluginKey = new PluginKey('comments')
 
@@ -39,60 +42,67 @@ class CommentState {
       actionType = action && action.type
     if (!action && !tr.docChanged) return this
     let base = this
-    if (actionType == 'receive') base = base.receive(action, tr.doc)
-    let decos = base.decos,
-      unsent = base.unsent
+    // if (actionType == 'receive') {
+    //   console.log("all your receive belong to base")
+    //   base = base.receive(action, tr.doc)
+    // }
+    let {decos, unsent} = base;
     decos = decos.map(tr.mapping, tr.doc)
     if (actionType == 'newComment') {
       decos = decos.add(tr.doc, [deco(action.from, action.to, action.comment)])
       unsent = unsent.concat(action)
     } else if (actionType == 'deleteComment') {
       decos = decos.remove([this.findComment(action.comment.id)])
+      // debugger;
       unsent = unsent.concat(action)
     }
     return new CommentState(base.version, decos, unsent)
   }
 
-  receive({ version, events, sent }, doc) {
-    let set = this.decos
-    for (let i = 0; i < events.length; i++) {
-      let event = events[i]
-      if (event.type == 'delete') {
-        let found = this.findComment(event.id)
-        if (found) set = set.remove([found])
-      } else {
-        // "create"
-        if (!this.findComment(event.id))
-          set = set.add(doc, [
-            deco(event.from, event.to, new Comment(event.text, event.id)),
-          ])
-      }
-    }
-    return new CommentState(version, set, this.unsent.slice(sent))
-  }
+  // receive({ version, events, sent }, doc) {
+  //   let set = this.decos
+  //   for (let i = 0; i < events.length; i++) {
+  //     let event = events[i]
+  //     if (event.type == 'delete') {
 
-  unsentEvents() {
-    let result = []
-    for (let i = 0; i < this.unsent.length; i++) {
-      let action = this.unsent[i]
-      if (action.type == 'newComment') {
-        let found = this.findComment(action.comment.id)
-        if (found)
-          result.push({
-            type: 'create',
-            id: action.comment.id,
-            from: found.from,
-            to: found.to,
-            text: action.comment.text,
-          })
-      } else {
-        result.push({ type: 'delete', id: action.comment.id })
-      }
-    }
-    return result
-  }
+  //       console.log("i have received a request to kindly delete a comment from a decoration set", event)
+  //       let found = this.findComment(event.id)
+  //       if (found) set = set.remove([found])
+  //     } else {
+  //       // "create"
+  //       if (!this.findComment(event.id))
+  //         set = set.add(doc, [
+  //           deco(event.from, event.to, new Comment(event.text, event.id)),
+  //         ])
+  //     }
+  //   }
+  //   return new CommentState(version, set, this.unsent.slice(sent))
+  // }
+
+  // unsentEvents() {
+  //   let result = []
+  //   for (let i = 0; i < this.unsent.length; i++) {
+  //     let action = this.unsent[i]
+  //     if (action.type == 'newComment') {
+  //       let found = this.findComment(action.comment.id)
+  //       console.log("found comment", found)
+  //       if (found)
+  //         result.push({
+  //           type: 'create',
+  //           id: action.comment.id,
+  //           from: found.from,
+  //           to: found.to,
+  //           text: action.comment.text,
+  //         })
+  //     } else {
+  //       result.push({ type: 'delete', id: action.comment.id })
+  //     }
+  //   }
+  //   return result
+  // }
 
   static init(config) {
+    console.log('init', config)
     const existingComments =
       (config.doc.comments
         ? config.doc.comments.comments
@@ -108,12 +118,13 @@ class CommentState {
   }
 }
 
-export function serialize(comment) {
+export function serialize(action) {
+  console.log("i am a comment", action)
   return {
-    to: comment.to,
-    from: comment.from,
-    id: comment.comment.id,
-    text: comment.comment.text,
+    to: action.to,
+    from: action.from,
+    id: action.comment.id,
+    text: action.comment.text,
   }
 }
 
@@ -152,25 +163,70 @@ export const addAnnotation = function(state, dispatch) {
     //       comment: new Comment(text, randomID()),
     //     })
     //   )
-    store.dispatch({
-      type: 'addCommentStart',
-      payload: {
-        // Callbacks are *really* not supposed to go in redux, but we are abusing it
-        // to make prosemirror and react communicate. It's more of a way to yield control
-        // to react and then handle the changed input as a prosemirror state change.
-        // There might also be a way of rendering a react portal or something here instead.
-        onCommentAdd: ({ text }) => {
-          dispatch(
-            state.tr.setMeta(commentPlugin, {
-              type: 'newComment',
-              from: sel.from,
-              to: sel.to,
-              comment: new Comment(text, randomID()),
-            })
-          )
-        },
-      },
-    })
+    const root = document.createElement('div')
+    document.body.appendChild(root)
+
+    const handleClose = () => ReactDOM.unmountComponentAtNode(root)
+
+    const handleNewComment = ({ text }) => {
+      dispatch(
+        state.tr.setMeta(commentPlugin, {
+          type: 'newComment',
+          from: sel.from,
+          to: sel.to,
+          comment: new Comment(text, randomID()),
+        })
+      )
+      // side effect to scroll window to here
+      // store.dispatch(dosideeffect)
+      handleClose()
+    }
+
+    ReactDOM.render(
+      <CommentForm onSubmit={handleNewComment} onCancel={handleClose} />,
+      root
+    )
+
+    // store.dispatch({
+    //   type: 'addCommentStart',
+    //   payload: {
+    //     // Callbacks are *really* not supposed to go in redux, but we are abusing it
+    //     // to make prosemirror and react communicate. It's more of a way to yield control
+    //     // to react and then handle the changed input as a prosemirror state change.
+    //     // There might also be a way of rendering a react portal or something here instead.
+    //     // onCommentAdd: ({ text }) => {
+    //     //   dispatch(
+    //     //     state.tr.setMeta(commentPlugin, {
+    //     //       type: 'newComment',
+    //     //       from: sel.from,
+    //     //       to: sel.to,
+    //     //       comment: new Comment(text, randomID()),
+    //     //     })
+    //     //   )
+    //     // },
+    //   },
+    // })
+    // let wasAddingComment = store.getState().comments.isAddingComment
+    /*
+    1. comment form is open
+    1a. user is typing the comment
+    2. comment is submitting => handleNewComment (put text in editor state)
+    3. comment is saved => updatePost()
+    */
+   //
+  //  const text = await promptForText(); // open the modal, return the text when closed
+   // put the text in prosemirror;
+
+
+    // const unsubscribe = store.subscribe(() => {
+    //   const isAddingComment = store.getState().comments.isAddingComment
+    //   const didFinishAddingComment = wasAddingComment === true && isAddingComment === false
+    //   if (didFinishAddingComment) {
+    //     handleNewComment({ text: store.getState().comments.newestComment.text })
+    //     unsubscribe()
+    //   }
+    //   wasAddingComment = isAddingComment
+    // })
   }
   return true // TODO: what is the return value used for?
 }
@@ -184,11 +240,11 @@ export const annotationIcon = {
 
 // Comment UI
 
-export const commentUI = function(dispatch) {
+export const commentUI = function(transaction) {
   return new Plugin({
     props: {
       decorations(state) {
-        return commentTooltip(state, dispatch)
+        return commentTooltip(state, transaction)
       },
     },
   })
@@ -217,16 +273,34 @@ function renderComments(comments, dispatch, state) {
 }
 
 function renderComment(comment, dispatch, state) {
-  // TODO: implement delete later
+
   let deleteBtn = crel(
     'button',
     { class: 'commentDelete', title: 'Delete annotation' },
-    '×'
+    'Delete Comment'
   )
   deleteBtn.addEventListener('click', () =>
     dispatch(
       state.tr.setMeta(commentPlugin, { type: 'deleteComment', comment })
     )
   )
-  return crel('li', { class: 'commentText' }, comment.text)
+
+  // if (comment.user === current_user) {
+  //   // show the delete button
+  // }
+
+  // if (comment.user != current_user) {
+  //   // show the reply button
+  // }
+
+  return crel(
+    'div',
+    {class: 'comment-show p-3'},
+    crel(
+      'p', { class: 'commentText' }, comment.text, deleteBtn
+    ),
+    // crel(
+    //   'button', {class: 'btn btn-primary btn-xs'}, "Reply"
+    // )
+  )
 }
