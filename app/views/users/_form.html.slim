@@ -3,26 +3,26 @@
     #error_explanation
       h2
         = pluralize(user.errors.count, 'error')
-        | prohibited this user from being saved:
+        | &nbsp;prohibited this user from being saved:
 
       ul
         - user.errors.full_messages.each do |message|
           li = message
 
   .field.my-4
-    = form.label :username
+    h3 = form.label :username
     = form.text_field :username, class: 'form-control form-control-lg'
 
   .field.my-4
-    = form.label :email
+    h3 = form.label :email
     = form.text_field :email, class: 'form-control form-control-lg'
 
   .field.my-4
-    = form.label :first_name
+    h3 = form.label :first_name
     = form.text_field :first_name, class: 'form-control form-control-lg'
 
   .field.my-4
-    = form.label :last_name
+    h3 = form.label :last_name
     = form.text_field :last_name, class: 'form-control form-control-lg'
 
   .actions

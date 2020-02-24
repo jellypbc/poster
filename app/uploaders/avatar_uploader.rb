@@ -17,4 +17,10 @@ class AvatarUploader < Shrine
   Attacher.default_url do |derivative: nil, **|
     file&.url if derivative
   end
+
+  Attacher.validate do
+    validate_size      1..10*1024*1024
+    validate_mime_type %w[image/jpeg image/png image/webp image/tiff image/gif]
+    validate_extension %w[jpg jpeg png webp tiff tif gif]
+  end
 end

@@ -1,11 +1,15 @@
 .users.container.my-5
   .row
-    .col-md-12
-      h1 = @user.username
-
+    .col-md-4
+      h2 @#{@user&.username}
       .user-avatar
-        = image_tag @user.avatar_url(:small)
+        = image_tag @user&.avatar_url(:small)
 
       = link_to 'Edit', edit_user_path(@user)
       br
       = link_to 'Back', users_path
+
+    .col-md-12
+      - @user.posts.each do |post|
+        .post
+          = post.title

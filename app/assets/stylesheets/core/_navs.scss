@@ -7,6 +7,10 @@ nav {
     background: transparent;
   }
 
+  @include media-breakpoint-up(md) {
+    background: red
+  }
+
   min-height: 60px;
   padding-top: 15px;
   border-bottom: 1px solid $shaleLighter;
@@ -20,6 +24,14 @@ nav {
 		}
   }
 
+  .navbar-collapse {
+    // mobile view
+    &.show {
+
+      .nav-item.dropdown {display: none}
+    }
+  }
+
   a {
     color: $shaleDark;
     font-size: 16px;
@@ -29,30 +41,7 @@ nav {
   	}
   }
 
-  .btn.btn-secondary {
-    text-decoration: none;
-    border-radius: 0px;
-    padding: 8px 16px;
-    border-radius: 4px;
-  }
-
-  .search-bar {
-    text-decoration: none;
-    border: 1px solid black;
-    padding: 8px 12px;
-    border-radius: 4px;
-    font-size: 14px;
-    border-color: $grayLight;
-  }
-
-
-  .fa-menu,
-  .navbar-toggler {
-    color: $shaleDark;
-    img {
-      height: 34px;
-      width: 34px;
-    }
+  .nav-item {
   }
 
   .nav-link {
@@ -65,11 +54,49 @@ nav {
     }
   }
 
-  .subnav {
-    align-items: center;
-    display: flex;
-    flex-basis: auto;
+  .btn.btn-secondary {
+    text-decoration: none;
+    border-radius: 0px;
+    padding: 8px 16px;
+    border-radius: 4px;
   }
+
+  .subnav {
+    @include media-breakpoint-up(md) {
+      // flex-direction: row;
+    }
+    flex-direction: column;
+
+    display: flex;
+
+    align-items: center;
+    flex-basis: auto;
+    list-style: none;
+    li {
+      margin: 0;
+      padding: 0;
+    }
+  }
+
+  .search-bar {
+    text-decoration: none;
+    border: 1px solid black;
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-size: 14px;
+    border-color: $grayLight;
+  }
+
+  // toggle dropdown
+  .fa-menu,
+  .navbar-toggler {
+    color: $shaleDark;
+    img {
+      height: 34px;
+      width: 34px;
+    }
+  }
+
   .dropdown-toggle::after {
     display: none;
   }
@@ -88,15 +115,10 @@ nav {
 	&.white-nav {
 	  z-index: 230;
 	  color: $white;
-
-	  a {
-	  	color: $white;
-	  }
-
+	  a { color: $white; }
     li > a {
       color: $white;
       opacity: 1;
-
       &:hover {
         color: $white;
         opacity: 0.75;

@@ -2,7 +2,6 @@ class UploadsController < ApplicationController
   before_action :set_upload, only: [
     :show, :edit, :update, :destroy, :extract_images
   ]
-
   # skip_before_filter :verify_authenticity_token, only: [:file]
   protect_from_forgery except: :file
 
@@ -94,6 +93,6 @@ class UploadsController < ApplicationController
     end
 
     def upload_params
-      params.require(:upload).permit(:file).to_h
+      params.require(:upload).permit(:file, :user).to_h
     end
 end
