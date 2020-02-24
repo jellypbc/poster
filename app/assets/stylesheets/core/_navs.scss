@@ -8,7 +8,6 @@ nav {
   }
 
   @include media-breakpoint-up(md) {
-    background: red
   }
 
   min-height: 60px;
@@ -27,8 +26,7 @@ nav {
   .navbar-collapse {
     // mobile view
     &.show {
-
-      .nav-item.dropdown {display: none}
+      // .nav-item.dropdown {display: none}
     }
   }
 
@@ -63,7 +61,7 @@ nav {
 
   .subnav {
     @include media-breakpoint-up(md) {
-      // flex-direction: row;
+      flex-direction: row;
     }
     flex-direction: column;
 
