@@ -14,6 +14,8 @@ nav.navbar.navbar-expand-lg id="#{opts[:id] if opts}" class="#{'white-nav' if wh
         i.fa.fa-stream
 
     #menu.collapse.navbar-collapse
+      input.search.search-bar placeholder="Search coming soon"
+
       ul.subnav.ml-auto
         - if user_signed_in?
           li.nav-item

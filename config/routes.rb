@@ -35,11 +35,12 @@ Rails.application.routes.draw do
   post "/posts/add_figure", to: "posts#add_figure"
   get "/write", to: "posts#write"
 
-
   if Rails.env.development?
     resource :styleguide, controller: :styleguide, only: :show
   end
 
+  get 'about', to: 'pages#about'
+  get 'terms', to: 'pages#terms'
   get 'dashboard', to: 'pages#dashboard'
   root to: "pages#index"
 

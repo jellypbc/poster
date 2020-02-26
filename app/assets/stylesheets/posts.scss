@@ -175,7 +175,7 @@
     }
     .body-shape {
       border-radius: 7px;
-      background: $grayLightest;
+      background: linear-gradient($grayLightest, $white);
       width: auto;
       height: 350px;
       margin-top: 100px;

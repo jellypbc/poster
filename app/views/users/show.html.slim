@@ -9,7 +9,12 @@
       br
       = link_to 'Back', users_path
 
-    .col-md-12
+
+    .col-md-7
+      h3 Posts
       - @user.posts.each do |post|
-        .post
-          = post.title
+        = link_to post do
+          .post
+            p = post.title
+            p = post.abstract
+            p = post.created_at.strftime("%D")

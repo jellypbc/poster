@@ -55,9 +55,15 @@ class UploadsController < ApplicationController
   end
 
   def file
-    @post = Post.new
-  	@upload = Upload.new
-    @upload.post = @post
+    if current_user
+      @post = current_user.posts.new
+      @upload = current_user.uploads.new
+      @upload.post = @post
+    else
+      @post = Post.new
+    	@upload = Upload.new
+      @upload.post = @post
+    end
 
     if params[:file_id]
 			file = Shrine.uploaded_file(storage: :store, id: params[:file_id])
@@ -67,8 +73,9 @@ class UploadsController < ApplicationController
 
     respond_to do |format|
       if @upload.save!
+        redirect = current_user.present? ? short_user_post_path(current_user, @upload.post) : post_path(@upload.post)
         format.html { redirect_to @upload, notice: 'Upload was successfully updated.' }
-        format.json { render json: { redirect_to: post_path(@upload.post) }, status: :ok, notice: "hooray" }
+        format.json { render json: { redirect_to: redirect }, status: :ok, notice: "hooray" }
       else
         format.html { render :edit }
         format.json { render json: @upload.errors, status: :unprocessable_entity }

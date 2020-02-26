@@ -55,17 +55,26 @@ label {
 .footer {
   position: absolute;
   left: 0;
-  bottom: -100px;
-  height: 60px;
+  bottom: -160px;
+  height: 120px;
   width: 100%;
 
-  background: #F5F5F5;
+  border-top: 1px solid $grayLightest;
+  // background: #F5F5F5;
   text-align: center;
 
   img {
-    height: 43px;
-    top: -20px;
+    height: 50px;
+    top: -25px;
+    border: 10px solid white;
     margin: 0 auto;
     position: relative;
+  }
+
+  .links {
+    font-size: 12px;
+    span {
+      color: $grayLight;
+    }
   }
 }
