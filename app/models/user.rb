@@ -42,6 +42,7 @@ class User < ApplicationRecord
   before_save :set_username
 
   has_many :posts
+  has_many :uploads
 
 	def send_devise_notification(notification, *args)
 		devise_mailer.send(notification, self, *args).deliver_later

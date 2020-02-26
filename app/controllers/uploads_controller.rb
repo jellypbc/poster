@@ -21,9 +21,15 @@ class UploadsController < ApplicationController
   end
 
   def create
-    @upload = Upload.new(upload_params)
-    @post = Post.create!
-    @upload.post = @post
+    if current_user
+      @upload = current_user.uploads.new(upload_params)
+      @post = current_user.posts.create!
+      @upload.post = @post
+    else
+      @upload = Upload.new(upload_params)
+      @post = Post.create!
+      @upload.post = @post
+    end
 
     respond_to do |format|
       if @upload.save!
