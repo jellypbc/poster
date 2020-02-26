@@ -1,3 +1,4 @@
 web: bundle exec rails server -p 3000
 sidekiq: bundle exec sidekiq -t 25 -C config/sidekiq.yml
 webpacker: bin/webpack-dev-server
+docker: docker-compose up figures grobid

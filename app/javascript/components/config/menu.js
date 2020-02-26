@@ -57,7 +57,7 @@ export default {
       title: 'Add Image',
       id: 'image-button',
       run: addFigure,
-      select: state => addFigure(state),
+      // select: state => addFigure(state),
       content: icons.image,
     },
   },
@@ -65,7 +65,7 @@ export default {
     addComment: {
       title: 'Add Comment',
       run: addAnnotation,
-      select: state => addAnnotation(state),
+      // select: state => addAnnotation(state),
       content: icons.comment,
     },
   },

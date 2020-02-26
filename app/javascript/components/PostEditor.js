@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/no-autofocus */
 import React from 'react'
-import { createConsumer } from "@rails/actioncable"
+import { createConsumer } from '@rails/actioncable'
 import superagent from 'superagent'
 import debounce from 'lodash/debounce'
 import sanitizeHtml from 'sanitize-html'
@@ -14,63 +14,72 @@ import PostProcessingPlaceholder from './PostProcessingPlaceholder'
 import { options, menu } from './config/index'
 
 import {
-	pluginKey as commentPluginKey,
-	serialize as serializeComment,
+  pluginKey as commentPluginKey,
+  serialize as serializeComment,
 } from './config/plugin-comment'
 
 import {
-  getTimestamp, getIsNewPost, createParser, createSerializer
+  getTimestamp,
+  getIsNewPost,
+  createParser,
+  createSerializer,
 } from './postUtils'
 
 import 'prosemirror-view/style/prosemirror.css'
 
-
 class PostEditor extends React.Component {
-	constructor(props) {
-		super(props)
+  constructor(props) {
+    super(props)
 
-		console.log('POSTEDITOR PROPS', props)
+    console.log('POSTEDITOR PROPS', props)
 
-		// TODO: Whole thing needs to reinit if props.post changes identity,
-		//       which can be done with useEffect or componentDidUpdate
-		// TODO: should prevent closing tab while hasChanges state is true
+    // TODO: Whole thing needs to reinit if props.post changes identity,
+    //       which can be done with useEffect or componentDidUpdate
+    // TODO: should prevent closing tab while hasChanges state is true
     // TODO: move post out of state once actioncable loading is moved into
     //       a container component
 
-		this.state = {
+    this.state = {
       post: this.props.post || null,
-      title: this.props.post.data.attributes.title || "Give me a name",
-			isLoading: false, // is sending request to server
-			hasChanges: false, // editor has changes (actual onChange may be debounced)
-			error: null, // last server error, if any
-			errorAt: null, // string or null
-			lastSavedAt: getTimestamp('updated_at', props.post), // string or null
-			lastUnsavedChangeAt: null, // Date object or null, used to track dirty state
+      title: this.props.post.data.attributes.title || 'Give me a name',
+      isLoading: false, // is sending request to server
+      hasChanges: false, // editor has changes (actual onChange may be debounced)
+      error: null, // last server error, if any
+      errorAt: null, // string or null
+      lastSavedAt: getTimestamp('updated_at', props.post), // string or null
+      lastUnsavedChangeAt: null, // Date object or null, used to track dirty state
       isProcessing: this.props.isProcessing || false, // TODO: move this into container
-		}
+    }
 
     const schema = options.schema
     this.parse = createParser(schema)
     this.serialize = createSerializer(schema)
-	}
+    const postBody = this.state.post.data.attributes.body
+    const pluginState = JSON.parse(this.state.post.data.attributes.plugins)
+    options.doc = this.parse(postBody) // TODO: don't mutate "options"
+    options.doc.comments = { comments: pluginState.comments } // TODO: generalize plugin state restoration
+  }
 
-  componentDidMount(){
-    var post = document.getElementById('post').getAttribute("data-post-id")
+  componentDidMount() {
+    var post = document.getElementById('post').getAttribute('data-post-id')
     var cableHost = this.state.post.data.attributes.cable_url
     var cable = createConsumer(cableHost)
 
-    cable.subscriptions.create({channel: "PostsChannel", post_id: post}, {
-      connected() {
-      },
+    cable.subscriptions.create(
+      { channel: 'PostsChannel', post_id: post },
+      {
+        connected() {
+          console.log('connected to PostsChannel')
+        },
 
-      received: function(resp) {
-        this.setState({
-          post: resp,
-          isProcessing: false
-        })
-        this.updateURL() // refresh the window history
-      }.bind(this)
-    })
+        received: function(data) {
+          this.setState(state => ({
+            post: data,
+            isProcessing: false,
+          }))
+        }.bind(this),
+      }
+    )
 
     this.removeStaticRenderPlaceholder()
   }
@@ -97,7 +106,7 @@ class PostEditor extends React.Component {
   updateURL = () => {
     var title = sanitizeHtml(this.state.post.data.attributes.title, {
       allowedTags: [],
-      allowedAttributes: {}
+      allowedAttributes: {},
     })
 
     if (window.history.replaceState) {
@@ -162,48 +171,65 @@ class PostEditor extends React.Component {
     { maxWait: 1000 }
   )
 
-	updatePost = (doc, docState) => {
-		// do not read from this.state after setState, it will not update until rerender
-		this.setState({ isLoading: true })
+  updatePost = (doc, docState) => {
+    // do not read from this.state after setState, it will not update until rerender
+    this.setState({ isLoading: true })
 
-		var { post } = this.state
-		const isNewPost = getIsNewPost(post)
+    var { post } = this.state
+    const isNewPost = getIsNewPost(post)
 
-		var url = isNewPost ? '/posts' : post.data.attributes.form_url
+    var url = isNewPost ? '/posts' : post.data.attributes.form_url
 
-		const commentState = commentPluginKey.getState(docState)
-		const newCommentsToSave = commentState.unsent.map(serializeComment)
-		// TODO: serialize JSON on server instead of parsing string?
-		const oldPluginState = JSON.parse(post.data.attributes.plugins)
-		const comments = [...(oldPluginState.comments || []), ...newCommentsToSave]
+    /* document + plugin serialization START */
 
-		var data = {
-			body: doc,
-			plugins: JSON.stringify({ comments }),
-		}
-		var method = isNewPost ? 'post' : 'put'
-		var token = document.head.querySelector('[name~=csrf-token][content]')
-			.content
+    const commentState = commentPluginKey.getState(docState)
+    const newCommentsToSave = commentState.unsent
+      .filter(action => action.type === 'newComment')
+      .map(serializeComment)
+      
+    console.log("updatePost():", newCommentsToSave)
+    // TODO: serialize JSON on server instead of parsing string?
+    const oldPluginState = JSON.parse(post.data.attributes.plugins)
+    const comments = [...(oldPluginState.comments || []), ...newCommentsToSave]
+      .filter(comment => {
+        return !commentState.unsent.find(action => {
+          const isDeletable = action.type === 'deleteComment'
+          const isTheComment = action.comment.id === comment.id
+          console.log({comment, action, isDeletable, isTheComment})
+          return isDeletable && isTheComment
+        })
+      })
 
-		superagent[method](url)
-			.send(data)
-			.set('X-CSRF-Token', token)
-			.set('accept', 'application/json')
-			.end((err, res) => {
-				console.log({ res, err }) // DEBUG SAVE
-				// res is just showing a redirect instead of full data,
-				// use the browser timestamp instead of new updated_at
-				const now = new Date().toISOString()
-				this.setState(state => ({
-					isLoading: false,
-					error: err ? err : null,
-					errorAt: err ? now : null,
-					lastSavedAt: err ? state.lastSavedAt : now,
-				}))
-			})
-	}
+    var data = {
+      body: doc,
+      plugins: JSON.stringify({ comments }),
+    }
 
-  renderPost(){
+    /* document + plugin serialization END */
+
+    var method = isNewPost ? 'post' : 'put'
+    var token = document.head.querySelector('[name~=csrf-token][content]')
+      .content
+
+    superagent[method](url)
+      .send(data)
+      .set('X-CSRF-Token', token)
+      .set('accept', 'application/json')
+      .end((err, res) => {
+        console.log({ res, err }) // DEBUG SAVE
+        // res is just showing a redirect instead of full data,
+        // use the browser timestamp instead of new updated_at
+        const now = new Date().toISOString()
+        this.setState(state => ({
+          isLoading: false,
+          error: err ? err : null,
+          errorAt: err ? now : null,
+          lastSavedAt: err ? state.lastSavedAt : now,
+        }))
+      })
+  }
+
+  renderPost() {
     const {
       post,
       error,
@@ -228,7 +254,7 @@ class PostEditor extends React.Component {
 
     return (
       <div>
-        <PostMasthead post={post}/>
+        <PostMasthead post={post} />
 
         {error ? (
           <p className="post__error">
@@ -241,9 +267,9 @@ class PostEditor extends React.Component {
           options={titleOptions}
           onChange={this.handleTitleChange}
           pluginState={pluginState}
-          render={ ({editor, view}) => (
-            <div className='header'>
-              <div className='header-nav'>
+          render={({ editor, view }) => (
+            <div className="header">
+              <div className="header-nav">
                 <Floater view={view}>
                   <MenuBar menu={menu} view={view} />
                 </Floater>
@@ -276,21 +302,21 @@ class PostEditor extends React.Component {
           isNewPost={isNewPost}
           lastSavedAtDate={lastSavedAtDate}
         />
-
       </div>
     )
   }
 
-	render() {
-		return (
-			<div>
-        { this.state.isProcessing ?
-          <PostProcessingPlaceholder /> :
+  render() {
+    return (
+      <div>
+        {this.state.isProcessing ? (
+          <PostProcessingPlaceholder />
+        ) : (
           this.renderPost()
-        }
+        )}
       </div>
-		)
-	}
+    )
+  }
 }
 
 export default PostEditor
