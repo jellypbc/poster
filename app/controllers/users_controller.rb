@@ -58,7 +58,7 @@ class UsersController < ApplicationController
   private
     def fetch_user
       @user ||= begin
-        User.find_by_username(params[:id] || params[:user_id])
+        User.find_by_username(params[:id] || params[:user_id] || params[:username])
         rescue ActiveRecord::RecordNotFound => e
           # If admin, attempt to lookup by id
           if user_is_admin?

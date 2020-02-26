@@ -14,7 +14,12 @@ Rails.application.routes.draw do
     delete 'logout', to: 'devise/sessions#destroy', as: :destroy_user_session
   end
 
+  get '/@:username', to: 'users#show', as: :short_user
+  get '/@:username/:id', to: 'posts#show', as: :short_user_post
+
+  # resources :users, param: :username, path: '/', only: :show do
   resources :users do
+    get :index
     member do
       post :remove_avatar
     end

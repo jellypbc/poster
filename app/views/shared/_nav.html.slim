@@ -28,8 +28,10 @@ nav.navbar.navbar-expand-lg id="#{opts[:id] if opts}" class="#{'white-nav' if wh
             .dropdown-menu.dropdown-menu-right
               a.dropdown-item href=dashboard_path
                 | Your Dashboard
-              a.dropdown-item href=edit_user_path(current_user)
+              a.dropdown-item href=user_path(current_user)
                 | Your Profile
+              a.dropdown-item href=edit_user_path(current_user)
+                | Your Settings
               hr
               a.dropdown-item href="#"
                 | 🙋🏻‍♀️

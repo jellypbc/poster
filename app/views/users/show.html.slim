@@ -1,9 +1,9 @@
 .users.container.my-5
   .row
     .col-md-4
-      h2 @#{@user&.username}
+      h2 @#{@user.username}
       .user-avatar
-        = image_tag @user&.avatar_url(:small)
+        = image_tag @user.avatar_url(:small)
 
       = link_to 'Edit', edit_user_path(@user)
       br
