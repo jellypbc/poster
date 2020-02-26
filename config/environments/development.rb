@@ -7,16 +7,8 @@ Rails.application.configure do
     Bullet.skip_html_injection          = false
   end
 
-  # In the development environment your application's code is reloaded on
-  # every request. This slows down response time but is perfect for development
-  # since you don't have to restart the web server when you make code changes.
   config.cache_classes = false
-
-  # Do not eager load code on boot.
-  # config.eager_load = false
   config.eager_load = true
-
-  # Show full error reports.
   config.consider_all_requests_local = true
 
   # Enable/disable caching. By default caching is disabled.
@@ -35,7 +27,6 @@ Rails.application.configure do
     config.cache_store = :null_store
   end
 
-  # Store uploaded files on the local file system (see config/storage.yml for options).
   config.active_storage.service = :local
 
   # Don't care if the mailer can't send.
@@ -56,12 +47,7 @@ Rails.application.configure do
   # Highlight code that triggered database queries in logs.
   config.active_record.verbose_query_logs = true
 
-  # Debug mode disables concatenation and preprocessing of assets.
-  # This option may cause significant delays in view rendering with a large
-  # number of complex assets.
   config.assets.debug = true
-
-  # Suppress logger output for asset requests.
   config.assets.quiet = true
 
   # Raises error for missing translations.
