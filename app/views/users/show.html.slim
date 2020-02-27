@@ -2,15 +2,18 @@
   .row
     .col-md-4
       h2 @#{@user.username}
-
-      / = avatar_image_tag(@user)
+      p #{full_name(@user)}
 
       .user-avatar
-        = image_tag @user.avatar_url(:small)
+        = avatar_image_tag(@user)
 
-      = link_to 'Edit', edit_user_path(@user)
-      br
-      = link_to 'Back', users_path
+      - if current_user && current_user == @user
+        = link_to 'Edit your profile', edit_user_path(@user), class: "btn btn-secondary"
+
+      - else
+        = link_to '', class: 'btn btn-primary' do
+          i.fa.fa-user-friends.mr-2
+          | Follow
 
 
     .col-md-7

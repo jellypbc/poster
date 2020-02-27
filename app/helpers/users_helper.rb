@@ -1,7 +1,11 @@
 module UsersHelper
 
+  def full_name(user)
+    user.first_name + " " + user.last_name if user.first_name && user.last_name
+  end
+
   def default_avatar_url
-    ActionController::Base.helpers.asset_path "avatar.png"
+    ActionController::Base.helpers.asset_path("avatar.png", type: :image)
   end
 
   def avatar_image_tag(user, size = :medium, opts = {})
