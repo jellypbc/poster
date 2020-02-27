@@ -3,22 +3,48 @@
   background-color: $bg-color;
   border-color: $border-color;
 
-  &:hover,
-  &:focus,
-  &.focus,
-  &:active,
-  &.active {
-    opacity: inherit;
-  	outline: 0px -webkit-focus-ring-color;
-	  outline: 1px dotted;
-
+  &:hover:not([disabled]),
+  &:hover {
     @if $bg-color {
       background-color: darken($bg-color, 10%);
       border-color: darken($bg-color, 10%);
+      outline: 0px;
 
       &:disabled,
       &[disabled] {
         background-color: $bg-color;
+        border-color: $bg-color;
+      }
+    }
+  }
+
+  &:focus,
+  &.focus,
+  &:active:focus,
+  &:active,
+  &.active,
+  &:focus:not([disabled]),
+  &.focus:not([disabled]),
+  &:active:focus:not([disabled]),
+  &:active:not([disabled]),
+  &.active:not([disabled]) {
+    transition-duration: 0.14s;
+    opacity: inherit;
+	  outline: 1px dotted;
+    color: darken($color, 5);
+
+    @if $bg-color {
+      background-color: darken($bg-color, 10%);
+      border-color: darken($bg-color, 10%);
+      outline: 0px;
+      box-shadow: 0 0 0 0.2rem rgba($bg-color,0.2);
+
+      // &:not(.disabled),
+      // &:not([disabled]),
+      &:disabled,
+      &[disabled] {
+        background-color: $bg-color;
+        box-shadow: 0 0 0 0.2rem rgba($bg-color,0.2);
       	border-color: $bg-color;
       }
     }
@@ -73,6 +99,9 @@ a:not([href]):not([tabindex]).btn,
     opacity: .65 !important;
   }
 
+  // format for button variants
+  // button-variant($color, $bg-color, $border-color: null)
+
   &.btn-primary {
     @include button-variant($white, $brandGreen);
   }
@@ -102,7 +131,12 @@ a:not([href]):not([tabindex]).btn,
 
   &.btn-outline-dark {
     @include button-variant($gray, transparent, $gray);
-    &:hover, &:focus, &.focus { opacity: .8; }
+    &:hover, &:focus, &.focus {
+      border-color: $gray;
+      opacity: 0.8;
+      outline: none;
+      transition-duration: 0.2s;
+    }
     border-width: 2px;
   }
 

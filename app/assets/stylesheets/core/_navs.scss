@@ -40,6 +40,7 @@ nav {
   }
 
   .nav-item {
+    margin-right: 1.7rem;
   }
 
   .nav-link {
@@ -64,26 +65,25 @@ nav {
       flex-direction: row;
     }
     flex-direction: column;
-
     display: flex;
-
     align-items: center;
     flex-basis: auto;
     list-style: none;
     li {
-      margin: 0;
       padding: 0;
     }
   }
 
   .search-bar {
     text-decoration: none;
-    border: 1px solid black;
-    padding: 8px 12px;
+    padding: 8px;
     border-radius: 4px;
     font-size: 14px;
-    border-color: $grayLight;
+    border-color: $white;
   }
+  .search-bar::-webkit-input-placeholder { color: $grayLight; font-weight: 600; -webkit-font-smoothing: antialiased; } /* Edge */
+  .search-bar:-ms-input-placeholder { color: $grayLight; font-weight: 600; -webkit-font-smoothing: antialiased; } /* Internet Explorer 10-11 */
+  .search-bar::placeholder {color: $grayLight; font-weight: 600; -webkit-font-smoothing: antialiased; }
 
   // toggle dropdown
   .fa-menu,
@@ -95,19 +95,24 @@ nav {
     }
   }
 
+  .dropdown {
+    margin-right: 0;
+  }
+
   .dropdown-toggle::after {
     display: none;
+  }
+
+  .avatar-clip {
+    border-radius: 50%;
+    overflow: hidden;
+    width: 34px;
+    height: 34px;
   }
 
   .avatar-link {
     padding: 0;
     vertical-align: top;
-  }
-
-  .avatar {
-    height: 34px;
-    width: 34px;
-    border-radius: 50px;
   }
 
 	&.white-nav {
@@ -128,7 +133,6 @@ nav {
 .turbolinks-progress-bar {
   visibility: hidden;
 }
-
 
 .ReactModalPortal {
   z-index: 281;

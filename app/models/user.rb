@@ -53,11 +53,16 @@ class User < ApplicationRecord
   end
 
   def avatar_url(variant = nil)
+    # see class AvatarUploader for variants
     if avatar
       super
     else
       ActionController::Base.helpers.asset_path "avatar.png"
     end
+  end
+
+  def has_avatar?
+    avatar != nil
   end
 
   def process_avatars

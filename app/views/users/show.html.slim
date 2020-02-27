@@ -2,6 +2,9 @@
   .row
     .col-md-4
       h2 @#{@user.username}
+
+      / = avatar_image_tag(@user)
+
       .user-avatar
         = image_tag @user.avatar_url(:small)
 
@@ -12,9 +15,5 @@
 
     .col-md-7
       h3 Posts
-      - @user.posts.each do |post|
-        = link_to post do
-          .post
-            p = post.title
-            p = post.abstract
-            p = post.created_at.strftime("%D")
+      - @user.posts.primary.each do |post|
+        = render 'posts/post', post: post

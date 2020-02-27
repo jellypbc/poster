@@ -48,13 +48,15 @@
       padding: 1em;
 
       border: 1px solid;
-      border-radius: $borderRadius-small;
+      border-radius: 5px;
     }
 
     input:focus {
-      border-color: #80bdff;
+      background-color: #fff;
+      transition-duration: 0.15s;
+      border-color: #A2DA99;
       outline: 0;
-      box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+      box-shadow: 0 0 4px 0.2rem rgba(115, 200, 94, 0.25);
       // outline: inherit;
       // outline-color: $brandGreen;
     };

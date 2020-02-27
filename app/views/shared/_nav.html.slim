@@ -9,23 +9,35 @@ nav.navbar.navbar-expand-lg id="#{opts[:id] if opts}" class="#{'white-nav' if wh
 
     button.navbar-toggler type="button" data-toggle="collapse" data-target="#menu" aria-controls="menu" aria-expanded="false" aria-label="Toggle navigation"
       - if current_user
-        = image_tag current_user.avatar_url(:small), class: "avatar"
+        .avatar-clip
+          = image_tag current_user.avatar_url(:small), class: "avatar"
       - else
         i.fa.fa-stream
 
     #menu.collapse.navbar-collapse
-      input.search.search-bar placeholder="Search coming soon"
+      form class="form-inline my-2 my-lg-0"
+        input.search.search-bar.form-control placeholder="Search" type="search" aria-label="Search"
 
       ul.subnav.ml-auto
         - if user_signed_in?
-          li.nav-item
-            = link_to 'Write', write_path, class: "nav-link mr-3"
-          li.nav-item
-            = link_to 'Upload a PDF', new_upload_path, class: "nav-link mr-3"
+
+          - if @post
+            li.nav-item.mr-3
+              = link_to 'Save as draft', write_path, class: "btn btn-outline-dark btn-sm"
+            li.nav-item.mr-3
+              = link_to 'Publish', write_path, class: "btn btn-primary btn-sm"
+          - else
+            li.nav-item
+              = link_to 'Write', write_path, class: "nav-link"
+            li.nav-item
+              = link_to 'Upload a PDF', new_upload_path, class: "nav-link"
 
           li.nav-item.dropdown
             a.dropdown-toggle.avatar-link href="#" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-              = image_tag current_user.avatar_url(:small), class: "avatar"
+              .avatar-clip
+                = avatar_image_tag current_user, :medium, class: "avatar"
+
+              / = image_tag current_user.avatar_url(:small), class: "avatar"
 
             .dropdown-menu.dropdown-menu-right
               a.dropdown-item href=dashboard_path

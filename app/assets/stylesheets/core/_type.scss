@@ -10,7 +10,7 @@ a {
 }
 
 a:hover {
-  color: darken($brandGreen, 14);
+  color: $linkHover;
   text-decoration: none;
 }
 
