@@ -19,7 +19,7 @@ nav.navbar.navbar-expand-lg id="#{opts[:id] if opts}" class="#{'white-nav' if wh
         input.search.search-bar.form-control placeholder="Search" type="search" aria-label="Search"
 
       ul.subnav.ml-auto
-        - if user_signed_in?
+        - if current_user
 
           - if @post
             li.nav-item.mr-3

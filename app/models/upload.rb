@@ -18,8 +18,8 @@
 class Upload < ApplicationRecord
 	include FileUploader::Attachment(:file)
 
-	belongs_to :post
-  belongs_to :user
+	belongs_to :post, optional: true
+  belongs_to :user, optional: true
 
 	has_one :upload_tei, dependent: :destroy
 	has_many :upload_figures, dependent: :destroy
