@@ -53,7 +53,7 @@ nav.navbar.navbar-expand-lg id="#{opts[:id] if opts}" class="#{'white-nav' if wh
               = link_to 'Log Out', destroy_user_session_path, method: :delete, class:"dropdown-item"
 
         - else
-          li.nav-item
-            = link_to 'Log In', new_user_session_path, class: "nav-link mr-3"
+          li.nav-item.mr-0
+            = link_to 'Log In', new_user_session_path, class: "nav-link"
 
 
