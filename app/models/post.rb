@@ -43,13 +43,17 @@ class Post < ApplicationRecord
 
 	accepts_nested_attributes_for :uploads
 
-
   validates :title, length: { maximum: 1000 }
 
 	scope :primary, -> { joins(:uploads) }
+  scope :generated, -> { includes(:uploads).where(uploads: { id: nil }) }
 
 	def to_param
     slug
+  end
+
+  def primary?
+    uploads.present?
   end
 
 end

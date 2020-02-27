@@ -1,12 +1,4 @@
 Rails.application.configure do
-  config.after_initialize do
-    Bullet.enable                       = true
-    Bullet.rails_logger                 = true
-    Bullet.n_plus_one_query_enable      = true
-    Bullet.unused_eager_loading_enable  = true
-    Bullet.skip_html_injection          = false
-  end
-
   config.cache_classes = false
   config.eager_load = true
   config.consider_all_requests_local = true
@@ -56,6 +48,14 @@ Rails.application.configure do
   # Use an evented file watcher to asynchronously detect changes in source code,
   # routes, locales, etc. This feature depends on the listen gem.
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
+
+  config.after_initialize do
+    Bullet.enable                       = true
+    Bullet.bullet_logger                = true
+    Bullet.rails_logger                 = true
+    Bullet.n_plus_one_query_enable      = true
+    Bullet.unused_eager_loading_enable  = true
+  end
 
   config.action_mailer.asset_host = "http://localhost:3000"
 

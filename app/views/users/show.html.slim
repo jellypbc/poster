@@ -16,7 +16,14 @@
           | Follow
 
 
+  .row
     .col-md-7
       h3 Posts
       - @user.posts.primary.each do |post|
+        = render 'posts/post', post: post
+
+  .row
+    .col-md-7
+      h3 Citations
+      - @user.posts.generated.each do |post|
         = render 'posts/post', post: post

@@ -7,7 +7,7 @@ class UploadsController < ApplicationController
 
   def index
     @uploads = Upload.order(created_at: :desc)
-      .paginate(page: params[:page], per_page: 50)
+      .paginate(page: params[:page], per_page: 30)
   end
 
   def show
