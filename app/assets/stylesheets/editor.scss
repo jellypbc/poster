@@ -2,6 +2,15 @@
 @import 'editor/floater';
 @import 'editor/menubar';
 
+.title {
+  // hacky fix :(;
+  h1 p {
+    font-size: 32px;
+    line-height: 40px;
+  }
+}
+
+
 .loading-indicator {
 	i {
 		margin-right: 3.5px;

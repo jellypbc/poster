@@ -35,6 +35,8 @@ class Post < ApplicationRecord
 
   enum visibility: [:public, :draft, :private], _suffix: :visibility
 
+  belongs_to :user, optional: true
+
 	has_many :uploads
 	has_many :citations
   has_many :figures, through: :uploads, source: :upload_figures, class_name: 'UploadFigure'

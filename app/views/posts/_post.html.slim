@@ -1,7 +1,9 @@
-= link_to post do
+- resource = post.user_id? ? short_user_post_path(post.user, post) : post_path(post)
+= link_to resource do
   .post
     h4.title
-      = post.title || "Title"
+      = sanitize_title(post.title) || "Title"
+
     .preview
       - if post.abstract
         = post.abstract.truncate(200, seperator: "...")

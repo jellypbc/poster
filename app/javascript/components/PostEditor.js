@@ -186,7 +186,7 @@ class PostEditor extends React.Component {
     const newCommentsToSave = commentState.unsent
       .filter(action => action.type === 'newComment')
       .map(serializeComment)
-      
+
     console.log("updatePost():", newCommentsToSave)
     // TODO: serialize JSON on server instead of parsing string?
     const oldPluginState = JSON.parse(post.data.attributes.plugins)
