@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_18_002716) do
+ActiveRecord::Schema.define(version: 2020_02_27_041454) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -28,6 +28,12 @@ ActiveRecord::Schema.define(version: 2020_02_18_002716) do
     t.string "publisher"
     t.integer "generated_post_id"
     t.index ["post_id"], name: "index_citations_on_post_id"
+  end
+
+  create_table "follows", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "target_user_id", null: false
+    t.index ["user_id", "target_user_id"], name: "index_follows_on_user_id_and_target_user_id", unique: true
   end
 
   create_table "posts", force: :cascade do |t|
