@@ -250,7 +250,7 @@ function ThreadedComment(props) {
           <CommentForm
             onSubmit={handleReplySubmit}
             onCancel={handleReplyCancel}
-            className="j-commentReplyForm"
+            className="j-commentReplyForm border-top mt-3 pt-1"
           />
         </>
       )}
