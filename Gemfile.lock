@@ -258,6 +258,7 @@ GEM
     image_processing (1.10.3)
       mini_magick (>= 4.9.5, < 5)
       ruby-vips (>= 2.0.17, < 3)
+    jaro_winkler (1.5.4)
     jbuilder (2.9.1)
       activesupport (>= 4.2.0)
     jwt (2.2.1)
@@ -307,6 +308,7 @@ GEM
       shellany (~> 0.0)
     orm_adapter (0.5.0)
     os (1.0.1)
+    parallel (1.19.1)
     parser (2.7.0.2)
       ast (~> 2.4.0)
     pg (1.1.4)
@@ -323,12 +325,15 @@ GEM
       nio4r (~> 2.0)
     raabro (1.1.6)
     rack (2.0.8)
+    rack-attack (6.2.2)
+      rack (>= 1.0, < 3)
     rack-protection (2.0.7)
       rack
     rack-proxy (0.6.5)
       rack
     rack-test (1.1.0)
       rack (>= 1.0, < 3)
+    rack-timeout (0.6.0)
     rails (6.0.2)
       actioncable (= 6.0.2)
       actionmailbox (= 6.0.2)
@@ -359,6 +364,7 @@ GEM
       method_source
       rake (>= 0.8.7)
       thor (>= 0.20.3, < 2.0)
+    rainbow (3.0.0)
     rake (13.0.1)
     rb-fsevent (0.10.3)
     rb-inotify (0.10.0)
@@ -379,6 +385,7 @@ GEM
       actionpack (>= 5.0)
       railties (>= 5.0)
     retriable (3.1.2)
+    rexml (3.2.4)
     rly (0.2.3)
     rspec (3.9.0)
       rspec-core (~> 3.9.0)
@@ -403,6 +410,15 @@ GEM
     rspec-support (3.9.0)
     rspec_junit_formatter (0.4.1)
       rspec-core (>= 2, < 4, != 2.12.0)
+    rubocop (0.80.1)
+      jaro_winkler (~> 1.5.1)
+      parallel (~> 1.10)
+      parser (>= 2.7.0.1)
+      rainbow (>= 2.2.2, < 4.0)
+      rexml
+      ruby-progressbar (~> 1.7)
+      unicode-display_width (>= 1.4.0, < 1.7)
+    ruby-progressbar (1.10.1)
     ruby-vips (2.0.17)
       ffi (~> 1.9)
     ruby_dep (1.5.0)
@@ -482,6 +498,7 @@ GEM
     tzinfo (1.2.6)
       thread_safe (~> 0.1)
     uber (0.1.0)
+    unicode-display_width (1.6.1)
     uniform_notifier (1.13.0)
     warden (1.2.8)
       rack (>= 2.0.6)
@@ -546,12 +563,15 @@ DEPENDENCIES
   pry-byebug
   pry-rails
   puma (~> 4.3)
+  rack-attack
+  rack-timeout
   rails (~> 6.0.1)
   rails-controller-testing
   react-rails
   redis
   rspec-rails
   rspec_junit_formatter
+  rubocop
   sanitize
   sassc-rails (~> 2.1)
   scout_apm

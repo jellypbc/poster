@@ -22,6 +22,8 @@ Rails.application.routes.draw do
     get :index
     member do
       post :remove_avatar
+      post :follow
+      post :unfollow
     end
   end
 
@@ -35,14 +37,14 @@ Rails.application.routes.draw do
   post "/posts/add_figure", to: "posts#add_figure"
   get "/write", to: "posts#write"
 
-  if Rails.env.development?
-    resource :styleguide, controller: :styleguide, only: :show
-  end
-
   get 'about', to: 'pages#about'
   get 'terms', to: 'pages#terms'
   get 'dashboard', to: 'pages#dashboard'
   root to: "pages#index"
 
   mount LetterOpenerWeb::Engine, at: '/letter_opener' if Rails.env.development?
+
+  if Rails.env.development?
+    resource :styleguide, controller: :styleguide, only: :show
+  end
 end

@@ -3,6 +3,11 @@
     h1 Dashboard
 
 
+
+    br
+    h2 Activity
+    / - @user.followers.each do |follow|
+    /   = follow.id
     br
     h2 My published posts
     .row

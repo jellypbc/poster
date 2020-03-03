@@ -31,6 +31,8 @@ gem "sidekiq"
 gem "sidekiq-batch"
 gem "sidekiq-cron"
 gem "redis"
+gem "rack-attack"
+gem "rack-timeout", require:"rack/timeout/base"
 gem "sanitize"
 gem "bootsnap", ">= 1.4.2", require: false
 
@@ -46,6 +48,7 @@ group :development, :test do
 end
 
 group :development do
+  gem "rubocop"
   gem "byebug", platforms: :mri
   gem "web-console", ">= 3.3.0"
   gem "listen", ">= 3.0.5", "< 3.2"

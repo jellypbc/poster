@@ -31,9 +31,13 @@ ActiveRecord::Schema.define(version: 2020_02_27_041454) do
   end
 
   create_table "follows", force: :cascade do |t|
-    t.integer "user_id", null: false
-    t.integer "target_user_id", null: false
-    t.index ["user_id", "target_user_id"], name: "index_follows_on_user_id_and_target_user_id", unique: true
+    t.integer "follower_id", null: false
+    t.integer "following_id", null: false
+    t.string "follower_type"
+    t.string "following_type"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["follower_id", "following_id", "follower_type", "following_type"], name: "follows_unique_index", unique: true
   end
 
   create_table "posts", force: :cascade do |t|

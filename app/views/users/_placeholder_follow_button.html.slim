@@ -1,0 +1,7 @@
+.hide-follow-button
+  - if current_user && current_user.follows.pluck(:following_id).include?(user.id)
+    button.btn.btn-secondary Unfollow
+  - else
+    button.btn.btn-secondary
+      i.fa.fa-user-friends.mr-2
+      | Follow

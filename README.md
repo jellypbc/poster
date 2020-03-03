@@ -10,8 +10,6 @@ This app is pre-alpha, so please mind the cracks.
 
 ## Development
 
-### Local Development
-
 To get this app up and running locally, follow these steps:
 
 - Follow the [setup guide in the wiki](https://github.com/jellypbc/poster/wiki/Setup) to install `rbenv`, `bundler`, and `yarn`
@@ -34,10 +32,10 @@ bundle exec rails server
 DATABASE_URL=postgres://localhost:5432 DB_USER=postgres bundle exec rails server
 ```
 
-To start all the services together (server, sidekiq, webpack, docker), you can use foreman.
+To start all the services together (server, sidekiq, webpack, docker), you can use:
 
 ```sh
-foreman start -f Procfile.dev
+bin/start
 ```
 
 #### Teardown

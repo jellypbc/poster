@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
-  before_action :fetch_user, only: [:show, :edit, :update, :destroy, :remove_avatar]
-  before_action :authenticate_user!, only: [:index, :edit, :destroy, :update]
+  before_action :fetch_user, only: [:show, :edit, :update, :destroy, :remove_avatar, :follow, :unfollow]
+  before_action :authenticate_user!, only: [:index, :edit, :destroy, :update, :remove_avatar, :follow, :unfollow]
 
   def index
     @users = User.order(created_at: :desc)
@@ -8,6 +8,8 @@ class UsersController < ApplicationController
   end
 
   def show
+    @primary_posts = @user.posts.primary.paginate(page: params[:page], per_page: 10)
+    @generated_posts = @user.posts.generated.paginate(page: params[:page], per_page: 10)
   end
 
   def edit
@@ -55,6 +57,43 @@ class UsersController < ApplicationController
     redirect_to edit_user_path(@user)
   end
 
+  def follow
+    # auth / fetch user
+    # create follow
+    # respond with following data
+    # binding.pry
+
+    follow = current_user.follows.new(follow_params)
+
+    if follow.save
+      respond_to do |format|
+        format.json { render json: {status: 'success'}.to_json }
+      end
+    else
+      respond_to do |format|
+        format.json { render json: follow.errors, status: :unprocessable_entity }
+      end
+    end
+
+  end
+
+  def unfollow
+    # auth / fetch user
+    # create follow
+    # respond with following data
+    # binding.pry
+    follow = current_user.follows.find_by_following_id follow_params[:following_id]
+    if follow && follow.destroy
+      respond_to do |format|
+        format.json { render json: {status: 'success'}.to_json }
+      end
+    else
+      respond_to do |format|
+        format.json { render json: follow.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
   private
     def fetch_user
       @user ||= begin
@@ -72,7 +111,14 @@ class UsersController < ApplicationController
     def user_params
       params.require(:user).permit(
         :username, :admin, :email, :first_name, :last_name,
-        :username, :avatar
+        :avatar
       )
     end
+
+    def follow_params
+      params.require(:follow).permit(
+        :follower_type, :follower_id, :following_type, :following_id
+      )
+    end
+
 end

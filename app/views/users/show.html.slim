@@ -1,29 +1,66 @@
 .users.container.my-5
-  .row
-    .col-md-4
-      h2 @#{@user.username}
-      p #{full_name(@user)}
-
+  header.row
+    .col-md-2
       .user-avatar
         = avatar_image_tag(@user)
 
+    .col-md-8
+      h2 @#{@user.username}
+      p #{full_name(@user)}
+
+
+    .col-md-2
       - if current_user && current_user == @user
         = link_to 'Edit your profile', edit_user_path(@user), class: "btn btn-secondary"
 
       - else
-        = link_to '', class: 'btn btn-primary' do
-          i.fa.fa-user-friends.mr-2
-          | Follow
+        = render 'placeholder_follow_button', user: @user, current_user: current_user
+
+        = react_component 'FollowButton',
+          object_id: @user.id,
+          object_type: 'User',
+          following: (current_user && current_user.follows && current_user.follows.pluck(:following_id).include?(@user.id)),
+          buttonClass: "btn btn-secondary",
+          current_user: current_user.present? ? current_user.username : false
+
+  .row.mt-4
+    .col-md-12
+      ul#myTab.nav.nav-tabs role="tablist"
+        li.nav-item
+          a#posts-tab.nav-link.active data-toggle="tab" href="#posts" role="tab" aria-controls="posts" aria-selected="true"
+            | Posts
+        li.nav-item
+          a#citations-tab.nav-link data-toggle="tab" href="#citations" role="tab" aria-controls="citations" aria-selected="false" Citations
 
 
-  .row
-    .col-md-7
-      h3 Posts
-      - @user.posts.primary.each do |post|
-        = render 'posts/post', post: post
+      .tab-content#myTabContent
 
-  .row
-    .col-md-7
-      h3 Citations
-      - @user.posts.generated.each do |post|
-        = render 'posts/post', post: post
+        #posts.tab-pane.fade.show.active role="tabpanel" aria-labelledby="posts-tab"
+          - @primary_posts.each do |post|
+            = render 'posts/post', post: post
+
+        #citations.tab-pane.fade role="tabpanel" aria-labelledby="citations-tab"
+          - @generated_posts.each do |post|
+            = render 'posts/post', post: post
+          = will_paginate @generated_posts
+
+        #contact.tab-pane.fade role="tabpanel" aria-labelledby="contact-tab"
+
+
+javascript:
+  // $(document).ready(() => {
+  //   var url = window.location.href;
+  //   console.log(url)
+  //   if (url.indexOf("#") > 0){
+  //     var activeTab = url.substring(url.indexOf("#") + 1);
+  //     console.log(activeTab)
+  //     $('.nav[role="tablist"] a[href="#'+activeTab+'"]').tab('show');
+  //   }
+
+  //   $('a[role="tab"]').on("click", function() {
+  //     var newUrl;
+  //     const hash = $(this).attr("href");
+  //       newUrl = url.split("#")[0] + hash;
+  //     history.replaceState(null, null, newUrl);
+  //   });
+  // });

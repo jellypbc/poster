@@ -77,6 +77,7 @@ class PostEditor extends React.Component {
             post: data,
             isProcessing: false,
           }))
+          this.updateURL()
         }.bind(this),
       }
     )
