@@ -1,7 +1,7 @@
 import React from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+// import { useSelector, useDispatch } from 'react-redux'
 
-function CommentForm({onSubmit, onCancel}) {
+function CommentForm({ onSubmit, onCancel, className, ...rest }) {
   // const dispatch = useDispatch()
   // const comments = useSelector(state => state.comments)
   const textareaRef = React.useRef()
@@ -17,10 +17,26 @@ function CommentForm({onSubmit, onCancel}) {
   //   : ''
   const modifierClasses = ''
 
+  const handleSubmit = () => {
+    const payload = getSavePayload()
+    // dispatch({ type: 'addCommentSave', payload })
+    textareaRef.current.value = '' // clear (could change this to controlled value too)
+    if (onSubmit) onSubmit(payload)
+  }
+
+  const handleCancel = () => {
+    // dispatch({ type: 'addCommentCancel' })
+    if (onCancel) onCancel()
+  }
+
   return (
-    <div className={`j-commentForm shadow rounded ${modifierClasses}`}>
+    <form
+      className={`${className} ${modifierClasses}`}
+      {...rest}
+      onSubmit={handleSubmit}
+    >
       <textarea
-        className="j-commentForm__input px-3 py-3"
+        className="j-commentForm__input"
         defaultValue=""
         placeholder="Add a comment..."
         ref={textareaRef}
@@ -32,27 +48,15 @@ function CommentForm({onSubmit, onCancel}) {
         <button
           type="button"
           className="btn btn-primary btn-sm"
-          onClick={() => {
-            const payload = getSavePayload()
-            // dispatch({ type: 'addCommentSave', payload })
-            textareaRef.current.value = '' // clear (could change this to controlled value too)
-            if (onSubmit) onSubmit(payload)
-          }}
+          onClick={handleSubmit}
         >
           Post
         </button>{' '}
-        <button
-          type="button"
-          className="btn btn-sm o"
-          onClick={() => {
-            // dispatch({ type: 'addCommentCancel' })
-            if (onCancel) onCancel()
-          }}
-        >
+        <button type="button" className="btn btn-sm o" onClick={handleCancel}>
           Cancel
         </button>
       </div>
-    </div>
+    </form>
   )
 }
 

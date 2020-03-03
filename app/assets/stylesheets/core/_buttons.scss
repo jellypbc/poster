@@ -121,7 +121,7 @@ a:not([href]):not([tabindex]).btn,
   }
 
   &.btn-sm {
-    @include button-size(5px, 10px, 12px, 1.5, 4px);
+    @include button-size(5px, 10px, 13px, 1.5, 4px);
     -webkit-font-smoothing: subpixel-antialiased;
   }
 
@@ -133,6 +133,17 @@ a:not([href]):not([tabindex]).btn,
   &.btn-block {
     display: block;
     width: 100%;
+  }
+
+  &.btn-plain {
+    padding-right: 0;
+    padding-left: 0;
+    background: transparent;
+    color: $grayDark;
+    
+    &:hover {
+      color: $grayDark;
+    }
   }
 
   &.social {
