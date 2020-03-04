@@ -26,9 +26,10 @@
   border-radius: $borderRadius-base;
   background-color: $white;
   transform: translate(0px, 0px);
-
-  textarea {
-    outline: none;
+  
+  &:focus-within {
+    border-color: $green;
+    border-width: 2px;
   }
 }
 
@@ -40,9 +41,21 @@
   border-bottom: 1px solid $grayLighter;
   border-top-left-radius: $borderRadius-base;
   border-top-right-radius: $borderRadius-base;
+  outline: none;
+  padding: $spacer * 3;
 }
 
 .j-commentForm__actions {}
+
+// inline comment box
+.j-commentReplyForm {
+  .j-commentForm__input  {
+    min-height: 50px;
+    padding: 0;
+    padding-top: $spacer * 2;
+    font-size: $fontsize-md;
+  }
+}
 
 /* inline version of comment list */
 .ProseMirror ul.commentList {
@@ -77,20 +90,18 @@
   font-style: normal;
 }
 
-.commentDelete {
-  position: relative;
-  right: 0;
-  border: 0;
-  font: inherit;
-  display: block;
-  margin: 0;
-  padding: 0;
-  color: $grayLight;
-  background: transparent;
-  cursor: pointer;
-  font-size: 13px;
+.btn.j-commentDelete {
+  color: $gray;
+
+  &:hover {
+    color: $error;
+  }
 }
 
-.commentDelete:hover {
-  color: #f88;
+.btn.j-commentReply {
+   color: $gray;
+
+  &:hover {
+    color: $success;
+  }
 }

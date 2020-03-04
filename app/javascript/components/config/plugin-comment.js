@@ -2,10 +2,10 @@
 import crel from 'crel'
 import { Plugin, PluginKey } from 'prosemirror-state'
 import { Decoration, DecorationSet } from 'prosemirror-view'
-import { store } from '../store'
 import CommentForm from '../CommentForm'
 import ReactDOM from 'react-dom'
 import React from 'react'
+import classnames from 'classnames'
 
 export const pluginKey = new PluginKey('comments')
 
@@ -42,11 +42,7 @@ class CommentState {
       actionType = action && action.type
     if (!action && !tr.docChanged) return this
     let base = this
-    // if (actionType == 'receive') {
-    //   console.log("all your receive belong to base")
-    //   base = base.receive(action, tr.doc)
-    // }
-    let {decos, unsent} = base;
+    let { decos, unsent } = base
     decos = decos.map(tr.mapping, tr.doc)
     if (actionType == 'newComment') {
       decos = decos.add(tr.doc, [deco(action.from, action.to, action.comment)])
@@ -58,48 +54,6 @@ class CommentState {
     }
     return new CommentState(base.version, decos, unsent)
   }
-
-  // receive({ version, events, sent }, doc) {
-  //   let set = this.decos
-  //   for (let i = 0; i < events.length; i++) {
-  //     let event = events[i]
-  //     if (event.type == 'delete') {
-
-  //       console.log("i have received a request to kindly delete a comment from a decoration set", event)
-  //       let found = this.findComment(event.id)
-  //       if (found) set = set.remove([found])
-  //     } else {
-  //       // "create"
-  //       if (!this.findComment(event.id))
-  //         set = set.add(doc, [
-  //           deco(event.from, event.to, new Comment(event.text, event.id)),
-  //         ])
-  //     }
-  //   }
-  //   return new CommentState(version, set, this.unsent.slice(sent))
-  // }
-
-  // unsentEvents() {
-  //   let result = []
-  //   for (let i = 0; i < this.unsent.length; i++) {
-  //     let action = this.unsent[i]
-  //     if (action.type == 'newComment') {
-  //       let found = this.findComment(action.comment.id)
-  //       console.log("found comment", found)
-  //       if (found)
-  //         result.push({
-  //           type: 'create',
-  //           id: action.comment.id,
-  //           from: found.from,
-  //           to: found.to,
-  //           text: action.comment.text,
-  //         })
-  //     } else {
-  //       result.push({ type: 'delete', id: action.comment.id })
-  //     }
-  //   }
-  //   return result
-  // }
 
   static init(config) {
     console.log('init', config)
@@ -119,7 +73,7 @@ class CommentState {
 }
 
 export function serialize(action) {
-  console.log("i am a comment", action)
+  console.log('i am a comment', action)
   return {
     to: action.to,
     from: action.from,
@@ -153,17 +107,9 @@ export const addAnnotation = function(state, dispatch) {
   let sel = state.selection
   if (sel.empty) return false
   if (dispatch) {
-    // let text = prompt('Annotation text', '') // synchronous browser input box
-    // if (text)
-    //   dispatch(
-    //     state.tr.setMeta(commentPlugin, {
-    //       type: 'newComment',
-    //       from: sel.from,
-    //       to: sel.to,
-    //       comment: new Comment(text, randomID()),
-    //     })
-    //   )
-    const root = document.createElement('div')
+    const root =
+      document.querySelector('#comment-modal') || document.createElement('div')
+    root.id = '#comment-modal'
     document.body.appendChild(root)
 
     const handleClose = () => ReactDOM.unmountComponentAtNode(root)
@@ -183,50 +129,13 @@ export const addAnnotation = function(state, dispatch) {
     }
 
     ReactDOM.render(
-      <CommentForm onSubmit={handleNewComment} onCancel={handleClose} />,
+      <CommentForm
+        onSubmit={handleNewComment}
+        onCancel={handleClose}
+        className="j-commentForm shadow rounded"
+      />,
       root
     )
-
-    // store.dispatch({
-    //   type: 'addCommentStart',
-    //   payload: {
-    //     // Callbacks are *really* not supposed to go in redux, but we are abusing it
-    //     // to make prosemirror and react communicate. It's more of a way to yield control
-    //     // to react and then handle the changed input as a prosemirror state change.
-    //     // There might also be a way of rendering a react portal or something here instead.
-    //     // onCommentAdd: ({ text }) => {
-    //     //   dispatch(
-    //     //     state.tr.setMeta(commentPlugin, {
-    //     //       type: 'newComment',
-    //     //       from: sel.from,
-    //     //       to: sel.to,
-    //     //       comment: new Comment(text, randomID()),
-    //     //     })
-    //     //   )
-    //     // },
-    //   },
-    // })
-    // let wasAddingComment = store.getState().comments.isAddingComment
-    /*
-    1. comment form is open
-    1a. user is typing the comment
-    2. comment is submitting => handleNewComment (put text in editor state)
-    3. comment is saved => updatePost()
-    */
-   //
-  //  const text = await promptForText(); // open the modal, return the text when closed
-   // put the text in prosemirror;
-
-
-    // const unsubscribe = store.subscribe(() => {
-    //   const isAddingComment = store.getState().comments.isAddingComment
-    //   const didFinishAddingComment = wasAddingComment === true && isAddingComment === false
-    //   if (didFinishAddingComment) {
-    //     handleNewComment({ text: store.getState().comments.newestComment.text })
-    //     unsubscribe()
-    //   }
-    //   wasAddingComment = isAddingComment
-    // })
   }
   return true // TODO: what is the return value used for?
 }
@@ -261,46 +170,90 @@ function commentTooltip(state, dispatch) {
 }
 
 function renderComments(comments, dispatch, state) {
-  return crel(
-    'div',
-    { class: 'tooltip-wrapper' },
-    crel(
-      'ul',
-      { class: 'commentList' },
-      comments.map(c => renderComment(c.spec.comment, dispatch, state))
-    )
+  const node = document.createElement('div')
+  node.className = 'tooltip-wrapper'
+  ReactDOM.render(
+    <ul className="commentList py-2">
+      {comments.map((c, index) => {
+        const isLast = index === comments.length - 1
+        return (
+          <ThreadedComment
+            comment={c.spec.comment}
+            dispatch={dispatch}
+            state={state}
+            className={classnames('px-3 py-1', { 'border-bottom': !isLast })}
+            showActions={{ reply: isLast, delete: true }}
+          />
+        )
+      })}
+    </ul>,
+    node
   )
+  return node
 }
 
-function renderComment(comment, dispatch, state) {
+function ThreadedComment(props) {
+  const { comment, dispatch, state, className, showActions } = props
+  const [isShowingReply, setIsShowingReply] = React.useState(false)
 
-  let deleteBtn = crel(
-    'button',
-    { class: 'commentDelete', title: 'Delete annotation' },
-    'Delete Comment'
-  )
-  deleteBtn.addEventListener('click', () =>
+  const handleDelete = () => {
     dispatch(
       state.tr.setMeta(commentPlugin, { type: 'deleteComment', comment })
     )
-  )
+  }
 
-  // if (comment.user === current_user) {
-  //   // show the delete button
-  // }
+  const handleReply = () => {
+    setIsShowingReply(true)
+  }
 
-  // if (comment.user != current_user) {
-  //   // show the reply button
-  // }
+  const handleReplySubmit = ({ text = 'Comment...' }) => {
+    const replyTo = pluginKey.getState(state).findComment(comment.id)
+    dispatch(
+      state.tr.setMeta(commentPlugin, {
+        type: 'newComment',
+        from: replyTo.from,
+        to: replyTo.to,
+        comment: new Comment(text, randomID()),
+      })
+    )
+  }
 
-  return crel(
-    'div',
-    {class: 'comment-show p-3'},
-    crel(
-      'p', { class: 'commentText' }, comment.text, deleteBtn
-    ),
-    // crel(
-    //   'button', {class: 'btn btn-primary btn-xs'}, "Reply"
-    // )
+  const handleReplyCancel = () => {
+    setIsShowingReply(false)
+  }
+
+  return (
+    <div className={classnames('comment-show', className)}>
+      <p className="j-commentText">{comment.text}</p>
+      {!isShowingReply && (
+        <>
+          {showActions.reply && (
+            <button
+              className="btn btn-plain btn-sm j-commentReply px-0 mr-2"
+              onClick={handleReply}
+            >
+              Reply
+            </button>
+          )}
+          {showActions.delete && (
+            <button
+              className="btn btn-plain btn-sm j-commentDelete px-0 mr-2"
+              onClick={handleDelete}
+            >
+              Delete
+            </button>
+          )}
+        </>
+      )}
+      {isShowingReply && (
+        <>
+          <CommentForm
+            onSubmit={handleReplySubmit}
+            onCancel={handleReplyCancel}
+            className="j-commentReplyForm border-top mt-3 pt-1"
+          />
+        </>
+      )}
+    </div>
   )
 }
