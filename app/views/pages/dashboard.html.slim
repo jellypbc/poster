@@ -2,18 +2,24 @@
   .my-5
     h1 Dashboard
 
-
-
     br
     h2 Activity
     / - @user.followers.each do |follow|
     /   = follow.id
+
     br
     h2 My published posts
     .row
-      .col-md-7
+      .col-md-12
         - if @posts.empty?
           p.muted.my-3 You haven't created any posts yet!
 
-        - @posts.each do |post|
-          = render 'posts/post', post: post
+        table
+          thead
+            th title
+            th
+            th
+            th
+
+          - @posts.each do |post|
+            = render 'posts/post_row', post: post

@@ -42,6 +42,11 @@ Rails.application.routes.draw do
   get 'dashboard', to: 'pages#dashboard'
   root to: "pages#index"
 
+  namespace :admin, module: 'admin' do
+    resources :users
+  end
+
+
   mount LetterOpenerWeb::Engine, at: '/letter_opener' if Rails.env.development?
 
   if Rails.env.development?

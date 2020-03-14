@@ -1,4 +1,6 @@
 class ApplicationController < ActionController::Base
+  include SessionsHelper
+
 	protect_from_forgery with: :exception
 
 	# TODO: reenable authenticaion
@@ -26,6 +28,16 @@ class ApplicationController < ActionController::Base
 	def configure_permitted_parameters
 		devise_parameter_sanitizer.permit(:sign_up, keys: [:username, :email])
 	end
+
+  def admin_only
+    unless user_is_admin?
+      respond_to do |format|
+        format.html { render :file => "#{Rails.root}/public/404", :layout => false, :status => :not_found }
+        format.xml  { head :not_found }
+        format.any  { head :not_found }
+      end
+    end
+  end
 
 	private
 

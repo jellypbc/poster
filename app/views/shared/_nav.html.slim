@@ -2,7 +2,7 @@
 - white_nav ||= @white_nav
 
 nav.navbar.navbar-expand-lg id="#{opts[:id] if opts}" class="#{'white-nav' if white_nav} #{opts[:class] if opts}"
-  .container
+  .container.my-0
 
     = link_to root_path, class: "navbar-brand" do
       = image_tag 'jelly.png'
