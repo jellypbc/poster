@@ -40,6 +40,7 @@ Rails.application.routes.draw do
   get 'about', to: 'pages#about'
   get 'terms', to: 'pages#terms'
   get 'dashboard', to: 'pages#dashboard'
+  get 'pricing', to: 'pages#pricing'
   root to: "pages#index"
 
   namespace :admin, module: 'admin' do
