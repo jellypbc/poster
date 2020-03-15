@@ -37,7 +37,12 @@ class DiborgService
 			citations = parse_citations
 			citations.each do |citation_hash|
 				new_citation = @post.citations.create!(build_hash(citation_hash))
-				generated_post = Post.create!(build_hash(citation_hash))
+
+        if @post.user
+          generated_post = @post.user.posts.create!(build_hash(citation_hash))
+        else
+				  generated_post = Post.create!(build_hash(citation_hash))
+        end
 				generated_post.citations << new_citation
 				new_citation.update!({generated_post_id: generated_post.id, post_id: @post.id})
 			end

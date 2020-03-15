@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_14_021421) do
+ActiveRecord::Schema.define(version: 2020_02_27_041454) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -30,6 +30,16 @@ ActiveRecord::Schema.define(version: 2020_02_14_021421) do
     t.index ["post_id"], name: "index_citations_on_post_id"
   end
 
+  create_table "follows", force: :cascade do |t|
+    t.integer "follower_id", null: false
+    t.integer "following_id", null: false
+    t.string "follower_type"
+    t.string "following_type"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["follower_id", "following_id", "follower_type", "following_type"], name: "follows_unique_index", unique: true
+  end
+
   create_table "posts", force: :cascade do |t|
     t.text "title"
     t.json "body"
@@ -44,6 +54,9 @@ ActiveRecord::Schema.define(version: 2020_02_14_021421) do
     t.jsonb "plugins", default: "{}", null: false
     t.string "imprint_date"
     t.string "imprint_type"
+    t.datetime "published_at"
+    t.integer "visibility", default: 0, null: false
+    t.datetime "deleted_at"
     t.index ["slug"], name: "index_posts_on_slug", unique: true
     t.index ["user_id"], name: "index_posts_on_user_id"
   end

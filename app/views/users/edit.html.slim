@@ -1,25 +1,40 @@
 .users.container.my-5
   .row
-    .col-md-12
-      h1 Editing User
+    .col-md-4
+      h2 User Settings
 
       = form_for @user do |form|
-        .field.my-4
-          .user-avatar
-            = image_tag @user.avatar_url(:small)
-          - if @user.avatar
-            = link_to "Delete Avatar", remove_avatar_user_path(@user), method: :post, data: {confirm: "ok?"}, class: 'btn btn-secondary btn-xs'
-
-          = form.label :avatar
+        - if @user.valid?
           = form.hidden_field :avatar, value: @user.cached_avatar_data
-          = form.file_field :avatar
-          = form.submit "Upload Avatar", class: 'btn btn-primary'
 
+        h3 Avatar
+        .user-avatar = image_tag @user.avatar_url(:medium)
+
+        - if @user.avatar
+          = link_to "Delete Avatar", remove_avatar_user_path(@user), method: :post, data: {confirm: "ok?"}, class: 'btn btn-secondary btn-sm'
+
+        .input-group.mt-4
+          .custom-file
+            = form.file_field :avatar, type: "file", require: true, class: 'custom-file-input', id: "avatarFile"
+            = form.label :avatar, id: "avatar-label", class: "custom-file-label btn", for: "avatarFile" do
+              i.fa.fa-pencil.mr-3
+              | Choose a file
+
+        #avatar-actions.mt-4.none
+          = form.submit "Upload Avatar", class: 'btn btn-primary btn-lg'
+
+    .col-md-8
       = render 'form', user: @user
 
+      br
+      h3 Deactivate Account
       = link_to @user, method: :delete, data: { confirm: 'Are you sure?' } do
-        .btn.btn-danger Delete Account
+        .btn.btn-danger.mt-2 Delete Account
 
-      = link_to 'Show', @user
-      span.mh-3 |
-      = link_to 'Back', users_path
+javascript:
+  document.getElementById('avatarFile')
+    .addEventListener("change", function(){
+      var fileName = document.getElementById('avatarFile').files[0].name
+      document.getElementById('avatar-label').textContent = fileName;
+      document.getElementById('avatar-actions').classList.remove('none')
+    });

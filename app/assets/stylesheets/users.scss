@@ -1,4 +1,4 @@
-// Place all the styles related to the users controller here.
+// Pla.e all the styles related to the users controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
@@ -6,9 +6,85 @@
 .users {
   .user-avatar {
     img {
-      height: 36px;
-      width: 36px;
+      // height: 36px;
+      // width: 36px;
+      max-height: 240px;
+      margin: 20px 0;
       border-radius: 18px;
     }
   }
+
+  .custom-file {
+    .field_with_errors {
+      background: white;
+
+      label.custom-file-label { border-color: $danger !important; }
+      label.custom-file-label::after { display: none; }
+    }
+  }
+
+  label.custom-file-label {
+    width: 200px;
+  }
+
+  // remove bootstrap "browse" button part
+  label.custom-file-label::after { display: none; }
+
+  .custom-file-input:lang(en) ~ .custom-file-label::after {
+    display: none;
+  }
+
+  .none {
+    display: none;
+  }
 }
+
+
+.clear-modal-container {
+  background: white;
+  outline: none;
+  margin: 0 auto;
+  height: auto;
+  width: 40vw;
+  top: 20%;
+  position: relative;
+}
+.reg-modal-container {
+  animation-duration: 0.16s;
+  height: auto;
+  background: white;
+  margin: 0 auto;
+  text-align: center;
+  border: 2px solid $grayLighter;
+  border-radius: 9px;
+  padding: 40px;
+  outline: none;
+
+  .login-message {
+    font-size: 16px;
+  }
+}
+
+
+#followbutton {
+  width: 120px;
+  text-align: center;
+  font-weight: 700;
+  i, span { color: $white; }
+}
+#followbutton span:after{
+  content: 'Follow';
+}
+#followbutton.following span:after{
+  content: 'Following';
+}
+#followbutton.following:hover {
+  background-color: $danger;
+  border-color: $danger;
+  color: $white;
+}
+#followbutton.following:hover span:after{
+  content: 'Unfollow';
+}
+
+

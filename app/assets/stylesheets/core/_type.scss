@@ -10,7 +10,7 @@ a {
 }
 
 a:hover {
-  color: darken($brandGreen, 14);
+  color: $linkHover;
   text-decoration: none;
 }
 
@@ -43,7 +43,7 @@ h1, h2, h3, h4, h5, h6 {
   text-rendering: optimizelegibility; // Fix the character spacing for headings
 }
 
-h1 { font-size: 40px; line-height: 47px; }
+h1 { font-size: 32px; line-height: 40px; }
 h2 { font-size: 24px; line-height: 28px; }
 h3 { font-size: 20px; line-height: 23px; }
 h4 { font-size: 16px; line-height: 19px; }

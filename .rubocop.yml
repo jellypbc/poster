@@ -1,0 +1,134 @@
+require:
+  - rubocop-rspec
+  - rubocop-gitlab-security
+
+AllCops:
+  DisabledByDefault: true
+  # Exclude:
+  #   - 'tmp/**/*'
+  #   - vendor/**/*
+  #   - db/migrate/*
+  #   - db/**
+  # DisplayCopNames: true
+  # TargetRubyVersion: 2.3
+
+Style/Documentation:
+  Enabled: false
+Layout/ExtraSpacing:
+  AllowForAlignment: true
+Metrics/LineLength:
+  Max: 100
+Metrics/BlockLength:
+  Exclude:
+  # Ignore migration DSL
+  - db/migrations/**/*
+  # Ignore RSpec DSL
+  - spec/**/*
+  # Ignore Rake task DSL
+  - Rakefile
+Style/Next:
+  EnforcedStyle: always
+Style/PercentLiteralDelimiters:
+  PreferredDelimiters:
+    '%i': '[]'
+    '%I': '[]'
+    '%q': '{}'
+    '%Q': '{}'
+    '%r': '{}'
+    '%s': ()
+    '%w': '[]'
+    '%W': '[]'
+    '%x': ()
+Style/TrivialAccessors:
+  ExactNameMatch: false
+Style/SymbolArray:
+  Enabled: true
+Style/BarePercentLiterals:
+  EnforcedStyle: percent_q
+Style/CollectionMethods:
+  Enabled: true
+Style/Send:
+  Enabled: true
+Style/AutoResourceCleanup:
+  Enabled: true
+Layout/FirstArrayElementLineBreak:
+  Enabled: true
+Layout/FirstHashElementLineBreak:
+  Enabled: true
+Layout/FirstMethodArgumentLineBreak:
+  Enabled: true
+Layout/FirstMethodParameterLineBreak:
+  Enabled: true
+Layout/MultilineArrayBraceLayout:
+  Enabled: true
+Layout/MultilineAssignmentLayout:
+  EnforcedStyle: new_line
+  Enabled: true
+Layout/MultilineHashBraceLayout:
+  Enabled: true
+Layout/MultilineMethodCallBraceLayout:
+  Enabled: true
+Layout/MultilineMethodDefinitionBraceLayout:
+  Enabled: true
+Style/OptionHash:
+  Enabled: true
+Style/StringMethods:
+  Enabled: true
+Layout/IndentArray:
+  EnforcedStyle: consistent
+Layout/IndentHash:
+  EnforcedStyle: consistent
+MultilineMethodCallIndentation:
+  EnforcedStyle: indented
+Style/Alias:
+  EnforcedStyle: prefer_alias_method
+Layout/AlignHash:
+  EnforcedColonStyle: table
+Style/SignalException:
+  EnforcedStyle: semantic
+Style/SingleLineBlockParams:
+  Enabled: false
+Lint/UnneededSplatExpansion:
+  Enabled: false
+Layout/DefEndAlignment:
+  AutoCorrect: true
+Layout/EndAlignment:
+  AutoCorrect: true
+Lint/UnifiedInteger:
+  Enabled: false
+Metrics/AbcSize:
+  Max: 20
+Metrics/LineLength:
+  Max: 120
+# Style/AndOr:
+#   Enabled: false
+
+Security/Eval:
+  Enabled: true
+Security/JSONLoad:
+  Enabled: true
+Security/MarshalLoad:
+  Enabled: true
+Security/Open:
+  Enabled: true
+Security/YAMLLoad:
+  Enabled: true
+Bundler/InsecureProtocolSource:
+  Enabled: true
+Rails/OutputSafety:
+  Enabled: true
+
+# from gitlab
+# bundle exec rubocop --require rubocop-gitlab-security
+GitlabSecurity/DeepMunge:
+  Enabled: true
+GitlabSecurity/JsonSerialization:
+  Enabled: true
+GitlabSecurity/RedirectToParamsUpdate:
+  Enabled: true
+GitlabSecurity/SendFileParams:
+  Enabled: true
+GitlabSecurity/SqlInjection:
+  Enabled: true
+GitlabSecurity/SystemCommandInjection:
+  Enabled: true

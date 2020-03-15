@@ -25,11 +25,14 @@ gem "httmultiparty"
 gem "font-awesome-sass"
 gem "fast_jsonapi"
 gem "will_paginate"
+gem "will_paginate-bootstrap4"
 gem "nokogiri"
 gem "sidekiq"
 gem "sidekiq-batch"
 gem "sidekiq-cron"
 gem "redis"
+gem "rack-attack"
+gem "rack-timeout", require:"rack/timeout/base"
 gem "sanitize"
 gem "bootsnap", ">= 1.4.2", require: false
 
@@ -45,6 +48,7 @@ group :development, :test do
 end
 
 group :development do
+  gem "rubocop"
   gem "byebug", platforms: :mri
   gem "web-console", ">= 3.3.0"
   gem "listen", ">= 3.0.5", "< 3.2"
@@ -60,6 +64,7 @@ group :development do
   gem "pry-rails"
   gem "pry-byebug"
   gem "guard-rspec", require: false
+  gem "guard-livereload", "~> 2.5", require: false
   gem "foreman"
 end
 

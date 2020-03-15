@@ -1,0 +1,33 @@
+h2 Edit #{resource_name.to_s.humanize}
+
+= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f|
+  = render "devise/shared/error_messages", resource: resource
+
+  .field
+    = f.email_field :email, autofocus: true, autocomplete: "email", placeholder: true, "aria-label": :email
+
+  - if devise_mapping.confirmable? && resource.pending_reconfirmation?
+    div
+      | Currently waiting confirmation for: #{resource.unconfirmed_email}
+
+  .field
+    = f.password_field :password, autocomplete: "new-password", placeholder: true, "aria-label": :password
+    - if @minimum_password_length
+      br
+      em #{@minimum_password_length} characters minimum
+
+  .field
+    = f.password_field :password_confirmation, autocomplete: "new-password", placeholder: true, "aria-label": :password_confirmation
+
+  .field
+    = f.password_field :current_password, autocomplete: "current-password", placeholder: true, "aria-label": :current_password
+
+  .actions
+    = f.submit "Update" , class: "btn btn-l btn-primary"
+
+h3 Cancel my account
+
+p Unhappy?
+= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete
+
+= link_to "Back", :back

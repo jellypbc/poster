@@ -6,13 +6,16 @@
 #  abstract     :text
 #  authors      :text
 #  body         :json
+#  deleted_at   :datetime
 #  imprint_date :string
 #  imprint_type :string
 #  plugins      :jsonb            not null
 #  publish_date :datetime
+#  published_at :datetime
 #  publisher    :string
 #  slug         :string
 #  title        :text
+#  visibility   :integer          default("public"), not null
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
 #  user_id      :integer

@@ -15,9 +15,8 @@ class PagesController < ApplicationController
     end
 	end
 
-
   def dashboard
-    @posts = current_user.posts
+    @posts = current_user.posts.primary
   end
 
 end

@@ -42,6 +42,8 @@ class User < ApplicationRecord
   before_save :set_username
 
   has_many :posts
+  has_many :uploads
+  has_many :follows, as: :follower
 
 	def send_devise_notification(notification, *args)
 		devise_mailer.send(notification, self, *args).deliver_later
@@ -52,11 +54,16 @@ class User < ApplicationRecord
   end
 
   def avatar_url(variant = nil)
+    # see class AvatarUploader for variants
     if avatar
       super
     else
       ActionController::Base.helpers.asset_path "avatar.png"
     end
+  end
+
+  def has_avatar?
+    avatar != nil
   end
 
   def process_avatars

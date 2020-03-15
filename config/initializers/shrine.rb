@@ -45,6 +45,11 @@ Shrine.plugin :derivatives
 # Use fallback urls for image derivatives
 Shrine.plugin :default_url
 
+# validation helpers
+Shrine.plugin :remove_invalid
+Shrine.plugin :validation
+Shrine.plugin :validation_helpers
+
 Shrine.plugin :remote_url, max_size: 20*1024*1024
 Shrine.plugin :presign_endpoint
 Shrine.plugin :upload_endpoint, url: true

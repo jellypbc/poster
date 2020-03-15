@@ -2,13 +2,12 @@ class UploadsController < ApplicationController
   before_action :set_upload, only: [
     :show, :edit, :update, :destroy, :extract_images
   ]
-
   # skip_before_filter :verify_authenticity_token, only: [:file]
   protect_from_forgery except: :file
 
   def index
     @uploads = Upload.order(created_at: :desc)
-      .paginate(page: params[:page], per_page: 50)
+      .paginate(page: params[:page], per_page: 30)
   end
 
   def show
@@ -22,9 +21,15 @@ class UploadsController < ApplicationController
   end
 
   def create
-    @upload = Upload.new(upload_params)
-    @post = Post.create!
-    @upload.post = @post
+    if current_user
+      @upload = current_user.uploads.new(upload_params)
+      @post = current_user.posts.create!
+      @upload.post = @post
+    else
+      @upload = Upload.new(upload_params)
+      @post = Post.create!
+      @upload.post = @post
+    end
 
     respond_to do |format|
       if @upload.save!
@@ -50,9 +55,15 @@ class UploadsController < ApplicationController
   end
 
   def file
-    @post = Post.new
-  	@upload = Upload.new
-    @upload.post = @post
+    if current_user
+      @post = current_user.posts.new
+      @upload = current_user.uploads.new
+      @upload.post = @post
+    else
+      @post = Post.new
+    	@upload = Upload.new
+      @upload.post = @post
+    end
 
     if params[:file_id]
 			file = Shrine.uploaded_file(storage: :store, id: params[:file_id])
@@ -62,8 +73,9 @@ class UploadsController < ApplicationController
 
     respond_to do |format|
       if @upload.save!
+        redirect = current_user.present? ? short_user_post_path(current_user, @upload.post) : post_path(@upload.post)
         format.html { redirect_to @upload, notice: 'Upload was successfully updated.' }
-        format.json { render json: { redirect_to: post_path(@upload.post) }, status: :ok, notice: "hooray" }
+        format.json { render json: { redirect_to: redirect }, status: :ok, notice: "hooray" }
       else
         format.html { render :edit }
         format.json { render json: @upload.errors, status: :unprocessable_entity }
@@ -94,6 +106,6 @@ class UploadsController < ApplicationController
     end
 
     def upload_params
-      params.require(:upload).permit(:file).to_h
+      params.require(:upload).permit(:file, :user).to_h
     end
 end

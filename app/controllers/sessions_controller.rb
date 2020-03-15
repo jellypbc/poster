@@ -18,7 +18,7 @@ class SessionsController < ApplicationController
         format.json { render json: user }
       end
     else
-      redirect_to(login_path, notice: "Oops, sorry. Something was wrong with your email or password.")
+      redirect_to(new_user_session_path, notice: "Oops, sorry. Something was wrong with your email or password.")
     end
   end
 

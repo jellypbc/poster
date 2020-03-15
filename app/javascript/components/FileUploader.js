@@ -53,7 +53,7 @@ class FileUploader extends React.Component {
 			.querySelector('[name~=csrf-token][content]')
 			.content
 
-		const url = '/file'
+		const url = this.props.url
 	 	const data = {
 			file_id: id,
 			upload: {}

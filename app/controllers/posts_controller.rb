@@ -1,5 +1,6 @@
 class PostsController < ApplicationController
   before_action :set_post, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!, only: [:destroy]
 
   def index
     @posts = Post.primary
@@ -13,11 +14,14 @@ class PostsController < ApplicationController
 
   def write
     @post = Post.new(body: "")
-    if user_signed_in?
-      @post.user_id = current_user.id
-    end
+    @post.user_id = current_user.id if current_user
     @post.save!
-    redirect_to post_path(@post)
+
+    if current_user
+      redirect_to short_user_post_path(current_user, @post)
+    else
+      redirect_to post_path(@post)
+    end
   end
 
   def new

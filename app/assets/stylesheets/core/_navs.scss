@@ -7,9 +7,11 @@ nav {
     background: transparent;
   }
 
+  @include media-breakpoint-up(md) {
+  }
+
   min-height: 60px;
   padding-top: 15px;
-
   border-bottom: 1px solid $shaleLighter;
 
   .navbar-brand {
@@ -21,6 +23,13 @@ nav {
 		}
   }
 
+  .navbar-collapse {
+    // mobile view
+    &.show {
+      // .nav-item.dropdown {display: none}
+    }
+  }
+
   a {
     color: $shaleDark;
     font-size: 16px;
@@ -30,21 +39,53 @@ nav {
   	}
   }
 
+  .nav-item {
+    margin-right: 1.7rem;
+  }
+
+  .nav-link {
+    -webkit-font-smoothing: antialiased;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 0;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
   .btn.btn-secondary {
     text-decoration: none;
     border-radius: 0px;
-    padding: 16px;
+    padding: 8px 16px;
+    border-radius: 4px;
+  }
+
+  .subnav {
+    @include media-breakpoint-up(md) {
+      flex-direction: row;
+    }
+    flex-direction: column;
+    display: flex;
+    align-items: center;
+    flex-basis: auto;
+    list-style: none;
+    li {
+      padding: 0;
+    }
   }
 
   .search-bar {
     text-decoration: none;
-    border: 1px solid black;
-    padding: 16px 88px 16px 36px;
+    padding: 8px;
+    border-radius: 4px;
     font-size: 14px;
-    border-color: $grayLight;
+    border-color: $white;
   }
+  .search-bar::-webkit-input-placeholder { color: $grayLight; font-weight: 600; -webkit-font-smoothing: antialiased; } /* Edge */
+  .search-bar:-ms-input-placeholder { color: $grayLight; font-weight: 600; -webkit-font-smoothing: antialiased; } /* Internet Explorer 10-11 */
+  .search-bar::placeholder {color: $grayLight; font-weight: 600; -webkit-font-smoothing: antialiased; }
 
-
+  // toggle dropdown
   .fa-menu,
   .navbar-toggler {
     color: $shaleDark;
@@ -54,34 +95,19 @@ nav {
     }
   }
 
-  .nav-link {
-    font-size: 14px;
-    padding-top: 16px;
-    &:hover {
-      text-decoration: underline;
-    }
+  .dropdown {
+    margin-right: 0;
   }
 
-	&.white-nav {
-	  z-index: 230;
-	  color: $white;
-
-	  a {
-	  	color: $white;
-	  }
-
-    li > a {
-      color: $white;
-      opacity: 1;
-
-      &:hover {
-        color: $white;
-        opacity: 0.75;
-      }
-    }
-	}
   .dropdown-toggle::after {
     display: none;
+  }
+
+  .avatar-clip {
+    border-radius: 50%;
+    overflow: hidden;
+    width: 34px;
+    height: 34px;
   }
 
   .avatar-link {
@@ -89,17 +115,24 @@ nav {
     vertical-align: top;
   }
 
-  .avatar {
-    height: 34px;
-    width: 34px;
-    border-radius: 50px;
-  }
+	&.white-nav {
+	  z-index: 230;
+	  color: $white;
+	  a { color: $white; }
+    li > a {
+      color: $white;
+      opacity: 1;
+      &:hover {
+        color: $white;
+        opacity: 0.75;
+      }
+    }
+	}
 }
 
 .turbolinks-progress-bar {
   visibility: hidden;
 }
-
 
 .ReactModalPortal {
   z-index: 281;
