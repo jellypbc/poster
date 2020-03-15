@@ -4,13 +4,11 @@
 
     br
     h2 Activity
-    / - @user.followers.each do |follow|
-    /   = follow.id
 
     br
-    h2 My published posts
     .row
       .col-md-12
+        h2 My published posts
         - if @posts.empty?
           p.muted.my-3 You haven't created any posts yet!
 
@@ -23,3 +21,4 @@
 
           - @posts.each do |post|
             = render 'posts/post_row', post: post
+
