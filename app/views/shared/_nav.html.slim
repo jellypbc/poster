@@ -42,7 +42,7 @@ nav.navbar.navbar-expand-lg id="#{opts[:id] if opts}" class="#{'white-nav' if wh
             .dropdown-menu.dropdown-menu-right
               a.dropdown-item href=dashboard_path
                 | Your Dashboard
-              a.dropdown-item href=user_path(current_user)
+              a.dropdown-item href=short_user_path(current_user)
                 | Your Profile
               a.dropdown-item href=edit_user_path(current_user)
                 | Your Settings
@@ -51,6 +51,11 @@ nav.navbar.navbar-expand-lg id="#{opts[:id] if opts}" class="#{'white-nav' if wh
                 | 🙋🏻‍♀️
               hr
               = link_to 'Log Out', destroy_user_session_path, method: :delete, class:"dropdown-item"
+              - if current_user.admin?
+                hr
+                a.dropdown-item href=admin_path
+                  | Admin
+
 
         - else
           li.nav-item.mr-0
