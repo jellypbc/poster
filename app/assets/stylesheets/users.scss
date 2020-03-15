@@ -71,9 +71,24 @@
   text-align: center;
   font-weight: 700;
   i, span { color: $white; }
+  &.btn-primary:active,
+  &.btn-primary:focus {
+    box-shadow: none;
+  }
+
 }
 #followbutton span:after{
   content: 'Follow';
+}
+#followbutton.following {
+  background: $white;
+  border: 1px solid $shaleLight;
+  span { color: $shale; };
+  &:active,
+  &:focus {
+    outline: none;
+    box-shadow: none;
+  }
 }
 #followbutton.following span:after{
   content: 'Following';
@@ -81,7 +96,7 @@
 #followbutton.following:hover {
   background-color: $danger;
   border-color: $danger;
-  color: $white;
+  span { color: $white; }
 }
 #followbutton.following:hover span:after{
   content: 'Unfollow';

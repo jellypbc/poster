@@ -1,10 +1,10 @@
 Rails.application.routes.draw do
-	require "sidekiq/web"
-  mount Sidekiq::Web,     at: "/sidekiq" #, constraints: AdminConstraint.new
-  mount ImageUploader.upload_endpoint(:cache) => "/images/cache"
-  mount ImageUploader.upload_endpoint(:store) => "/images/store"
-  mount FileUploader.upload_endpoint(:cache) => "/file/cache"
-  mount FileUploader.upload_endpoint(:store) => "/file/store"
+	require 'sidekiq/web'
+  mount Sidekiq::Web,     at: '/sidekiq' #, constraints: AdminConstraint.new
+  mount ImageUploader.upload_endpoint(:cache) => '/images/cache'
+  mount ImageUploader.upload_endpoint(:store) => '/images/store'
+  mount FileUploader.upload_endpoint(:cache) => '/file/cache'
+  mount FileUploader.upload_endpoint(:store) => '/file/store'
 
   devise_for :users, skip: [:sessions]
   devise_scope :user do
@@ -33,19 +33,22 @@ Rails.application.routes.draw do
 
   resources :posts
 
-	post "/file", to: "uploads#file"
-  post "/posts/add_figure", to: "posts#add_figure"
-  get "/write", to: "posts#write"
+	post '/file', to: 'uploads#file'
+  post '/posts/add_figure', to: 'posts#add_figure'
+  get '/write', to: 'posts#write'
 
   get 'about', to: 'pages#about'
   get 'terms', to: 'pages#terms'
   get 'dashboard', to: 'pages#dashboard'
-  root to: "pages#index"
+  root to: 'pages#index'
+
+  get 'admin', to: 'pages#admin'
 
   namespace :admin, module: 'admin' do
     resources :users
+    resources :posts
+    resources :uploads
   end
-
 
   mount LetterOpenerWeb::Engine, at: '/letter_opener' if Rails.env.development?
 

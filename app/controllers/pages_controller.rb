@@ -1,5 +1,6 @@
 class PagesController < ApplicationController
-  before_action :authenticate_user!, only: :dashboard
+  before_action :authenticate_user!, only: [:dashboard, :admin]
+  before_action :admin_only, only: :admin
 
 	def index
     @no_footer = true
@@ -17,6 +18,9 @@ class PagesController < ApplicationController
 
   def dashboard
     @posts = current_user.posts.primary
+  end
+
+  def admin
   end
 
 end
