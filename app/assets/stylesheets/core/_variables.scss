@@ -68,9 +68,11 @@ $reddit:          #FF3A00;
 // Type variables
 $baseFontSize: 				14px;
 $baseLineHeight:      20px;
-$baseFontFamily:      'Roboto', Helvetica, Arial, sans-serif;
+// $baseFontFamily:      'Roboto', Helvetica, Arial, sans-serif;
+$baseFontFamily:      -apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
 $serifFontFamily:     'Noto Serif', Georgia, Times, serif;
-$markupFontFamily:    'PT Mono', Monaco, Menlo, Consolas, monospace;
+// $markupFontFamily:    'PT Mono', Monaco, Menlo, Consolas, monospace;
+$markupFontFamily:    SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace;
 $mainTextColor:   		$shaleDark;
 $headingFontFamily:   'Noto Serif', Times, serif;
 

@@ -1,19 +1,15 @@
 - resource = post.user_id? ? short_user_post_path(post.user, post) : post_path(post)
-
 = link_to resource do
-  tr.post-row
-    td
-      i.fa.fa-pen
-    td
-      h4.title
-        = sanitize_title(post.title) || "Title"
+  .post
+    h4.title
+      = sanitize_title(post.title) || "Title"
 
-    td
-
-    td
+    .preview
+      - if post.abstract
+        = post.abstract.truncate(200, seperator: "...")
+    div
       span.date.mr-4
         = post.created_at.strftime("%b %d, %Y")
-    td
       span.link
         | ⌞ View article
 
