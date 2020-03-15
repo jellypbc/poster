@@ -40,9 +40,9 @@ Rails.application.routes.draw do
   get 'about', to: 'pages#about'
   get 'terms', to: 'pages#terms'
   get 'dashboard', to: 'pages#dashboard'
-  root to: 'pages#index'
 
   get 'admin', to: 'pages#admin'
+  get 'pricing', to: 'pages#pricing'
 
   namespace :admin, module: 'admin' do
     resources :users
@@ -55,4 +55,6 @@ Rails.application.routes.draw do
   if Rails.env.development?
     resource :styleguide, controller: :styleguide, only: :show
   end
+  
+  root to: "pages#index"
 end
