@@ -27,7 +27,7 @@ import {
 
 import 'prosemirror-view/style/prosemirror.css'
 
-class PostEditor extends React.Component {
+class PostViewer extends React.Component {
   constructor(props) {
     super(props)
 
@@ -50,7 +50,7 @@ class PostEditor extends React.Component {
       lastSavedAt: getTimestamp('updated_at', props.post), // string or null
       lastUnsavedChangeAt: null, // Date object or null, used to track dirty state
       isProcessing: !this.props.post.data.attributes.body || false, // TODO: move this into container
-      isEditable: true,
+      isEditable: false,
     }
 
     const schema = options.schema
@@ -59,7 +59,7 @@ class PostEditor extends React.Component {
     const postBody = this.state.post.data.attributes.body
     const pluginState = JSON.parse(this.state.post.data.attributes.plugins)
     options.doc = this.parse(postBody) // TODO: don't mutate "options"
-    options.editable = this.state.isEditable
+    options.editable = false
     options.doc.comments = { comments: pluginState.comments } // TODO: generalize plugin state restoration
   }
 
@@ -251,10 +251,14 @@ class PostEditor extends React.Component {
     // TODO: eek
     options.doc = this.parse(postBody) // TODO: don't mutate "options"
     options.doc.comments = { comments: pluginState.comments } // TODO: generalize plugin state restoration
+    options.editable = function(){
+      return false
+    }
 
     const postTitle = post.data.attributes.title
     var titleOptions = Object.assign({}, options)
     titleOptions.doc = this.parse(postTitle)
+    titleOptions
 
     return (
       <div>
@@ -271,6 +275,7 @@ class PostEditor extends React.Component {
           options={titleOptions}
           onChange={this.handleTitleChange}
           pluginState={pluginState}
+          isEditable={this.state.isEditable}
           render={({ editor, view }) => (
             <div className="header">
               <div className="header-nav">
@@ -290,6 +295,7 @@ class PostEditor extends React.Component {
           options={options}
           onChange={this.handleChange}
           pluginState={pluginState}
+          isEditable={this.state.isEditable}
           render={({ editor, view }) => (
             <div>
               <Floater view={view}>
@@ -300,12 +306,6 @@ class PostEditor extends React.Component {
           )}
         />
 
-        <ChangesIndicator
-          isLoading={isLoading}
-          hasUnsavedChanges={hasUnsavedChanges}
-          isNewPost={isNewPost}
-          lastSavedAtDate={lastSavedAtDate}
-        />
       </div>
     )
   }
@@ -323,4 +323,4 @@ class PostEditor extends React.Component {
   }
 }
 
-export default PostEditor
+export default PostViewer

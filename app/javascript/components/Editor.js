@@ -11,7 +11,9 @@ class Editor extends React.Component {
     this.editorRef = React.createRef()
 
     console.log('EDITOR OPTIONS', props.options)
+
     const getView = () => this.view
+
     this.view = new EditorView(null, {
       // prosemirror options = { plugins, schema, comments: { comments: [] } }
       state: EditorState.create({
@@ -43,6 +45,9 @@ class Editor extends React.Component {
       },
       attributes: this.props.attributes,
       nodeViews: this.props.nodeViews,
+      editable: function(state){
+        return this.props.isEditable
+      }.bind(this)
     })
 
     // applyDevTools(this.view)
