@@ -11,7 +11,7 @@ import MenuBar from './MenuBar'
 import PostMasthead from './PostMasthead'
 import ChangesIndicator from './ChangesIndicator'
 import PostProcessingPlaceholder from './PostProcessingPlaceholder'
-import { options, menu } from './config/index'
+import { options, annotationMenu } from './config/index'
 
 import {
   pluginKey as commentPluginKey,
@@ -251,10 +251,6 @@ class PostViewer extends React.Component {
     // TODO: eek
     options.doc = this.parse(postBody) // TODO: don't mutate "options"
     options.doc.comments = { comments: pluginState.comments } // TODO: generalize plugin state restoration
-    options.editable = function(){
-      return false
-    }
-
     const postTitle = post.data.attributes.title
     var titleOptions = Object.assign({}, options)
     titleOptions.doc = this.parse(postTitle)
@@ -280,7 +276,7 @@ class PostViewer extends React.Component {
             <div className="header">
               <div className="header-nav">
                 <Floater view={view}>
-                  <MenuBar menu={menu} view={view} />
+                  <MenuBar menu={annotationMenu} view={view} />
                 </Floater>
                 <div className="title">
                   <h1>{editor}</h1>
@@ -299,7 +295,7 @@ class PostViewer extends React.Component {
           render={({ editor, view }) => (
             <div>
               <Floater view={view}>
-                <MenuBar menu={menu} view={view} />
+                <MenuBar menu={annotationMenu} view={view} />
               </Floater>
               <div className="post-editor">{editor}</div>
             </div>

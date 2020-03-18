@@ -10,3 +10,4 @@ export const options = {
 }
 
 export { default as menu } from './menu'
+export { default as annotationMenu } from './annotation-popup'
