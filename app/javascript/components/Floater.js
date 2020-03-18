@@ -45,14 +45,9 @@ class Floater extends React.Component {
       }
     }
 
-    const { offsetWidth } = this.menuRef.current
-    const { offsetHeight } = this.menuRef.current
-    console.log(offsetHeight)
+    const { offsetWidth, offsetHeight } = this.menuRef.current
     const anchor = view.coordsAtPos(selection.$anchor.pos)
     const scrollY = window.scrollY
-
-    // large 72
-    // 38
 
     var top = anchor.top - 10 > 0 ? (anchor.top - 10 + scrollY - offsetHeight) : anchor.top + 20
     var left = window.innerWidth - offsetWidth < anchor.left ? anchor.left - offsetWidth + 20 : anchor.left
