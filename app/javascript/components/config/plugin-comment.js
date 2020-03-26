@@ -178,6 +178,7 @@ function renderComments(comments, dispatch, state) {
         const isLast = index === comments.length - 1
         return (
           <ThreadedComment
+            key={index}
             comment={c.spec.comment}
             dispatch={dispatch}
             state={state}
