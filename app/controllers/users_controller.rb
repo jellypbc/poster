@@ -8,8 +8,8 @@ class UsersController < ApplicationController
   end
 
   def show
-    @primary_posts = @user.posts.primary.paginate(page: params[:page], per_page: 10)
-    @generated_posts = @user.posts.generated.paginate(page: params[:page], per_page: 10)
+    @primary_posts = @user.posts.primary.order(created_at: :desc).paginate(page: params[:page], per_page: 10)
+    @generated_posts = @user.posts.generated.order(created_at: :desc).paginate(page: params[:page], per_page: 10)
   end
 
   def edit
