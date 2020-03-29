@@ -49,7 +49,7 @@ class PostEditor extends React.Component {
       errorAt: null, // string or null
       lastSavedAt: getTimestamp('updated_at', props.post), // string or null
       lastUnsavedChangeAt: null, // Date object or null, used to track dirty state
-      isProcessing: !this.props.post.data.attributes.title || false, // TODO: move this into container
+      isProcessing: this.props.isProcessing || false, // TODO: move this into container
       isEditable: true,
     }
 
