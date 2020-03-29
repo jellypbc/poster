@@ -7,7 +7,7 @@
 
     .editor
       - if current_user && (@post.user && @post.user == current_user)
-        = react_component "PostPage", { post: PostSerializer.new(@post).serializable_hash, currentUser: current_user.present? ? UserSerializer.new(current_user) : nil }
+        = react_component "PostPage", { post: PostSerializer.new(@post).serializable_hash, currentUser: current_user.present? ? UserSerializer.new(current_user) : nil, isProcessing: @post.body.nil? }
       - else
         = react_component "PostViewer", { post: PostSerializer.new(@post).serializable_hash, currentUser: current_user.present? ? UserSerializer.new(current_user) : nil }
 
