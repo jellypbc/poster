@@ -55,10 +55,7 @@ class Editor extends React.Component {
 
   componentDidMount() {
     this.editorRef.current.appendChild(this.view.dom)
-
-    if (this.props.autoFocus) {
-      this.view.focus()
-    }
+    if (this.props.autoFocus) this.view.focus()
   }
 
   render() {

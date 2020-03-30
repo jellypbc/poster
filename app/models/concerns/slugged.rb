@@ -25,6 +25,15 @@ module Slugged
       after_save_commit :update_slug_if_changed!
     end
 
+    def lookup_by_slug(slug)
+      if (object_id = $redis.GET(slug_history_key(slug)))
+        return find(object_id)
+      end
+    end
+
+    def slug_history_key(slug)
+      "slug_history:#{to_s}:#{slug}"
+    end
   end
 
   module InstanceMethods
@@ -34,7 +43,7 @@ module Slugged
       save!
     end
 
-    # private
+    private
       def slug_source; self.class._slug_source; end
       def slug_attribute; self.class._slug_attr; end
 
@@ -53,6 +62,10 @@ module Slugged
           else
             self.set_slug!
           end
+          save_slug! read_attribute(slug_attribute)
+        end
+        if previous_changes.keys.include? slug_attribute.to_s
+          save_slug! read_attribute(slug_attribute)
         end
       end
 
@@ -86,5 +99,10 @@ module Slugged
 
         pending_slug
       end
+
+      def save_slug!(slug)
+        $redis.SET self.class.slug_history_key(slug), id
+      end
+
   end
 end

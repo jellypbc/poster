@@ -4,7 +4,6 @@ import { createConsumer } from '@rails/actioncable'
 import superagent from 'superagent'
 import debounce from 'lodash/debounce'
 import sanitizeHtml from 'sanitize-html'
-
 import Editor from './Editor'
 import Floater from './Floater'
 import MenuBar from './MenuBar'
@@ -271,7 +270,6 @@ class PostEditor extends React.Component {
         ) : null}
 
         <Editor
-          autoFocus
           options={titleOptions}
           onChange={this.handleTitleChange}
           pluginState={pluginState}
