@@ -1,0 +1,25 @@
+= form_for @project do |form|
+  - if @project.errors.any?
+    #error_explanation
+      h2
+        = pluralize(project.errors.count, "error")
+        | prohibited this project from being saved:
+
+      ul
+        - @project.errors.full_messages.each do |message|
+          li = message
+
+  .field
+    = form.label :title
+    = form.text_field :title
+
+  .field
+    = form.label :description
+    = form.text_area :description
+
+  .actions.my-4
+    - button_text = @project.id ? "Save Project" : "Create Project"
+    = form.submit button_text, class: "btn btn-primary"
+
+    span.divider.mx-3 |
+    = link_to "Back", projects_path

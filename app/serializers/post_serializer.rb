@@ -53,4 +53,15 @@ class PostSerializer
     object.uploads.first.file_url if object.uploads.any?
   end
 
+  attribute :tags do |object|
+    # object.tags.to_json
+    object.tags.order(updated_at: :desc).map{|tag|
+    {
+      id: tag.id.to_s,
+      text: tag.text,
+      slug: tag.slug,
+      }
+    }.as_json
+  end
+
 end
