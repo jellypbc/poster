@@ -31,7 +31,16 @@ Rails.application.routes.draw do
     get :extract_images
 	end
 
-  resources :posts
+  resources :posts do
+    resources :tags
+    get :suggested_tags
+  end
+
+  resources :projects do
+    post :tags, only: [:create, :destroy]
+  end
+
+  resources :tags
 
 	post '/file', to: 'uploads#file'
   post '/posts/add_figure', to: 'posts#add_figure'
@@ -55,6 +64,6 @@ Rails.application.routes.draw do
   if Rails.env.development?
     resource :styleguide, controller: :styleguide, only: :show
   end
-  
+
   root to: "pages#index"
 end

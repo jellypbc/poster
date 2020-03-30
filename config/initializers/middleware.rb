@@ -12,7 +12,8 @@ Rails.application.config.middleware.instance_eval do
   use Rack::Attack
 
   if Rails.env.development?
-    use Rack::Timeout, service_timeout: 60, wait_timeout: false
+    use Rack::Timeout, service_timeout: 30, wait_timeout: false
+    Rack::Timeout.unregister_state_change_observer(:logger)
   else
     use Rack::Timeout, service_timeout: 25, wait_timeout: false
   end

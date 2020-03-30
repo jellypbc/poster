@@ -1,6 +1,7 @@
 class PostsController < ApplicationController
-  before_action :set_post, only: [:show, :edit, :update, :destroy]
-  before_action :authenticate_user!, only: [:destroy]
+  before_action :set_post, only: [:show, :edit, :update, :destroy, :set_post, :suggested_tags]
+  before_action :authenticate_user!, only: [:destroy, :set_post, :suggested_tags]
+  before_action :set_suggested_tags, only: [:edit]
 
   def index
     @posts = Post.primary
@@ -29,7 +30,7 @@ class PostsController < ApplicationController
   end
 
   def edit
-  	@no_footer = true
+    @no_footer = true
   end
 
   def create
@@ -87,6 +88,12 @@ class PostsController < ApplicationController
     end
   end
 
+  def suggested_tags
+    respond_to do |format|
+      format.json { render json: set_suggested_tags}
+    end
+  end
+
   private
 
     def set_post
@@ -106,11 +113,27 @@ class PostsController < ApplicationController
       end
     end
 
-
     def post_params
       params.require(:post).permit(
         :title, :body, :publisher, :authors,
-        :slug, :plugins
+        :slug, :plugins, tags: [:id, :text]
       )
     end
+
+    def set_suggested_tags
+      @suggested_tags = current_user.posts
+        .primary
+        .includes(:tags)
+        .map(&:tags)
+        .flatten
+        .select{|tag| tag.taggable != @post.id }
+        .map{ |tag| {
+          id: tag.id.to_s,
+          text: tag.text,
+          slug: tag.slug,
+          color: tag.color,
+        }}
+        .as_json
+      end
+
 end

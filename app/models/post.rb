@@ -28,7 +28,6 @@
 
 class Post < ApplicationRecord
   include Slugged
-  include SlugHistory
 
   slug :title, attribute: :slug
   remember_slug
@@ -36,10 +35,10 @@ class Post < ApplicationRecord
   enum visibility: [:public, :draft, :private], _suffix: :visibility
 
   belongs_to :user, optional: true
-
 	has_many :uploads
 	has_many :citations
   has_many :figures, through: :uploads, source: :upload_figures, class_name: 'UploadFigure'
+  has_many :tags, as: :taggable
 
 	accepts_nested_attributes_for :uploads
 
@@ -54,6 +53,13 @@ class Post < ApplicationRecord
 
   def primary?
     uploads.present?
+  end
+
+  def add_tags_by_texts=(texts)
+    new_tags = texts.map do |text|
+      Tag.find_or_create_by(text: text, taggable_id: self.id, taggable_type: "Post")
+    end
+    (tags - new_tags).map{ |tag| tag.destroy }
   end
 
 end

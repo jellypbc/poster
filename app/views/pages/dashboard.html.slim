@@ -2,6 +2,12 @@
   .my-5
     h1 Dashboard
 
+    h1 Tags
+    - if @tags
+      - @tags.each do |tag|
+        span.badge.badge-secondary.mr-2
+          = tag.text
+
     br
     h2 Activity
 
@@ -12,13 +18,23 @@
         - if @posts.empty?
           p.muted.my-3 You haven't created any posts yet!
 
-        table
-          thead
-            th title
-            th
-            th
-            th
+        - @posts.each do |post|
+          - resource = post.user_id? ? short_user_post_path(post.user, post) : post_path(post)
+          / = link_to resource do
+          .post
+            h4.title
+              = sanitize_title(post.title) || "Title"
 
-          - @posts.each do |post|
-            = render 'posts/post_row', post: post
+            .preview
+              - if post.abstract
+                = post.abstract.truncate(200, seperator: "...")
+            div
+              span.date.mr-4
+                = post.created_at.strftime("%b %d, %Y")
+              span.link
+                = link_to post do
+                  | ⌞ View article
+
+              - options = {}; options[:include] = [:uploads]
+              = react_component 'TagForm', taggable: PostSerializer.new(post, options)
 

@@ -30,6 +30,10 @@ class PostSerializer
   include FastJsonapi::ObjectSerializer
   include Rails.application.routes.url_helpers
 
+  has_many :uploads
+	has_many :citations
+  has_many :figures
+
   attributes :title, :authors, :publisher, :id,
     :created_at, :updated_at, :plugins, :slug
 
@@ -51,6 +55,17 @@ class PostSerializer
 
   attribute :upload_url do |object|
     object.uploads.first.file_url if object.uploads.any?
+  end
+
+  attribute :tags do |object|
+    # object.tags.to_json
+    object.tags.order(updated_at: :desc).map{|tag|
+    {
+      id: tag.id.to_s,
+      text: tag.text,
+      slug: tag.slug,
+      }
+    }.as_json
   end
 
 end

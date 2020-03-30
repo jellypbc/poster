@@ -32,5 +32,9 @@
       = form.label :primary
       = form.check_box :primary, class: 'form-control', rows: "10"
 
+    .my-4
+      = form.label :tag
+      = react_component "TagForm", taggable: PostSerializer.new(post), suggested_tags: @suggested_tags
+
     .actions
       = form.submit "Create Post", class: "btn btn-primary my-3"
