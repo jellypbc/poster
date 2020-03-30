@@ -19,7 +19,10 @@ class PagesController < ApplicationController
 	end
 
   def dashboard
-    @posts = current_user.posts.primary.include(:tags)
+    @posts = current_user.posts.primary
+    .includes(:tags)
+    .order(created_at: :desc)
+    @tags = @posts.map(&:tags).flatten
   end
 
   def admin
