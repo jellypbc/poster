@@ -112,9 +112,10 @@ class TagForm extends React.Component {
           suggestions={this.state.suggestions}
           handleDelete={this.handleDelete}
           handleAddition={this.handleAddition}
-          handleInputFocus={this.handleFocus}
+          handleInputFocus={()=>this.handleFocus()}
           allowDragDrop={false}
           placeholder="Add new tag"
+          autofocus={false}
           classNames={{
             tag: 'badge badge-secondary mr-2',
             tagInputField: 'form-control'

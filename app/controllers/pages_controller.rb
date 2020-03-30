@@ -10,6 +10,7 @@ class PagesController < ApplicationController
 
     else
       @posts = Post.primary
+      .includes(:tags, :uploads, :user)
       .last(3)
       .reverse
       @tags = @posts.map(&:tags).flatten
