@@ -36,8 +36,8 @@ RSpec.describe Project, type: :model do
       end
     end
 
-    context 'slug attribute uniqueness' do
-      before { create :project, title: 'my project', munged_title: 'inspiring-new-methodology' }
+    context 'munged_title attribute uniqueness' do
+      before { create :project, title: 'my project', munged_title: 'my-project' }
 
       context 'munged_title is unique' do
         before { project.munged_title = 'munged-title' }
@@ -48,7 +48,7 @@ RSpec.describe Project, type: :model do
       end
 
       context 'munged_title is not unique' do
-        before { project.munged_title = 'inspiring-new-methodology' }
+        before { project.munged_title = 'my-project' }
 
         it 'is not valid' do
           expect(project).to_not be_valid
