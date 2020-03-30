@@ -123,6 +123,7 @@ class PostsController < ApplicationController
     def set_suggested_tags
       @suggested_tags = current_user.posts
         .primary
+        .includes(:tags)
         .map(&:tags)
         .flatten
         .select{|tag| tag.taggable != @post.id }

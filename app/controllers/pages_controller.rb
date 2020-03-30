@@ -10,14 +10,15 @@ class PagesController < ApplicationController
 
     else
       @posts = Post.primary
-      	.last(3)
-      	.reverse
+      .last(3)
+      .reverse
+      @tags = @posts.map(&:tags).flatten
       render 'dashboard'
     end
 	end
 
   def dashboard
-    @posts = current_user.posts.primary
+    @posts = current_user.posts.primary.include(:tags)
   end
 
   def admin
