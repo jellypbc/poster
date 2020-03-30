@@ -1,0 +1,15 @@
+.container
+  .row
+    .col-md-12
+      h1 = @project.title
+      h4 description
+      p = @project.description
+      h4 title
+      p = @project.munged_title
+
+      - if current_user && user_is_admin?
+        = link_to "Edit Project", edit_project_path
+
+        span.divider.mx-3 |
+
+        = link_to "View all projects", projects_path

@@ -20,6 +20,11 @@ module Slugged
 
       before_validation :set_placeholder_slug, on: :create
     end
+
+    def remember_slug
+      after_save_commit :update_slug_if_changed!
+    end
+
   end
 
   module InstanceMethods
@@ -30,12 +35,8 @@ module Slugged
     end
 
     # private
-
-      def allowed_slug
-        if BLACKLIST.include? send(slug_attribute)
-          errors.add slug_attribute, 'This slug is unavailable'
-        end
-      end
+      def slug_source; self.class._slug_source; end
+      def slug_attribute; self.class._slug_attr; end
 
       def set_placeholder_slug
         unless read_attribute(slug_attribute)
@@ -44,12 +45,21 @@ module Slugged
         end
       end
 
-      def slug_source
-        self.class._slug_source
+      def update_slug_if_changed!
+        if previous_changes.keys.include? slug_source.to_s
+          # TODO: make sure theres a validation that the slug is uniq
+          if self.send(slug_attribute).blank?
+            self.set_placeholder_slug
+          else
+            self.set_slug!
+          end
+        end
       end
 
-      def slug_attribute
-        self.class._slug_attr
+      def allowed_slug
+        if BLACKLIST.include? send(slug_attribute)
+          errors.add slug_attribute, 'This slug is unavailable'
+        end
       end
 
       def munged_source
@@ -58,9 +68,11 @@ module Slugged
       end
 
       def generate_slug
-        slug_attr = send slug_attribute
-        if slug_attr
-          pending_slug = slug_attr.slice(0..5)
+        current_slug = send slug_attribute
+        pending_slug = ""
+
+        if current_slug
+          pending_slug = current_slug.slice(0..5)
         end
 
         if munged_source.present?

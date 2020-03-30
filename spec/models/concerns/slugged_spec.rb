@@ -27,7 +27,7 @@ describe Slugged do
     end
 
     context 'slug attribute uniqueness' do
-      before { create :post, slug: 'inspiring-new-methodology' }
+      before { create :post, title: "Awesome Post" }
 
       context 'slug is unique' do
         before { post.slug = 'munged-title' }
@@ -38,9 +38,12 @@ describe Slugged do
       end
 
       context 'slug is not unique' do
-        before { post.slug = 'inspiring-new-methodology' }
+        before {
+          old_post_slug = Post.first.slug
+          post.slug = old_post_slug
+        }
 
-        xit 'is not valid' do
+        it 'is not valid' do
           expect(post).to_not be_valid
         end
       end
@@ -61,25 +64,22 @@ describe Slugged do
     context 'for a new post' do
       let(:post) { Post.new }
 
-      xit 'sets slug' do
+      it 'sets slug' do
         post.title = 'Shiny New Drug'
 
-        expect {
-          post.set_slug!
-        }.to change { post.slug }.from(nil).to('shiny-new-drug')
+        expect { post.set_slug! }.to change { post.slug }
+        expect(post.slug).to include('shiny-new-drug')
       end
     end
 
     context 'for an existing post' do
-      let(:post) { Post.new slug: 'wacky-old-theory' }
+      let(:post) { Post.new slug: '12345-old-theory' }
 
-      xit 'updates slug' do
+      it 'updates slug' do
         post.title = 'Staggering New Theory'
 
-        expect {
-          post.set_slug!
-        }.to change { post.slug }
-          .from(post.slug).to('staggering-new-theory')
+        expect { post.set_slug! }.to change { post.slug }
+        expect(post.slug).to include('staggering-new-theory')
       end
     end
   end
