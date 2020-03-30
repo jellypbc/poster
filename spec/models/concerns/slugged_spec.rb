@@ -27,7 +27,7 @@ describe Slugged do
     end
 
     context 'slug attribute uniqueness' do
-      before { create :post, title: "Awesome Post", slug: 'inspir-awesome-post' }
+      before { create :post, title: "Awesome Post" }
 
       context 'slug is unique' do
         before { post.slug = 'munged-title' }
@@ -38,7 +38,10 @@ describe Slugged do
       end
 
       context 'slug is not unique' do
-        before { post.slug = 'inspir-awesome-post' }
+        before {
+          old_post_slug = Post.first.slug
+          post.slug = old_post_slug
+        }
 
         it 'is not valid' do
           expect(post).to_not be_valid

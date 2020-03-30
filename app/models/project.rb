@@ -52,10 +52,4 @@ class Project < ApplicationRecord
     pending_munged_title
   end
 
-  def save_munged_title_if_changed
-    if previous_changes.keys.include? 'title'
-      set_munged_title!
-    end
-  end
-
 end

@@ -76,6 +76,7 @@ class PostEditor extends React.Component {
         },
 
         received: function(data) {
+          console.log("webhook", data)
           this.setState(state => ({
             post: data,
             isProcessing: false,

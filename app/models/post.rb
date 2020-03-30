@@ -28,7 +28,6 @@
 
 class Post < ApplicationRecord
   include Slugged
-  include SlugHistory
 
   slug :title, attribute: :slug
   remember_slug
