@@ -11,7 +11,7 @@ import MenuBar from './MenuBar'
 import PostMasthead from './PostMasthead'
 import ChangesIndicator from './ChangesIndicator'
 import PostProcessingPlaceholder from './PostProcessingPlaceholder'
-import { options, menu } from './config/index'
+import { options, menu, annotationMenu } from './config/index'
 
 import {
   pluginKey as commentPluginKey,
@@ -50,7 +50,7 @@ class PostEditor extends React.Component {
       lastSavedAt: getTimestamp('updated_at', props.post), // string or null
       lastUnsavedChangeAt: null, // Date object or null, used to track dirty state
       isProcessing: this.props.isProcessing || false, // TODO: move this into container
-      isEditable: true,
+      isEditable: this.props.editable || false,
     }
 
     const schema = options.schema
@@ -240,6 +240,7 @@ class PostEditor extends React.Component {
       error,
       errorAt,
       isLoading,
+      isEditable,
       lastSavedAt,
       lastUnsavedChangeAt,
     } = this.state
@@ -257,6 +258,8 @@ class PostEditor extends React.Component {
     var titleOptions = Object.assign({}, options)
     titleOptions.doc = this.parse(postTitle)
 
+    var menubar = isEditable ? menu : annotationMenu
+
     return (
       <div>
         <PostMasthead post={post} />
@@ -272,11 +275,12 @@ class PostEditor extends React.Component {
           options={titleOptions}
           onChange={this.handleTitleChange}
           pluginState={pluginState}
+          isEditable={isEditable}
           render={({ editor, view }) => (
             <div className="header">
               <div className="header-nav">
                 <Floater view={view}>
-                  <MenuBar menu={menu} view={view} />
+                  <MenuBar menu={menubar} view={view} />
                 </Floater>
                 <div className="title">
                   <h1>{editor}</h1>
@@ -291,22 +295,25 @@ class PostEditor extends React.Component {
           options={options}
           onChange={this.handleChange}
           pluginState={pluginState}
+          isEditable={isEditable}
           render={({ editor, view }) => (
             <div>
               <Floater view={view}>
-                <MenuBar menu={menu} view={view} />
+                <MenuBar menu={menubar} view={view} />
               </Floater>
               <div className="post-editor">{editor}</div>
             </div>
           )}
         />
 
-        <ChangesIndicator
-          isLoading={isLoading}
-          hasUnsavedChanges={hasUnsavedChanges}
-          isNewPost={isNewPost}
-          lastSavedAtDate={lastSavedAtDate}
-        />
+        {isEditable &&
+          <ChangesIndicator
+            isLoading={isLoading}
+            hasUnsavedChanges={hasUnsavedChanges}
+            isNewPost={isNewPost}
+            lastSavedAtDate={lastSavedAtDate}
+          />
+        }
       </div>
     )
   }
