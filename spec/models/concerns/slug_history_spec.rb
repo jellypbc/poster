@@ -5,13 +5,6 @@ describe SlugHistory do
 
   let!(:post) { create :post }
 
-  describe 'save_slug_if_changed' do
-    xit 'stores the slug in redis' do
-      $redis.expects(:SET).with "slug_history:post:slug", post.id
-      post.update_attributes! slug: 'slug'
-    end
-  end
-
   describe 'self.lookup_by_slug' do
     before { post.send :save_slug!, 'now-what-I-want-is-facts' }
 

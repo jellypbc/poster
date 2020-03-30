@@ -26,7 +26,6 @@ module Slugged
 
     def set_slug!
       write_attribute slug_attribute, generate_slug
-      save!
     end
 
     # private
@@ -59,6 +58,7 @@ module Slugged
 
       def generate_slug
         slug_attr = send slug_attribute
+        pending_slug = ""
         if slug_attr
           pending_slug = slug_attr.slice(0..5)
         end
