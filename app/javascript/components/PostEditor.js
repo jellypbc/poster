@@ -10,12 +10,12 @@ import MenuBar from './MenuBar'
 import PostMasthead from './PostMasthead'
 import ChangesIndicator from './ChangesIndicator'
 import PostProcessingPlaceholder from './PostProcessingPlaceholder'
-import { options, menu, annotationMenu } from './config/index'
+import { options, menu, annotationMenu } from './editor-config/index'
 
 import {
   pluginKey as commentPluginKey,
   serialize as serializeComment,
-} from './config/plugin-comment'
+} from './editor-config/plugin-comment'
 
 import {
   getTimestamp,
