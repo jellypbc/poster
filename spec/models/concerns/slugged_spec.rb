@@ -6,7 +6,7 @@ describe Slugged do
   describe 'validations' do
     let(:post) { Post.new }
 
-    before { post.stub :set_placeholder_slug }
+    before { allow(post).to receive(:set_placeholder_slug) }
 
     context 'slug attribute presence' do
       context 'slug is set' do

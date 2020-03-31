@@ -16,7 +16,7 @@ RSpec.describe Project, type: :model do
   describe 'validations' do
     let(:project) { Project.new }
 
-    before { project.stub :set_placeholder_slug }
+    before { allow(project).to receive(:set_placeholder_slug) }
 
     context 'munged_title attribute presence' do
       context 'munged_title is set' do
@@ -98,7 +98,7 @@ RSpec.describe Project, type: :model do
     let!(:project) { create :project }
     it 'sets a new munged_title if the title has changed' do
       expect {
-        project.update_attributes(title: "this is my new title")
+        project.update(title: "this is my new title")
       }.to change { project.munged_title }.to('this-is-my-new-title')
     end
   end

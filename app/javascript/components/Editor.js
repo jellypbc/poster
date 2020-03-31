@@ -1,7 +1,7 @@
 import React from 'react'
 import { EditorState } from 'prosemirror-state'
 import { EditorView } from 'prosemirror-view'
-import { pluginKey as commentPluginKey } from './config/plugin-comment'
+import { pluginKey as commentPluginKey } from './editor-config/plugin-comment'
 // import applyDevTools from "prosemirror-dev-tools";
 
 class Editor extends React.Component {
@@ -55,10 +55,7 @@ class Editor extends React.Component {
 
   componentDidMount() {
     this.editorRef.current.appendChild(this.view.dom)
-
-    if (this.props.autoFocus) {
-      this.view.focus()
-    }
+    if (this.props.autoFocus) this.view.focus()
   }
 
   render() {

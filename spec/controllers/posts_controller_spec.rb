@@ -8,13 +8,14 @@ RSpec.describe PostsController, type: :controller do
   	let(:post) { create :post }
 
   	it "assigns the requested @post to post" do
-  		process :show, method: :get, params: { id: post.slug }
-  		assigns(:post).should eq(post)
+      expect {
+       process :show, method: :get, params: { id: post.id }
+      }.to change{ assigns(:post) }.to(post)
   	end
 
   	it "renders the :show template" do
       process :show, method: :get, params: { id: post.slug }
-      response.should render_template :show
+      expect(response).to render_template(:show)
     end
   end
 

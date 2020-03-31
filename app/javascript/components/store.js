@@ -49,7 +49,7 @@ const imagesReducerDefaultState = {
 const imageReducers = {
   addImageStart: (state, action) => {
     state.isAddingImage = true
-    // runs the image-plugin onImageAddSuccess() payload
+    // runs the images plugin onImageAddSuccess() payload
     if (action.payload.onImageAddSuccess) {
       imagesEffects.onImageAddSuccess = action.payload.onImageAddSuccess
     }

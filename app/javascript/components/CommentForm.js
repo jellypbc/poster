@@ -29,6 +29,15 @@ function CommentForm({ onSubmit, onCancel, className, ...rest }) {
     if (onCancel) onCancel()
   }
 
+  const handleKeyDown = (e) => {
+    if ((event.metaKey || event.ctrlKey) && event.keyCode == 13) {
+      handleSubmit()
+    }
+    if (event.keyCode == 27) {
+      handleCancel()
+    }
+  }
+
   return (
     <form
       className={`${className} ${modifierClasses}`}
@@ -39,6 +48,7 @@ function CommentForm({ onSubmit, onCancel, className, ...rest }) {
         className="j-commentForm__input"
         defaultValue=""
         placeholder="Add a comment..."
+        onKeyDown={handleKeyDown}
         ref={textareaRef}
         /* eslint-disable-next-line jsx-a11y/no-autofocus */
         autoFocus
@@ -51,7 +61,8 @@ function CommentForm({ onSubmit, onCancel, className, ...rest }) {
           onClick={handleSubmit}
         >
           Post
-        </button>{' '}
+        </button>
+        {' '}
         <button type="button" className="btn btn-sm o" onClick={handleCancel}>
           Cancel
         </button>
