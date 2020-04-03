@@ -27,6 +27,7 @@
 #
 
 class Post < ApplicationRecord
+  searchkick
   include Slugged
 
   slug :title, attribute: :slug
