@@ -11,10 +11,11 @@
   .row
     .col-md-6
       - @results.each do |result|
-        .search-result
-          h4
-            = sanitize_title(result.title)
-          p
-            = result.created_at.strftime("%D")
+        = link_to result do
+          .search-result
+            h4
+              = sanitize_title(result.title)
+            p
+              = result.created_at.strftime("%D")
 
   = will_paginate(@results)

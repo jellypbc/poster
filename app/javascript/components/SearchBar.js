@@ -1,79 +1,50 @@
 import React from 'react'
 import Autosuggest from 'react-autosuggest'
-
 import superagent from 'superagent'
 
-const languages = [
-  {
-    name: 'C',
-    year: 1972
-  },
-]
-
 class SearchBar extends React.Component {
-
   constructor(){
     super()
     this.state = {
-      value: "",
-      suggestions: []
-    }
-
+      value: '',
+      suggestions: [],
+      // isActive: false
+    };
   }
 
-  request(value){
-    var query = value || this.state.value
+  componentDidMount(){
+    // remove the fallback searchbar
+    var placeholder = document.getElementById('search-fallback')[0]
+    placeholder.remove()
+
+    var searchbar = document.getElementsByClassName('search-bar')[0]
+    searchbar.addEventListener('keyup', event => {
+      if (event.keyCode == 13) {
+        window.location = '/search/results?query=' + this.state.value
+      }
+    })
+  }
+
+  getSuggestionValue = suggestion => suggestion.title || ""
+
+  fetchSearchResults = value => {
+    const inputValue = value.trim().toLowerCase()
+    const inputLength = inputValue.length
+
+
+    if (inputLength === 0) return []
+
+    var query = value
     const url = "/search/bar?query=" + query
     let suggestions = []
 
     superagent.get(url)
       .set('accept', 'application/json')
       .then(res => {
+        console.log(res.body)
         suggestions = res.body
-        this.setState({suggestions: res.body })
+        this.setState({suggestions: suggestions })
       })
-
-    return suggestions
-  }
-
-
-  escapeRegexCharacters(str) {
-    return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-  }
-
-  getSuggestions(value) {
-    const escapedValue = this.escapeRegexCharacters(value.trim());
-    if (escapedValue === '') { return []; }
-    const regex = new RegExp('^' + escapedValue, 'i');
-    // return this.state.suggestions.filter(suggestion => regex.test(suggestion.title));
-    return this.request(value)
-  }
-
-  getSuggestionValue(suggestion) {
-    return suggestion.title;
-  }
-
-  shouldRenderSuggestions(suggestion) {
-    console.log("true")
-  }
-
-  renderSuggestion(suggestion) {
-    return (
-      <span>
-        post
-      </span>
-    );
-  }
-
-  renderSuggestionsContainer({ containerProps, children, query }) {
-    return (
-      <div {...containerProps}>
-        {children}
-        <div>
-          Press Enter to search <strong>{query}</strong>
-        </div>
-      </div>
-    )
   }
 
   onChange = (event, { newValue, method }) => {
@@ -83,10 +54,7 @@ class SearchBar extends React.Component {
   };
 
   onSuggestionsFetchRequested = ({ value }) => {
-    // this.request(value)
-    this.setState({
-      suggestions: this.getSuggestions(value)
-    });
+    this.fetchSearchResults(value)
   };
 
   onSuggestionsClearRequested = () => {
@@ -95,25 +63,49 @@ class SearchBar extends React.Component {
     });
   };
 
-  render() {
+  renderSuggestion = suggestion => {
+    const { data } = suggestion
+    return (
+      <div className="suggestion-row">
+        <a href={data.links.post_url} target="_blank">
+          {data.attributes.title &&
+            <p className="suggestion-title">{data.attributes.title}</p>
+          }
+          {data.attributes.created_at &&
+            <p className="suggestion-date">{data.attributes.created_at}</p>
+          }
+        </a>
+      </div>
+    )
+  }
+
+  render(){
     const { value, suggestions } = this.state;
+
     const inputProps = {
-      placeholder: "Type 'c'",
+      placeholder: 'Search',
       value,
       onChange: this.onChange
     };
 
-    return(
-      <div>
+    const theme = {
+      input: 'form-control',
+      suggestionsList: 'suggestionsList',
+    }
+
+    // var style = this.state.isActive ? {width: '400px'} : {width: '193px'}
+
+    return (
+      <div className="search-bar">
         <Autosuggest
+          className="searchthing"
           suggestions={suggestions}
           onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
           onSuggestionsClearRequested={this.onSuggestionsClearRequested}
           getSuggestionValue={this.getSuggestionValue}
-          renderSuggestionsContainer={this.renderSuggestionsContainer}
           renderSuggestion={this.renderSuggestion}
-          shouldRenderSuggestions={this.shouldRenderSuggestions}
           inputProps={inputProps}
+          theme={theme}
         />
       </div>
     )
