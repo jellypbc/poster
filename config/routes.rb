@@ -43,8 +43,9 @@ Rails.application.routes.draw do
 
   resources :tags
 
-  resources :search do
+  namespace :search do
     get :results
+    get :bar
   end
 
 	post '/file', to: 'uploads#file'
