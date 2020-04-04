@@ -4,9 +4,13 @@
   h1 Search Results
 
   h2
-    = @results.total_count
-    | &nbsp;results found for&nbsp;
-    strong = query
+    - if @results.count > 0
+      = @results.total_count
+      | &nbsp;results found for&nbsp;
+      strong = query
+    - else
+      | 0 results found
+
 
   .row
     .col-md-6

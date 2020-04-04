@@ -13,5 +13,6 @@
 FactoryBot.define do
   factory :project do
     sequence(:title) {|n| "Awesome Post #{n}" }
+    body { "Biology project" }
   end
 end

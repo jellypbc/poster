@@ -40,7 +40,7 @@ gem "oj"
 
 group :development, :test do
   gem "dotenv-rails"
-  gem "rspec-rails"
+  gem "rspec-rails", '4.0.0.beta3'
   gem "rails-controller-testing"
   gem "factory_bot"
   gem "factory_bot_rails"
