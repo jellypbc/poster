@@ -1,0 +1,50 @@
+.search-result {
+  margin: 10px 0;
+  h4 {
+    font-family: $serifFontFamily;
+  }
+  p {
+    color: $grayLight;
+  }
+  .col-md-6 {
+    text-align: center;
+  }
+}
+
+// Search Navbar in layout nav
+.react-autosuggest__input {
+  text-decoration: none;
+  padding: 8px;
+  border-radius: 4px;
+  font-size: 14px;
+  border-color: $white;
+}
+.react-autosuggest__input::-webkit-input-placeholder { color: $grayLight; font-weight: 600; -webkit-font-smoothing: antialiased; } /* Edge */
+.react-autosuggest__input:-ms-input-placeholder { color: $grayLight; font-weight: 600; -webkit-font-smoothing: antialiased; } /* Internet Explorer 10-11 */
+.react-autosuggest__input::placeholder {color: $grayLight; font-weight: 600; -webkit-font-smoothing: antialiased; }
+
+.suggestionsList {
+  position: absolute;
+  background: white;
+  padding: 20px;
+  border: 1px solid $shale;
+  border-radius: 4px;
+  width: 500px;
+  margin-top: 8px !important;
+  box-shadow: 0 0 4px 0.2rem rgba(115, 200, 94, 0.25);
+}
+
+.suggestion-row {
+  padding: 10px;
+  a {
+    padding: 0;
+    margin: 0;
+  }
+  .suggestion-title {
+    font-family: $serifFontFamily;
+  }
+  .suggestion-date {
+    color: $grayLight;
+    font-size: 12px;
+  }
+}

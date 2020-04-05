@@ -29,6 +29,8 @@
 class Post < ApplicationRecord
   include Slugged
 
+  searchkick callbacks: :async
+
   slug :title, attribute: :slug
   remember_slug
 

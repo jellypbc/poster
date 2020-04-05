@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'search/results'
 	require 'sidekiq/web'
   mount Sidekiq::Web,     at: '/sidekiq' #, constraints: AdminConstraint.new
   mount ImageUploader.upload_endpoint(:cache) => '/images/cache'
@@ -41,6 +42,11 @@ Rails.application.routes.draw do
   end
 
   resources :tags
+
+  namespace :search do
+    get :results
+    get :bar
+  end
 
 	post '/file', to: 'uploads#file'
   post '/posts/add_figure', to: 'posts#add_figure'

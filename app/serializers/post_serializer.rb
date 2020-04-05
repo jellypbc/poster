@@ -28,7 +28,6 @@
 
 class PostSerializer
   include FastJsonapi::ObjectSerializer
-  include Rails.application.routes.url_helpers
 
   has_many :uploads
 	has_many :citations

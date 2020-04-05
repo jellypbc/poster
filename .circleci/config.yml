@@ -12,6 +12,14 @@ jobs:
           REDIS_URL: redis://127.0.0.1:6379
       - image: circleci/postgres:11-alpine
       - image: circleci/redis:3.2-alpine
+      - image: docker.elastic.co/elasticsearch/elasticsearch:6.5.4
+        environment:
+          - cluster.name: es-test-cluster
+          - xpack.security.enabled: false
+          - transport.host: localhost
+          - network.host: 127.0.0.1
+          - http.port: 9200
+          - discovery.type: single-node
     steps:
       - checkout
       - restore_cache:
@@ -41,6 +49,9 @@ jobs:
       - run:
           name: Wait for DB
           command: dockerize -wait tcp://127.0.0.1:5432 -timeout 1m
+      - run:
+          name: Wait for ElasticSearch
+          command: dockerize -wait tcp://127.0.0.1:9200 -timeout 2m
       - run:
           name: Database setup
           command: RAILS_ENV=test bin/rails db:create db:schema:load --trace

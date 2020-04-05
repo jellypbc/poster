@@ -73,17 +73,6 @@ nav {
     }
   }
 
-  .search-bar {
-    text-decoration: none;
-    padding: 8px;
-    border-radius: 4px;
-    font-size: 14px;
-    border-color: $white;
-  }
-  .search-bar::-webkit-input-placeholder { color: $grayLight; font-weight: 600; -webkit-font-smoothing: antialiased; } /* Edge */
-  .search-bar:-ms-input-placeholder { color: $grayLight; font-weight: 600; -webkit-font-smoothing: antialiased; } /* Internet Explorer 10-11 */
-  .search-bar::placeholder {color: $grayLight; font-weight: 600; -webkit-font-smoothing: antialiased; }
-
   // toggle dropdown
   .fa-menu,
   .navbar-toggler {

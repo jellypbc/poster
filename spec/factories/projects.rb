@@ -12,6 +12,6 @@
 
 FactoryBot.define do
   factory :project do
-    sequence(:title) {|n| "Awesome Post #{n}" }
+    sequence(:title) {|n| "Awesome Biology Post #{n}" }
   end
 end
