@@ -44,7 +44,7 @@ jobs:
           command: dockerize -wait tcp://127.0.0.1:5432 -timeout 1m
       - run:
           name: Wait for ElasticSearch
-          command: dockerize -wait tcp://localhost:9200 -timeout 2m
+          command: dockerize -wait tcp://127.0.0.1:9200 -timeout 2m
       - run:
           name: Database setup
           command: RAILS_ENV=test bin/rails db:create db:schema:load --trace
