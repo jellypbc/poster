@@ -12,7 +12,7 @@ users = [
     email: "richard@feynman.com",
     username: "DickF",
     full_name: "richard feynman",
-    descriptoin: "PhD",
+    description: "PhD",
     confirmed_at: Time.now,
     # bio: "<p>This page explores seventeenth century shipboard food and recipes and is an offshoot of the Institute of Nautical Archaeology's \'Sea Biscuit & Salted Beef Project.\' We seek to understand the effects of shipboard diet on the health of sailors by determining the nutritional intake of seamen on 17th-century English ships. </p>  <p>This page follows researchers as the replicate shipboard food using the exact ingredients and methods of preparation from the 17th century including non-GMO ingredients, the exact species of plant or animal, and the same butchery methods and cuts of meat. Archaeological and historical data will be used to replicate the salted pork and beef, ship biscuit, wine and beer, and other provisions aboard Warwick, an English race-built galleon that sank in 1619. Then, a trans-Atlantic voyage will be simulated by storing the food in casks and keeping these in the tall ship Elissa, as an onboard exhibit at the Texas Seaport Museum.</p>  <p>Every ten days, representative samples of food will be sent for nutritional and microbial analysis, and checked for visual and olfactory changes. The final results of this study will be compared to health data derived from the human remains on wrecks such as Mary Rose (1545) and Vasa (1628), and will allow for a detailed reconstruction of subsistence on board ships. Like our page to get a glimpse into the unique food situation, health, and daily life of this subset of individuals.</p>",
     # website: "http://jellypbc.com",
