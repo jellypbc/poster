@@ -36,6 +36,7 @@ gem "rack-timeout", require:"rack/timeout/base"
 gem "sanitize"
 gem "bootsnap", ">= 1.4.2", require: false
 gem "searchkick"
+gem "typhoeus"
 gem "oj"
 
 group :development, :test do
