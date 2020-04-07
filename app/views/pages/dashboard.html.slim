@@ -1,8 +1,8 @@
-.container
+#dashboard.container
   .my-5
     h1 Dashboard
 
-    h1 Tags
+    h2 Tags
     - if @tags
       - @tags.each do |tag|
         span.badge.badge-secondary.mr-2
@@ -20,21 +20,28 @@
 
         - @posts.each do |post|
           - resource = post.user_id? ? short_user_post_path(post.user, post) : post_path(post)
-          / = link_to resource do
-          .post
-            h4.title
+
+          = link_to resource do
+            h4.title.my-2
               = sanitize_title(post.title) || "Title"
+            p.authors
+              = sanitize_title(post.authors)
 
-            .preview
-              - if post.abstract
-                = post.abstract.truncate(200, seperator: "...")
-            div
-              span.date.mr-4
-                = post.created_at.strftime("%b %d, %Y")
-              span.link
-                = link_to post do
-                  | ⌞ View article
+          / = link_to resource do
+          / .post
+          /   h4.title
+          /     = sanitize_title(post.title) || "Title"
 
-              - options = {}; options[:include] = [:uploads]
-              = react_component 'TagForm', taggable: PostSerializer.new(post, options)
+          /   .preview
+          /     - if post.abstract
+          /       = post.abstract.truncate(200, seperator: "...")
+          /   div
+          /     span.date.mr-4
+          /       = post.created_at.strftime("%b %d, %Y")
+          /     span.link
+          /       = link_to post do
+          /         | ⌞ View article
+
+          /     - options = {}; options[:include] = [:uploads]
+          /     = react_component 'TagForm', taggable: PostSerializer.new(post, options)
 

@@ -8,11 +8,11 @@
 #  confirmation_sent_at   :datetime
 #  confirmation_token     :string
 #  confirmed_at           :datetime
+#  description            :string
 #  email                  :string           default(""), not null
 #  encrypted_password     :string           default(""), not null
 #  failed_attempts        :integer          default(0), not null
-#  first_name             :string
-#  last_name              :string
+#  full_name              :string
 #  locked_at              :datetime
 #  remember_created_at    :datetime
 #  reset_password_sent_at :datetime

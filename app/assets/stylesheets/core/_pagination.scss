@@ -1,13 +1,22 @@
 // overrides for bootstrap pagination
 
 .page-item {
-  .active {
+  &.active {
+    .page-link {
+      background: $brandGreen;
+      border-color: $brandGreen;
+    }
   }
-
 }
 
 .page-link {
   font-size: 12px;
+  color: $brandGreen;
   background-color: $white;
-  border-color: ;
+  border-color: $grayLighter;
+  &:hover {
+    background: $grayLighterer;
+    border-color: $grayLighter;
+    color: $shale;
+  }
 }

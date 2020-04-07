@@ -10,6 +10,10 @@
           li = message
 
   .field.my-4
+    h3 = form.label :full_name
+    = form.text_field :full_name, class: 'form-control form-control-lg'
+
+  .field.my-4
     h3 = form.label :username
     = form.text_field :username, class: 'form-control form-control-lg'
 
@@ -17,13 +21,10 @@
     h3 = form.label :email
     = form.text_field :email, class: 'form-control form-control-lg'
 
-  .field.my-4
-    h3 = form.label :first_name
-    = form.text_field :first_name, class: 'form-control form-control-lg'
 
   .field.my-4
-    h3 = form.label :last_name
-    = form.text_field :last_name, class: 'form-control form-control-lg'
+    h3 = form.label :description
+    = form.text_area :description, class: 'form-control form-control-lg', placeholder: "Share something about yourself..."
 
   .actions
-    = form.submit 'Save', class: 'btn btn-primary'
+    = form.submit 'Save', class: 'btn btn-primary btn-lg'

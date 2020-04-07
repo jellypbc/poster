@@ -1,23 +1,25 @@
-// Pla.e all the styles related to the users controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
-
-
 .users {
   .user-avatar {
     img {
-      // height: 36px;
-      // width: 36px;
-      max-height: 240px;
-      margin: 20px 0;
-      border-radius: 18px;
     }
+    width: 160px;
+    height: 160px;
+    overflow: hidden;
+    border-radius: 50%;
+  }
+
+  .col-md-avatar {
+    flex: 0 0 20%;
+    max-width: 20%;
+    position: relative;
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
   }
 
   .custom-file {
     .field_with_errors {
       background: white;
-
       label.custom-file-label { border-color: $danger !important; }
       label.custom-file-label::after { display: none; }
     }

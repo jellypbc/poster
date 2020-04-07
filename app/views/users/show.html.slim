@@ -1,15 +1,15 @@
 .users.container.my-5
   header.row
-    .col-md-2
+    .col-md-avatar
       .user-avatar
         = avatar_image_tag(@user)
 
-    .col-md-8
-      h2 @#{@user.username}
-      p #{full_name(@user)}
+    .col-md-9
+      .username
+        p #{full_name(@user)}
+        span @#{@user.username}
 
 
-    .col-md-2
       - if current_user && current_user == @user
         = link_to 'Edit your profile', edit_user_path(@user), class: "btn btn-secondary"
 
