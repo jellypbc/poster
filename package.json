@@ -9,7 +9,7 @@
     "@aeaton/prosemirror-placeholder": "^0.1.0",
     "@babel/core": "^7.7.2",
     "@babel/plugin-proposal-class-properties": "^7.8.3",
-    "@babel/preset-env": "7.8.4",
+    "@babel/preset-env": "7.8.7",
     "@babel/preset-react": "^7.6.3",
     "@emotion/core": "^10.0.22",
     "@fortawesome/fontawesome-free-solid": "^5.0.13",
@@ -68,6 +68,7 @@
   },
   "version": "0.1.0",
   "devDependencies": {
+    "@babel/compat-data": "~7.8.0",
     "@typescript-eslint/eslint-plugin": "2.x",
     "@typescript-eslint/parser": "2.x",
     "babel-eslint": "10.x",
