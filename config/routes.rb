@@ -58,6 +58,7 @@ Rails.application.routes.draw do
 
   get 'admin', to: 'pages#admin'
   get 'pricing', to: 'pages#pricing'
+  get 'internship', to: 'pages#jobs'
 
   namespace :admin, module: 'admin' do
     resources :users

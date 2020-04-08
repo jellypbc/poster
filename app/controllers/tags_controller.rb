@@ -7,6 +7,7 @@ class TagsController < ApplicationController
   end
 
   def show
+    @posts = @tag.posts
   end
 
   def new

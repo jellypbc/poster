@@ -28,4 +28,8 @@ class PagesController < ApplicationController
   def admin
   end
 
+  def jobs
+    @no_nav = true
+  end
+
 end
