@@ -82,16 +82,18 @@
 
 #dashboard {
   h4 {
-    font-weight: 500;
-    font-family: 'New York';
-    text-transform: capitalize;
-    font-variant: small-caps;
+    font-family: $baseFontFamily;
     font-weight: bold;
-    letter-spacing: 0.2px;
+    // font-weight: 500;
+    // text-transform: capitalize;
+    // font-variant: small-caps;
+    // font-family: 'New York';
+    // letter-spacing: 0.2px;
+
   }
   h2 {
-    font-family: 'Times New Roman';
-    // font-family: $serifFontFamily;
+    font-family: $baseFontFamily;
+    // font-family: 'Times New Roman';
   }
 }
 

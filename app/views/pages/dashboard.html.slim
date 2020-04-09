@@ -21,27 +21,22 @@
         - @posts.each do |post|
           - resource = post.user_id? ? short_user_post_path(post.user, post) : post_path(post)
 
+
           = link_to resource do
-            h4.title.my-2
+          .post
+            h4.title
               = sanitize_title(post.title) || "Title"
-            p.authors
-              = sanitize_title(post.authors)
 
-          / = link_to resource do
-          / .post
-          /   h4.title
-          /     = sanitize_title(post.title) || "Title"
+            .preview
+              - if post.abstract
+                = post.abstract.truncate(200, seperator: "...")
+            div
+              span.date.mr-4
+                = post.created_at.strftime("%b %d, %Y")
+              span.link
+                = link_to post do
+                  | ⌞ View article
 
-          /   .preview
-          /     - if post.abstract
-          /       = post.abstract.truncate(200, seperator: "...")
-          /   div
-          /     span.date.mr-4
-          /       = post.created_at.strftime("%b %d, %Y")
-          /     span.link
-          /       = link_to post do
-          /         | ⌞ View article
-
-          /     - options = {}; options[:include] = [:uploads]
-          /     = react_component 'TagForm', taggable: PostSerializer.new(post, options)
+              - options = {}; options[:include] = [:uploads]
+              = react_component 'TagForm', taggable: PostSerializer.new(post, options)
 
