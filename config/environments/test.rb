@@ -5,7 +5,7 @@
 
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
-  
+
   config.cache_classes = false
 
   # Do not eager load code on boot. This avoids loading your whole application
@@ -26,6 +26,10 @@ Rails.application.configure do
 
   # Raise exceptions instead of rendering exception templates.
   config.action_dispatch.show_exceptions = false
+
+  config.assets.debug = true
+  config.assets.quiet = true
+  config.assets.compile = true
 
   # Disable request forgery protection in test environment.
   config.action_controller.allow_forgery_protection = false

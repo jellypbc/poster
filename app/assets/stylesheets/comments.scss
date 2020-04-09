@@ -26,7 +26,7 @@
   border-radius: $borderRadius-base;
   background-color: $white;
   transform: translate(0px, 0px);
-  
+
   &:focus-within {
     border-color: $green;
     border-width: 2px;
