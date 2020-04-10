@@ -8,9 +8,11 @@
           - if @tags
             - @tags.each do |tag|
               = link_to short_user_tag_path(current_user, tag) do
-                p.tag.my-3 = tag.text.titleize
+                p.tag.my-3
+                  = tag.text.titleize
+                  span.pill.ml-2 = tag.posts_count
 
-          = link_to "Start new collection", new_tag_path, class: 'new-tag'
+          = link_to "Create new collection", new_tag_path, class: 'new-tag'
 
       .col-md-9
         .my-5

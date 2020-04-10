@@ -18,8 +18,6 @@ class TagsController < ApplicationController
   end
 
   def create
-    # @tag = Tag.find_or_create_by(slug: tag_params[:slug], text: tag_params[:text])
-    # @tag = Tag.find_or_create_by(slug: tag_params[:slug])
     @tag = Tag.find_or_create_by(text: tag_params[:text])
 
     if @tag.save
