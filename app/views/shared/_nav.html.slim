@@ -9,7 +9,7 @@ nav.navbar.navbar-expand-lg id="#{opts[:id] if opts}" class="#{'white-nav' if wh
 
     button.navbar-toggler type="button" data-toggle="collapse" data-target="#menu" aria-controls="menu" aria-expanded="false" aria-label="Toggle navigation"
       - if current_user
-        = avatar_cropped_image_tag(@user)
+        = avatar_cropped_image_tag(current_user)
       - else
         i.fa.fa-stream
 
@@ -35,7 +35,7 @@ nav.navbar.navbar-expand-lg id="#{opts[:id] if opts}" class="#{'white-nav' if wh
 
           li.nav-item.dropdown
             a.dropdown-toggle.avatar-link href="#" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-              = avatar_cropped_image_tag(@user, classes: "avatar")
+              = avatar_cropped_image_tag(current_user, classes: "avatar")
 
             .dropdown-menu.dropdown-menu-right
               a.dropdown-item href=root_path
