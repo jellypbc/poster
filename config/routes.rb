@@ -17,10 +17,15 @@ Rails.application.routes.draw do
 
   get '/@:username', to: 'users#show', as: :short_user
   get '/@:username/:id', to: 'posts#show', as: :short_user_post
+  get '/@:username/:id/edit', to: 'posts#edit'
+  get '/@:username/tags/:id', to: 'tags#show', as: :short_user_tag
 
   # resources :users, param: :username, path: '/', only: :show do
   resources :users do
     get :index
+    resources :tags do
+      get :show
+    end
     member do
       post :remove_avatar
       post :follow

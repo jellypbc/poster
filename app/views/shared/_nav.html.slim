@@ -40,7 +40,7 @@ nav.navbar.navbar-expand-lg id="#{opts[:id] if opts}" class="#{'white-nav' if wh
                 = avatar_image_tag current_user, :medium, class: "avatar"
 
             .dropdown-menu.dropdown-menu-right
-              a.dropdown-item href=dashboard_path
+              a.dropdown-item href=root_path
                 | Dashboard
               a.dropdown-item href=short_user_path(current_user)
                 | Profile

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_07_103849) do
+ActiveRecord::Schema.define(version: 2020_04_10_024207) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -77,6 +77,8 @@ ActiveRecord::Schema.define(version: 2020_04_07_103849) do
     t.integer "taggable_id"
     t.string "taggable_type"
     t.string "color"
+    t.integer "user_id"
+    t.index ["user_id"], name: "index_tags_on_user_id"
   end
 
   create_table "upload_figures", force: :cascade do |t|

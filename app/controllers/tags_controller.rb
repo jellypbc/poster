@@ -7,7 +7,7 @@ class TagsController < ApplicationController
   end
 
   def show
-    @posts = @tag.posts
+    # @posts = @tag.posts
   end
 
   def new
@@ -34,7 +34,6 @@ class TagsController < ApplicationController
   end
 
   def update
-    # binding.pry
     respond_to do |format|
       if @target.tags << @tag
         format.json { render json: TagSerializer.new(@tag).serializable_hash, status: :ok }
@@ -54,7 +53,10 @@ class TagsController < ApplicationController
 
   private
     def set_tag
-      id_or_slug = tag_params[:slug] || tag_params[:id]
+      id_or_slug = params[:id] || params[:slug]
+      if params[:tag]
+        id_or_slug = tag_params[:id] || tag_params[:slug]
+      end
       @tag ||= begin
         Tag.find_by! slug: id_or_slug.parameterize
       rescue ActiveRecord::RecordNotFound => e
@@ -63,13 +65,16 @@ class TagsController < ApplicationController
     end
 
     def set_taggable
-      klass = tag_params[:taggable_type].titleize.constantize
-      @target = klass.find tag_params[:taggable_id]
+      if params[:tag]
+        klass = tag_params[:taggable_type].titleize.constantize
+        @target = klass.find tag_params[:taggable_id]
+      end
     end
 
     def tag_params
       params.require(:tag).permit(
-        :id, :text, :slug, :taggable_id, :taggable_type
+        :id, :text, :slug, :taggable_id, :taggable_type, :user_id
       )
     end
+
 end

@@ -10,6 +10,11 @@
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
 #  taggable_id   :integer
+#  user_id       :integer
+#
+# Indexes
+#
+#  index_tags_on_user_id  (user_id)
 #
 
 class TagSerializer

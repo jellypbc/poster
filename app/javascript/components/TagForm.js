@@ -56,13 +56,14 @@ class TagForm extends React.Component {
   }
 
   async sendRequest(tag, action){
-    const { taggable } = this.props
+    const { taggable, currentUser } = this.props
     const token = document.head
       .querySelector('[name~=csrf-token][content]')
       .content
 
     var data = {
       tag: {
+        user_id: currentUser.id,
         text: tag.text,
         slug: tag.slug,
         taggable_id: taggable.data.id,

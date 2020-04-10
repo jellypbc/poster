@@ -41,6 +41,7 @@ class User < ApplicationRecord
 
   before_save :set_username
 
+  has_many :tags
   has_many :posts
   has_many :uploads
   has_many :follows, as: :follower
@@ -81,8 +82,8 @@ class User < ApplicationRecord
 
   private
 
-  def set_username
-    self.username = self.email[/^[^@]+/]
-  end
+    def set_username
+      self.username = self.email[/^[^@]+/]
+    end
 
 end
