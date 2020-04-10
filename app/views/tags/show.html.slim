@@ -3,7 +3,9 @@
     .col-md-12
       p#notice = notice
 
-      p
-        strong Text:
-        = @tag.text
+      h1 Collection
+      h2 = @tag.text
+
+      - @posts.each do |post|
+        = render 'posts/post', post: post
 

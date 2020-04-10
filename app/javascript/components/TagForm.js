@@ -7,7 +7,7 @@ class TagForm extends React.Component {
     super(props)
 
     this.state = {
-      tags: this.props.taggable.data.attributes.tags || [],
+      tags: this.props.post.data.attributes.tags || [],
       suggestions: this.props.suggested_tags || []
     };
 
@@ -17,12 +17,13 @@ class TagForm extends React.Component {
   }
 
   handleFocus(){
-    const { taggable } = this.props
-    var url = taggable.data.attributes.form_url + "/suggested_tags"
+    const { post } = this.props
+    var url = post.data.attributes.form_url + "/suggested_tags"
     superagent.get(url)
       .set('accept', 'application/json')
       .then(res => {
         if (res.status === 200) {
+          console.log(res.body)
           this.setState({suggestions: res.body})
         } else {
           this.setState({error: "Oops, failed to fetch suggested tags"})
@@ -56,7 +57,7 @@ class TagForm extends React.Component {
   }
 
   async sendRequest(tag, action){
-    const { taggable, currentUser } = this.props
+    const { post, currentUser } = this.props
     const token = document.head
       .querySelector('[name~=csrf-token][content]')
       .content
@@ -66,21 +67,21 @@ class TagForm extends React.Component {
         user_id: currentUser.id,
         text: tag.text,
         slug: tag.slug,
-        taggable_id: taggable.data.id,
-        taggable_type: taggable.data.type,
+        post_id: post.data.id,
       }
     }
 
     let url, method;
     if (action === 'add') {
-      url = taggable.data.attributes.form_url + "/tags"
+      url = post.data.attributes.form_url + "/tags"
       method = "post"
     } else {
       data.tag.id = tag.id
-      url = taggable.data.attributes.form_url + "/tags/" + tag.id
+      url = post.data.attributes.form_url + "/tags/" + tag.id
       method = "delete"
     }
 
+    console.log("data", data)
     return new Promise(function(resolve, reject){
       superagent[method](url)
         .send(data)

@@ -1,13 +1,13 @@
 class TagsController < ApplicationController
   before_action :set_tag, only: [:show, :edit, :update, :destroy]
-  before_action :set_taggable, only: [:show, :create, :edit, :update, :destroy]
+  before_action :set_post, only: [:show, :create, :edit, :update, :destroy]
 
   def index
     @tags = Tag.all
   end
 
   def show
-    # @posts = @tag.posts
+    @posts = @tag.posts
   end
 
   def new
@@ -18,12 +18,12 @@ class TagsController < ApplicationController
   end
 
   def create
-    @tag = Tag.new(tag_params)
+    # @tag = Tag.find_or_create_by(slug: tag_params[:slug], text: tag_params[:text])
+    # @tag = Tag.find_or_create_by(slug: tag_params[:slug])
+    @tag = Tag.find_or_create_by(text: tag_params[:text])
 
     if @tag.save
-      if @target
-        @target.tags << @tag
-      end
+      @post.tags << @tag if @post
       respond_to do |format|
         format.html { redirect_to @tag }
         format.json { render json: TagSerializer.new(@tag).serializable_hash, status: :ok }
@@ -37,7 +37,7 @@ class TagsController < ApplicationController
 
   def update
     respond_to do |format|
-      if @target && @target.tags << @tag
+      if @post && @post.tags << @tag
         format.json { render json: TagSerializer.new(@tag).serializable_hash, status: :ok }
       else
         head :bad_request
@@ -66,18 +66,17 @@ class TagsController < ApplicationController
       end
     end
 
-    def set_taggable
+    def set_post
       if params[:tag]
-        if tag_params[:taggable_type]
-          klass = tag_params[:taggable_type].titleize.constantize
-          @target = klass.find tag_params[:taggable_id]
+        if tag_params[:post_id]
+          @post = Post.find tag_params[:post_id]
         end
       end
     end
 
     def tag_params
       params.require(:tag).permit(
-        :id, :text, :slug, :taggable_id, :taggable_type, :user_id
+        :id, :text, :slug, :post_id, :user_id
       )
     end
 
