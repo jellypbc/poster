@@ -1,7 +1,7 @@
 .users.container.my-5
   .row
     .col-md-3
-      h2 User Settings
+      h2.my-2 User Settings
       = link_to "Back to your profile", short_user_path(@user)
 
       = form_for @user do |form|
@@ -9,8 +9,10 @@
           = form.hidden_field :avatar, value: @user.cached_avatar_data
         br
 
-        h3 Avatar
-        = avatar_cropped_image_tag(@user, classes: "my-4")
+        h3.mb-3 Avatar
+        = avatar_cropped_image_tag(@user)
+
+        br
 
         - if @user.avatar
           = link_to "Remove Avatar", remove_avatar_user_path(@user), method: :post, data: {confirm: "ok?"}, class: 'btn btn-outline-dark delete-avatar'
@@ -27,7 +29,7 @@
           #avatar-actions.mt-3.none
             = form.submit "Upload Avatar", class: 'btn btn-primary btn-lg'
 
-    .col-md-9.my-5
+    .col-md-9.my-1
       = render 'form', user: @user
 
       br
