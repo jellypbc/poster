@@ -23,7 +23,6 @@ class TagForm extends React.Component {
       .set('accept', 'application/json')
       .then(res => {
         if (res.status === 200) {
-          console.log(res.body)
           this.setState({suggestions: res.body})
         } else {
           this.setState({error: "Oops, failed to fetch suggested tags"})
@@ -81,7 +80,6 @@ class TagForm extends React.Component {
       method = "delete"
     }
 
-    console.log("data", data)
     return new Promise(function(resolve, reject){
       superagent[method](url)
         .send(data)
