@@ -1,0 +1,27 @@
+.container
+  .row
+    .col-md-12
+      p id="notice" = notice
+
+      h1 Tags
+      br
+
+      table.table
+        thead
+          tr
+            th Text
+            th Slug
+            th colspan="3"
+
+        tbody
+          - @tags.each do |tag|
+            tr
+              td = tag.text
+              td = tag.slug
+              td = link_to 'Show', tag
+              td = link_to 'Edit', edit_tag_path(tag)
+              td = link_to 'Destroy', tag, method: :delete, data: { confirm: 'Are you sure?' }
+
+      br
+
+      = link_to 'New Tag', new_tag_path

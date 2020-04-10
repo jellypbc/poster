@@ -8,8 +8,15 @@ class UsersController < ApplicationController
   end
 
   def show
-    @primary_posts = @user.posts.primary.order(created_at: :desc).paginate(page: params[:page], per_page: 10)
-    @generated_posts = @user.posts.generated.order(created_at: :desc).paginate(page: params[:page], per_page: 10)
+    @primary_posts = @user.posts
+      .primary
+      .order(created_at: :desc)
+      .paginate(page: params[:posts_page], per_page: 10)
+
+    @generated_posts = @user.posts
+      .generated
+      .order(created_at: :desc)
+      .paginate(page: params[:citations_page], per_page: 10)
   end
 
   def edit
@@ -34,7 +41,7 @@ class UsersController < ApplicationController
     respond_to do |format|
       if @user.update(user_params)
         @user.process_avatars if @user.avatar
-        format.html { redirect_to @user, notice: 'User was successfully updated.' }
+        format.html { redirect_to edit_user_path(@user), notice: 'User was successfully updated.' }
         format.json { render :show, status: :ok, location: @user }
       else
         format.html { render :edit }

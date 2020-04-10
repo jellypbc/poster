@@ -35,6 +35,10 @@
 class User < ApplicationRecord
   include AvatarUploader::Attachment(:avatar)
 
+  validates_sanitized_string_length :full_name, length: 120
+  validates_sanitized_string_length :username, length: 120
+  validates_sanitized_string_length :description, length: 300
+
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
          :confirmable, :lockable, :timeoutable

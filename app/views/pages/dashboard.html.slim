@@ -1,15 +1,18 @@
 #dashboard
   .container
     .row
-      .col-md-2
+      .col-md-3
         .my-5
           h2 Collections
+
           - if @tags
             - @tags.each do |tag|
               = link_to short_user_tag_path(current_user, tag) do
                 p.tag.my-3 = tag.text.titleize
 
-      .col-md-10
+          = link_to "Start new collection", new_tag_path, class: 'new-tag'
+
+      .col-md-9
         .my-3
           h1 Library
           hr

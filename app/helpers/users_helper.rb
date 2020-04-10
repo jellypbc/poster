@@ -35,4 +35,19 @@ module UsersHelper
     end
   end
 
+  def avatar_cropped_image_tag(user, size = :medium, opts = {})
+    klasses = "user-avatar"
+    klasses += " #{opts[:classes]}" if opts[:classes]
+
+    if user && user.has_avatar?
+      src = user.avatar_url(size)
+    else
+      src = default_avatar_url
+    end
+
+    style = "background: url(#{src}); background-size: cover;background-position: center;"
+
+    "<div class='#{klasses}' style='#{style}'></div>".html_safe
+  end
+
 end

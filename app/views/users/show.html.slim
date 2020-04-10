@@ -1,66 +1,54 @@
-.users.container.my-5
-  header.row
-    .col-md-avatar
-      .user-avatar
-        = avatar_image_tag(@user)
+.users
+  .container.my-5
+    header.row.my-5
+      .col-md-3.justify-content-center.d-flex
+        = avatar_cropped_image_tag(@user, classes: "my-4")
 
-    .col-md-9
-      .username
-        p #{full_name(@user)}
-        span @#{@user.username}
+      .col-md-9
+        .name
+          p
+            | #{full_name(@user)}
+            span.username @#{@user.username}
 
+        .description
+          - if @user.description
+            p = @user.description
 
-      - if current_user && current_user == @user
-        = link_to 'Edit your profile', edit_user_path(@user), class: "btn btn-secondary"
+        - if current_user && current_user == @user
+          = link_to 'Edit your profile', edit_user_path(@user), class: "btn btn-edit"
 
-      - else
-        = render 'placeholder_follow_button', user: @user, current_user: current_user
+        - else
+          = render 'placeholder_follow_button', user: @user, current_user: current_user
 
-        = react_component 'FollowButton',
-          object_id: @user.id,
-          object_type: 'User',
-          following: (current_user && current_user.follows && current_user.follows.pluck(:following_id).include?(@user.id)),
-          buttonClass: "btn btn-secondary",
-          current_user: current_user.present? ? current_user.username : false
+          = react_component 'FollowButton',
+            object_id: @user.id,
+            object_type: 'User',
+            following: (current_user && current_user.follows && current_user.follows.pluck(:following_id).include?(@user.id)),
+            buttonClass: "btn btn-secondary",
+            current_user: current_user.present? ? current_user.username : false
 
-  .row.mt-4
-    .col-md-12
-      ul#myTab.nav.nav-tabs role="tablist"
-        li.nav-item
-          a#posts-tab.nav-link.active data-toggle="tab" href="#posts" role="tab" aria-controls="posts" aria-selected="true"
-            | Posts
-        li.nav-item
-          a#citations-tab.nav-link data-toggle="tab" href="#citations" role="tab" aria-controls="citations" aria-selected="false" Citations
+    .row.mt-4
+      .col-md-12
+        ul#tab.nav.nav-tabs role="tablist"
+          li.nav-item
+            a#posts-tab.nav-link.active data-toggle="tab" href="#posts" role="tab" aria-controls="posts" aria-selected="true"
+              | Posts
+              span.pill.tab-count.ml-2 = @primary_posts.count
 
+          li.nav-item
+            a#citations-tab.nav-link data-toggle="tab" href="#citations" role="tab" aria-controls="citations" aria-selected="false"
+              | Citations
+              span.pill.tab-count.ml-2 = @generated_posts.count
 
-      .tab-content#myTabContent
+        .tab-content#tabContent.my-5
+          #posts.tab-pane.fade.show.active role="tabpanel" aria-labelledby="posts-tab"
+            - @primary_posts.each do |post|
+              = render 'posts/post', post: post
 
-        #posts.tab-pane.fade.show.active role="tabpanel" aria-labelledby="posts-tab"
-          - @primary_posts.each do |post|
-            = render 'posts/post', post: post
+            = will_paginate @primary_posts, param_name: :posts_page, anchor: "posts"
 
-        #citations.tab-pane.fade role="tabpanel" aria-labelledby="citations-tab"
-          - @generated_posts.each do |post|
-            = render 'posts/post', post: post
-          = will_paginate @generated_posts
+          #citations.tab-pane.fade role="tabpanel" aria-labelledby="citations-tab"
+            - @generated_posts.each do |post|
+              = render 'posts/post', post: post
 
-        #contact.tab-pane.fade role="tabpanel" aria-labelledby="contact-tab"
-
-
-javascript:
-  // $(document).ready(() => {
-  //   var url = window.location.href;
-  //   console.log(url)
-  //   if (url.indexOf("#") > 0){
-  //     var activeTab = url.substring(url.indexOf("#") + 1);
-  //     console.log(activeTab)
-  //     $('.nav[role="tablist"] a[href="#'+activeTab+'"]').tab('show');
-  //   }
-
-  //   $('a[role="tab"]').on("click", function() {
-  //     var newUrl;
-  //     const hash = $(this).attr("href");
-  //       newUrl = url.split("#")[0] + hash;
-  //     history.replaceState(null, null, newUrl);
-  //   });
-  // });
+            = will_paginate @generated_posts, param_name: :citations_page, anchor: "citations"

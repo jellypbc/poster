@@ -21,9 +21,11 @@ class TagsController < ApplicationController
     @tag = Tag.new(tag_params)
 
     if @tag.save
-      @target.tags << @tag
+      if @target
+        @target.tags << @tag
+      end
       respond_to do |format|
-        format.html { head :ok }
+        format.html { redirect_to @tag }
         format.json { render json: TagSerializer.new(@tag).serializable_hash, status: :ok }
       end
     else
@@ -35,7 +37,7 @@ class TagsController < ApplicationController
 
   def update
     respond_to do |format|
-      if @target.tags << @tag
+      if @target && @target.tags << @tag
         format.json { render json: TagSerializer.new(@tag).serializable_hash, status: :ok }
       else
         head :bad_request
@@ -66,8 +68,10 @@ class TagsController < ApplicationController
 
     def set_taggable
       if params[:tag]
-        klass = tag_params[:taggable_type].titleize.constantize
-        @target = klass.find tag_params[:taggable_id]
+        if tag_params[:taggable_type]
+          klass = tag_params[:taggable_type].titleize.constantize
+          @target = klass.find tag_params[:taggable_id]
+        end
       end
     end
 

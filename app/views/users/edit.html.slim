@@ -1,35 +1,41 @@
 .users.container.my-5
   .row
-    .col-md-4
+    .col-md-3
       h2 User Settings
+      = link_to "Back to your profile", short_user_path(@user)
 
       = form_for @user do |form|
         - if @user.valid?
           = form.hidden_field :avatar, value: @user.cached_avatar_data
+        br
 
         h3 Avatar
-        .user-avatar = image_tag @user.avatar_url(:medium)
+        = avatar_cropped_image_tag(@user, classes: "my-4")
 
         - if @user.avatar
-          = link_to "Delete Avatar", remove_avatar_user_path(@user), method: :post, data: {confirm: "ok?"}, class: 'btn btn-secondary btn-sm'
+          = link_to "Remove Avatar", remove_avatar_user_path(@user), method: :post, data: {confirm: "ok?"}, class: 'btn btn-outline-dark delete-avatar'
 
-        .input-group.mt-4
-          .custom-file
-            = form.file_field :avatar, type: "file", require: true, class: 'custom-file-input', id: "avatarFile"
-            = form.label :avatar, id: "avatar-label", class: "custom-file-label btn", for: "avatarFile" do
-              i.fa.fa-pencil.mr-3
-              | Choose a file
+        - else
+          .my-3
+          .input-group.mt-4
+            .custom-file
+              = form.file_field :avatar, type: "file", require: true, class: 'custom-file-input', id: "avatarFile"
+              = form.label :avatar, id: "avatar-label", class: "custom-file-label btn btn-outline-dark", for: "avatarFile" do
+                i.fa.fa-image.mr-2
+                | Choose an image
 
-        #avatar-actions.mt-4.none
-          = form.submit "Upload Avatar", class: 'btn btn-primary btn-lg'
+          #avatar-actions.mt-3.none
+            = form.submit "Upload Avatar", class: 'btn btn-primary btn-lg'
 
-    .col-md-8
+    .col-md-9.my-5
       = render 'form', user: @user
 
       br
-      h3 Deactivate Account
+      h3.mt-5 Deactivate Account
+      p.muted This will delete your account and remove all associated data with it.
+      br
       = link_to @user, method: :delete, data: { confirm: 'Are you sure?' } do
-        .btn.btn-danger.mt-2 Delete Account
+        .btn.btn-danger.btn-lg.mt-2 Delete Account
 
 javascript:
   document.getElementById('avatarFile')

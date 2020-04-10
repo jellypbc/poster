@@ -95,6 +95,14 @@
     font-family: $baseFontFamily;
     // font-family: 'Times New Roman';
   }
+
+  .new-tag {
+    color: $shaleLight;
+    font-size: 14px;
+  }
+  .tag {
+    font-weight: 600;
+  }
 }
 
 #jobs {
