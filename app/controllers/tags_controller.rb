@@ -1,6 +1,6 @@
 class TagsController < ApplicationController
   before_action :set_tag, only: [:show, :edit, :update, :destroy]
-  before_action :set_taggable, only: [:show, :create, :edit, :update, :destroy]
+  before_action :set_post, only: [:show, :create, :edit, :update, :destroy]
 
   def index
     @tags = Tag.all
@@ -18,12 +18,12 @@ class TagsController < ApplicationController
   end
 
   def create
-    @tag = Tag.new(tag_params)
+    @tag = Tag.find_or_create_by(text: tag_params[:text])
 
     if @tag.save
-      @target.tags << @tag
+      @post.tags << @tag if @post
       respond_to do |format|
-        format.html { head :ok }
+        format.html { redirect_to @tag }
         format.json { render json: TagSerializer.new(@tag).serializable_hash, status: :ok }
       end
     else
@@ -34,9 +34,8 @@ class TagsController < ApplicationController
   end
 
   def update
-    # binding.pry
     respond_to do |format|
-      if @target.tags << @tag
+      if @post && @post.tags << @tag
         format.json { render json: TagSerializer.new(@tag).serializable_hash, status: :ok }
       else
         head :bad_request
@@ -54,7 +53,10 @@ class TagsController < ApplicationController
 
   private
     def set_tag
-      id_or_slug = tag_params[:slug] || tag_params[:id]
+      id_or_slug = params[:id] || params[:slug]
+      if params[:tag]
+        id_or_slug = tag_params[:id] || tag_params[:slug]
+      end
       @tag ||= begin
         Tag.find_by! slug: id_or_slug.parameterize
       rescue ActiveRecord::RecordNotFound => e
@@ -62,14 +64,18 @@ class TagsController < ApplicationController
       end
     end
 
-    def set_taggable
-      klass = tag_params[:taggable_type].titleize.constantize
-      @target = klass.find tag_params[:taggable_id]
+    def set_post
+      if params[:tag]
+        if tag_params[:post_id]
+          @post = Post.find tag_params[:post_id]
+        end
+      end
     end
 
     def tag_params
       params.require(:tag).permit(
-        :id, :text, :slug, :taggable_id, :taggable_type
+        :id, :text, :slug, :post_id, :user_id
       )
     end
+
 end

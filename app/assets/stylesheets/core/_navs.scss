@@ -1,4 +1,4 @@
-nav {
+nav.navbar {
   @include desktop-styles {
     display: block;
     padding: 10px 0;
@@ -25,15 +25,22 @@ nav {
 
   .navbar-collapse {
     // mobile view
+    margin: 20px 0;
     &.show {
+
       // .nav-item.dropdown {display: none}
+    }
+
+    @include desktop-styles {
+      margin: 0;
     }
   }
 
-  a {
+  .nav-link,
+  .dropdown-menu a {
     color: $shaleDark;
     font-size: 16px;
-    padding: 12px 8px;
+    padding: 6px 14px;
   	&:hover {
       color: $green;
       text-decoration: none;
@@ -41,15 +48,24 @@ nav {
   	}
   }
 
-  .nav-item {
-    margin-right: 1.7rem;
-  }
-
-  .nav-link {
+  a.nav-link {
     -webkit-font-smoothing: antialiased;
-    font-size: 14px;
     font-weight: 600;
     padding: 0;
+
+    font-size: 18px;
+    @include desktop-styles {
+      font-size: 14px;
+    }
+
+  }
+
+  hr { margin: 6px 0; }
+
+  .nav-item {
+    @include desktop-styles {
+      margin-right: 1.7rem;
+    }
   }
 
   .btn.btn-secondary {
@@ -62,6 +78,7 @@ nav {
   .subnav {
     @include media-breakpoint-up(md) {
       flex-direction: row;
+      text-align: center;
     }
     flex-direction: column;
     display: flex;
@@ -91,11 +108,11 @@ nav {
     display: none;
   }
 
-  .avatar-clip {
-    border-radius: 50%;
-    overflow: hidden;
+  .user-avatar {
     width: 34px;
     height: 34px;
+    border-radius: 50%;
+    overflow: hidden;
   }
 
   .avatar-link {

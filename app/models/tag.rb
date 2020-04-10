@@ -2,26 +2,33 @@
 #
 # Table name: tags
 #
-#  id            :bigint           not null, primary key
-#  color         :string
-#  slug          :string
-#  taggable_type :string
-#  text          :string
-#  created_at    :datetime         not null
-#  updated_at    :datetime         not null
-#  taggable_id   :integer
+#  id          :bigint           not null, primary key
+#  color       :string
+#  posts_count :integer          default(0)
+#  slug        :string
+#  text        :string
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#  post_id     :integer
+#  user_id     :integer
+#
+# Indexes
+#
+#  index_tags_on_slug     (slug) UNIQUE
+#  index_tags_on_user_id  (user_id)
 #
 
 class Tag < ApplicationRecord
-  belongs_to :taggable, polymorphic: true, optional: true
+  has_many :tag_ownerships
+  has_many :posts, through: :tag_ownerships
 
-  # validates :slug, presence: true, uniqueness: { case_sensitive: false }
+  validates :slug, presence: true, uniqueness: { case_sensitive: false }
 
   before_validation :check_and_set_slug
 
-  # def to_param
-  #   slug
-  # end
+  def to_param
+    slug
+  end
 
   private
 

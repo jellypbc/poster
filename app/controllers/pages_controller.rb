@@ -3,25 +3,25 @@ class PagesController < ApplicationController
   before_action :admin_only, only: :admin
 
 	def index
-    @no_footer = true
+    unless !user_signed_in?
 
-    if !user_signed_in?
-      @no_nav = true
+      @posts = current_user.posts
+        .primary
+        .includes(:tags)
+        .order(created_at: :desc)
+        .paginate(page: params[:page], per_page: 10)
 
-    else
-      @posts = current_user.posts.primary
-      .includes(:tags)
-      .order(created_at: :desc)
-      @tags = @posts.map(&:tags).flatten
+      @tags = current_user.tags
+
       render 'dashboard'
     end
+
+    @no_footer = true
+    @no_nav = true
 	end
 
   def dashboard
-    @posts = current_user.posts.primary
-    .includes(:tags)
-    .order(created_at: :desc)
-    @tags = @posts.map(&:tags).flatten
+    redirect_to root_path
   end
 
   def admin

@@ -90,7 +90,7 @@ class PostsController < ApplicationController
 
   def suggested_tags
     respond_to do |format|
-      format.json { render json: set_suggested_tags}
+      format.json { render json: set_suggested_tags }
     end
   end
 
@@ -116,7 +116,7 @@ class PostsController < ApplicationController
     def post_params
       params.require(:post).permit(
         :title, :body, :publisher, :authors,
-        :slug, :plugins, tags: [:id, :text]
+        :slug, :plugins, tags: [:id, :text, :post_id, :slug]
       )
     end
 
@@ -126,7 +126,8 @@ class PostsController < ApplicationController
         .includes(:tags)
         .map(&:tags)
         .flatten
-        .select{|tag| tag.taggable != @post.id }
+        .uniq
+        .select{|tag| tag.post_id != @post.id }
         .map{ |tag| {
           id: tag.id.to_s,
           text: tag.text,

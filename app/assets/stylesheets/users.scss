@@ -1,9 +1,8 @@
 .users {
   .user-avatar {
-    img {
-    }
-    width: 160px;
-    height: 160px;
+    width: 180px;
+    min-width: 180px;
+    height: 180px;
     overflow: hidden;
     border-radius: 50%;
   }
@@ -23,12 +22,22 @@
       label.custom-file-label { border-color: $danger !important; }
       label.custom-file-label::after { display: none; }
     }
+    label {
+      overflow: hidden;
+    }
+  }
+
+  #avatar-actions .btn-lg {
+    width: 180px;
   }
 
   label.custom-file-label {
-    width: 200px;
+    width: 180px;
   }
 
+  .delete-avatar {
+    width: 180px;
+  }
   // remove bootstrap "browse" button part
   label.custom-file-label::after { display: none; }
 
@@ -36,11 +45,90 @@
     display: none;
   }
 
+  .name {
+    @include desktop-styles {
+      text-align: left;
+      margin-top: 0px;
+    }
+    margin-top: 15px;
+    text-align: center;
+
+    p {
+      font-size: 18px;
+      color: $shaleDark;
+      margin-bottom: 10px;
+    }
+    .username {
+      margin-left: 10px;
+      color: $shaleLight;
+    }
+  }
+
+  .description {
+
+    font-family: $serifFontFamily;
+    margin-top: 12px;
+    margin-bottom: 24px;
+    p {
+      @include desktop-styles {
+        font-size: 24px;
+        line-height: 37px;
+      }
+      font-size: 16px;
+      line-height: 24px;
+      color: $shaleDark;
+    }
+  }
+  .btn-edit {
+    background: $grayLighter;
+    color: $shale;
+    font-weight: 600;
+    font-size: 15px;
+  }
   .none {
     display: none;
   }
+  .nav {
+  }
+  .nav-item {
+    @include desktop-styles {
+      margin: 10px 20px -1px 0px;
+    }
+    a {
+      color: $shaleLight;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      font-weight: 600;
+    }
+    &:hover {
+      a { color: $shale; }
+    }
+  }
+  .nav-tabs {
+  }
+  .nav-link.active {
+    color: $shale;
+    border: none;
+    border-bottom: 2px solid $brandGreen;
+    a:hover {
+      color: $black;
+    }
+  }
+  .nav-link:hover {
+    &.active {
+      border: none;
+      border-bottom: 2px solid $brandGreen;
+    }
+    border: 1px solid transparent;
+    margin-bottom: -1px;
+  }
+  .col-md-9 {
+    @include desktop-styles {
+      text-align: left;
+    }
+    text-align: center;
+  }
 }
-
 
 .clear-modal-container {
   background: white;
@@ -67,9 +155,8 @@
   }
 }
 
-
 #followbutton {
-  width: 120px;
+  width: 110px;
   text-align: center;
   font-weight: 700;
   i, span { color: $white; }
@@ -77,7 +164,6 @@
   &.btn-primary:focus {
     box-shadow: none;
   }
-
 }
 #followbutton span:after{
   content: 'Follow';
@@ -103,5 +189,3 @@
 #followbutton.following:hover span:after{
   content: 'Unfollow';
 }
-
-

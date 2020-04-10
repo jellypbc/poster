@@ -9,7 +9,7 @@
         - user.errors.full_messages.each do |message|
           li = message
 
-  .field.my-4
+  .field.my-1
     h3 = form.label :full_name
     = form.text_field :full_name, class: 'form-control form-control-lg'
 
@@ -24,7 +24,7 @@
 
   .field.my-4
     h3 = form.label :description
-    = form.text_area :description, class: 'form-control form-control-lg', placeholder: "Share something about yourself..."
+    = form.text_area :description, class: 'form-control form-control-lg', placeholder: "Share something about yourself...", rows: "6"
 
   .actions
-    = form.submit 'Save', class: 'btn btn-primary btn-lg'
+    = form.submit 'Save settings', class: 'btn btn-primary btn-lg'

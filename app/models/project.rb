@@ -16,8 +16,6 @@ class Project < ApplicationRecord
   validates :munged_title, presence: true, uniqueness: { case_sensitive: false }
   validate :allowed_slug
 
-  has_many :tags, as: :taggable
-
   # Project.create
   before_validation :set_placeholder_slug, on: :create
   before_save :set_munged_title!

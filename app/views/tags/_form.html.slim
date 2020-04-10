@@ -1,0 +1,19 @@
+= form_with(model: tag, local: true) do |form|
+  .form.form-group
+    - if tag.errors.any?
+      #error_explanation
+        h2 = "#{pluralize(tag.errors.count, "error")} prohibited this tag from being saved:"
+
+        ul
+          - tag.errors.full_messages.each do |message|
+            li = message
+
+    .field.my-3
+      = form.label :text
+      = form.text_field :text
+
+      = form.hidden_field :user_id, value: current_user.id
+
+    .actions
+      = form.submit "Submit", class: "btn btn-primary"
+

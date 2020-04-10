@@ -34,7 +34,7 @@
 
     .my-4
       = form.label :tag
-      = react_component "TagForm", taggable: PostSerializer.new(post), suggested_tags: @suggested_tags
+      = react_component "TagForm", post: PostSerializer.new(post), suggested_tags: @suggested_tags, currentUser: current_user
 
     .actions
       = form.submit "Create Post", class: "btn btn-primary my-3"

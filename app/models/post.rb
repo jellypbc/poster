@@ -40,7 +40,9 @@ class Post < ApplicationRecord
 	has_many :uploads
 	has_many :citations
   has_many :figures, through: :uploads, source: :upload_figures, class_name: 'UploadFigure'
-  has_many :tags, as: :taggable
+
+  has_many :tag_ownerships
+  has_many :tags, through: :tag_ownerships
 
 	accepts_nested_attributes_for :uploads
 
@@ -59,7 +61,7 @@ class Post < ApplicationRecord
 
   def add_tags_by_texts=(texts)
     new_tags = texts.map do |text|
-      Tag.find_or_create_by(text: text, taggable_id: self.id, taggable_type: "Post")
+      Tag.find_or_create_by(text: text, post_id: self.id)
     end
     (tags - new_tags).map{ |tag| tag.destroy }
   end
