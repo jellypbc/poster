@@ -1,0 +1,10 @@
+{
+  "integrationFolder": "spec/javascript",
+  "fileServerFolder": null,
+  "testFiles": "*.spec.js",
+  "videosFolder": ".artifacts/videos",
+  "screenshotsFolder": ".artifacts/screenshots",
+  "fixturesFolder": "config/cypress/fixtures",
+  "pluginsFile": "config/cypress/plugins/index.js",
+  "supportFile": "config/cypress/support/index.js"
+}

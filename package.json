@@ -112,7 +112,7 @@
     ]
   },
   "scripts": {
-    "lint": "eslint app/javascript",
+    "lint": "eslint app spec",
     "lint:fix": "eslint --fix",
     "test": "cypress run",
     "test:interactive": "cypress open"

@@ -37,3 +37,6 @@ yarn-debug.log*
 
 .docker-sync/*
 .docker-sync
+
+# Test artifacts
+.artifacts
