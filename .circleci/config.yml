@@ -90,8 +90,8 @@ jobs:
     steps:
       - checkout
       - run: yarn install
-      - run: yarn test
       - run: yarn lint
+      - run: yarn test
 
 workflows:
   version: 2
