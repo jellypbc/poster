@@ -1,4 +1,11 @@
-import { inputRules, wrappingInputRule, textblockTypeInputRule, smartQuotes, emDash, ellipsis } from 'prosemirror-inputrules'
+import {
+  inputRules,
+  wrappingInputRule,
+  textblockTypeInputRule,
+  smartQuotes,
+  emDash,
+  ellipsis,
+} from 'prosemirror-inputrules'
 
 import schema from './schema'
 
@@ -9,10 +16,7 @@ export default inputRules({
     emDash,
 
     // > blockquote
-    wrappingInputRule(
-      /^\s*>\s$/,
-      schema.nodes.blockquote
-    ),
+    wrappingInputRule(/^\s*>\s$/, schema.nodes.blockquote),
 
     // 1. ordered list
     wrappingInputRule(
@@ -23,22 +27,16 @@ export default inputRules({
     ),
 
     // * bullet list
-    wrappingInputRule(
-      /^\s*([-+*])\s$/,
-      schema.nodes.bullet_list
-    ),
+    wrappingInputRule(/^\s*([-+*])\s$/, schema.nodes.bullet_list),
 
     // ``` code block
-    textblockTypeInputRule(
-      /^```$/,
-      schema.nodes.code_block
-    ),
+    textblockTypeInputRule(/^```$/, schema.nodes.code_block),
 
     // # heading
     textblockTypeInputRule(
       new RegExp('^(#{1,6})\\s$'),
       schema.nodes.heading,
       match => ({ level: match[1].length })
-    )
-  ]
+    ),
+  ],
 })

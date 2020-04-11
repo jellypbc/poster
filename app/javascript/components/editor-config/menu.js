@@ -1,5 +1,9 @@
 import {
-  joinUp, lift, setBlockType, toggleMark, wrapIn
+  joinUp,
+  lift,
+  setBlockType,
+  toggleMark,
+  wrapIn,
 } from 'prosemirror-commands'
 import { redo, undo } from 'prosemirror-history'
 import { wrapInList } from './schema-list'

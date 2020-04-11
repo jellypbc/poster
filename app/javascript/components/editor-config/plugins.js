@@ -36,7 +36,7 @@ const setupPlugins = getView => [
   //   self.view.dispatch({ type: 'transaction', transaction })
   // }),
   commentUI(transaction => {
-    console.log("this", this)
+    console.log('this', this)
     console.log({ view: getView(), transaction })
     // Not quite working, does a new state object need to be created in the editor
     // after each transaction?

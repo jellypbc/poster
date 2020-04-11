@@ -45,9 +45,9 @@ class Editor extends React.Component {
       },
       attributes: this.props.attributes,
       nodeViews: this.props.nodeViews,
-      editable: function(state){
+      editable: function(state) {
         return this.props.isEditable
-      }.bind(this)
+      }.bind(this),
     })
 
     // applyDevTools(this.view)

@@ -1,5 +1,4 @@
 // https://github.com/ProseMirror/website/blob/master/src/collab/client/comment.js
-import crel from 'crel'
 import { Plugin, PluginKey } from 'prosemirror-state'
 import { Decoration, DecorationSet } from 'prosemirror-view'
 import CommentForm from '../CommentForm'

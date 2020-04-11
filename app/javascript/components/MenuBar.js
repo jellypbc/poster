@@ -26,9 +26,7 @@ const Button = ({ state, dispatch }) => (item, key) => (
 const MenuBar = ({ menu, children, view }) => (
   <div>
     <div className="bar">
-      {children &&
-        <span className="group">{children}</span>
-      }
+      {children && <span className="group">{children}</span>}
 
       {map(menu, (item, key) => (
         <span key={key} className="group">

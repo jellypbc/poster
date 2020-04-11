@@ -36,10 +36,8 @@ const commentReducers = {
   },
 }
 
-
 const imagesEffects = {
-  onImageAddSuccess: (payload) => {
-  }
+  onImageAddSuccess: payload => {},
 }
 
 const imagesReducerDefaultState = {

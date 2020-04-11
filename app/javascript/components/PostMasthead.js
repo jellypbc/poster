@@ -2,8 +2,7 @@
 import React from 'react'
 
 class PostMasthead extends React.Component {
-
-  constructor(props){
+  constructor(props) {
     super(props)
 
     var { post } = this.props
@@ -19,18 +18,23 @@ class PostMasthead extends React.Component {
   // TODO: 1. update actions links below (Copy Share Link... etc) 2. put action links into dropdown
   render() {
     return (
-      <div className='header'>
-        <div className='header-nav'>
-          <div className='pdf-url'>
-            <a href={this.state.upload_url} target='_blank'>
-              View Original PDF | Copy Share Link | Export to Markdown | Version History | Make it Perfect ✨ | 🙋🏻‍♀️
+      <div className="header">
+        <div className="header-nav">
+          <div className="pdf-url">
+            {/* eslint-disable-next-line jsx-a11y/accessible-emoji */}
+            <a
+              href={this.state.upload_url}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              View Original PDF | Copy Share Link | Export to Markdown | Version
+              History | Make it Perfect ✨ | 🙋🏻‍♀️
             </a>
           </div>
         </div>
       </div>
     )
   }
-
 }
 
 export default PostMasthead
