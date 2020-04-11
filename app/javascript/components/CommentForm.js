@@ -19,6 +19,7 @@ function CommentForm({ onSubmit, onCancel, className, ...rest }) {
 
   const handleSubmit = () => {
     const payload = getSavePayload()
+    console.log ('submit', payload)
     // dispatch({ type: 'addCommentSave', payload })
     textareaRef.current.value = '' // clear (could change this to controlled value too)
     if (onSubmit) onSubmit(payload)

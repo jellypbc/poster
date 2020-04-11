@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :comments
   get 'search/results'
 	require 'sidekiq/web'
   mount Sidekiq::Web,     at: '/sidekiq' #, constraints: AdminConstraint.new
@@ -47,6 +48,8 @@ Rails.application.routes.draw do
   end
 
   resources :tags
+
+  resources :comments
 
   namespace :search do
     get :results
