@@ -1,7 +1,12 @@
 import { keymap } from 'prosemirror-keymap'
 import { undoInputRule } from 'prosemirror-inputrules'
 import { undo, redo } from 'prosemirror-history'
-import { wrapInList, splitListItem, liftListItem, sinkListItem } from './schema-list'
+import {
+  wrapInList,
+  splitListItem,
+  liftListItem,
+  sinkListItem,
+} from './schema-list'
 import { goToNextCell } from 'prosemirror-tables'
 import {
   baseKeymap,
@@ -13,7 +18,7 @@ import {
   joinUp,
   joinDown,
   lift,
-  selectParentNode
+  selectParentNode,
 } from 'prosemirror-commands'
 
 import schema from './schema'
@@ -35,12 +40,12 @@ const insertRule = (state, dispatch) => {
 const keys = {
   'Mod-z': undo,
   'Shift-Mod-z': redo,
-  'Backspace': undoInputRule,
+  Backspace: undoInputRule,
   'Mod-y': redo,
   'Alt-ArrowUp': joinUp,
   'Alt-ArrowDown': joinDown,
   'Mod-BracketLeft': lift,
-  'Escape': selectParentNode,
+  Escape: selectParentNode,
   'Mod-b': toggleMark(schema.marks.strong),
   'Mod-i': toggleMark(schema.marks.em),
   'Mod-u': toggleMark(schema.marks.underline),
@@ -52,7 +57,7 @@ const keys = {
   'Mod-Enter': chainCommands(exitCode, insertBreak),
   'Shift-Enter': chainCommands(exitCode, insertBreak),
   'Ctrl-Enter': chainCommands(exitCode, insertBreak), // mac-only?
-  'Enter': splitListItem(schema.nodes.list_item),
+  Enter: splitListItem(schema.nodes.list_item),
   'Mod-[': liftListItem(schema.nodes.list_item),
   'Mod-]': sinkListItem(schema.nodes.list_item),
   'Shift-Ctrl-0': setBlockType(schema.nodes.paragraph),
@@ -64,12 +69,12 @@ const keys = {
   'Shift-Ctrl-5': setBlockType(schema.nodes.heading, { level: 5 }),
   'Shift-Ctrl-6': setBlockType(schema.nodes.heading, { level: 6 }),
   'Mod-_': insertRule,
-  'Tab': goToNextCell(1),
+  Tab: goToNextCell(1),
   'Shift-Tab': goToNextCell(-1),
-  'Mod-Shift-m': addAnnotation
+  'Mod-Shift-m': addAnnotation,
 }
 
-Object.keys(baseKeymap).forEach(key => {
+Object.keys(baseKeymap).forEach((key) => {
   if (keys[key]) {
     keys[key] = chainCommands(keys[key], baseKeymap[key])
   } else {

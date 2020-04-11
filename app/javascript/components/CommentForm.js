@@ -30,10 +30,10 @@ function CommentForm({ onSubmit, onCancel, className, ...rest }) {
   }
 
   const handleKeyDown = (e) => {
-    if ((event.metaKey || event.ctrlKey) && event.keyCode == 13) {
+    if ((e.metaKey || e.ctrlKey) && e.keyCode === 13) {
       handleSubmit()
     }
-    if (event.keyCode == 27) {
+    if (e.keyCode === 27) {
       handleCancel()
     }
   }
@@ -61,8 +61,7 @@ function CommentForm({ onSubmit, onCancel, className, ...rest }) {
           onClick={handleSubmit}
         >
           Post
-        </button>
-        {' '}
+        </button>{' '}
         <button type="button" className="btn btn-sm o" onClick={handleCancel}>
           Cancel
         </button>

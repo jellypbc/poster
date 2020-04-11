@@ -74,9 +74,9 @@ class PostEditor extends React.Component {
           console.log('connected to PostsChannel')
         },
 
-        received: function(data) {
-          console.log("webhook", data)
-          this.setState(state => ({
+        received: function (data) {
+          console.log('webhook', data)
+          this.setState((state) => ({
             post: data,
             isProcessing: false,
           }))
@@ -143,7 +143,7 @@ class PostEditor extends React.Component {
       .end((err, res) => {
         // use the browser timestamp instead of new updated_at
         const now = new Date().toISOString()
-        this.setState(state => ({
+        this.setState((state) => ({
           post: res.body.post,
           isLoading: false,
           error: err ? err : null,
@@ -188,21 +188,23 @@ class PostEditor extends React.Component {
 
     const commentState = commentPluginKey.getState(docState)
     const newCommentsToSave = commentState.unsent
-      .filter(action => action.type === 'newComment')
+      .filter((action) => action.type === 'newComment')
       .map(serializeComment)
 
-    console.log("updatePost():", newCommentsToSave)
+    console.log('updatePost():', newCommentsToSave)
     // TODO: serialize JSON on server instead of parsing string?
     const oldPluginState = JSON.parse(post.data.attributes.plugins)
-    const comments = [...(oldPluginState.comments || []), ...newCommentsToSave]
-      .filter(comment => {
-        return !commentState.unsent.find(action => {
-          const isDeletable = action.type === 'deleteComment'
-          const isTheComment = action.comment.id === comment.id
-          console.log({comment, action, isDeletable, isTheComment})
-          return isDeletable && isTheComment
-        })
+    const comments = [
+      ...(oldPluginState.comments || []),
+      ...newCommentsToSave,
+    ].filter((comment) => {
+      return !commentState.unsent.find((action) => {
+        const isDeletable = action.type === 'deleteComment'
+        const isTheComment = action.comment.id === comment.id
+        console.log({ comment, action, isDeletable, isTheComment })
+        return isDeletable && isTheComment
       })
+    })
 
     var data = {
       body: doc,
@@ -224,7 +226,7 @@ class PostEditor extends React.Component {
         // res is just showing a redirect instead of full data,
         // use the browser timestamp instead of new updated_at
         const now = new Date().toISOString()
-        this.setState(state => ({
+        this.setState((state) => ({
           isLoading: false,
           error: err ? err : null,
           errorAt: err ? now : null,
@@ -304,14 +306,14 @@ class PostEditor extends React.Component {
           )}
         />
 
-        {isEditable &&
+        {isEditable && (
           <ChangesIndicator
             isLoading={isLoading}
             hasUnsavedChanges={hasUnsavedChanges}
             isNewPost={isNewPost}
             lastSavedAtDate={lastSavedAtDate}
           />
-        }
+        )}
       </div>
     )
   }

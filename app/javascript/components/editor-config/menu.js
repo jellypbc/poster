@@ -1,5 +1,9 @@
 import {
-  joinUp, lift, setBlockType, toggleMark, wrapIn
+  joinUp,
+  lift,
+  setBlockType,
+  toggleMark,
+  wrapIn,
 } from 'prosemirror-commands'
 import { redo, undo } from 'prosemirror-history'
 import { wrapInList } from './schema-list'
@@ -9,7 +13,7 @@ import { addFigure } from './images'
 import schema from './schema'
 import icons from './icons'
 
-const markActive = type => state => {
+const markActive = (type) => (state) => {
   const { from, $from, to, empty } = state.selection
 
   return empty
@@ -17,7 +21,7 @@ const markActive = type => state => {
     : state.doc.rangeHasMark(from, to, type)
 }
 
-const blockActive = (type, attrs = {}) => state => {
+const blockActive = (type, attrs = {}) => (state) => {
   const { $from, to, node } = state.selection
 
   if (node) {
@@ -27,7 +31,7 @@ const blockActive = (type, attrs = {}) => state => {
   return to <= $from.end() && $from.parent.hasMarkup(type, attrs)
 }
 
-const canInsert = type => state => {
+const canInsert = (type) => (state) => {
   const { $from } = state.selection
 
   for (let d = $from.depth; d >= 0; d--) {
@@ -116,7 +120,7 @@ export default {
       title: 'Add or remove link',
       content: icons.link,
       active: markActive(schema.marks.link),
-      enable: state => !state.selection.empty,
+      enable: (state) => !state.selection.empty,
       run(state, dispatch) {
         if (markActive(schema.marks.link)(state)) {
           toggleMark(schema.marks.link)(state, dispatch)

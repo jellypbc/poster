@@ -1,5 +1,4 @@
 // https://github.com/ProseMirror/website/blob/master/src/collab/client/comment.js
-import crel from 'crel'
 import { Plugin, PluginKey } from 'prosemirror-state'
 import { Decoration, DecorationSet } from 'prosemirror-view'
 import CommentForm from '../CommentForm'
@@ -61,7 +60,7 @@ class CommentState {
       (config.doc.comments
         ? config.doc.comments.comments
         : config.comments.comments) || []
-    let decos = existingComments.map(c =>
+    let decos = existingComments.map((c) =>
       deco(c.from, c.to, new Comment(c.text, c.id))
     )
     return new CommentState(
@@ -103,7 +102,7 @@ function randomID() {
 
 // Command for adding an annotation; it can be connected to the menu option for comments
 
-export const addAnnotation = function(state, dispatch) {
+export const addAnnotation = function (state, dispatch) {
   let sel = state.selection
   if (sel.empty) return false
   if (dispatch) {
@@ -149,7 +148,7 @@ export const annotationIcon = {
 
 // Comment UI
 
-export const commentUI = function(transaction) {
+export const commentUI = function (transaction) {
   return new Plugin({
     props: {
       decorations(state) {

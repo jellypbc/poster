@@ -12,11 +12,7 @@ class ChangesIndicator extends React.Component {
     } = this.props
 
     return (
-      <div
-        className={
-          'py-1 px-2 loading-indicator ' + (isLoading && 'active')
-        }
-      >
+      <div className={'py-1 px-2 loading-indicator ' + (isLoading && 'active')}>
         <i className="fa fa-circle" />
         <span>
           {isLoading

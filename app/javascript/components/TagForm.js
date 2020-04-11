@@ -8,57 +8,57 @@ class TagForm extends React.Component {
 
     this.state = {
       tags: this.props.post.data.attributes.tags || [],
-      suggestions: this.props.suggested_tags || []
-    };
+      suggestions: this.props.suggested_tags || [],
+    }
 
-    this.handleDelete = this.handleDelete.bind(this);
-    this.handleAddition = this.handleAddition.bind(this);
-    this.handleFocus = this.handleFocus.bind(this);
+    this.handleDelete = this.handleDelete.bind(this)
+    this.handleAddition = this.handleAddition.bind(this)
+    this.handleFocus = this.handleFocus.bind(this)
   }
 
-  handleFocus(){
+  handleFocus() {
     const { post } = this.props
-    var url = post.data.attributes.form_url + "/suggested_tags"
-    superagent.get(url)
+    var url = post.data.attributes.form_url + '/suggested_tags'
+    superagent
+      .get(url)
       .set('accept', 'application/json')
-      .then(res => {
+      .then((res) => {
         if (res.status === 200) {
-          this.setState({suggestions: res.body})
+          this.setState({ suggestions: res.body })
         } else {
-          this.setState({error: "Oops, failed to fetch suggested tags"})
+          this.setState({ error: 'Oops, failed to fetch suggested tags' })
         }
       })
   }
 
   handleDelete(i) {
-    const { tags } = this.state;
+    const { tags } = this.state
     const tagToDelete = tags.find((tag, index) => index === i)
 
-    this.sendRequest(tagToDelete, 'delete').then(res => {
+    this.sendRequest(tagToDelete, 'delete').then((res) => {
       if (res.status === 200) {
         this.setState({
           tags: tags.filter((tag, index) => index !== i),
-        });
+        })
       } else {
-        this.setState({error: "Oops, something went wrong."})
+        this.setState({ error: 'Oops, something went wrong.' })
       }
     })
   }
 
   handleAddition(tag) {
-    this.sendRequest(tag, 'add').then(res => {
+    this.sendRequest(tag, 'add').then((res) => {
       if (res.status === 200) {
-        this.setState(state => ({ tags: [...state.tags, tag] }));
+        this.setState((state) => ({ tags: [...state.tags, tag] }))
       } else {
-        this.setState({error: "Oops, something went wrong."})
+        this.setState({ error: 'Oops, something went wrong.' })
       }
     })
   }
 
-  async sendRequest(tag, action){
+  async sendRequest(tag, action) {
     const { post, currentUser } = this.props
-    const token = document.head
-      .querySelector('[name~=csrf-token][content]')
+    const token = document.head.querySelector('[name~=csrf-token][content]')
       .content
 
     var data = {
@@ -67,58 +67,54 @@ class TagForm extends React.Component {
         text: tag.text,
         slug: tag.slug,
         post_id: post.data.id,
-      }
+      },
     }
 
-    let url, method;
+    let url, method
     if (action === 'add') {
-      url = post.data.attributes.form_url + "/tags"
-      method = "post"
+      url = post.data.attributes.form_url + '/tags'
+      method = 'post'
     } else {
       data.tag.id = tag.id
-      url = post.data.attributes.form_url + "/tags/" + tag.id
-      method = "delete"
+      url = post.data.attributes.form_url + '/tags/' + tag.id
+      method = 'delete'
     }
 
-    return new Promise(function(resolve, reject){
+    return new Promise(function (resolve, reject) {
       superagent[method](url)
         .send(data)
         .set('X-CSRF-Token', token)
         .set('accept', 'application/json')
-        .then(res => {
+        .then((res) => {
           return res
         })
-        .then(result => {
+        .then((result) => {
           resolve(result)
         })
-        .catch(err => {
+        .catch((err) => {
           this.setState({
-            error: err.message
+            error: err.message,
           })
-        });
+        })
     })
   }
 
   render() {
     return (
       <div className="form-group">
-        {this.state.error &&
-          <div className="error">
-            {this.state.error}
-          </div>
-        }
+        {this.state.error && <div className="error">{this.state.error}</div>}
         <ReactTags
           tags={this.state.tags}
           suggestions={this.state.suggestions}
           handleDelete={this.handleDelete}
           handleAddition={this.handleAddition}
-          handleInputFocus={()=>this.handleFocus()}
+          handleInputFocus={() => this.handleFocus()}
           allowDragDrop={false}
           placeholder="Add new tag"
           autofocus={false}
           classNames={{
             tag: 'badge badge-secondary mr-2',
-            tagInputField: 'form-control'
+            tagInputField: 'form-control',
           }}
         />
       </div>

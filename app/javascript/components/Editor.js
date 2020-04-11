@@ -20,7 +20,7 @@ class Editor extends React.Component {
         ...props.options,
         plugins: props.options.setupPlugins(getView),
       }),
-      dispatchTransaction: transaction => {
+      dispatchTransaction: (transaction) => {
         const oldComments = commentPluginKey.getState(this.view.state)
 
         const { state, transactions } = this.view.state.applyTransaction(
@@ -34,7 +34,7 @@ class Editor extends React.Component {
         // TODO: docChanged is for tx with steps only
         // get comments to also call onChange, but ignore selection changes?
         if (
-          transactions.some(tr => tr.docChanged) ||
+          transactions.some((tr) => tr.docChanged) ||
           newComments !== oldComments
         ) {
           this.props.onChange(state.doc, state)
@@ -45,9 +45,9 @@ class Editor extends React.Component {
       },
       attributes: this.props.attributes,
       nodeViews: this.props.nodeViews,
-      editable: function(state){
+      editable: function (state) {
         return this.props.isEditable
-      }.bind(this)
+      }.bind(this),
     })
 
     // applyDevTools(this.view)

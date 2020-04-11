@@ -12,7 +12,7 @@ const Button = ({ state, dispatch }) => (item, key) => (
     id={item.id}
     title={item.title}
     disabled={item.enable && !item.enable(state)}
-    onMouseDown={e => {
+    onMouseDown={(e) => {
       if (item.run) {
         e.preventDefault()
         item.run(state, dispatch)
@@ -26,9 +26,7 @@ const Button = ({ state, dispatch }) => (item, key) => (
 const MenuBar = ({ menu, children, view }) => (
   <div>
     <div className="bar">
-      {children &&
-        <span className="group">{children}</span>
-      }
+      {children && <span className="group">{children}</span>}
 
       {map(menu, (item, key) => (
         <span key={key} className="group">

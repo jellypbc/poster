@@ -6,9 +6,9 @@
   "recommendations": [
     "rebornix.ruby",
     "wingrunr21.vscode-ruby",
-    "robinbentley.sass-indented",
+    "syler.sass-indented",
     "mrmlnc.vscode-scss",
-    "shinnn.stylelint",
+    "stylelint.vscode-stylelint",
     "pflannery.vscode-versionlens",
     "sianglim.slim",
     "dbaeumer.vscode-eslint",
@@ -25,8 +25,7 @@
     "dsznajder.es7-react-js-snippets",
     "tombonnike.vscode-status-bar-format-toggle",
     "codezombiech.gitignore",
-    "eamodio.gitlens",
-    "alex.theme-wookie"
+    "eamodio.gitlens"
   ],
   // List of extensions recommended by VS Code that should not be recommended for users of this workspace.
   "unwantedRecommendations": []

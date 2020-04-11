@@ -3,90 +3,90 @@ import Autosuggest from 'react-autosuggest'
 import superagent from 'superagent'
 
 class SearchBar extends React.Component {
-  constructor(){
+  constructor() {
     super()
     this.state = {
       value: '',
       suggestions: [],
       // isActive: false
-    };
+    }
   }
 
-  componentDidMount(){
+  componentDidMount() {
     // remove the fallback searchbar
     var placeholder = document.getElementById('search-fallback')[0]
     placeholder.remove()
 
     var searchbar = document.getElementsByClassName('search-bar')[0]
-    searchbar.addEventListener('keyup', event => {
-      if (event.keyCode == 13) {
+    searchbar.addEventListener('keyup', (event) => {
+      if (event.keyCode === 13) {
         window.location = '/search/results?query=' + this.state.value
       }
     })
   }
 
-  getSuggestionValue = suggestion => suggestion.title || ""
+  getSuggestionValue = (suggestion) => suggestion.title || ''
 
-  fetchSearchResults = value => {
+  fetchSearchResults = (value) => {
     const inputValue = value.trim().toLowerCase()
     const inputLength = inputValue.length
-
 
     if (inputLength === 0) return []
 
     var query = value
-    const url = "/search/bar?query=" + query
+    const url = '/search/bar?query=' + query
     let suggestions = []
 
-    superagent.get(url)
+    superagent
+      .get(url)
       .set('accept', 'application/json')
-      .then(res => {
+      .then((res) => {
         console.log(res.body)
         suggestions = res.body
-        this.setState({suggestions: suggestions })
+        this.setState({ suggestions: suggestions })
       })
   }
 
   onChange = (event, { newValue, method }) => {
     this.setState({
-      value: newValue
-    });
-  };
+      value: newValue,
+    })
+  }
 
   onSuggestionsFetchRequested = ({ value }) => {
     this.fetchSearchResults(value)
-  };
+  }
 
   onSuggestionsClearRequested = () => {
     this.setState({
-      suggestions: []
-    });
-  };
+      suggestions: [],
+    })
+  }
 
-  renderSuggestion = suggestion => {
+  renderSuggestion = (suggestion) => {
     const { data } = suggestion
     return (
       <div className="suggestion-row">
-        <a href={data.links.post_url} target="_blank">
-          {data.attributes.title &&
+        <a href={data.links.post_url} target="_blank" rel="noopener noreferrer">
+          {data.attributes.title && (
             <p className="suggestion-title">{data.attributes.title}</p>
-          }
-          {data.attributes.created_at &&
+          )}
+          {data.attributes.created_at && (
             <p className="suggestion-date">{data.attributes.created_at}</p>
-          }
+          )}
         </a>
       </div>
     )
   }
 
-  render(){
-    const { value, suggestions } = this.state;
+  render() {
+    const { value, suggestions } = this.state
 
     const inputProps = {
       placeholder: 'Search',
       value,
-      onChange: this.onChange
-    };
+      onChange: this.onChange,
+    }
 
     const theme = {
       input: 'form-control',
