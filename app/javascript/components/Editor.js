@@ -18,7 +18,7 @@ class Editor extends React.Component {
       // prosemirror options = { plugins, schema, comments: { comments: [] } }
       state: EditorState.create({
         ...props.options,
-        plugins: props.options.setupPlugins(getView),
+        plugins: props.options.setupPlugins(getView, props.post_id),
       }),
       dispatchTransaction: (transaction) => {
         const oldComments = commentPluginKey.getState(this.view.state)

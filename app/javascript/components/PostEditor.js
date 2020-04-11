@@ -56,7 +56,10 @@ class PostEditor extends React.Component {
     this.parse = createParser(schema)
     this.serialize = createSerializer(schema)
     const postBody = this.state.post.data.attributes.body
-    const pluginState = JSON.parse(this.state.post.data.attributes.plugins)
+    // const pluginState = JSON.parse(this.state.post.data.attributes.plugins)
+    // const pluginState = JSON.parse(this.state.post.data.attributes.comments)
+    const pluginState = this.state.post.data.attributes.comments
+    console.log("pluginState", pluginState)
     options.doc = this.parse(postBody) // TODO: don't mutate "options"
     options.editable = this.state.isEditable
     options.doc.comments = { comments: pluginState.comments } // TODO: generalize plugin state restoration
@@ -71,12 +74,12 @@ class PostEditor extends React.Component {
       { channel: 'PostsChannel', post_id: post },
       {
         connected() {
-          console.log('connected to PostsChannel')
+          // console.log('connected to PostsChannel')
         },
 
-        received: function (data) {
-          console.log('webhook', data)
-          this.setState((state) => ({
+        received: function(data) {
+          // console.log("webhook", data)
+          this.setState(state => ({
             post: data,
             isProcessing: false,
           }))
@@ -191,7 +194,6 @@ class PostEditor extends React.Component {
       .filter((action) => action.type === 'newComment')
       .map(serializeComment)
 
-    console.log('updatePost():', newCommentsToSave)
     // TODO: serialize JSON on server instead of parsing string?
     const oldPluginState = JSON.parse(post.data.attributes.plugins)
     const comments = [
@@ -208,7 +210,7 @@ class PostEditor extends React.Component {
 
     var data = {
       body: doc,
-      plugins: JSON.stringify({ comments }),
+      // plugins: JSON.stringify({ comments }),
     }
 
     /* document + plugin serialization END */
@@ -247,7 +249,9 @@ class PostEditor extends React.Component {
     } = this.state
     const isNewPost = getIsNewPost(post)
     const postBody = post.data.attributes.body
-    const pluginState = JSON.parse(post.data.attributes.plugins)
+    // const pluginState = JSON.parse(post.data.attributes.plugins)
+    const pluginState = this.state.post.data.attributes.comments
+
     const lastSavedAtDate = new Date(lastSavedAt) // convert to date object
     const hasUnsavedChanges = lastSavedAtDate < lastUnsavedChangeAt
 
@@ -275,6 +279,7 @@ class PostEditor extends React.Component {
           options={titleOptions}
           onChange={this.handleTitleChange}
           pluginState={pluginState}
+          post_id={post.data.id}
           isEditable={isEditable}
           render={({ editor, view }) => (
             <div className="header">
@@ -295,6 +300,7 @@ class PostEditor extends React.Component {
           options={options}
           onChange={this.handleChange}
           pluginState={pluginState}
+          post_id={post.data.id}
           isEditable={isEditable}
           render={({ editor, view }) => (
             <div>

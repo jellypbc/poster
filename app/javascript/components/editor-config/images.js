@@ -4,6 +4,7 @@ import schema from './schema'
 export const addFigure = function (state, dispatch) {
   console.log(state)
   if (dispatch) {
+    // we're now in redux land, and no longer in PM land
     store.dispatch({
       type: 'addImageStart',
       payload: {

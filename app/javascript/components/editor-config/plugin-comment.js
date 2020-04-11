@@ -5,6 +5,7 @@ import CommentForm from '../CommentForm'
 import ReactDOM from 'react-dom'
 import React from 'react'
 import classnames from 'classnames'
+import { store } from '../store'
 
 export const pluginKey = new PluginKey('comments')
 
@@ -20,10 +21,11 @@ function deco(from, to, comment) {
 }
 
 class CommentState {
-  constructor(version, decos, unsent) {
+  constructor(version, decos, unsent, props) {
     this.version = version
     this.decos = decos
     this.unsent = unsent
+    this.props = props
   }
 
   findComment(id) {
@@ -106,6 +108,8 @@ export const addAnnotation = function (state, dispatch) {
   let sel = state.selection
   if (sel.empty) return false
   if (dispatch) {
+    // no longer PM land
+    console.log(">>>> i am in going to submit", state)
     const root =
       document.querySelector('#comment-modal') || document.createElement('div')
     root.id = '#comment-modal'
@@ -114,12 +118,25 @@ export const addAnnotation = function (state, dispatch) {
     const handleClose = () => ReactDOM.unmountComponentAtNode(root)
 
     const handleNewComment = ({ text }) => {
+
+      var comment = new Comment(text, randomID())
+      // store.dispatch({
+      //   type: 'addCommentSave',
+      //   payload: {
+      //     type: 'newComment',
+      //     from: sel.from,
+      //     to: sel.to,
+      //     key: comment.id,
+      //     comment: comment.text,
+      //   }
+      // })
+
       dispatch(
         state.tr.setMeta(commentPlugin, {
           type: 'newComment',
           from: sel.from,
           to: sel.to,
-          comment: new Comment(text, randomID()),
+          comment: comment
         })
       )
       // side effect to scroll window to here

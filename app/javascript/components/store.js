@@ -1,8 +1,53 @@
 import { configureStore, createReducer } from '@reduxjs/toolkit'
+import superagent from 'superagent'
 
 // unsafe side-effects for comment actions
 const commentsEffects = {
-  onCommentAdd: (payload) => null,
+  onCommentSuccess: payload => {
+    var url = '/comments'
+    var method = 'post'
+    // var url = isNewPost ? '/posts' : post.data.attributes.form_url
+    // var method = isNewPost ? 'post' : 'put'
+    // var token = document.head.querySelector('[name~=csrf-token][content]')
+    //   .content
+
+    var data = {
+      comment: {
+        data_to: payload.to,
+        data_from: payload.from,
+        data_key: payload.comment.id,
+        comment: payload.comment,
+        post_id: payload.post_id,
+        // user_id: payload.user_id,
+      }
+    }
+
+    superagent[method](url)
+      .send(data)
+      // .set('X-CSRF-Token', token)
+      .set('accept', 'application/json')
+      .end((err, res) => {
+        console.log({ res, err }) // DEBUG SAVE
+
+        // res is just showing a redirect instead of full data,
+        // use the browser timestamp instead of new updated_at
+        // const now = new Date().toISOString()
+        // this.setState(state => ({
+        //   isLoading: false,
+        //   error: err ? err : null,
+        //   errorAt: err ? now : null,
+        //   lastSavedAt: err ? state.lastSavedAt : now,
+        // }))
+      })
+
+    // store.dispatch({
+    //   type: "setComments",
+    //   payload: {
+    //     comments: newComments
+    //   }
+    // })
+  },
+  onCommentAdd: payload => null,
   onCommentStart: () => {
     const commentFormInput = document.querySelector('#comment-form-input')
     if (commentFormInput) commentFormInput.focus()
@@ -11,9 +56,15 @@ const commentsEffects = {
 
 const commentsReducerDefaultState = {
   isAddingComment: false,
+  comments: [],
 }
 
 const commentReducers = {
+  setComments: (state, action) => {
+    state.comments = action.payload.comments
+    // will set the posts comments from new data or componentDidMount?
+  },
+
   addCommentStart: (state, action) => {
     state.isAddingComment = true
     if (commentsEffects.onCommentStart) {
@@ -31,6 +82,9 @@ const commentReducers = {
     state.isAddingComment = false
     if (commentsEffects.onCommentAdd) {
       commentsEffects.onCommentAdd(action.payload)
+    }
+    if (commentsEffects.onCommentSuccess) {
+      commentsEffects.onCommentSuccess(action.payload)
     }
     state.newestComment = action.payload
   },
