@@ -22,7 +22,7 @@ class TagForm extends React.Component {
     superagent
       .get(url)
       .set('accept', 'application/json')
-      .then(res => {
+      .then((res) => {
         if (res.status === 200) {
           this.setState({ suggestions: res.body })
         } else {
@@ -35,7 +35,7 @@ class TagForm extends React.Component {
     const { tags } = this.state
     const tagToDelete = tags.find((tag, index) => index === i)
 
-    this.sendRequest(tagToDelete, 'delete').then(res => {
+    this.sendRequest(tagToDelete, 'delete').then((res) => {
       if (res.status === 200) {
         this.setState({
           tags: tags.filter((tag, index) => index !== i),
@@ -47,9 +47,9 @@ class TagForm extends React.Component {
   }
 
   handleAddition(tag) {
-    this.sendRequest(tag, 'add').then(res => {
+    this.sendRequest(tag, 'add').then((res) => {
       if (res.status === 200) {
-        this.setState(state => ({ tags: [...state.tags, tag] }))
+        this.setState((state) => ({ tags: [...state.tags, tag] }))
       } else {
         this.setState({ error: 'Oops, something went wrong.' })
       }
@@ -80,18 +80,18 @@ class TagForm extends React.Component {
       method = 'delete'
     }
 
-    return new Promise(function(resolve, reject) {
+    return new Promise(function (resolve, reject) {
       superagent[method](url)
         .send(data)
         .set('X-CSRF-Token', token)
         .set('accept', 'application/json')
-        .then(res => {
+        .then((res) => {
           return res
         })
-        .then(result => {
+        .then((result) => {
           resolve(result)
         })
-        .catch(err => {
+        .catch((err) => {
           this.setState({
             error: err.message,
           })

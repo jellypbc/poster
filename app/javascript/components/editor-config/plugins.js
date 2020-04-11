@@ -19,7 +19,7 @@ import rules from './rules'
 
 // export a function here because some plugins need to be bound to a reference
 // to a state or view object
-const setupPlugins = getView => [
+const setupPlugins = (getView) => [
   rules,
   keys,
   placeholder(),
@@ -35,7 +35,7 @@ const setupPlugins = getView => [
   //   console.log(transaction)
   //   self.view.dispatch({ type: 'transaction', transaction })
   // }),
-  commentUI(transaction => {
+  commentUI((transaction) => {
     console.log('this', this)
     console.log({ view: getView(), transaction })
     // Not quite working, does a new state object need to be created in the editor

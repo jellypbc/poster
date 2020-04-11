@@ -28,7 +28,7 @@ class FileUploader extends React.Component {
       },
     })
 
-    this.uppy.on('complete', result => {
+    this.uppy.on('complete', (result) => {
       const fileUrl = result.successful[0].response.body.url
       const id = result.successful[0].response.body.data.id
       const mimeType =
@@ -61,11 +61,11 @@ class FileUploader extends React.Component {
       .send(data)
       .set('X-CSRF-Token', token)
       .set('accept', 'application/json')
-      .then(res => {
+      .then((res) => {
         console.log(res)
         window.location = res.body.redirect_to
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err.message)
         this.setState({ error: err.message })
       })

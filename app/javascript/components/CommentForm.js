@@ -29,7 +29,7 @@ function CommentForm({ onSubmit, onCancel, className, ...rest }) {
     if (onCancel) onCancel()
   }
 
-  const handleKeyDown = e => {
+  const handleKeyDown = (e) => {
     if ((e.metaKey || e.ctrlKey) && e.keyCode === 13) {
       handleSubmit()
     }

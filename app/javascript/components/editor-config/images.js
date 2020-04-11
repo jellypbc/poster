@@ -1,13 +1,13 @@
 import { store } from '../store'
 import schema from './schema'
 
-export const addFigure = function(state, dispatch) {
+export const addFigure = function (state, dispatch) {
   console.log(state)
   if (dispatch) {
     store.dispatch({
       type: 'addImageStart',
       payload: {
-        onImageAddSuccess: action => {
+        onImageAddSuccess: (action) => {
           var imageUrl = action.payload.fileUrl
           var imageType = schema.nodes.image
           let tr = state.tr

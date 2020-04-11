@@ -9,12 +9,12 @@ export const getTimestamp = (timestampName, post) =>
 
 // determine if post has been saved to the server
 // returns `false` if the post was already saved (created)
-export const getIsNewPost = post => !getTimestamp('created_at', post)
+export const getIsNewPost = (post) => !getTimestamp('created_at', post)
 
-export const createParser = schema => {
+export const createParser = (schema) => {
   const parser = DOMParser.fromSchema(schema)
 
-  return content => {
+  return (content) => {
     const container = document.createElement('article')
     container.innerHTML = content
 
@@ -23,10 +23,10 @@ export const createParser = schema => {
 }
 
 // TODO: fix me so im not just making weird empty DOM things
-export const createSerializer = schema => {
+export const createSerializer = (schema) => {
   const serializer = DOMSerializer.fromSchema(schema)
 
-  return doc => {
+  return (doc) => {
     const container = document.createElement('article')
     console.log('serializin', doc.content)
     container.appendChild(serializer.serializeFragment(doc.content))

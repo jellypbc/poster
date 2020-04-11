@@ -87,7 +87,7 @@ export function addListNodes(nodes, itemContent, listGroup) {
 // value to indicate whether this is possible, but don't actually
 // perform the change.
 export function wrapInList(listType, attrs) {
-  return function(state, dispatch) {
+  return function (state, dispatch) {
     let { $from, $to } = state.selection
     let range = $from.blockRange($to),
       doJoin = false,
@@ -163,7 +163,7 @@ function doWrapInList(tr, range, wrappers, joinBefore, listType) {
 // Build a command that splits a non-empty textblock at the top level
 // of a list item by also splitting that list item.
 export function splitListItem(itemType) {
-  return function(state, dispatch) {
+  return function (state, dispatch) {
     let { $from, $to, node } = state.selection
     if ((node && node.isBlock) || $from.depth < 2 || !$from.sameParent($to))
       return false
@@ -220,11 +220,11 @@ export function splitListItem(itemType) {
 // Create a command to lift the list item around the selection up into
 // a wrapping list.
 export function liftListItem(itemType) {
-  return function(state, dispatch) {
+  return function (state, dispatch) {
     let { $from, $to } = state.selection
     let range = $from.blockRange(
       $to,
-      node => node.childCount && node.firstChild.type == itemType
+      (node) => node.childCount && node.firstChild.type == itemType
     )
     if (!range) return false
     if (!dispatch) return true
@@ -326,11 +326,11 @@ function liftOutOfList(state, dispatch, range) {
 // Create a command to sink the list item around the selection down
 // into an inner list.
 export function sinkListItem(itemType) {
-  return function(state, dispatch) {
+  return function (state, dispatch) {
     let { $from, $to } = state.selection
     let range = $from.blockRange(
       $to,
-      node => node.childCount && node.firstChild.type == itemType
+      (node) => node.childCount && node.firstChild.type == itemType
     )
     if (!range) return false
     let startIndex = range.startIndex

@@ -2,7 +2,7 @@ import { configureStore, createReducer } from '@reduxjs/toolkit'
 
 // unsafe side-effects for comment actions
 const commentsEffects = {
-  onCommentAdd: payload => null,
+  onCommentAdd: (payload) => null,
   onCommentStart: () => {
     const commentFormInput = document.querySelector('#comment-form-input')
     if (commentFormInput) commentFormInput.focus()
@@ -25,7 +25,7 @@ const commentReducers = {
   },
   addCommentCancel: (state, action) => {
     state.isAddingComment = false
-    commentsEffects.onCommentAdd = payload => null
+    commentsEffects.onCommentAdd = (payload) => null
   },
   addCommentSave: (state, action) => {
     state.isAddingComment = false
@@ -37,7 +37,7 @@ const commentReducers = {
 }
 
 const imagesEffects = {
-  onImageAddSuccess: payload => {},
+  onImageAddSuccess: (payload) => {},
 }
 
 const imagesReducerDefaultState = {

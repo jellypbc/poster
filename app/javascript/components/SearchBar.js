@@ -18,16 +18,16 @@ class SearchBar extends React.Component {
     placeholder.remove()
 
     var searchbar = document.getElementsByClassName('search-bar')[0]
-    searchbar.addEventListener('keyup', event => {
+    searchbar.addEventListener('keyup', (event) => {
       if (event.keyCode === 13) {
         window.location = '/search/results?query=' + this.state.value
       }
     })
   }
 
-  getSuggestionValue = suggestion => suggestion.title || ''
+  getSuggestionValue = (suggestion) => suggestion.title || ''
 
-  fetchSearchResults = value => {
+  fetchSearchResults = (value) => {
     const inputValue = value.trim().toLowerCase()
     const inputLength = inputValue.length
 
@@ -40,7 +40,7 @@ class SearchBar extends React.Component {
     superagent
       .get(url)
       .set('accept', 'application/json')
-      .then(res => {
+      .then((res) => {
         console.log(res.body)
         suggestions = res.body
         this.setState({ suggestions: suggestions })
@@ -63,7 +63,7 @@ class SearchBar extends React.Component {
     })
   }
 
-  renderSuggestion = suggestion => {
+  renderSuggestion = (suggestion) => {
     const { data } = suggestion
     return (
       <div className="suggestion-row">

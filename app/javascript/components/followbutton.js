@@ -44,10 +44,10 @@ class FollowButton extends React.Component {
         .send(data)
         .set('X-CSRF-Token', token)
         .set('accept', 'application/json')
-        .then(res => {
+        .then((res) => {
           this.setState({ following: true })
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err.message)
           this.setState({ error: err.message })
         })
@@ -67,10 +67,10 @@ class FollowButton extends React.Component {
         .send(data)
         .set('X-CSRF-Token', token)
         .set('accept', 'application/json')
-        .then(res => {
+        .then((res) => {
           this.setState({ following: false })
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err.message)
           this.setState({ error: err.message })
         })
@@ -110,7 +110,7 @@ class FollowButton extends React.Component {
 
         <button
           className={classnames}
-          onClick={e => this.handleClick(e)}
+          onClick={(e) => this.handleClick(e)}
           id="followbutton"
         >
           {this.state.following && <span></span>}

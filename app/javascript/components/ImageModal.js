@@ -7,7 +7,7 @@ import { DragDrop } from '@uppy/react'
 
 function ImageModal() {
   const dispatch = useDispatch()
-  const imagesState = useSelector(state => state.images)
+  const imagesState = useSelector((state) => state.images)
 
   const token = document.head.querySelector('[name~=csrf-token][content]')
     .content
@@ -24,7 +24,7 @@ function ImageModal() {
     },
   })
 
-  uppy.on('complete', result => {
+  uppy.on('complete', (result) => {
     const fileUrl = result.successful[0].response.body.url
     dispatch({
       type: 'addImageSuccess',

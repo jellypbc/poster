@@ -74,7 +74,7 @@ const keys = {
   'Mod-Shift-m': addAnnotation,
 }
 
-Object.keys(baseKeymap).forEach(key => {
+Object.keys(baseKeymap).forEach((key) => {
   if (keys[key]) {
     keys[key] = chainCommands(keys[key], baseKeymap[key])
   } else {
