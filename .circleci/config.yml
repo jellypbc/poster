@@ -91,7 +91,9 @@ jobs:
       - checkout
       - run: yarn install
       - run: yarn lint
-      - run: yarn test
+      - run: yarn test --reporter-option output=/tmp/test-results/cypress/report.xml
+      - store_test_results:
+          path: /tmp/test-results
 
 workflows:
   version: 2
