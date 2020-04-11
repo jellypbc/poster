@@ -83,6 +83,15 @@ jobs:
       - run: heroku run -a jellyposter newrelic deployments --revision=$CIRCLE_SHA1 --user=$CIRCLE_USERNAME
       - run: heroku restart -a jellyposter
 
+  test:
+    docker:
+      - image: circleci/ruby:2.5.3-node-browsers
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - run: yarn install
+      - run: yarn test
+      - run: yarn lint
 
 workflows:
   version: 2
@@ -95,3 +104,6 @@ workflows:
           filters:
             branches:
               only: master
+  test:
+    jobs:
+      - test
