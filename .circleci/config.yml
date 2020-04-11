@@ -94,6 +94,9 @@ jobs:
       - run: yarn test --reporter junit --reporter-options "mochaFile=/tmp/test-results/result.xml,toConsole=true"
       - store_test_results:
           path: /tmp/test-results
+      - store_artifacts:
+          path: .artifacts/
+          destination: cypress-artifacts
 
 workflows:
   version: 2
