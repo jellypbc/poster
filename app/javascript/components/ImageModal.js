@@ -17,25 +17,29 @@ function ImageModal() {
   const token = document.head.querySelector('[name~=csrf-token][content]')
     .content
 
-  var uppy = Uppy({
-    meta: { type: 'figure' },
-    restrictions: { maxNumberOfFiles: 1 },
-    autoProceed: true,
-  }).use(XHRUpload, {
-    endpoint: '/images/store',
-    bundle: true,
-    headers: {
-      csrf: token,
-    },
-  })
+  const uppy = React.useMemo(() => {
+    const _uppy = Uppy({
+      meta: { type: 'figure' },
+      restrictions: { maxNumberOfFiles: 1 },
+      autoProceed: true,
+    }).use(XHRUpload, {
+      endpoint: '/images/store',
+      bundle: true,
+      headers: {
+        csrf: token,
+      },
+    })
 
-  uppy.on('complete', (result) => {
-    const fileUrl = result.successful[0].response.body.url
+    _uppy.on('complete', (result) => {
+      const fileUrl = result.successful[0].response.body.url
 
-    window.dispatchEvent(
-      new CustomEvent('ImageUploadCompleted', { detail: { fileUrl } })
-    )
-  })
+      window.dispatchEvent(
+        new CustomEvent('ImageUploadCompleted', { detail: { fileUrl } })
+      )
+    })
+
+    return _uppy
+  }, [token])
 
   return (
     <div>
