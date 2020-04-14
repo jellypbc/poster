@@ -1,6 +1,5 @@
 import schema from './schema'
 
-// note: "pm" = ProseMirror, "store" = app-wide redux store
 export const addFigure = function (state, dispatch) {
   if (!dispatch) return true
 
