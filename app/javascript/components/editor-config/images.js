@@ -12,7 +12,7 @@ export const addFigure = function (pmState, pmDispatch) {
     pmDispatch(
       pmState.tr.replaceSelectionWith(imageType.create({ src: imageUrl }))
     )
-    window.removeEventListener(handleUpload)
+    window.removeEventListener('ImageUploadCompleted', handleUpload)
   }
   window.addEventListener('ImageUploadCompleted', handleUpload)
 
