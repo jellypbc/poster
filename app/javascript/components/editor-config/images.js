@@ -9,9 +9,8 @@ export const addFigure = function (state, dispatch) {
     const imageUrl = evt.detail.fileUrl
     const imageType = schema.nodes.image
     dispatch(state.tr.replaceSelectionWith(imageType.create({ src: imageUrl })))
-    window.removeEventListener('ImageUploadCompleted', handleUpload)
   }
-  window.addEventListener('ImageUploadCompleted', handleUpload)
+  window.addEventListener('ImageUploadCompleted', handleUpload, { once: true })
 
   return true
 }
