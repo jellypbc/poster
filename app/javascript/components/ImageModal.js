@@ -33,7 +33,7 @@ function ImageModal() {
     const fileUrl = result.successful[0].response.body.url
 
     window.dispatchEvent(
-      new CustomEvent('ImageUploadCompleted', { details: { fileUrl } })
+      new CustomEvent('ImageUploadCompleted', { detail: { fileUrl } })
     )
   })
 
