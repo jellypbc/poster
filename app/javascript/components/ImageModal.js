@@ -1,13 +1,18 @@
 import React from 'react'
-import { useSelector, useDispatch } from 'react-redux'
 import Modal from 'react-modal'
 import Uppy from '@uppy/core'
 import XHRUpload from '@uppy/xhr-upload'
 import { DragDrop } from '@uppy/react'
 
 function ImageModal() {
-  const dispatch = useDispatch()
-  const imagesState = useSelector((state) => state.images)
+  const [isAddingImage, setIsAddingImage] = React.useState(false)
+  React.useEffect(() => {
+    const handleEvent = () => {
+      setIsAddingImage(true)
+    }
+    window.addEventListener('ImageUploadRequested', handleEvent)
+    return window.removeEventListener('ImageUploadRequested', handleEvent)
+  })
 
   const token = document.head.querySelector('[name~=csrf-token][content]')
     .content
@@ -26,21 +31,21 @@ function ImageModal() {
 
   uppy.on('complete', (result) => {
     const fileUrl = result.successful[0].response.body.url
-    dispatch({
-      type: 'addImageSuccess',
-      payload: { fileUrl: fileUrl },
-    })
+
+    window.dispatchEvent(
+      new CustomEvent('ImageUploadCompleted', { details: { fileUrl } })
+    )
   })
 
   return (
     <div>
       <Modal
         onRequestClose={() => {
-          dispatch({ type: 'closeImageModal' })
+          setIsAddingImage(false)
         }}
         className="image-modal-container"
         shouldCloseOnOverlayClick={true}
-        isOpen={imagesState.isAddingImage}
+        isOpen={isAddingImage}
       >
         <div className="image-modal">
           <DragDrop
