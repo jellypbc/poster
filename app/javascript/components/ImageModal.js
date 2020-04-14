@@ -12,7 +12,7 @@ function ImageModal() {
     }
     window.addEventListener('ImageUploadRequested', handleEvent)
     return () => window.removeEventListener('ImageUploadRequested', handleEvent)
-  })
+  }, [])
 
   const token = document.head.querySelector('[name~=csrf-token][content]')
     .content
