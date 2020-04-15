@@ -4,6 +4,31 @@ import Uppy from '@uppy/core'
 import XHRUpload from '@uppy/xhr-upload'
 import { DragDrop } from '@uppy/react'
 
+// React Hook that manages Uppy instances for uploading
+function useUppy(token, onUpload) {
+  const [uploaderGeneration, setUploaderGeneration] = React.useState(0)
+  return React.useMemo(() => {
+    const _uppy = Uppy({
+      meta: { type: 'figure' },
+      restrictions: { maxNumberOfFiles: 1 },
+      autoProceed: true,
+    }).use(XHRUpload, {
+      endpoint: '/images/store',
+      bundle: true,
+      headers: {
+        csrf: token,
+      },
+    })
+    _uppy.on('complete', (result) => {
+      const fileUrl = result.successful[0].response.body.url
+      onUpload(fileUrl)
+      // build a new Uppy instance for the next upload
+      setUploaderGeneration(uploaderGeneration + 1)
+    })
+    return _uppy
+  }, [onUpload, token, uploaderGeneration])
+}
+
 function ImageModal() {
   const [isAddingImage, setIsAddingImage] = React.useState(false)
   React.useEffect(() => {
@@ -16,36 +41,13 @@ function ImageModal() {
 
   const token = document.head.querySelector('[name~=csrf-token][content]')
     .content
-
-  const [uploaderGeneration, setUploaderGeneration] = React.useState(0)
-
-  const uppy = React.useMemo(() => {
-    const _uppy = Uppy({
-      meta: { type: 'figure' },
-      restrictions: { maxNumberOfFiles: 1 },
-      autoProceed: true,
-    }).use(XHRUpload, {
-      endpoint: '/images/store',
-      bundle: true,
-      headers: {
-        csrf: token,
-      },
-    })
-
-    _uppy.on('complete', (result) => {
-      const fileUrl = result.successful[0].response.body.url
-
-      window.dispatchEvent(
-        new CustomEvent('ImageUploadCompleted', { detail: { fileUrl } })
-      )
-
-      // close the modal and build a new Uppy instance for the next upload
-      setUploaderGeneration(uploaderGeneration + 1)
-      setIsAddingImage(false)
-    })
-
-    return _uppy
-  }, [token, uploaderGeneration])
+  const handleUpload = React.useCallback((fileUrl) => {
+    window.dispatchEvent(
+      new CustomEvent('ImageUploadCompleted', { detail: { fileUrl } })
+    )
+    setIsAddingImage(false)
+  }, [])
+  const uppy = useUppy(token, handleUpload)
 
   return (
     <div>
