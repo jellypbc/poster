@@ -17,6 +17,8 @@ function ImageModal() {
   const token = document.head.querySelector('[name~=csrf-token][content]')
     .content
 
+  const [uploaderGeneration, setUploaderGeneration] = React.useState(0)
+
   const uppy = React.useMemo(() => {
     const _uppy = Uppy({
       meta: { type: 'figure' },
@@ -36,10 +38,14 @@ function ImageModal() {
       window.dispatchEvent(
         new CustomEvent('ImageUploadCompleted', { detail: { fileUrl } })
       )
+
+      // close the modal and build a new Uppy instance for the next upload
+      setUploaderGeneration(uploaderGeneration + 1)
+      setIsAddingImage(false)
     })
 
     return _uppy
-  }, [token])
+  }, [token, uploaderGeneration])
 
   return (
     <div>
