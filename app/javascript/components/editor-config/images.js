@@ -1,13 +1,11 @@
-import { store, waitForStore, TIMEOUT_ERROR } from '../store'
+import { store, images, waitForStore, TIMEOUT_ERROR } from '../store'
 import schema from './schema'
 
 // note: "pm" = ProseMirror, "store" = app-wide redux store
 export const addFigure = function (pmState, pmDispatch) {
   if (!pmDispatch) return true
 
-  store.dispatch({
-    type: 'addImageStart',
-  })
+  store.dispatch(images.actions.addImageStart())
 
   waitForStore({
     selector: (storeState) => storeState.images,

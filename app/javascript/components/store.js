@@ -1,4 +1,4 @@
-import { configureStore, createReducer } from '@reduxjs/toolkit'
+import { configureStore, createReducer, createSlice } from '@reduxjs/toolkit'
 
 // unsafe side-effects for comment actions
 const commentsEffects = {
@@ -36,29 +36,31 @@ const commentReducers = {
   },
 }
 
-const imagesReducerDefaultState = {
-  isAddingimage: false,
-  lastImage: null,
-}
-
-const imageReducers = {
-  addImageStart: (state, action) => {
-    state.lastImage = null
-    state.isAddingImage = true
+const images = createSlice({
+  name: 'images',
+  initialState: {
+    isAddingimage: false,
+    lastImage: null,
   },
-  addImageSuccess: (state, action) => {
-    state.lastImage = action.payload
-    state.isAddingImage = false
+  reducers: {
+    addImageStart: (state, action) => {
+      state.lastImage = null
+      state.isAddingImage = true
+    },
+    addImageSuccess: (state, action) => {
+      state.lastImage = action.payload
+      state.isAddingImage = false
+    },
+    closeImageModal: (state, action) => {
+      state.isAddingImage = false
+    },
   },
-  closeImageModal: (state, action) => {
-    state.isAddingImage = false
-  },
-}
+})
 
 const store = configureStore({
   reducer: {
     comments: createReducer(commentsReducerDefaultState, commentReducers),
-    images: createReducer(imagesReducerDefaultState, imageReducers),
+    images: images.reducer,
   },
 })
 
@@ -74,7 +76,6 @@ window._store = store
  */
 function observeStore(onChange, { selector = (state) => state } = {}) {
   let currentState
-
   function handleChange() {
     // Using a selector function lets us subscribe to changes in just a slice of
     // the store (defaults to the whole thing if no selector is provided):
@@ -84,10 +85,7 @@ function observeStore(onChange, { selector = (state) => state } = {}) {
       onChange(currentState)
     }
   }
-
-  let unsubscribe = store.subscribe(handleChange)
-  handleChange()
-  return { unsubscribe }
+  return { unsubscribe: store.subscribe(handleChange) }
 }
 
 // exported in case you need to check the reason the condition failed
@@ -109,13 +107,13 @@ function waitForStore({
   selector = (state) => state,
 } = {}) {
   return new Promise((resolvePromise, rejectPromise) => {
-    let observer
+    let observerRef = { current: { unsubscribe: () => {} } }
     const timer = setTimeout(() => {
-      observer.unsubscribe()
+      observerRef.current.unsubscribe()
       rejectPromise(new Error(TIMEOUT_ERROR))
     }, timeout)
     const finish = () => {
-      observer.unsubscribe()
+      observerRef.current.unsubscribe()
       clearTimeout(timer)
     }
     const onChange = (state) => {
@@ -127,8 +125,8 @@ function waitForStore({
         rejectPromise(state)
       }
     }
-    observer = observeStore(onChange, selector)
+    observerRef.current = observeStore(onChange, { selector })
   })
 }
 
-export { store, observeStore, waitForStore, TIMEOUT_ERROR }
+export { store, images, observeStore, waitForStore, TIMEOUT_ERROR }
