@@ -59,35 +59,23 @@ class PostSerializer
   attribute :tags do |object|
     # object.tags.to_json
     object.tags.order(updated_at: :desc).map{|tag|
-    {
-      id: tag.id.to_s,
-      text: tag.text,
-      slug: tag.slug,
+      {
+        id: tag.id.to_s,
+        text: tag.text,
+        slug: tag.slug,
       }
     }.as_json
   end
 
   attribute :comments do |object|
-    thing = {
-      'comments': [
-        {
-          'to': '383',
-          'from': '10',
-          'id': '1349971121',
-          'text': 'dogdog'
-        }
-      ]
-    }
-    thing.as_json
-    # object.comments.map {|comment|
-    #   {
-    #     id: comment.data_id,
-    #     text: comment.comment,
-    #     to: comment.data_to,
-    #     from: comment.data_from,
-    #     user_id: comment.user_id
-    #   }
-    # }.as_json
+     object.comments.map{ |comment|
+      {
+        to: comment.data_to,
+        from: comment.data_from,
+        id: comment.data_key,
+        text: comment.comment
+      }
+    }.as_json
   end
 
 end

@@ -62,7 +62,8 @@ class PostEditor extends React.Component {
     console.log("pluginState", pluginState)
     options.doc = this.parse(postBody) // TODO: don't mutate "options"
     options.editable = this.state.isEditable
-    options.doc.comments = { comments: pluginState.comments } // TODO: generalize plugin state restoration
+    options.doc.comments = pluginState // TODO: generalize plugin state restoration
+    // options.doc.comments = { comments: pluginState.comments } // TODO: generalize plugin state restoration
   }
 
   componentDidMount() {
@@ -210,7 +211,7 @@ class PostEditor extends React.Component {
 
     var data = {
       body: doc,
-      // plugins: JSON.stringify({ comments }),
+      plugins: JSON.stringify({ comments }),
     }
 
     /* document + plugin serialization END */
@@ -249,15 +250,17 @@ class PostEditor extends React.Component {
     } = this.state
     const isNewPost = getIsNewPost(post)
     const postBody = post.data.attributes.body
+
     // const pluginState = JSON.parse(post.data.attributes.plugins)
-    const pluginState = this.state.post.data.attributes.comments
+    const pluginState = { comments: post.data.attributes.comments }
 
     const lastSavedAtDate = new Date(lastSavedAt) // convert to date object
     const hasUnsavedChanges = lastSavedAtDate < lastUnsavedChangeAt
 
     // TODO: eek
     options.doc = this.parse(postBody) // TODO: don't mutate "options"
-    options.doc.comments = { comments: pluginState.comments } // TODO: generalize plugin state restoration
+    // options.doc.comments = { comments: pluginState.comments } // TODO: generalize plugin state restoration
+    options.doc.comments = { comments: pluginState } // TODO: generalize plugin state restoration
 
     const postTitle = post.data.attributes.title
     var titleOptions = Object.assign({}, options)

@@ -57,7 +57,9 @@ class CommentState {
   }
 
   static init(config) {
-    console.log('init', config)
+    console.log('doc comments', config.doc.comments)
+    console.log('comments comments', config.comments.comments)
+    console.log('init comment plugin', config)
     const existingComments =
       (config.doc.comments
         ? config.doc.comments.comments
@@ -120,16 +122,17 @@ export const addAnnotation = function (state, dispatch) {
     const handleNewComment = ({ text }) => {
 
       var comment = new Comment(text, randomID())
-      // store.dispatch({
-      //   type: 'addCommentSave',
-      //   payload: {
-      //     type: 'newComment',
-      //     from: sel.from,
-      //     to: sel.to,
-      //     key: comment.id,
-      //     comment: comment.text,
-      //   }
-      // })
+      store.dispatch({
+        type: 'addCommentSave',
+        payload: {
+          type: 'newComment',
+          from: sel.from,
+          to: sel.to,
+          key: comment.id,
+          comment: comment.text,
+          // post_id: this.state.post.id
+        }
+      })
 
       dispatch(
         state.tr.setMeta(commentPlugin, {

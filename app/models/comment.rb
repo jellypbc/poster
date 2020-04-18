@@ -23,4 +23,7 @@
 #
 
 class Comment < ApplicationRecord
+  validates :data_key, uniqueness: true
+
+  belongs_to :post
 end

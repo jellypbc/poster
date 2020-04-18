@@ -6,39 +6,25 @@ const commentsEffects = {
   onCommentSuccess: payload => {
     var url = '/comments'
     var method = 'post'
-    // var url = isNewPost ? '/posts' : post.data.attributes.form_url
-    // var method = isNewPost ? 'post' : 'put'
-    // var token = document.head.querySelector('[name~=csrf-token][content]')
-    //   .content
 
-    var data = {
-      comment: {
-        data_to: payload.to,
-        data_from: payload.from,
-        data_key: payload.comment.id,
-        comment: payload.comment,
-        post_id: payload.post_id,
-        // user_id: payload.user_id,
-      }
-    }
+    // var data = {
+    //   comment: {
+    //     data_to: payload.to,
+    //     data_from: payload.from,
+    //     data_key: payload.comment.id,
+    //     comment: payload.comment,
+    //     post_id: payload.post_id,
+    //     // user_id: payload.user_id,
+    //   }
+    // }
 
-    superagent[method](url)
-      .send(data)
-      // .set('X-CSRF-Token', token)
-      .set('accept', 'application/json')
-      .end((err, res) => {
-        console.log({ res, err }) // DEBUG SAVE
+    // superagent[method](url)
+    //   .send(data)
+    //   .set('accept', 'application/json')
+    //   .end((err, res) => {
+    //     console.log({ res, err }) // DEBUG SAVE
 
-        // res is just showing a redirect instead of full data,
-        // use the browser timestamp instead of new updated_at
-        // const now = new Date().toISOString()
-        // this.setState(state => ({
-        //   isLoading: false,
-        //   error: err ? err : null,
-        //   errorAt: err ? now : null,
-        //   lastSavedAt: err ? state.lastSavedAt : now,
-        // }))
-      })
+    //   })
 
     // store.dispatch({
     //   type: "setComments",
