@@ -57,9 +57,7 @@ class CommentState {
   }
 
   static init(config) {
-    console.log('doc comments', config.doc.comments)
-    console.log('comments comments', config.comments.comments)
-    console.log('init comment plugin', config)
+    // console.log('doc comments', config.doc)
     const existingComments =
       (config.doc.comments
         ? config.doc.comments.comments
@@ -111,7 +109,7 @@ export const addAnnotation = function (state, dispatch) {
   if (sel.empty) return false
   if (dispatch) {
     // no longer PM land
-    console.log(">>>> i am in going to submit", state)
+    console.log('>>>> i am in going to submit', state)
     const root =
       document.querySelector('#comment-modal') || document.createElement('div')
     root.id = '#comment-modal'
@@ -120,7 +118,6 @@ export const addAnnotation = function (state, dispatch) {
     const handleClose = () => ReactDOM.unmountComponentAtNode(root)
 
     const handleNewComment = ({ text }) => {
-
       var comment = new Comment(text, randomID())
       store.dispatch({
         type: 'addCommentSave',
@@ -131,7 +128,7 @@ export const addAnnotation = function (state, dispatch) {
           key: comment.id,
           comment: comment.text,
           // post_id: this.state.post.id
-        }
+        },
       })
 
       dispatch(
@@ -139,7 +136,7 @@ export const addAnnotation = function (state, dispatch) {
           type: 'newComment',
           from: sel.from,
           to: sel.to,
-          comment: comment
+          comment: comment,
         })
       )
       // side effect to scroll window to here

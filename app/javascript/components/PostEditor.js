@@ -59,7 +59,7 @@ class PostEditor extends React.Component {
     // const pluginState = JSON.parse(this.state.post.data.attributes.plugins)
     // const pluginState = JSON.parse(this.state.post.data.attributes.comments)
     const pluginState = this.state.post.data.attributes.comments
-    console.log("pluginState", pluginState)
+    console.log('pluginState', pluginState)
     options.doc = this.parse(postBody) // TODO: don't mutate "options"
     options.editable = this.state.isEditable
     options.doc.comments = pluginState // TODO: generalize plugin state restoration
@@ -78,9 +78,9 @@ class PostEditor extends React.Component {
           // console.log('connected to PostsChannel')
         },
 
-        received: function(data) {
+        received: function (data) {
           // console.log("webhook", data)
-          this.setState(state => ({
+          this.setState((state) => ({
             post: data,
             isProcessing: false,
           }))
@@ -252,7 +252,8 @@ class PostEditor extends React.Component {
     const postBody = post.data.attributes.body
 
     // const pluginState = JSON.parse(post.data.attributes.plugins)
-    const pluginState = { comments: post.data.attributes.comments }
+    const pluginState = post.data.attributes.comments
+    console.log('comments', pluginState)
 
     const lastSavedAtDate = new Date(lastSavedAt) // convert to date object
     const hasUnsavedChanges = lastSavedAtDate < lastUnsavedChangeAt

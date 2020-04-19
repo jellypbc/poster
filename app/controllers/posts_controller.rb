@@ -48,37 +48,8 @@ class PostsController < ApplicationController
   end
 
   def update
-    # data.plugins get the comments, see what has changed and what is new
-    # some code that handles the params["plugins"], and then creates
-    # new comments, or updates existing comments
-
-    # binding.pry
     respond_to do |format|
       if @post.update!(post_params)
-
-        parsed_params = JSON.parse(params["plugins"])
-        if comments_data = parsed_params["comments"]
-
-          comments = []
-          comments_data.each do |comment_data|
-            comment = Comment.find_or_create_by(
-              data_key: comment_data["id"].to_s,
-              post_id: @post.id)
-
-            comment.update_attributes(
-              comment: comment_data["text"],
-              data_from: comment_data["from"],
-              data_to: comment_data["to"]
-            )
-            comments << comment
-          end
-          comments_to_delete = @post.comments - comments
-          comments_to_delete.each do |comment|
-            comment.destroy
-          end
-        end
-
-
         format.html { redirect_to @post, notice: 'Post was successfully updated.' }
         format.json { render json: { post: PostSerializer.new(@post).as_json } }
       else
@@ -145,7 +116,7 @@ class PostsController < ApplicationController
     def post_params
       params.require(:post).permit(
         :title, :body, :publisher, :authors,
-        :slug, :plugins, tags: [:id, :text, :post_id, :slug]
+        :slug, tags: [:id, :text, :post_id, :slug]
       )
     end
 
