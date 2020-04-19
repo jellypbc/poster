@@ -56,10 +56,9 @@ class PostEditor extends React.Component {
     this.parse = createParser(schema)
     this.serialize = createSerializer(schema)
     const postBody = this.state.post.data.attributes.body
-    // const pluginState = JSON.parse(this.state.post.data.attributes.plugins)
-    // const pluginState = JSON.parse(this.state.post.data.attributes.comments)
+
     const pluginState = this.state.post.data.attributes.comments
-    console.log('pluginState', pluginState)
+    console.log('pluginState comments at the head', pluginState)
     options.doc = this.parse(postBody) // TODO: don't mutate "options"
     options.editable = this.state.isEditable
     options.doc.comments = pluginState // TODO: generalize plugin state restoration
@@ -253,7 +252,7 @@ class PostEditor extends React.Component {
 
     // const pluginState = JSON.parse(post.data.attributes.plugins)
     const pluginState = post.data.attributes.comments
-    console.log('comments', pluginState)
+    console.log('pluginstate comments', pluginState)
 
     const lastSavedAtDate = new Date(lastSavedAt) // convert to date object
     const hasUnsavedChanges = lastSavedAtDate < lastUnsavedChangeAt

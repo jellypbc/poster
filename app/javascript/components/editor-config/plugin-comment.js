@@ -57,11 +57,14 @@ class CommentState {
   }
 
   static init(config) {
-    // console.log('doc comments', config.doc)
+    console.log('doc config.doc.comments', config.doc.comments)
+    console.log('doc config.comments', config.comments)
     const existingComments =
       (config.doc.comments
         ? config.doc.comments.comments
         : config.comments.comments) || []
+
+    console.log('existingComments', existingComments)
     let decos = existingComments.map((c) =>
       deco(c.from, c.to, new Comment(c.text, c.id))
     )
