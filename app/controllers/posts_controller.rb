@@ -116,7 +116,7 @@ class PostsController < ApplicationController
     def post_params
       params.require(:post).permit(
         :title, :body, :publisher, :authors,
-        :slug, :plugins, tags: [:id, :text, :post_id, :slug]
+        :slug, tags: [:id, :text, :post_id, :slug]
       )
     end
 

@@ -83,6 +83,10 @@
 }
 
 /* Make sure li selections wrap around markers */
+.selection-marker {
+  font-family: inherit;
+  font-size: inherit;
+}
 
 li.ProseMirror-selectednode {
   outline: none;
@@ -96,3 +100,4 @@ li.ProseMirror-selectednode:after {
   border: 2px solid #8cf;
   pointer-events: none;
 }
+

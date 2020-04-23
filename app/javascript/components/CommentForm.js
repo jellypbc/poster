@@ -19,7 +19,21 @@ function CommentForm({ onSubmit, onCancel, className, ...rest }) {
 
   const handleSubmit = () => {
     const payload = getSavePayload()
+    console.log('payload to be sent from getSavePayload', payload)
     // dispatch({ type: 'addCommentSave', payload })
+
+    // maybe this dispatch happens here instead? but cant get access to props
+    // dispatch({
+    //   type: 'addCommentSave',
+    //   payload: {
+    //     type: 'newComment',
+    //     comment: payload,
+    //     // from: sel.from,
+    //     // to: sel.to,
+    //     // key: comment.id,
+    //   }
+    // })
+
     textareaRef.current.value = '' // clear (could change this to controlled value too)
     if (onSubmit) onSubmit(payload)
   }

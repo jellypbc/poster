@@ -28,7 +28,6 @@ export const createSerializer = (schema) => {
 
   return (doc) => {
     const container = document.createElement('article')
-    console.log('serializin', doc.content)
     container.appendChild(serializer.serializeFragment(doc.content))
 
     return container.innerHTML

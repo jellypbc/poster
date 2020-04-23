@@ -2,6 +2,7 @@ import { configureStore, createReducer } from '@reduxjs/toolkit'
 
 // unsafe side-effects for comment actions
 const commentsEffects = {
+  onCommentSuccess: (payload) => null,
   onCommentAdd: (payload) => null,
   onCommentStart: () => {
     const commentFormInput = document.querySelector('#comment-form-input')
@@ -11,9 +12,15 @@ const commentsEffects = {
 
 const commentsReducerDefaultState = {
   isAddingComment: false,
+  comments: [],
 }
 
 const commentReducers = {
+  setComments: (state, action) => {
+    state.comments = action.payload.comments
+    // will set the posts comments from new data or componentDidMount?
+  },
+
   addCommentStart: (state, action) => {
     state.isAddingComment = true
     if (commentsEffects.onCommentStart) {
@@ -31,6 +38,9 @@ const commentReducers = {
     state.isAddingComment = false
     if (commentsEffects.onCommentAdd) {
       commentsEffects.onCommentAdd(action.payload)
+    }
+    if (commentsEffects.onCommentSuccess) {
+      commentsEffects.onCommentSuccess(action.payload)
     }
     state.newestComment = action.payload
   },
@@ -63,10 +73,24 @@ const imageReducers = {
   },
 }
 
+const postReducers = {
+  setCurrentPost: (state, action) => {
+    state.currentPost = action.payload.data
+  },
+}
+
+const userReducers = {
+  setCurrentUser: (state, action) => {
+    state.currentUser = action.payload.data
+  },
+}
+
 const store = configureStore({
   reducer: {
     comments: createReducer(commentsReducerDefaultState, commentReducers),
     images: createReducer(imagesReducerDefaultState, imageReducers),
+    currentPost: createReducer({}, postReducers),
+    currentUser: createReducer({}, userReducers),
   },
 })
 

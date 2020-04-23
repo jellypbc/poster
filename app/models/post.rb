@@ -44,6 +44,8 @@ class Post < ApplicationRecord
   has_many :tag_ownerships
   has_many :tags, through: :tag_ownerships
 
+  has_many :comments
+
 	accepts_nested_attributes_for :uploads
 
   validates :title, length: { maximum: 1000 }

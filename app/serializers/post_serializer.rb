@@ -32,6 +32,7 @@ class PostSerializer
   has_many :uploads
 	has_many :citations
   has_many :figures
+  # has_many :comments, serializer: CommentSerializer
 
   attributes :title, :authors, :publisher, :id,
     :created_at, :updated_at, :plugins, :slug
@@ -59,10 +60,21 @@ class PostSerializer
   attribute :tags do |object|
     # object.tags.to_json
     object.tags.order(updated_at: :desc).map{|tag|
-    {
-      id: tag.id.to_s,
-      text: tag.text,
-      slug: tag.slug,
+      {
+        id: tag.id.to_s,
+        text: tag.text,
+        slug: tag.slug,
+      }
+    }.as_json
+  end
+
+  attribute :comments do |object|
+     object.comments.map{ |comment|
+      {
+        to: comment.data_to.to_i,
+        from: comment.data_from.to_i,
+        id: comment.data_key.to_i,
+        text: comment.text
       }
     }.as_json
   end

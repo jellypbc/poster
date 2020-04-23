@@ -10,7 +10,7 @@ class Editor extends React.Component {
 
     this.editorRef = React.createRef()
 
-    console.log('EDITOR OPTIONS', props.options)
+    console.log('EDITOR PROPS', props)
 
     const getView = () => this.view
 
@@ -18,7 +18,7 @@ class Editor extends React.Component {
       // prosemirror options = { plugins, schema, comments: { comments: [] } }
       state: EditorState.create({
         ...props.options,
-        plugins: props.options.setupPlugins(getView),
+        plugins: props.options.setupPlugins(getView, props.post.data.slug),
       }),
       dispatchTransaction: (transaction) => {
         const oldComments = commentPluginKey.getState(this.view.state)
@@ -43,7 +43,6 @@ class Editor extends React.Component {
         // TODO: why?
         this.forceUpdate()
       },
-      attributes: this.props.attributes,
       nodeViews: this.props.nodeViews,
       editable: function (state) {
         return this.props.isEditable

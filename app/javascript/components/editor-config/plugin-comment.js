@@ -2,8 +2,11 @@
 import { Plugin, PluginKey } from 'prosemirror-state'
 import { Decoration, DecorationSet } from 'prosemirror-view'
 import CommentForm from '../CommentForm'
+import { store } from './../store'
+
 import ReactDOM from 'react-dom'
 import React from 'react'
+import superagent from 'superagent'
 import classnames from 'classnames'
 
 export const pluginKey = new PluginKey('comments')
@@ -55,7 +58,6 @@ class CommentState {
   }
 
   static init(config) {
-    console.log('init', config)
     const existingComments =
       (config.doc.comments
         ? config.doc.comments.comments
@@ -63,6 +65,8 @@ class CommentState {
     let decos = existingComments.map((c) =>
       deco(c.from, c.to, new Comment(c.text, c.id))
     )
+    console.log('config.doc.comments', config.doc.comments)
+    console.log('config.comments', config.comments)
     return new CommentState(
       config.comments.version,
       DecorationSet.create(config.doc, decos),
@@ -72,7 +76,6 @@ class CommentState {
 }
 
 export function serialize(action) {
-  console.log('i am a comment', action)
   return {
     to: action.to,
     from: action.from,
@@ -90,6 +93,9 @@ export const commentPlugin = new Plugin({
     },
   },
   props: {
+    attributes: {
+      dogs: 'dogs',
+    },
     decorations(state) {
       return this.getState(state).decos
     },
@@ -114,16 +120,45 @@ export const addAnnotation = function (state, dispatch) {
     const handleClose = () => ReactDOM.unmountComponentAtNode(root)
 
     const handleNewComment = ({ text }) => {
+      var newComment = new Comment(text, randomID())
+
       dispatch(
         state.tr.setMeta(commentPlugin, {
           type: 'newComment',
           from: sel.from,
           to: sel.to,
-          comment: new Comment(text, randomID()),
+          comment: newComment,
         })
       )
-      // side effect to scroll window to here
-      // store.dispatch(dosideeffect)
+
+      // begin stuff ---------------
+      var url = '/comments'
+      var { currentUser, currentPost } = store.getState()
+      var data = {
+        comment: {
+          data_to: sel.to,
+          data_from: sel.from,
+          data_key: newComment.id,
+          text: newComment.text,
+        },
+      }
+      if (currentPost) {
+        data.comment.post_id = currentPost.currentPost.id
+      }
+      if (currentUser) {
+        data.comment.user_id = currentUser.currentUser.id
+      }
+
+      superagent
+        .post(url)
+        .send(data)
+        .set('accept', 'application/json')
+        .end((err, res) => {
+          console.log({ res, err }) // DEBUG SAVE
+        })
+
+      // end stuff ---------------
+
       handleClose()
     }
 
