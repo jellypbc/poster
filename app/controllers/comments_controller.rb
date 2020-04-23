@@ -1,5 +1,6 @@
 class CommentsController < ApplicationController
   before_action :set_comment, only: [:show, :edit, :update, :destroy]
+  before_action :set_post, only: [:show, :create, :edit, :update, :destroy]
   skip_before_action :verify_authenticity_token
 
   def index
@@ -17,7 +18,6 @@ class CommentsController < ApplicationController
   end
 
   def create
-    # binding.pry
     @comment = Comment.new(comment_params)
 
     respond_to do |format|
@@ -56,9 +56,16 @@ class CommentsController < ApplicationController
       @comment = Comment.find(params[:id])
     end
 
+    def set_post
+      if params[:comment] && params[:comment][:post_id]
+        @post = Post.find(params[:comment][:post_id])
+      end
+    end
+
     def comment_params
       params.require(:comment).permit(
-        :comment, :data_to, :data_from, :data_key, :user_id, :post_id
+        :text, :data_to, :data_from, :data_key,
+        :user_id, :post_id
       )
     end
 

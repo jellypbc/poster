@@ -4,6 +4,8 @@ import { createConsumer } from '@rails/actioncable'
 import superagent from 'superagent'
 import debounce from 'lodash/debounce'
 import sanitizeHtml from 'sanitize-html'
+
+import { store } from './store'
 import Editor from './Editor'
 import Floater from './Floater'
 import MenuBar from './MenuBar'
@@ -57,12 +59,13 @@ class PostEditor extends React.Component {
     this.serialize = createSerializer(schema)
     const postBody = this.state.post.data.attributes.body
 
-    const pluginState = this.state.post.data.attributes.comments
-    console.log('pluginState comments at the head', pluginState)
-    options.doc = this.parse(postBody) // TODO: don't mutate "options"
-    options.editable = this.state.isEditable
-    options.doc.comments = pluginState // TODO: generalize plugin state restoration
-    // options.doc.comments = { comments: pluginState.comments } // TODO: generalize plugin state restoration
+    // comments: {
+    //   [{"to"=>405, "from"=>393, "id"=>2529640997, "text"=>"dogs\n"}]
+    // }
+
+    // options.doc = this.parse(postBody) // TODO: don't mutate "options"
+    // options.editable = this.state.isEditable
+    // options.doc.comments =  { comments: this.state.post.data.attributes.comments }
   }
 
   componentDidMount() {
@@ -87,6 +90,18 @@ class PostEditor extends React.Component {
         }.bind(this),
       }
     )
+
+    store.dispatch({
+      type: 'setCurrentPost',
+      payload: this.props.post,
+    })
+
+    if (this.props.currentUser) {
+      store.dispatch({
+        type: 'setCurrentUser',
+        payload: this.props.currentUser,
+      })
+    }
 
     this.removeStaticRenderPlaceholder()
   }
@@ -195,7 +210,9 @@ class PostEditor extends React.Component {
       .map(serializeComment)
 
     // TODO: serialize JSON on server instead of parsing string?
-    const oldPluginState = JSON.parse(post.data.attributes.plugins)
+    // const oldPluginState = JSON.parse(post.data.attributes.plugins)
+    // const oldPluginState = post.data.relationships.comments.data
+    const oldPluginState = post.data.attributes.comments
     const comments = [
       ...(oldPluginState.comments || []),
       ...newCommentsToSave,
@@ -203,7 +220,6 @@ class PostEditor extends React.Component {
       return !commentState.unsent.find((action) => {
         const isDeletable = action.type === 'deleteComment'
         const isTheComment = action.comment.id === comment.id
-        console.log({ comment, action, isDeletable, isTheComment })
         return isDeletable && isTheComment
       })
     })
@@ -225,8 +241,6 @@ class PostEditor extends React.Component {
       .set('accept', 'application/json')
       .end((err, res) => {
         console.log({ res, err }) // DEBUG SAVE
-        // res is just showing a redirect instead of full data,
-        // use the browser timestamp instead of new updated_at
         const now = new Date().toISOString()
         this.setState((state) => ({
           isLoading: false,
@@ -249,18 +263,15 @@ class PostEditor extends React.Component {
     } = this.state
     const isNewPost = getIsNewPost(post)
     const postBody = post.data.attributes.body
-
-    // const pluginState = JSON.parse(post.data.attributes.plugins)
-    const pluginState = post.data.attributes.comments
-    console.log('pluginstate comments', pluginState)
-
     const lastSavedAtDate = new Date(lastSavedAt) // convert to date object
     const hasUnsavedChanges = lastSavedAtDate < lastUnsavedChangeAt
 
-    // TODO: eek
     options.doc = this.parse(postBody) // TODO: don't mutate "options"
+
+    // const pluginState = JSON.parse(post.data.attributes.plugins)
     // options.doc.comments = { comments: pluginState.comments } // TODO: generalize plugin state restoration
-    options.doc.comments = { comments: pluginState } // TODO: generalize plugin state restoration
+
+    options.doc.comments = { comments: post.data.attributes.comments }
 
     const postTitle = post.data.attributes.title
     var titleOptions = Object.assign({}, options)
@@ -279,10 +290,9 @@ class PostEditor extends React.Component {
         ) : null}
 
         <Editor
+          post={post}
           options={titleOptions}
           onChange={this.handleTitleChange}
-          pluginState={pluginState}
-          post_id={post.data.id}
           isEditable={isEditable}
           render={({ editor, view }) => (
             <div className="header">
@@ -299,11 +309,10 @@ class PostEditor extends React.Component {
         />
 
         <Editor
+          post={post}
           autoFocus
           options={options}
           onChange={this.handleChange}
-          pluginState={pluginState}
-          post_id={post.data.id}
           isEditable={isEditable}
           render={({ editor, view }) => (
             <div>

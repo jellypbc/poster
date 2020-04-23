@@ -2,10 +2,12 @@
 import { Plugin, PluginKey } from 'prosemirror-state'
 import { Decoration, DecorationSet } from 'prosemirror-view'
 import CommentForm from '../CommentForm'
+import { store } from './../store'
+
 import ReactDOM from 'react-dom'
 import React from 'react'
+import superagent from 'superagent'
 import classnames from 'classnames'
-import { store } from '../store'
 
 export const pluginKey = new PluginKey('comments')
 
@@ -21,11 +23,10 @@ function deco(from, to, comment) {
 }
 
 class CommentState {
-  constructor(version, decos, unsent, props) {
+  constructor(version, decos, unsent) {
     this.version = version
     this.decos = decos
     this.unsent = unsent
-    this.props = props
   }
 
   findComment(id) {
@@ -57,17 +58,15 @@ class CommentState {
   }
 
   static init(config) {
-    console.log('doc config.doc.comments', config.doc.comments)
-    console.log('doc config.comments', config.comments)
     const existingComments =
       (config.doc.comments
         ? config.doc.comments.comments
         : config.comments.comments) || []
-
-    console.log('existingComments', existingComments)
     let decos = existingComments.map((c) =>
       deco(c.from, c.to, new Comment(c.text, c.id))
     )
+    console.log('config.doc.comments', config.doc.comments)
+    console.log('config.comments', config.comments)
     return new CommentState(
       config.comments.version,
       DecorationSet.create(config.doc, decos),
@@ -77,7 +76,6 @@ class CommentState {
 }
 
 export function serialize(action) {
-  console.log('i am a comment', action)
   return {
     to: action.to,
     from: action.from,
@@ -95,6 +93,9 @@ export const commentPlugin = new Plugin({
     },
   },
   props: {
+    attributes: {
+      dogs: 'dogs',
+    },
     decorations(state) {
       return this.getState(state).decos
     },
@@ -111,8 +112,6 @@ export const addAnnotation = function (state, dispatch) {
   let sel = state.selection
   if (sel.empty) return false
   if (dispatch) {
-    // no longer PM land
-    console.log('>>>> i am in going to submit', state)
     const root =
       document.querySelector('#comment-modal') || document.createElement('div')
     root.id = '#comment-modal'
@@ -121,29 +120,45 @@ export const addAnnotation = function (state, dispatch) {
     const handleClose = () => ReactDOM.unmountComponentAtNode(root)
 
     const handleNewComment = ({ text }) => {
-      var comment = new Comment(text, randomID())
-      store.dispatch({
-        type: 'addCommentSave',
-        payload: {
-          type: 'newComment',
-          from: sel.from,
-          to: sel.to,
-          key: comment.id,
-          comment: comment.text,
-          // post_id: this.state.post.id
-        },
-      })
+      var newComment = new Comment(text, randomID())
 
       dispatch(
         state.tr.setMeta(commentPlugin, {
           type: 'newComment',
           from: sel.from,
           to: sel.to,
-          comment: comment,
+          comment: newComment,
         })
       )
-      // side effect to scroll window to here
-      // store.dispatch(dosideeffect)
+
+      // begin stuff ---------------
+      var url = '/comments'
+      var { currentUser, currentPost } = store.getState()
+      var data = {
+        comment: {
+          data_to: sel.to,
+          data_from: sel.from,
+          data_key: newComment.id,
+          text: newComment.text,
+        },
+      }
+      if (currentPost) {
+        data.comment.post_id = currentPost.currentPost.id
+      }
+      if (currentUser) {
+        data.comment.user_id = currentUser.currentUser.id
+      }
+
+      superagent
+        .post(url)
+        .send(data)
+        .set('accept', 'application/json')
+        .end((err, res) => {
+          console.log({ res, err }) // DEBUG SAVE
+        })
+
+      // end stuff ---------------
+
       handleClose()
     }
 

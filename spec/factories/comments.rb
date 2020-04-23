@@ -4,12 +4,12 @@
 #
 #  id               :bigint           not null, primary key
 #  ancestry         :string(255)
-#  comment          :text
 #  data_from        :string
 #  data_key         :string
 #  data_to          :string
 #  hidden           :boolean
 #  highlighted_text :text
+#  text             :text
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
 #  post_id          :bigint

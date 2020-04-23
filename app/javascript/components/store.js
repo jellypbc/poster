@@ -3,37 +3,8 @@ import superagent from 'superagent'
 
 // unsafe side-effects for comment actions
 const commentsEffects = {
-  onCommentSuccess: payload => {
-    var url = '/comments'
-    var method = 'post'
-
-    // var data = {
-    //   comment: {
-    //     data_to: payload.to,
-    //     data_from: payload.from,
-    //     data_key: payload.comment.id,
-    //     comment: payload.comment,
-    //     post_id: payload.post_id,
-    //     // user_id: payload.user_id,
-    //   }
-    // }
-
-    // superagent[method](url)
-    //   .send(data)
-    //   .set('accept', 'application/json')
-    //   .end((err, res) => {
-    //     console.log({ res, err }) // DEBUG SAVE
-
-    //   })
-
-    // store.dispatch({
-    //   type: "setComments",
-    //   payload: {
-    //     comments: newComments
-    //   }
-    // })
-  },
-  onCommentAdd: payload => null,
+  onCommentSuccess: (payload) => null,
+  onCommentAdd: (payload) => null,
   onCommentStart: () => {
     const commentFormInput = document.querySelector('#comment-form-input')
     if (commentFormInput) commentFormInput.focus()
@@ -103,10 +74,24 @@ const imageReducers = {
   },
 }
 
+const postReducers = {
+  setCurrentPost: (state, action) => {
+    state.currentPost = action.payload.data
+  },
+}
+
+const userReducers = {
+  setCurrentUser: (state, action) => {
+    state.currentUser = action.payload.data
+  },
+}
+
 const store = configureStore({
   reducer: {
     comments: createReducer(commentsReducerDefaultState, commentReducers),
     images: createReducer(imagesReducerDefaultState, imageReducers),
+    currentPost: createReducer({}, postReducers),
+    currentUser: createReducer({}, userReducers),
   },
 })
 

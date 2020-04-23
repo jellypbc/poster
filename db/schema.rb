@@ -33,7 +33,7 @@ ActiveRecord::Schema.define(version: 2020_04_11_075544) do
   create_table "comments", force: :cascade do |t|
     t.bigint "user_id"
     t.bigint "post_id"
-    t.text "comment"
+    t.text "text"
     t.text "highlighted_text"
     t.boolean "hidden"
     t.string "ancestry", limit: 255

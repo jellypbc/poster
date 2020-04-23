@@ -40,6 +40,7 @@ Rails.application.routes.draw do
 
   resources :posts do
     resources :tags
+    # resources :comments
     get :suggested_tags
   end
 

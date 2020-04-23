@@ -19,6 +19,7 @@ function CommentForm({ onSubmit, onCancel, className, ...rest }) {
 
   const handleSubmit = () => {
     const payload = getSavePayload()
+    console.log('payload to be sent from getSavePayload', payload)
     // dispatch({ type: 'addCommentSave', payload })
 
     // maybe this dispatch happens here instead? but cant get access to props
