@@ -57,7 +57,6 @@ class PostEditor extends React.Component {
     const schema = options.schema
     this.parse = createParser(schema)
     this.serialize = createSerializer(schema)
-    const postBody = this.state.post.data.attributes.body
 
     // comments: {
     //   [{"to"=>405, "from"=>393, "id"=>2529640997, "text"=>"dogs\n"}]

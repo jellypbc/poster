@@ -1,5 +1,4 @@
 import { configureStore, createReducer } from '@reduxjs/toolkit'
-import superagent from 'superagent'
 
 // unsafe side-effects for comment actions
 const commentsEffects = {
