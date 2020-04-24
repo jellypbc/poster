@@ -51,7 +51,7 @@ class CommentState {
       unsent = unsent.concat(action)
     } else if (actionType == 'deleteComment') {
       decos = decos.remove([this.findComment(action.comment.id)])
-      // debugger;
+      submitDeleteComment(action.comment)
       unsent = unsent.concat(action)
     }
     return new CommentState(base.version, decos, unsent)
@@ -106,8 +106,52 @@ function randomID() {
   return Math.floor(Math.random() * 0xffffffff)
 }
 
-// Command for adding an annotation; it can be connected to the menu option for comments
+function submitDeleteComment(comment) {
+  var data = {
+    comment: {
+      data_key: comment.id,
+      deleted_at: true,
+    },
+  }
+  var url = '/remove_comment'
+  submitRequest(data, url)
+}
 
+function submitCreateComment(sel, comment) {
+  var url = '/add_comment'
+  var { currentUser, currentPost } = store.getState()
+  var data = {
+    comment: {
+      data_to: sel.to,
+      data_from: sel.from,
+      data_key: comment.id,
+      text: comment.text,
+    },
+  }
+  if (currentPost) {
+    data.comment.post_id = currentPost.currentPost.id
+  }
+  if (currentUser) {
+    data.comment.user_id = currentUser.currentUser.id
+  }
+  submitRequest(data, url)
+}
+
+function submitRequest(data, url) {
+  console.log('data', data)
+  console.log('url', url)
+
+  superagent
+    .post(url)
+    .send(data)
+    .set('accept', 'application/json')
+    .end((err, res) => {
+      console.log('>>> comment response')
+      console.log({ res, err }) // DEBUG SAVE
+    })
+}
+
+// Command for adding an annotation; it can be connected to the menu option for comments
 export const addAnnotation = function (state, dispatch) {
   let sel = state.selection
   if (sel.empty) return false
@@ -131,34 +175,7 @@ export const addAnnotation = function (state, dispatch) {
         })
       )
 
-      // begin stuff ---------------
-      var url = '/comments'
-      var { currentUser, currentPost } = store.getState()
-      var data = {
-        comment: {
-          data_to: sel.to,
-          data_from: sel.from,
-          data_key: newComment.id,
-          text: newComment.text,
-        },
-      }
-      if (currentPost) {
-        data.comment.post_id = currentPost.currentPost.id
-      }
-      if (currentUser) {
-        data.comment.user_id = currentUser.currentUser.id
-      }
-
-      superagent
-        .post(url)
-        .send(data)
-        .set('accept', 'application/json')
-        .end((err, res) => {
-          console.log({ res, err }) // DEBUG SAVE
-        })
-
-      // end stuff ---------------
-
+      submitCreateComment(sel, newComment)
       handleClose()
     }
 

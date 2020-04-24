@@ -58,8 +58,7 @@ class PostSerializer
   end
 
   attribute :tags do |object|
-    # object.tags.to_json
-    object.tags.order(updated_at: :desc).map{|tag|
+    object.tags.order(updated_at: :desc).map{ |tag|
       {
         id: tag.id.to_s,
         text: tag.text,
@@ -69,7 +68,7 @@ class PostSerializer
   end
 
   attribute :comments do |object|
-     object.comments.map{ |comment|
+    object.comments.map{ |comment|
       {
         to: comment.data_to.to_i,
         from: comment.data_from.to_i,

@@ -57,14 +57,6 @@ class PostEditor extends React.Component {
     const schema = options.schema
     this.parse = createParser(schema)
     this.serialize = createSerializer(schema)
-
-    // comments: {
-    //   [{"to"=>405, "from"=>393, "id"=>2529640997, "text"=>"dogs\n"}]
-    // }
-
-    // options.doc = this.parse(postBody) // TODO: don't mutate "options"
-    // options.editable = this.state.isEditable
-    // options.doc.comments =  { comments: this.state.post.data.attributes.comments }
   }
 
   componentDidMount() {
@@ -75,12 +67,9 @@ class PostEditor extends React.Component {
     cable.subscriptions.create(
       { channel: 'PostsChannel', post_id: post },
       {
-        connected() {
-          // console.log('connected to PostsChannel')
-        },
+        connected() {},
 
         received: function (data) {
-          // console.log("webhook", data)
           this.setState((state) => ({
             post: data,
             isProcessing: false,
@@ -195,41 +184,35 @@ class PostEditor extends React.Component {
   updatePost = (doc, docState) => {
     // do not read from this.state after setState, it will not update until rerender
     this.setState({ isLoading: true })
-
     var { post } = this.state
     const isNewPost = getIsNewPost(post)
-
-    var url = isNewPost ? '/posts' : post.data.attributes.form_url
-
-    /* document + plugin serialization START */
 
     const commentState = commentPluginKey.getState(docState)
     const newCommentsToSave = commentState.unsent
       .filter((action) => action.type === 'newComment')
       .map(serializeComment)
+    console.log('newCommentsToSave', newCommentsToSave)
 
     // TODO: serialize JSON on server instead of parsing string?
-    // const oldPluginState = JSON.parse(post.data.attributes.plugins)
-    // const oldPluginState = post.data.relationships.comments.data
     const oldPluginState = post.data.attributes.comments
-    const comments = [
-      ...(oldPluginState.comments || []),
-      ...newCommentsToSave,
-    ].filter((comment) => {
-      return !commentState.unsent.find((action) => {
-        const isDeletable = action.type === 'deleteComment'
-        const isTheComment = action.comment.id === comment.id
-        return isDeletable && isTheComment
-      })
-    })
+    console.log('oldPluginState', oldPluginState)
 
+    const comments = [...(oldPluginState || []), ...newCommentsToSave].filter(
+      (comment) => {
+        return !commentState.unsent.find((action) => {
+          const isDeletable = action.type === 'deleteComment'
+          const isTheComment = action.comment.id === comment.id
+          return isDeletable && isTheComment
+        })
+      }
+    )
+    console.log('comments', comments)
+
+    var url = isNewPost ? '/posts' : post.data.attributes.form_url
     var data = {
       body: doc,
-      plugins: JSON.stringify({ comments }),
+      comment_state: comments,
     }
-
-    /* document + plugin serialization END */
-
     var method = isNewPost ? 'post' : 'put'
     var token = document.head.querySelector('[name~=csrf-token][content]')
       .content

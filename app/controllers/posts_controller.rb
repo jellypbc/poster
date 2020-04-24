@@ -48,8 +48,13 @@ class PostsController < ApplicationController
   end
 
   def update
+    # binding.pry
     respond_to do |format|
       if @post.update!(post_params)
+
+        if params[:comment_state]
+
+        end
         format.html { redirect_to @post, notice: 'Post was successfully updated.' }
         format.json { render json: { post: PostSerializer.new(@post).as_json } }
       else

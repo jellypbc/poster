@@ -1,6 +1,6 @@
 class CommentsController < ApplicationController
-  before_action :set_comment, only: [:show, :edit, :update, :destroy]
-  before_action :set_post, only: [:show, :create, :edit, :update, :destroy]
+  before_action :set_comment, only: [:show, :edit, :update, :delete]
+  before_action :set_post, only: [:show, :create, :edit, :update, :delete]
   skip_before_action :verify_authenticity_token
 
   def index
@@ -43,17 +43,28 @@ class CommentsController < ApplicationController
     end
   end
 
-  def destroy
-    @comment.destroy
+  def delete
+    binding.pry
+    @comment.delete_now if comment_params["deleted_at"]
     respond_to do |format|
-      format.html { redirect_to comments_url, notice: 'Comment was successfully destroyed.' }
-      format.json { head :no_content }
+      if @comment.update(comment_params)
+        format.html { redirect_to @comment, notice: 'Comment was successfully updated.' }
+        format.json { render :show, status: :ok, location: @comment }
+      else
+        format.html { render :edit }
+        format.json { render json: @comment.errors, status: :unprocessable_entity }
+      end
     end
   end
 
   private
     def set_comment
-      @comment = Comment.find(params[:id])
+      id_or_data_key = params[:data_key] || params[:id]
+      @comment ||= begin
+        Comment.find_by! data_key: id_or_data_key
+      rescue ActiveRecord::RecordNotFound => e
+        Comment.find id_or_data_key
+      end
     end
 
     def set_post
@@ -65,7 +76,7 @@ class CommentsController < ApplicationController
     def comment_params
       params.require(:comment).permit(
         :text, :data_to, :data_from, :data_key,
-        :user_id, :post_id
+        :user_id, :post_id, :deleted_at
       )
     end
 

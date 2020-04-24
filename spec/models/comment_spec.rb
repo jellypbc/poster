@@ -7,6 +7,7 @@
 #  data_from        :string
 #  data_key         :string
 #  data_to          :string
+#  deleted_at       :datetime
 #  hidden           :boolean
 #  highlighted_text :text
 #  text             :text
@@ -18,6 +19,7 @@
 # Indexes
 #
 #  index_comments_on_ancestry  (ancestry)
+#  index_comments_on_data_key  (data_key) UNIQUE
 #  index_comments_on_post_id   (post_id)
 #  index_comments_on_user_id   (user_id)
 #
