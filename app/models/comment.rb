@@ -30,6 +30,8 @@ class Comment < ApplicationRecord
   belongs_to :post
   belongs_to :user
 
+  default_scope { where(deleted_at: nil) }
+
   def delete_now
     touch(:deleted_at)
   end

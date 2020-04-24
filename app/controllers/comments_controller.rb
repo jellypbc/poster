@@ -44,14 +44,11 @@ class CommentsController < ApplicationController
   end
 
   def delete
-    binding.pry
     @comment.delete_now if comment_params["deleted_at"]
     respond_to do |format|
-      if @comment.update(comment_params)
-        format.html { redirect_to @comment, notice: 'Comment was successfully updated.' }
-        format.json { render :show, status: :ok, location: @comment }
+      if @comment.save
+        format.json { render json: { comment: @comment }, status: :ok  }
       else
-        format.html { render :edit }
         format.json { render json: @comment.errors, status: :unprocessable_entity }
       end
     end
@@ -59,7 +56,7 @@ class CommentsController < ApplicationController
 
   private
     def set_comment
-      id_or_data_key = params[:data_key] || params[:id]
+      id_or_data_key = comment_params[:data_key].to_s || params[:id].to_s
       @comment ||= begin
         Comment.find_by! data_key: id_or_data_key
       rescue ActiveRecord::RecordNotFound => e

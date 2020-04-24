@@ -51,8 +51,8 @@ class CommentState {
       unsent = unsent.concat(action)
     } else if (actionType == 'deleteComment') {
       decos = decos.remove([this.findComment(action.comment.id)])
-      submitDeleteComment(action.comment)
       unsent = unsent.concat(action)
+      submitDeleteComment(action.comment)
     }
     return new CommentState(base.version, decos, unsent)
   }
