@@ -187,15 +187,20 @@ class PostEditor extends React.Component {
     var { post } = this.state
     const isNewPost = getIsNewPost(post)
 
+    console.log('>>>>>>>>>>> update')
     const commentState = commentPluginKey.getState(docState)
+    console.log('commentState', commentState)
+
     const newCommentsToSave = commentState.unsent
       .filter((action) => action.type === 'newComment')
       .map(serializeComment)
-    console.log('newCommentsToSave', newCommentsToSave)
+
+    // console.log('newCommentsToSave', newCommentsToSave)
 
     // TODO: serialize JSON on server instead of parsing string?
     const oldPluginState = post.data.attributes.comments
-    console.log('oldPluginState', oldPluginState)
+
+    // console.log('oldPluginState', oldPluginState)
 
     const comments = [...(oldPluginState || []), ...newCommentsToSave].filter(
       (comment) => {
@@ -206,12 +211,17 @@ class PostEditor extends React.Component {
         })
       }
     )
-    console.log('comments', comments)
+    let decos = commentState.decos.map((c) => c)
+    console.log('decos?', decos)
+
+    // console.log('commentState', commentState)
+
+    // var allComments = commentState.decos.
 
     var url = isNewPost ? '/posts' : post.data.attributes.form_url
     var data = {
       body: doc,
-      comment_state: comments,
+      comments: comments,
     }
     var method = isNewPost ? 'post' : 'put'
     var token = document.head.querySelector('[name~=csrf-token][content]')
@@ -249,10 +259,6 @@ class PostEditor extends React.Component {
     const hasUnsavedChanges = lastSavedAtDate < lastUnsavedChangeAt
 
     options.doc = this.parse(postBody) // TODO: don't mutate "options"
-
-    // const pluginState = JSON.parse(post.data.attributes.plugins)
-    // options.doc.comments = { comments: pluginState.comments } // TODO: generalize plugin state restoration
-
     options.doc.comments = { comments: post.data.attributes.comments }
 
     const postTitle = post.data.attributes.title

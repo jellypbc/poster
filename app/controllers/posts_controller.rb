@@ -52,7 +52,7 @@ class PostsController < ApplicationController
     respond_to do |format|
       if @post.update!(post_params)
 
-        if params[:comment_state]
+        if params[:comments]
 
         end
         format.html { redirect_to @post, notice: 'Post was successfully updated.' }

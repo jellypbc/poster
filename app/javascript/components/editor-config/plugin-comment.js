@@ -45,15 +45,32 @@ class CommentState {
     if (!action && !tr.docChanged) return this
     let base = this
     let { decos, unsent } = base
+
+    window._base = base
+    console.log('>>>> apply')
+    console.log('action', action)
+    console.log('actionType', actionType)
+
+    // console.log("decos from base", decos)
+
+    console.log('old decos', decos)
+    console.log('transaction mapping', tr.mapping)
+    console.log('transaction doc', tr.doc)
     decos = decos.map(tr.mapping, tr.doc)
+
+    console.log('new decos', decos)
     if (actionType == 'newComment') {
       decos = decos.add(tr.doc, [deco(action.from, action.to, action.comment)])
+      console.log('decos3', decos)
       unsent = unsent.concat(action)
+      submitCreateComment(action, action.comment)
     } else if (actionType == 'deleteComment') {
       decos = decos.remove([this.findComment(action.comment.id)])
       unsent = unsent.concat(action)
       submitDeleteComment(action.comment)
     }
+
+    console.log('decos', decos)
     return new CommentState(base.version, decos, unsent)
   }
 
@@ -65,8 +82,6 @@ class CommentState {
     let decos = existingComments.map((c) =>
       deco(c.from, c.to, new Comment(c.text, c.id))
     )
-    console.log('config.doc.comments', config.doc.comments)
-    console.log('config.comments', config.comments)
     return new CommentState(
       config.comments.version,
       DecorationSet.create(config.doc, decos),
@@ -93,9 +108,6 @@ export const commentPlugin = new Plugin({
     },
   },
   props: {
-    attributes: {
-      dogs: 'dogs',
-    },
     decorations(state) {
       return this.getState(state).decos
     },
@@ -138,15 +150,11 @@ function submitCreateComment(sel, comment) {
 }
 
 function submitRequest(data, url) {
-  console.log('data', data)
-  console.log('url', url)
-
   superagent
     .post(url)
     .send(data)
     .set('accept', 'application/json')
     .end((err, res) => {
-      console.log('>>> comment response')
       console.log({ res, err }) // DEBUG SAVE
     })
 }
@@ -175,7 +183,6 @@ export const addAnnotation = function (state, dispatch) {
         })
       )
 
-      submitCreateComment(sel, newComment)
       handleClose()
     }
 
