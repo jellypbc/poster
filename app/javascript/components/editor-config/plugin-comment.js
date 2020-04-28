@@ -45,23 +45,10 @@ class CommentState {
     if (!action && !tr.docChanged) return this
     let base = this
     let { decos, unsent } = base
-
-    window._base = base
-    console.log('>>>> apply')
-    console.log('action', action)
-    console.log('actionType', actionType)
-
-    // console.log("decos from base", decos)
-
-    console.log('old decos', decos)
-    console.log('transaction mapping', tr.mapping)
-    console.log('transaction doc', tr.doc)
     decos = decos.map(tr.mapping, tr.doc)
 
-    console.log('new decos', decos)
     if (actionType == 'newComment') {
       decos = decos.add(tr.doc, [deco(action.from, action.to, action.comment)])
-      console.log('decos3', decos)
       unsent = unsent.concat(action)
       submitCreateComment(action, action.comment)
     } else if (actionType == 'deleteComment') {
@@ -69,8 +56,6 @@ class CommentState {
       unsent = unsent.concat(action)
       submitDeleteComment(action.comment)
     }
-
-    console.log('decos', decos)
     return new CommentState(base.version, decos, unsent)
   }
 
@@ -140,15 +125,12 @@ function submitCreateComment(sel, comment) {
       text: comment.text,
     },
   }
-
-  console.log('currentUser', currentUser)
   if (currentPost) {
     data.comment.post_id = currentPost.currentPost.id
   }
   if (currentUser && currentUser.currentUser) {
     data.comment.user_id = currentUser.currentUser.id
   }
-  console.log('data to submit', data)
   submitRequest(data, url)
 }
 

@@ -7,7 +7,7 @@ import applyDevTools from 'prosemirror-dev-tools'
 class Editor extends React.Component {
   constructor(props) {
     super(props)
-    // console.log('EDITOR PROPS', props)
+    console.log('EDITOR PROPS', props)
 
     this.editorRef = React.createRef()
 
@@ -20,14 +20,11 @@ class Editor extends React.Component {
         plugins: props.options.setupPlugins(getView, props.post.data.slug),
       }),
       dispatchTransaction: (transaction) => {
-        console.log('>>>>>>>>>>>>>>> editor dispatch')
         const oldComments = commentPluginKey.getState(this.view.state)
 
         const { state, transactions } = this.view.state.applyTransaction(
           transaction
         )
-        console.log('state.decorations', state)
-        console.log('state.decorations', this.view.state)
 
         this.view.updateState(state)
 

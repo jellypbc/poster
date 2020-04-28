@@ -187,20 +187,14 @@ class PostEditor extends React.Component {
     var { post } = this.state
     const isNewPost = getIsNewPost(post)
 
-    console.log('>>>>>>>>>>> update')
     const commentState = commentPluginKey.getState(docState)
-    console.log('commentState', commentState)
 
     const newCommentsToSave = commentState.unsent
       .filter((action) => action.type === 'newComment')
       .map(serializeComment)
 
-    // console.log('newCommentsToSave', newCommentsToSave)
-
     // TODO: serialize JSON on server instead of parsing string?
     const oldPluginState = post.data.attributes.comments
-
-    // console.log('oldPluginState', oldPluginState)
 
     const comments = [...(oldPluginState || []), ...newCommentsToSave].filter(
       (comment) => {
@@ -212,11 +206,6 @@ class PostEditor extends React.Component {
       }
     )
     let decos = commentState.decos.map((c) => c)
-    console.log('decos?', decos)
-
-    // console.log('commentState', commentState)
-
-    // var allComments = commentState.decos.
 
     var url = isNewPost ? '/posts' : post.data.attributes.form_url
     var data = {
