@@ -2,11 +2,18 @@
 @import 'editor/floater';
 @import 'editor/menubar';
 
-.title {
-  // hacky fix :(;
-  h1 p {
-    font-size: 32px;
-    line-height: 40px;
+.header {
+  .title {
+    h1 {
+      p {
+        font-size: 32px;
+        line-height: 40px;
+      }
+    }
+    .j-commentText {
+      line-height: 22px;
+      font-size: 14px;
+    }
   }
 }
 
