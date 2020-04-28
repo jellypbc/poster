@@ -140,12 +140,15 @@ function submitCreateComment(sel, comment) {
       text: comment.text,
     },
   }
+
+  console.log('currentUser', currentUser)
   if (currentPost) {
     data.comment.post_id = currentPost.currentPost.id
   }
-  if (currentUser) {
+  if (currentUser && currentUser.currentUser) {
     data.comment.user_id = currentUser.currentUser.id
   }
+  console.log('data to submit', data)
   submitRequest(data, url)
 }
 

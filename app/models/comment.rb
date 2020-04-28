@@ -28,7 +28,7 @@ class Comment < ApplicationRecord
   validates :data_key, uniqueness: true
 
   belongs_to :post
-  belongs_to :user
+  belongs_to :user, optional: true
 
   default_scope { where(deleted_at: nil) }
 
