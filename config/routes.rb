@@ -1,7 +1,6 @@
 Rails.application.routes.draw do
-  resources :comments
-  get 'search/results'
 	require 'sidekiq/web'
+
   mount Sidekiq::Web,     at: '/sidekiq' #, constraints: AdminConstraint.new
   mount ImageUploader.upload_endpoint(:cache) => '/images/cache'
   mount ImageUploader.upload_endpoint(:store) => '/images/store'
@@ -40,7 +39,6 @@ Rails.application.routes.draw do
 
   resources :posts do
     resources :tags
-    # resources :comments
     get :suggested_tags
   end
 
@@ -51,11 +49,14 @@ Rails.application.routes.draw do
   resources :tags
 
   resources :comments
+  post 'add_comment', to: 'comments#create'
+  post 'remove_comment', to: 'comments#delete'
 
   namespace :search do
     get :results
     get :bar
   end
+  get 'search/results'
 
 	post '/file', to: 'uploads#file'
   post '/posts/add_figure', to: 'posts#add_figure'

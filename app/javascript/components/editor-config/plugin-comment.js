@@ -46,13 +46,15 @@ class CommentState {
     let base = this
     let { decos, unsent } = base
     decos = decos.map(tr.mapping, tr.doc)
+
     if (actionType == 'newComment') {
       decos = decos.add(tr.doc, [deco(action.from, action.to, action.comment)])
       unsent = unsent.concat(action)
+      submitCreateComment(action, action.comment)
     } else if (actionType == 'deleteComment') {
       decos = decos.remove([this.findComment(action.comment.id)])
-      // debugger;
       unsent = unsent.concat(action)
+      submitDeleteComment(action.comment)
     }
     return new CommentState(base.version, decos, unsent)
   }
@@ -65,8 +67,6 @@ class CommentState {
     let decos = existingComments.map((c) =>
       deco(c.from, c.to, new Comment(c.text, c.id))
     )
-    console.log('config.doc.comments', config.doc.comments)
-    console.log('config.comments', config.comments)
     return new CommentState(
       config.comments.version,
       DecorationSet.create(config.doc, decos),
@@ -93,9 +93,6 @@ export const commentPlugin = new Plugin({
     },
   },
   props: {
-    attributes: {
-      dogs: 'dogs',
-    },
     decorations(state) {
       return this.getState(state).decos
     },
@@ -106,8 +103,48 @@ function randomID() {
   return Math.floor(Math.random() * 0xffffffff)
 }
 
-// Command for adding an annotation; it can be connected to the menu option for comments
+function submitDeleteComment(comment) {
+  var data = {
+    comment: {
+      data_key: comment.id,
+      deleted_at: true,
+    },
+  }
+  var url = '/remove_comment'
+  submitRequest(data, url)
+}
 
+function submitCreateComment(sel, comment) {
+  var url = '/add_comment'
+  var { currentUser, currentPost } = store.getState()
+  var data = {
+    comment: {
+      data_to: sel.to,
+      data_from: sel.from,
+      data_key: comment.id,
+      text: comment.text,
+    },
+  }
+  if (currentPost) {
+    data.comment.post_id = currentPost.currentPost.id
+  }
+  if (currentUser && currentUser.currentUser) {
+    data.comment.user_id = currentUser.currentUser.id
+  }
+  submitRequest(data, url)
+}
+
+function submitRequest(data, url) {
+  superagent
+    .post(url)
+    .send(data)
+    .set('accept', 'application/json')
+    .end((err, res) => {
+      console.log({ res, err }) // DEBUG SAVE
+    })
+}
+
+// Command for adding an annotation; it can be connected to the menu option for comments
 export const addAnnotation = function (state, dispatch) {
   let sel = state.selection
   if (sel.empty) return false
@@ -130,34 +167,6 @@ export const addAnnotation = function (state, dispatch) {
           comment: newComment,
         })
       )
-
-      // begin stuff ---------------
-      var url = '/comments'
-      var { currentUser, currentPost } = store.getState()
-      var data = {
-        comment: {
-          data_to: sel.to,
-          data_from: sel.from,
-          data_key: newComment.id,
-          text: newComment.text,
-        },
-      }
-      if (currentPost) {
-        data.comment.post_id = currentPost.currentPost.id
-      }
-      if (currentUser) {
-        data.comment.user_id = currentUser.currentUser.id
-      }
-
-      superagent
-        .post(url)
-        .send(data)
-        .set('accept', 'application/json')
-        .end((err, res) => {
-          console.log({ res, err }) // DEBUG SAVE
-        })
-
-      // end stuff ---------------
 
       handleClose()
     }

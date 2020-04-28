@@ -31,19 +31,7 @@ const setupPlugins = (getView, props) => [
   tableEditing(),
   selectPlugin,
   commentPlugin,
-  // commentUI(function(transaction) {
-  //   console.log(transaction)
-  //   self.view.dispatch({ type: 'transaction', transaction })
-  // }),
   commentUI((transaction) => {
-    console.log('this', this)
-    console.log({ view: getView(), transaction })
-    // Not quite working, does a new state object need to be created in the editor
-    // after each transaction?
-    // getView().dispatch({ type: 'transaction', transaction })
-    // getView().state.applyTransaction(transaction)
-
-    // getView().state.apply(transaction)
     getView().dispatch(transaction)
   }),
 ]
