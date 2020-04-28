@@ -7,12 +7,12 @@ input, span, a {
 }
 
 a {
-  color: $brandGreen;
+  color: $blueDark;
 }
 
 a:hover {
-  color: $linkHover;
   text-decoration: none;
+  cursor: pointer;
 }
 
 p, li {
