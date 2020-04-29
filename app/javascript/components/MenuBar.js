@@ -23,18 +23,20 @@ const Button = ({ state, dispatch }) => (item, key) => (
   </button>
 )
 
-const MenuBar = ({ menu, children, view }) => (
-  <div>
-    <div className="bar">
-      {children && <span className="group">{children}</span>}
+const MenuBar = ({ menu, children, view }) => {
+  console.log('views from menubar', view)
+  return (
+    <div>
+      <div className="bar">
+        {children && <span className="group">{children}</span>}
 
-      {map(menu, (item, key) => (
-        <span key={key} className="group">
-          {map(item, Button(view))}
-        </span>
-      ))}
+        {map(menu, (item, key) => (
+          <span key={key} className="group">
+            {map(item, Button(view))}
+          </span>
+        ))}
+      </div>
     </div>
-  </div>
-)
-
+  )
+}
 export default MenuBar

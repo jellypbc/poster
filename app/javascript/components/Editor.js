@@ -1,8 +1,10 @@
 import React from 'react'
-import { EditorState } from 'prosemirror-state'
+import { EditorState, Plugin, PluginKey } from 'prosemirror-state'
 import { EditorView } from 'prosemirror-view'
 import { pluginKey as commentPluginKey } from './editor-config/plugin-comment'
 import applyDevTools from 'prosemirror-dev-tools'
+
+const reactPropsKey = new PluginKey('reactProps')
 
 class Editor extends React.Component {
   constructor(props) {
@@ -10,26 +12,23 @@ class Editor extends React.Component {
     console.log('EDITOR PROPS', props)
 
     this.editorRef = React.createRef()
+    this.view = React.createRef()
 
-    const getView = () => this.view
+    const getView = () => this.view.current
 
-    this.view = new EditorView(null, {
-      // prosemirror options = { plugins, schema, comments: { comments: [] } }
+    this.view.current = new EditorView(this.editorRef, {
       state: EditorState.create({
         ...props.options,
-        plugins: props.options.setupPlugins(getView, props.post.data.slug),
+        plugins: props.options.setupPlugins(getView, props, reactPropsKey),
       }),
       dispatchTransaction: (transaction) => {
-        const oldComments = commentPluginKey.getState(this.view.state)
-
-        const { state, transactions } = this.view.state.applyTransaction(
-          transaction
-        )
-
-        this.view.updateState(state)
-
+        const oldComments = commentPluginKey.getState(this.view.current.state)
+        const {
+          state,
+          transactions,
+        } = this.view.current.state.applyTransaction(transaction)
+        this.view.current.updateState(state)
         const newComments = commentPluginKey.getState(state)
-
         if (
           transactions.some((tr) => tr.docChanged) ||
           newComments !== oldComments
@@ -43,12 +42,23 @@ class Editor extends React.Component {
       }.bind(this),
     })
 
-    applyDevTools(this.view)
+    // applyDevTools(this.view)
   }
 
   componentDidMount() {
-    this.editorRef.current.appendChild(this.view.dom)
-    if (this.props.autoFocus) this.view.focus()
+    // console.log("this.editorRef", this.editorRef)
+    // console.log("this.view", this.view)
+    // console.log(this.view.current.dom)
+    this.editorRef.current.appendChild(this.view.current.dom)
+    // if (this.props.autoFocus) this.view.focus()
+  }
+
+  componentWillReceiveProps() {
+    console.log('this.view', this.view)
+    console.log('this.editorRef', this.editorRef)
+    const tr = this.view.current.state.tr.setMeta(reactPropsKey, this.props)
+    console.log('tr', tr)
+    this.view.current.dispatch(tr)
   }
 
   render() {

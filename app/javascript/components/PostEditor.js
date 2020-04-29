@@ -67,9 +67,12 @@ class PostEditor extends React.Component {
     cable.subscriptions.create(
       { channel: 'PostsChannel', post_id: post },
       {
-        connected() {},
+        connected() {
+          console.log('>>> connected')
+        },
 
         received: function (data) {
+          console.log('>>> received')
           this.setState((state) => ({
             post: data,
             isProcessing: false,
@@ -205,12 +208,12 @@ class PostEditor extends React.Component {
         })
       }
     )
-    let decos = commentState.decos.map((c) => c)
+    // let decos = commentState.decos.map((c) => c)
 
     var url = isNewPost ? '/posts' : post.data.attributes.form_url
     var data = {
       body: doc,
-      comments: comments,
+      // comments: comments,
     }
     var method = isNewPost ? 'post' : 'put'
     var token = document.head.querySelector('[name~=csrf-token][content]')
@@ -266,7 +269,7 @@ class PostEditor extends React.Component {
           </p>
         ) : null}
 
-        <Editor
+        {/* <Editor
           post={post}
           options={titleOptions}
           onChange={this.handleTitleChange}
@@ -283,7 +286,7 @@ class PostEditor extends React.Component {
               </div>
             </div>
           )}
-        />
+        />*/}
 
         <Editor
           post={post}
@@ -293,8 +296,8 @@ class PostEditor extends React.Component {
           isEditable={isEditable}
           render={({ editor, view }) => (
             <div>
-              <Floater view={view}>
-                <MenuBar menu={menubar} view={view} />
+              <Floater view={view.current}>
+                <MenuBar menu={menubar} view={view.current} />
               </Floater>
               <div className="post-editor">{editor}</div>
             </div>

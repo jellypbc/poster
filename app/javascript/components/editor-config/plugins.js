@@ -1,3 +1,4 @@
+import { Plugin, PluginKey } from 'prosemirror-state'
 import { history } from 'prosemirror-history'
 import { dropCursor } from 'prosemirror-dropcursor'
 import { gapCursor } from 'prosemirror-gapcursor'
@@ -17,9 +18,21 @@ import '@aeaton/prosemirror-placeholder/style/placeholder.css'
 import keys from './keys'
 import rules from './rules'
 
+function reactProps(initialProps, reactPropsKey) {
+  console.log('reactPropsKey from plugins', reactPropsKey)
+  return new Plugin({
+    key: reactPropsKey,
+    state: {
+      init: () => initialProps,
+      apply: (tr, prev) => tr.getMeta(reactPropsKey) || prev,
+    },
+  })
+}
+
 // export a function here because some plugins need to be bound to a reference
 // to a state or view object
-const setupPlugins = (getView, props) => [
+const setupPlugins = (getView, props, reactPropsKey) => [
+  reactProps(props, reactPropsKey),
   rules,
   keys,
   placeholder(),
