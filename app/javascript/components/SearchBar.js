@@ -104,6 +104,8 @@ class SearchBar extends React.Component {
           onSuggestionsClearRequested={this.onSuggestionsClearRequested}
           getSuggestionValue={this.getSuggestionValue}
           renderSuggestion={this.renderSuggestion}
+          renderSectionTitle={() => null}
+          getSectionSuggestions={() => null}
           inputProps={inputProps}
           theme={theme}
         />
