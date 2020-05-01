@@ -36,6 +36,8 @@ class Editor extends React.Component {
         ) {
           this.props.onChange(state.doc, state)
         }
+
+        this.props.onChange(state.doc, state)
         this.forceUpdate()
       },
       editable: function (state) {

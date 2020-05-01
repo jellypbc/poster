@@ -12,9 +12,10 @@ import classnames from 'classnames'
 export const pluginKey = new PluginKey('comments')
 
 class Comment {
-  constructor(text, id) {
+  constructor(text, id, user) {
     this.id = id
     this.text = text
+    this.user = user
   }
 }
 
@@ -77,8 +78,9 @@ class CommentState {
       (config.doc.comments
         ? config.doc.comments.comments
         : config.comments.comments) || []
+
     let decos = existingComments.map((c) =>
-      deco(c.from, c.to, new Comment(c.text, c.id))
+      deco(c.from, c.to, new Comment(c.text, c.id, c.user))
     )
 
     return new CommentState(
@@ -160,6 +162,7 @@ function submitRequest(data, url) {
 
 // Command for adding an annotation; it can be connected to the menu option for comments
 export const addAnnotation = function (state, dispatch) {
+  var { currentUser } = store.getState()
   let sel = state.selection
   if (sel.empty) return false
   if (dispatch) {
@@ -170,8 +173,23 @@ export const addAnnotation = function (state, dispatch) {
 
     const handleClose = () => ReactDOM.unmountComponentAtNode(root)
 
+    let user
+    if (currentUser) {
+      user = {
+        id: currentUser.currentUser.id,
+        name: currentUser.currentUser.attributes.full_name,
+        avatar: currentUser.currentUser.attributes.avatar_url,
+      }
+    } else {
+      user = {
+        id: '',
+        avatar: '',
+        name: 'You',
+      }
+    }
+
     const handleNewComment = ({ text }) => {
-      var newComment = new Comment(text, randomID())
+      var newComment = new Comment(text, randomID(), user)
 
       dispatch(
         state.tr.setMeta(commentPlugin, {
@@ -194,7 +212,7 @@ export const addAnnotation = function (state, dispatch) {
       root
     )
   }
-  return true // TODO: what is the return value used for?
+  return true
 }
 
 export const annotationIcon = {
@@ -253,6 +271,7 @@ function renderComments(comments, dispatch, state) {
 function ThreadedComment(props) {
   const { comment, dispatch, state, className, showActions } = props
   const [isShowingReply, setIsShowingReply] = React.useState(false)
+  const { currentUser } = store.getState()
 
   const handleDelete = () => {
     dispatch(
@@ -266,12 +285,28 @@ function ThreadedComment(props) {
 
   const handleReplySubmit = ({ text = 'Comment...' }) => {
     const replyTo = pluginKey.getState(state).findComment(comment.id)
+
+    let user
+    if (currentUser) {
+      user = {
+        id: currentUser.currentUser.id,
+        name: currentUser.currentUser.attributes.full_name,
+        avatar: currentUser.currentUser.attributes.avatar_url,
+      }
+    } else {
+      user = {
+        id: '',
+        avatar: '',
+        name: 'You',
+      }
+    }
+
     dispatch(
       state.tr.setMeta(commentPlugin, {
         type: 'newComment',
         from: replyTo.from,
         to: replyTo.to,
-        comment: new Comment(text, randomID()),
+        comment: new Comment(text, randomID(), user),
       })
     )
   }
@@ -282,9 +317,16 @@ function ThreadedComment(props) {
 
   return (
     <div className={classnames('comment-show', className)}>
+      {comment.user && (
+        <div className="j-commentUser">
+          <img src={comment.user.avatar} alt={comment.user.name} />
+          <span>{comment.user.name}</span>
+        </div>
+      )}
+
       <p className="j-commentText">{comment.text}</p>
       {!isShowingReply && (
-        <>
+        <div>
           {showActions.reply && (
             <button
               className="btn btn-plain btn-sm j-commentReply px-0 mr-2"
@@ -301,16 +343,16 @@ function ThreadedComment(props) {
               Delete
             </button>
           )}
-        </>
+        </div>
       )}
       {isShowingReply && (
-        <>
+        <div>
           <CommentForm
             onSubmit={handleReplySubmit}
             onCancel={handleReplyCancel}
             className="j-commentReplyForm border-top mt-3 pt-1"
           />
-        </>
+        </div>
       )}
     </div>
   )

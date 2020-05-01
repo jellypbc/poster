@@ -97,7 +97,8 @@
   		font-weight: 600;
   	}
 
-  	img {
+    // hacky :(
+  	:not(.j-commentUser)img {
   		padding: 30px;
 	    margin: 0 auto;
 	    border: 1px solid #eee;
