@@ -12,9 +12,10 @@ import classnames from 'classnames'
 export const pluginKey = new PluginKey('comments')
 
 class Comment {
-  constructor(text, id) {
+  constructor(text, id, user) {
     this.id = id
     this.text = text
+    this.user = user
   }
 }
 
@@ -77,8 +78,9 @@ class CommentState {
       (config.doc.comments
         ? config.doc.comments.comments
         : config.comments.comments) || []
+
     let decos = existingComments.map((c) =>
-      deco(c.from, c.to, new Comment(c.text, c.id))
+      deco(c.from, c.to, new Comment(c.text, c.id, c.user))
     )
 
     return new CommentState(
@@ -171,7 +173,8 @@ export const addAnnotation = function (state, dispatch) {
     const handleClose = () => ReactDOM.unmountComponentAtNode(root)
 
     const handleNewComment = ({ text }) => {
-      var newComment = new Comment(text, randomID())
+      const user = buildUser()
+      const newComment = new Comment(text, randomID(), user)
 
       dispatch(
         state.tr.setMeta(commentPlugin, {
@@ -194,7 +197,7 @@ export const addAnnotation = function (state, dispatch) {
       root
     )
   }
-  return true // TODO: what is the return value used for?
+  return true
 }
 
 export const annotationIcon = {
@@ -250,6 +253,15 @@ function renderComments(comments, dispatch, state) {
   return node
 }
 
+function buildUser() {
+  const { currentUser } = store.getState()
+  return {
+    id: currentUser.currentUser.id || '',
+    avatar: currentUser.currentUser.attributes.avatar_url,
+    name: currentUser.currentUser.attributes.full_name,
+  }
+}
+
 function ThreadedComment(props) {
   const { comment, dispatch, state, className, showActions } = props
   const [isShowingReply, setIsShowingReply] = React.useState(false)
@@ -266,12 +278,14 @@ function ThreadedComment(props) {
 
   const handleReplySubmit = ({ text = 'Comment...' }) => {
     const replyTo = pluginKey.getState(state).findComment(comment.id)
+    const user = buildUser()
+
     dispatch(
       state.tr.setMeta(commentPlugin, {
         type: 'newComment',
         from: replyTo.from,
         to: replyTo.to,
-        comment: new Comment(text, randomID()),
+        comment: new Comment(text, randomID(), user),
       })
     )
   }
@@ -282,9 +296,16 @@ function ThreadedComment(props) {
 
   return (
     <div className={classnames('comment-show', className)}>
+      {comment.user && (
+        <div className="j-commentUser">
+          <img src={comment.user.avatar} alt={comment.user.name} />
+          <span>{comment.user.name}</span>
+        </div>
+      )}
+
       <p className="j-commentText">{comment.text}</p>
       {!isShowingReply && (
-        <>
+        <div>
           {showActions.reply && (
             <button
               className="btn btn-plain btn-sm j-commentReply px-0 mr-2"
@@ -301,16 +322,16 @@ function ThreadedComment(props) {
               Delete
             </button>
           )}
-        </>
+        </div>
       )}
       {isShowingReply && (
-        <>
+        <div>
           <CommentForm
             onSubmit={handleReplySubmit}
             onCancel={handleReplyCancel}
             className="j-commentReplyForm border-top mt-3 pt-1"
           />
-        </>
+        </div>
       )}
     </div>
   )

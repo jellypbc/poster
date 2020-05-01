@@ -1,12 +1,13 @@
 - content_for(:title) { "#{meta_tag_sanitize_and_truncate(@post.title)}" } if @post.title
 - content_for(:meta_description) { meta_description(@post) }
+- guest_user = { data: { attributes: {name: "Anonymous", avatar_url: User.default_avatar_url } } }
 
 #post.container data-post-id=@post.id
   .post-show
     = render 'placeholder_post', post: @post
 
     .editor
-      = react_component "PostPage", { post: PostSerializer.new(@post).serializable_hash, currentUser: current_user.present? ? UserSerializer.new(current_user) : nil, isProcessing: @post.body.nil?, editable: (current_user && (@post.user && @post.user == current_user)) }
+      = react_component "PostPage", { post: PostSerializer.new(@post).serializable_hash, currentUser: current_user.present? ? UserSerializer.new(current_user) : guest_user, isProcessing: @post.body.nil?, editable: (current_user && (@post.user && @post.user == current_user)) }
 
     - if @post.citations.any?
       = render 'citations', post: @post

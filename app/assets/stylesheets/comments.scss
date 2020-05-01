@@ -33,6 +33,25 @@
   }
 }
 
+.j-commentUser {
+  line-height: 18px;
+  margin-bottom: 8px;
+  margin-top: 10px;
+
+  img {
+    vertical-align: top;
+    border: none;
+    border-radius: 50%;
+    height: 20px;
+    width: 20px;
+    margin-right: 5px;
+    display: inline-block;
+  }
+  span {
+    font-weight: 600;
+  }
+}
+
 .j-commentForm__input {
   width: 100%;
   border: none;
