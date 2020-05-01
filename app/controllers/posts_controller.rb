@@ -51,10 +51,7 @@ class PostsController < ApplicationController
     # binding.pry
     respond_to do |format|
       if @post.update!(post_params)
-
-        if params[:comments]
-
-        end
+        update_comments(@post) if params[:comments]
         format.html { redirect_to @post, notice: 'Post was successfully updated.' }
         format.json { render json: { post: PostSerializer.new(@post).as_json } }
       else
@@ -140,6 +137,23 @@ class PostsController < ApplicationController
           color: tag.color,
         }}
         .as_json
+    end
+
+    def update_comments(post)
+      if comments_data = JSON.parse(params['comments'])
+        comments_data.each do |comment_data|
+          comment = Comment.find_or_create_by(
+            data_key: comment_data["id"].to_s,
+            post_id: post.id
+          )
+
+          comment.update(
+            text: comment_data["text"],
+            data_from: comment_data["from"],
+            data_to: comment_data["to"]
+          )
+        end
       end
+    end
 
 end
