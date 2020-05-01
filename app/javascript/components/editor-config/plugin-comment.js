@@ -39,6 +39,19 @@ class CommentState {
     return this.decos.find(pos, pos)
   }
 
+  allComments() {
+    let { decos } = this
+    const comments = decos.find().map((comment) => {
+      return {
+        to: comment.to,
+        from: comment.from,
+        id: comment.type.spec.comment.id,
+        text: comment.type.spec.comment.text,
+      }
+    })
+    return comments
+  }
+
   apply(tr) {
     let action = tr.getMeta(commentPlugin),
       actionType = action && action.type
@@ -67,6 +80,7 @@ class CommentState {
     let decos = existingComments.map((c) =>
       deco(c.from, c.to, new Comment(c.text, c.id))
     )
+
     return new CommentState(
       config.comments.version,
       DecorationSet.create(config.doc, decos),

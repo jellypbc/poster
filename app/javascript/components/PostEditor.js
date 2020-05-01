@@ -182,38 +182,21 @@ class PostEditor extends React.Component {
   )
 
   updatePost = (doc, docState) => {
+    var { post } = this.state
     // do not read from this.state after setState, it will not update until rerender
     this.setState({ isLoading: true })
-    var { post } = this.state
     const isNewPost = getIsNewPost(post)
 
-    const commentState = commentPluginKey.getState(docState)
-
-    const newCommentsToSave = commentState.unsent
-      .filter((action) => action.type === 'newComment')
-      .map(serializeComment)
-
-    // TODO: serialize JSON on server instead of parsing string?
-    const oldPluginState = post.data.attributes.comments
-
-    const comments = [...(oldPluginState || []), ...newCommentsToSave].filter(
-      (comment) => {
-        return !commentState.unsent.find((action) => {
-          const isDeletable = action.type === 'deleteComment'
-          const isTheComment = action.comment.id === comment.id
-          return isDeletable && isTheComment
-        })
-      }
+    const comments = JSON.stringify(
+      commentPluginKey.getState(docState).allComments()
     )
-    let decos = commentState.decos.map((c) => c)
-
-    var url = isNewPost ? '/posts' : post.data.attributes.form_url
-    var data = {
+    const url = isNewPost ? '/posts' : post.data.attributes.form_url
+    const data = {
       body: doc,
       comments: comments,
     }
-    var method = isNewPost ? 'post' : 'put'
-    var token = document.head.querySelector('[name~=csrf-token][content]')
+    const method = isNewPost ? 'post' : 'put'
+    const token = document.head.querySelector('[name~=csrf-token][content]')
       .content
 
     superagent[method](url)
