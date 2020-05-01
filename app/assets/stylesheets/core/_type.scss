@@ -7,11 +7,11 @@ input, span, a {
 }
 
 a {
-  color: $blueDark;
+  color: $brandGreen;
 }
 
 a:hover {
-  text-decoration: none;
+  color: $linkHover;
   cursor: pointer;
 }
 
