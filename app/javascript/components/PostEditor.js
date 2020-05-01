@@ -14,10 +14,7 @@ import ChangesIndicator from './ChangesIndicator'
 import PostProcessingPlaceholder from './PostProcessingPlaceholder'
 import { options, menu, annotationMenu } from './editor-config/index'
 
-import {
-  pluginKey as commentPluginKey,
-  serialize as serializeComment,
-} from './editor-config/plugin-comment'
+import { pluginKey as commentPluginKey } from './editor-config/plugin-comment'
 
 import {
   getTimestamp,
