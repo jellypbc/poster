@@ -162,7 +162,6 @@ function submitRequest(data, url) {
 
 // Command for adding an annotation; it can be connected to the menu option for comments
 export const addAnnotation = function (state, dispatch) {
-  var { currentUser } = store.getState()
   let sel = state.selection
   if (sel.empty) return false
   if (dispatch) {
@@ -173,22 +172,9 @@ export const addAnnotation = function (state, dispatch) {
 
     const handleClose = () => ReactDOM.unmountComponentAtNode(root)
 
-    let user
-    if (currentUser) {
-      user = {
-        id: currentUser.currentUser.id,
-        name: currentUser.currentUser.attributes.full_name,
-        avatar: currentUser.currentUser.attributes.avatar_url,
-      }
-    } else {
-      user = {
-        id: '',
-        avatar: '',
-        name: 'You',
-      }
-    }
-
     const handleNewComment = ({ text }) => {
+      const user = buildUser()
+
       var newComment = new Comment(text, randomID(), user)
 
       dispatch(
@@ -268,10 +254,18 @@ function renderComments(comments, dispatch, state) {
   return node
 }
 
+function buildUser() {
+  const { currentUser } = store.getState()
+  return {
+    id: currentUser.currentUser.id || '',
+    avatar: currentUser.currentUser.attributes.avatar_url,
+    name: currentUser.currentUser.attributes.full_name,
+  }
+}
+
 function ThreadedComment(props) {
   const { comment, dispatch, state, className, showActions } = props
   const [isShowingReply, setIsShowingReply] = React.useState(false)
-  const { currentUser } = store.getState()
 
   const handleDelete = () => {
     dispatch(
@@ -286,20 +280,8 @@ function ThreadedComment(props) {
   const handleReplySubmit = ({ text = 'Comment...' }) => {
     const replyTo = pluginKey.getState(state).findComment(comment.id)
 
-    let user
-    if (currentUser) {
-      user = {
-        id: currentUser.currentUser.id,
-        name: currentUser.currentUser.attributes.full_name,
-        avatar: currentUser.currentUser.attributes.avatar_url,
-      }
-    } else {
-      user = {
-        id: '',
-        avatar: '',
-        name: 'You',
-      }
-    }
+    const user = buildUser()
+    console.log('user', user)
 
     dispatch(
       state.tr.setMeta(commentPlugin, {
