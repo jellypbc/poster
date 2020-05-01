@@ -174,8 +174,7 @@ export const addAnnotation = function (state, dispatch) {
 
     const handleNewComment = ({ text }) => {
       const user = buildUser()
-
-      var newComment = new Comment(text, randomID(), user)
+      const newComment = new Comment(text, randomID(), user)
 
       dispatch(
         state.tr.setMeta(commentPlugin, {
@@ -279,9 +278,7 @@ function ThreadedComment(props) {
 
   const handleReplySubmit = ({ text = 'Comment...' }) => {
     const replyTo = pluginKey.getState(state).findComment(comment.id)
-
     const user = buildUser()
-    console.log('user', user)
 
     dispatch(
       state.tr.setMeta(commentPlugin, {
