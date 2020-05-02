@@ -96,14 +96,12 @@ class PostEditor extends React.Component {
     if (placeholder) placeholder.remove()
   }
 
-  handleTitleChange = (doc, docState) => {
-    this.debounceTitleChanges(doc, docState)
-  }
-
-  debounceTitleChanges = debounce(
-    (doc, docState) => {
-      const onChange = this.updateTitle
-      onChange(this.serialize(doc), docState)
+  // Debounces change handler so user has to stop typing to save,
+  // but also adds maxWait so that if they type continuously, changes will
+  // still be saved every so often.
+  debounceChanges = debounce(
+    (doc, docState, onChange, field) => {
+      onChange(this.serialize(doc), docState, field)
     },
     350,
     { maxWait: 1000 }
@@ -125,90 +123,89 @@ class PostEditor extends React.Component {
     }
   }
 
-  updateTitle = (doc, docState) => {
-    // do not read from this.state after setState, it will not update until rerender
-    this.setState({ isLoading: true })
-    var { post } = this.state
-    const isNewPost = getIsNewPost(post)
-    var url = isNewPost ? '/posts' : post.data.attributes.form_url
-    var title = doc
-
-    var data = { title: title }
-    var method = isNewPost ? 'post' : 'put'
-    var token = document.head.querySelector('[name~=csrf-token][content]')
-      .content
-
-    superagent[method](url)
-      .send(data)
-      .set('X-CSRF-Token', token)
-      .set('accept', 'application/json')
-      .end((err, res) => {
-        // use the browser timestamp instead of new updated_at
-        const now = new Date().toISOString()
-        this.setState((state) => ({
-          post: res.body.post,
-          isLoading: false,
-          error: err ? err : null,
-          errorAt: err ? now : null,
-          lastSavedAt: err ? state.lastSavedAt : now,
-        }))
-        this.updateURL() // refresh the window history
-      })
-  }
-
-  handleChange = (doc, docState) => {
-    // Tell the parent component there are changes ("dirty state")
-    // and also call debounced full change handler.
+  handleChange = (doc, docState, field) => {
     this.setState({ lastUnsavedChangeAt: new Date() })
-    this.debounceChanges(doc, docState) // this is debounced to save bandwidth
+    this.debounceChanges(doc, docState, this.updatePost, field)
   }
 
-  // Debounces change handler so user has to stop typing to save,
-  // but also adds maxWait so that if they type continuously, changes will
-  // still be saved every so often.
-  //
-  // TODO: Move debouncing into updatePost()
-  debounceChanges = debounce(
-    (doc, docState) => {
-      const onChange = this.updatePost
-      onChange(this.serialize(doc), docState)
-    },
-    350,
-    { maxWait: 1000 }
-  )
-
-  updatePost = (doc, docState) => {
-    var { post } = this.state
-    // do not read from this.state after setState, it will not update until rerender
+  updatePost = (doc, docState, field) => {
     this.setState({ isLoading: true })
+    const { post } = this.state
     const isNewPost = getIsNewPost(post)
-
     const comments = JSON.stringify(
       commentPluginKey.getState(docState).allComments()
     )
     const url = isNewPost ? '/posts' : post.data.attributes.form_url
-    const data = {
-      body: doc,
-      comments: comments,
-    }
     const method = isNewPost ? 'post' : 'put'
     const token = document.head.querySelector('[name~=csrf-token][content]')
       .content
 
+    let data = {}
+    if (field === 'title') {
+      data = {
+        title: doc,
+        comments: comments,
+      }
+    } else if (field === 'body') {
+      data = {
+        body: doc,
+        comments: comments,
+      }
+    }
+
+    this.submit(data, token, method, url, this.onSuccess)
+  }
+
+  onSuccess = (err, res) => {
+    console.log({ res, err })
+    const now = new Date().toISOString()
+    this.setState((state) => ({
+      isLoading: false,
+      error: err ? err : null,
+      errorAt: err ? now : null,
+      lastSavedAt: err ? state.lastSavedAt : now,
+    }))
+    this.updateURL()
+  }
+
+  submit(data, token, method, url, onSuccess) {
     superagent[method](url)
       .send(data)
       .set('X-CSRF-Token', token)
       .set('accept', 'application/json')
       .end((err, res) => {
-        console.log({ res, err }) // DEBUG SAVE
-        const now = new Date().toISOString()
-        this.setState((state) => ({
-          isLoading: false,
-          error: err ? err : null,
-          errorAt: err ? now : null,
-          lastSavedAt: err ? state.lastSavedAt : now,
-        }))
+        onSuccess(err, res)
       })
+  }
+
+  renderTitleEditor = ({ editor, view }) => {
+    const { isEditable } = this.state
+    var menubar = isEditable ? menu : annotationMenu
+    return (
+      <div className="header">
+        <div className="header-nav">
+          <Floater view={view}>
+            <MenuBar menu={menubar} view={view} />
+          </Floater>
+          <div className="title">
+            <h1>{editor}</h1>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  renderBodyEditor = ({ editor, view }) => {
+    const { isEditable } = this.state
+    var menubar = isEditable ? menu : annotationMenu
+    return (
+      <div>
+        <Floater view={view}>
+          <MenuBar menu={menubar} view={view} />
+        </Floater>
+        <div className="post-editor">{editor}</div>
+      </div>
+    )
   }
 
   renderPost() {
@@ -221,19 +218,17 @@ class PostEditor extends React.Component {
       lastSavedAt,
       lastUnsavedChangeAt,
     } = this.state
+    const { body, title } = post.data.attributes
     const isNewPost = getIsNewPost(post)
-    const postBody = post.data.attributes.body
     const lastSavedAtDate = new Date(lastSavedAt) // convert to date object
     const hasUnsavedChanges = lastSavedAtDate < lastUnsavedChangeAt
 
-    options.doc = this.parse(postBody) // TODO: don't mutate "options"
+    options.doc = this.parse(body) // TODO: don't mutate "options"
     options.doc.comments = { comments: post.data.attributes.comments }
 
-    const postTitle = post.data.attributes.title
     var titleOptions = Object.assign({}, options)
-    titleOptions.doc = this.parse(postTitle)
-
-    var menubar = isEditable ? menu : annotationMenu
+    titleOptions.doc = this.parse(title)
+    titleOptions.doc.commets = { comments: post.data.attributes.comments }
 
     return (
       <div>
@@ -248,36 +243,20 @@ class PostEditor extends React.Component {
         <Editor
           post={post}
           options={titleOptions}
-          onChange={this.handleTitleChange}
+          onChange={this.handleChange}
           isEditable={isEditable}
-          render={({ editor, view }) => (
-            <div className="header">
-              <div className="header-nav">
-                <Floater view={view}>
-                  <MenuBar menu={menubar} view={view} />
-                </Floater>
-                <div className="title">
-                  <h1>{editor}</h1>
-                </div>
-              </div>
-            </div>
-          )}
+          render={this.renderTitleEditor}
+          field="title"
         />
 
         <Editor
           post={post}
-          autoFocus
           options={options}
           onChange={this.handleChange}
           isEditable={isEditable}
-          render={({ editor, view }) => (
-            <div>
-              <Floater view={view}>
-                <MenuBar menu={menubar} view={view} />
-              </Floater>
-              <div className="post-editor">{editor}</div>
-            </div>
-          )}
+          render={this.renderBodyEditor}
+          field="body"
+          autoFocus
         />
 
         {isEditable && (
