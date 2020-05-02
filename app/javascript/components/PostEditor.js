@@ -96,6 +96,16 @@ class PostEditor extends React.Component {
     if (placeholder) placeholder.remove()
   }
 
+  submit(data, token, method, url, onSuccess) {
+    superagent[method](url)
+      .send(data)
+      .set('X-CSRF-Token', token)
+      .set('accept', 'application/json')
+      .end((err, res) => {
+        onSuccess(err, res)
+      })
+  }
+
   handleTitleChange = (doc, docState) => {
     this.debounceTitleChanges(doc, docState)
   }
@@ -126,7 +136,6 @@ class PostEditor extends React.Component {
   }
 
   updateTitle = (doc, docState) => {
-    // do not read from this.state after setState, it will not update until rerender
     this.setState({ isLoading: true })
     var { post } = this.state
     const isNewPost = getIsNewPost(post)
@@ -138,22 +147,19 @@ class PostEditor extends React.Component {
     var token = document.head.querySelector('[name~=csrf-token][content]')
       .content
 
-    superagent[method](url)
-      .send(data)
-      .set('X-CSRF-Token', token)
-      .set('accept', 'application/json')
-      .end((err, res) => {
-        // use the browser timestamp instead of new updated_at
-        const now = new Date().toISOString()
-        this.setState((state) => ({
-          post: res.body.post,
-          isLoading: false,
-          error: err ? err : null,
-          errorAt: err ? now : null,
-          lastSavedAt: err ? state.lastSavedAt : now,
-        }))
-        this.updateURL() // refresh the window history
-      })
+    const onSuccess = (err, res) => {
+      const now = new Date().toISOString()
+      this.setState((state) => ({
+        post: res.body.post,
+        isLoading: false,
+        error: err ? err : null,
+        errorAt: err ? now : null,
+        lastSavedAt: err ? state.lastSavedAt : now,
+      }))
+      this.updateURL() // refresh the window history
+    }
+
+    this.submit(data, token, method, url, onSuccess)
   }
 
   handleChange = (doc, docState) => {
@@ -178,37 +184,66 @@ class PostEditor extends React.Component {
   )
 
   updatePost = (doc, docState) => {
-    var { post } = this.state
-    // do not read from this.state after setState, it will not update until rerender
     this.setState({ isLoading: true })
+    var { post } = this.state
     const isNewPost = getIsNewPost(post)
 
     const comments = JSON.stringify(
       commentPluginKey.getState(docState).allComments()
     )
     const url = isNewPost ? '/posts' : post.data.attributes.form_url
+
     const data = {
       body: doc,
       comments: comments,
     }
+
     const method = isNewPost ? 'post' : 'put'
     const token = document.head.querySelector('[name~=csrf-token][content]')
       .content
 
-    superagent[method](url)
-      .send(data)
-      .set('X-CSRF-Token', token)
-      .set('accept', 'application/json')
-      .end((err, res) => {
-        console.log({ res, err }) // DEBUG SAVE
-        const now = new Date().toISOString()
-        this.setState((state) => ({
-          isLoading: false,
-          error: err ? err : null,
-          errorAt: err ? now : null,
-          lastSavedAt: err ? state.lastSavedAt : now,
-        }))
-      })
+    const onSuccess = (err, res) => {
+      console.log({ res, err })
+      const now = new Date().toISOString()
+      this.setState((state) => ({
+        isLoading: false,
+        error: err ? err : null,
+        errorAt: err ? now : null,
+        lastSavedAt: err ? state.lastSavedAt : now,
+      }))
+    }
+
+    this.submit(data, token, method, url, onSuccess)
+  }
+
+  renderTitleEditor = ({ editor, view }) => {
+    const { isEditable } = this.state
+    var menubar = isEditable ? menu : annotationMenu
+    return (
+      <div className="header">
+        <div className="header-nav">
+          <Floater view={view}>
+            <MenuBar menu={menubar} view={view} />
+          </Floater>
+          <div className="title">
+            <h1>{editor}</h1>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  renderBodyEditor = ({ editor, view }) => {
+    const { isEditable } = this.state
+    var menubar = isEditable ? menu : annotationMenu
+    return (
+      <div>
+        <Floater view={view}>
+          <MenuBar menu={menubar} view={view} />
+        </Floater>
+        <div className="post-editor">{editor}</div>
+      </div>
+    )
   }
 
   renderPost() {
@@ -232,8 +267,7 @@ class PostEditor extends React.Component {
     const postTitle = post.data.attributes.title
     var titleOptions = Object.assign({}, options)
     titleOptions.doc = this.parse(postTitle)
-
-    var menubar = isEditable ? menu : annotationMenu
+    titleOptions.doc.commets = { comments: post.data.attributes.comments }
 
     return (
       <div>
@@ -250,34 +284,16 @@ class PostEditor extends React.Component {
           options={titleOptions}
           onChange={this.handleTitleChange}
           isEditable={isEditable}
-          render={({ editor, view }) => (
-            <div className="header">
-              <div className="header-nav">
-                <Floater view={view}>
-                  <MenuBar menu={menubar} view={view} />
-                </Floater>
-                <div className="title">
-                  <h1>{editor}</h1>
-                </div>
-              </div>
-            </div>
-          )}
+          render={this.renderTitleEditor}
         />
 
         <Editor
-          post={post}
           autoFocus
+          post={post}
           options={options}
           onChange={this.handleChange}
           isEditable={isEditable}
-          render={({ editor, view }) => (
-            <div>
-              <Floater view={view}>
-                <MenuBar menu={menubar} view={view} />
-              </Floater>
-              <div className="post-editor">{editor}</div>
-            </div>
-          )}
+          render={this.renderBodyEditor}
         />
 
         {isEditable && (
