@@ -61,7 +61,7 @@ class User < ApplicationRecord
     if avatar
       super
     else
-      self.default_avatar_url
+      User.default_avatar_url
     end
   end
 
