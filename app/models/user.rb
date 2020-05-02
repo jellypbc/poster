@@ -65,7 +65,7 @@ class User < ApplicationRecord
     end
   end
 
-  def self.default_avatar_url
+  def default_avatar_url
     ActionController::Base.helpers.asset_path "avatar.png"
   end
 
