@@ -13,9 +13,8 @@ class SearchBar extends React.Component {
   }
 
   componentDidMount() {
-    // remove the fallback searchbar
     var placeholder = document.getElementById('search-fallback')[0]
-    placeholder.remove()
+    if (placeholder) placeholder.remove()
 
     var searchbar = document.getElementsByClassName('search-bar')[0]
     searchbar.addEventListener('keyup', (event) => {

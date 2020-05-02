@@ -7,7 +7,8 @@ import { pluginKey as commentPluginKey } from './editor-config/plugin-comment'
 class Editor extends React.Component {
   constructor(props) {
     super(props)
-    console.log('EDITOR PROPS', props)
+    const { field } = props
+    console.log(field.toUpperCase() + ' EDITOR PROPS', props)
 
     this.editorRef = React.createRef()
 
@@ -17,7 +18,8 @@ class Editor extends React.Component {
       // prosemirror options = { plugins, schema, comments: { comments: [] } }
       state: EditorState.create({
         ...props.options,
-        plugins: props.options.setupPlugins(getView, props.post.data.slug),
+        field: props.field,
+        plugins: props.options.setupPlugins(getView),
       }),
       dispatchTransaction: (transaction) => {
         const oldComments = commentPluginKey.getState(this.view.state)
@@ -34,10 +36,10 @@ class Editor extends React.Component {
           transactions.some((tr) => tr.docChanged) ||
           newComments !== oldComments
         ) {
-          this.props.onChange(state.doc, state)
+          this.props.onChange(state.doc, state, props.field)
         }
 
-        this.props.onChange(state.doc, state)
+        this.props.onChange(state.doc, state, props.field)
         this.forceUpdate()
       },
       editable: function (state) {

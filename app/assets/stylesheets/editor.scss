@@ -2,6 +2,10 @@
 @import 'editor/floater';
 @import 'editor/menubar';
 
+a:hover {
+  text-decoration: underline;
+}
+
 .header {
   .title {
     h1 {
@@ -16,7 +20,6 @@
     }
   }
 }
-
 
 .loading-indicator {
 	i {
