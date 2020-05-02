@@ -91,10 +91,9 @@ class PostEditor extends React.Component {
     this.removeStaticRenderPlaceholder()
   }
 
-  // Remove the static placeholder content once component renders
   removeStaticRenderPlaceholder = () => {
     var placeholder = document.getElementsByClassName('placeholder-content')[0]
-    placeholder.remove()
+    if (placeholder) placeholder.remove()
   }
 
   handleTitleChange = (doc, docState) => {
