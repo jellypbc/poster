@@ -160,7 +160,6 @@ class PostEditor extends React.Component {
     console.log({ res, err })
     const now = new Date().toISOString()
     this.setState((state) => ({
-      post: res.body.post,
       isLoading: false,
       error: err ? err : null,
       errorAt: err ? now : null,
@@ -219,17 +218,16 @@ class PostEditor extends React.Component {
       lastSavedAt,
       lastUnsavedChangeAt,
     } = this.state
+    const { body, title } = post.data.attributes
     const isNewPost = getIsNewPost(post)
-    const postBody = post.data.attributes.body
     const lastSavedAtDate = new Date(lastSavedAt) // convert to date object
     const hasUnsavedChanges = lastSavedAtDate < lastUnsavedChangeAt
 
-    options.doc = this.parse(postBody) // TODO: don't mutate "options"
+    options.doc = this.parse(body) // TODO: don't mutate "options"
     options.doc.comments = { comments: post.data.attributes.comments }
 
-    const postTitle = post.data.attributes.title
     var titleOptions = Object.assign({}, options)
-    titleOptions.doc = this.parse(postTitle)
+    titleOptions.doc = this.parse(title)
     titleOptions.doc.commets = { comments: post.data.attributes.comments }
 
     return (
@@ -243,22 +241,22 @@ class PostEditor extends React.Component {
         ) : null}
 
         <Editor
-          field="title"
           post={post}
           options={titleOptions}
           onChange={this.handleChange}
           isEditable={isEditable}
           render={this.renderTitleEditor}
+          field="title"
         />
 
         <Editor
-          autoFocus
-          field="body"
           post={post}
           options={options}
           onChange={this.handleChange}
           isEditable={isEditable}
           render={this.renderBodyEditor}
+          field="body"
+          autoFocus
         />
 
         {isEditable && (
