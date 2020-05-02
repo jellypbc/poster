@@ -224,11 +224,14 @@ class PostEditor extends React.Component {
     const hasUnsavedChanges = lastSavedAtDate < lastUnsavedChangeAt
 
     options.doc = this.parse(body) // TODO: don't mutate "options"
-    options.doc.comments = { comments: post.data.attributes.comments }
+    options.doc.comments = { comments: post.data.attributes.body_comments }
 
     var titleOptions = Object.assign({}, options)
     titleOptions.doc = this.parse(title)
-    titleOptions.doc.commets = { comments: post.data.attributes.comments }
+    titleOptions.doc.comments = {
+      comments: post.data.attributes.title_comments,
+    }
+    // titleOptions.comments = { comments: post.data.attributes.comments }
 
     return (
       <div>

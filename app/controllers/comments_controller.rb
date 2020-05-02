@@ -73,7 +73,7 @@ class CommentsController < ApplicationController
     def comment_params
       params.require(:comment).permit(
         :text, :data_to, :data_from, :data_key,
-        :user_id, :post_id, :deleted_at
+        :user_id, :post_id, :deleted_at, :field_type
       )
     end
 
