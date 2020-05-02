@@ -96,30 +96,16 @@ class PostEditor extends React.Component {
     if (placeholder) placeholder.remove()
   }
 
-  submit(data, token, method, url, onSuccess) {
-    superagent[method](url)
-      .send(data)
-      .set('X-CSRF-Token', token)
-      .set('accept', 'application/json')
-      .end((err, res) => {
-        onSuccess(err, res)
-      })
-  }
-
   // Debounces change handler so user has to stop typing to save,
   // but also adds maxWait so that if they type continuously, changes will
   // still be saved every so often.
   debounceChanges = debounce(
-    (doc, docState, onChange) => {
-      onChange(this.serialize(doc), docState)
+    (doc, docState, onChange, field) => {
+      onChange(this.serialize(doc), docState, field)
     },
     350,
     { maxWait: 1000 }
   )
-
-  handleTitleChange = (doc, docState) => {
-    this.debounceChanges(doc, docState, this.updateTitle)
-  }
 
   updateURL = () => {
     var title = sanitizeHtml(this.state.post.data.attributes.title, {
@@ -137,71 +123,60 @@ class PostEditor extends React.Component {
     }
   }
 
-  updateTitle = (doc, docState) => {
-    this.setState({ isLoading: true })
-    var { post } = this.state
-    const isNewPost = getIsNewPost(post)
-    var url = isNewPost ? '/posts' : post.data.attributes.form_url
-    var title = doc
-
-    var data = { title: title }
-    var method = isNewPost ? 'post' : 'put'
-    var token = document.head.querySelector('[name~=csrf-token][content]')
-      .content
-
-    const onSuccess = (err, res) => {
-      const now = new Date().toISOString()
-      this.setState((state) => ({
-        post: res.body.post,
-        isLoading: false,
-        error: err ? err : null,
-        errorAt: err ? now : null,
-        lastSavedAt: err ? state.lastSavedAt : now,
-      }))
-      this.updateURL() // refresh the window history
-    }
-
-    this.submit(data, token, method, url, onSuccess)
-  }
-
-  handleChange = (doc, docState) => {
-    // Tell the parent component there are changes ("dirty state")
-    // and also call debounced full change handler.
+  handleChange = (doc, docState, field) => {
     this.setState({ lastUnsavedChangeAt: new Date() })
-    this.debounceChanges(doc, docState, this.updatePost)
+    this.debounceChanges(doc, docState, this.updatePost, field)
   }
 
-  updatePost = (doc, docState) => {
+  updatePost = (doc, docState, field) => {
     this.setState({ isLoading: true })
-    var { post } = this.state
+    const { post } = this.state
     const isNewPost = getIsNewPost(post)
-
     const comments = JSON.stringify(
       commentPluginKey.getState(docState).allComments()
     )
     const url = isNewPost ? '/posts' : post.data.attributes.form_url
-
-    const data = {
-      body: doc,
-      comments: comments,
-    }
-
     const method = isNewPost ? 'post' : 'put'
     const token = document.head.querySelector('[name~=csrf-token][content]')
       .content
 
-    const onSuccess = (err, res) => {
-      console.log({ res, err })
-      const now = new Date().toISOString()
-      this.setState((state) => ({
-        isLoading: false,
-        error: err ? err : null,
-        errorAt: err ? now : null,
-        lastSavedAt: err ? state.lastSavedAt : now,
-      }))
+    let data = {}
+    if (field === 'title') {
+      data = {
+        title: doc,
+        comments: comments,
+      }
+    } else if (field === 'body') {
+      data = {
+        body: doc,
+        comments: comments,
+      }
     }
 
-    this.submit(data, token, method, url, onSuccess)
+    this.submit(data, token, method, url, this.onSuccess)
+  }
+
+  onSuccess = (err, res) => {
+    console.log({ res, err })
+    const now = new Date().toISOString()
+    this.setState((state) => ({
+      post: res.body.post,
+      isLoading: false,
+      error: err ? err : null,
+      errorAt: err ? now : null,
+      lastSavedAt: err ? state.lastSavedAt : now,
+    }))
+    this.updateURL()
+  }
+
+  submit(data, token, method, url, onSuccess) {
+    superagent[method](url)
+      .send(data)
+      .set('X-CSRF-Token', token)
+      .set('accept', 'application/json')
+      .end((err, res) => {
+        onSuccess(err, res)
+      })
   }
 
   renderTitleEditor = ({ editor, view }) => {
@@ -268,15 +243,17 @@ class PostEditor extends React.Component {
         ) : null}
 
         <Editor
+          field="title"
           post={post}
           options={titleOptions}
-          onChange={this.handleTitleChange}
+          onChange={this.handleChange}
           isEditable={isEditable}
           render={this.renderTitleEditor}
         />
 
         <Editor
           autoFocus
+          field="body"
           post={post}
           options={options}
           onChange={this.handleChange}
