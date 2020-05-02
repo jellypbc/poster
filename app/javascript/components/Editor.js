@@ -7,7 +7,8 @@ import { pluginKey as commentPluginKey } from './editor-config/plugin-comment'
 class Editor extends React.Component {
   constructor(props) {
     super(props)
-    console.log(props.field.toUpperCase() + ' EDITOR PROPS', props)
+    const { field } = props
+    console.log(field.toUpperCase() + ' EDITOR PROPS', props)
 
     this.editorRef = React.createRef()
 
@@ -17,6 +18,7 @@ class Editor extends React.Component {
       // prosemirror options = { plugins, schema, comments: { comments: [] } }
       state: EditorState.create({
         ...props.options,
+        field: props.field,
         plugins: props.options.setupPlugins(getView),
       }),
       dispatchTransaction: (transaction) => {
