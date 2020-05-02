@@ -61,11 +61,11 @@ class User < ApplicationRecord
     if avatar
       super
     else
-      self.default_avatar_url
+      User.default_avatar_url
     end
   end
 
-  def default_avatar_url
+  def self.default_avatar_url
     ActionController::Base.helpers.asset_path "avatar.png"
   end
 

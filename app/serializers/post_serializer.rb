@@ -88,7 +88,7 @@ class PostSerializer
         to: comment.data_to.to_i,
         from: comment.data_from.to_i,
         id: comment.data_key.to_i,
-        text: comment.text,
+        comment: comment.comment,
         user: user,
       }
     }.as_json
