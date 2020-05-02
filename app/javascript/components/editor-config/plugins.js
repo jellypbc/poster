@@ -19,7 +19,7 @@ import rules from './rules'
 
 // export a function here because some plugins need to be bound to a reference
 // to a state or view object
-const setupPlugins = (getView, props) => [
+const setupPlugins = (getView) => [
   rules,
   keys,
   placeholder(),

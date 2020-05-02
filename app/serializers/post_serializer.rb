@@ -67,8 +67,35 @@ class PostSerializer
     }.as_json
   end
 
-  attribute :comments do |object|
-    object.comments.map{ |comment|
+  attribute :title_comments do |object|
+    object.comments.title.map{ |comment|
+
+      if comment.user
+        user = {
+          id: comment.user.id,
+          avatar: comment.user.avatar_url,
+          name: comment.user.full_name,
+        }
+      else
+        user = {
+          id: "",
+          avatar: User.default_avatar_url,
+          name: "Anonymous",
+        }
+      end
+
+      {
+        to: comment.data_to.to_i,
+        from: comment.data_from.to_i,
+        id: comment.data_key.to_i,
+        text: comment.text,
+        user: user,
+      }
+    }.as_json
+  end
+
+  attribute :body_comments do |object|
+    object.comments.body.map{ |comment|
 
       if comment.user
         user = {

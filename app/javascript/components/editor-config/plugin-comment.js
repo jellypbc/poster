@@ -24,10 +24,11 @@ function deco(from, to, comment) {
 }
 
 class CommentState {
-  constructor(version, decos, unsent) {
+  constructor(version, decos, unsent, field) {
     this.version = version
     this.decos = decos
     this.unsent = unsent
+    this.field = field
   }
 
   findComment(id) {
@@ -58,19 +59,19 @@ class CommentState {
       actionType = action && action.type
     if (!action && !tr.docChanged) return this
     let base = this
-    let { decos, unsent } = base
+    let { decos, unsent, field } = base
     decos = decos.map(tr.mapping, tr.doc)
 
     if (actionType == 'newComment') {
       decos = decos.add(tr.doc, [deco(action.from, action.to, action.comment)])
       unsent = unsent.concat(action)
-      submitCreateComment(action, action.comment)
+      submitCreateComment(action, action.comment, field)
     } else if (actionType == 'deleteComment') {
       decos = decos.remove([this.findComment(action.comment.id)])
       unsent = unsent.concat(action)
       submitDeleteComment(action.comment)
     }
-    return new CommentState(base.version, decos, unsent)
+    return new CommentState(base.version, decos, unsent, field)
   }
 
   static init(config) {
@@ -86,7 +87,8 @@ class CommentState {
     return new CommentState(
       config.comments.version,
       DecorationSet.create(config.doc, decos),
-      []
+      [],
+      config.field
     )
   }
 }
@@ -130,13 +132,13 @@ function submitDeleteComment(comment) {
   submitRequest(data, url)
 }
 
-function submitCreateComment(sel, comment) {
+function submitCreateComment(action, comment, field) {
   var url = '/add_comment'
   var { currentUser, currentPost } = store.getState()
   var data = {
     comment: {
-      data_to: sel.to,
-      data_from: sel.from,
+      data_to: action.to,
+      data_from: action.from,
       data_key: comment.id,
       text: comment.comment,
     },

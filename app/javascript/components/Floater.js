@@ -20,7 +20,7 @@ class Floater extends React.Component {
     })
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     this.setState({
       style: this.calculateStyle(nextProps),
     })
