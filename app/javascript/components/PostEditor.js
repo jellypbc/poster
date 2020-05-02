@@ -106,18 +106,20 @@ class PostEditor extends React.Component {
       })
   }
 
-  handleTitleChange = (doc, docState) => {
-    this.debounceTitleChanges(doc, docState)
-  }
-
-  debounceTitleChanges = debounce(
-    (doc, docState) => {
-      const onChange = this.updateTitle
+  // Debounces change handler so user has to stop typing to save,
+  // but also adds maxWait so that if they type continuously, changes will
+  // still be saved every so often.
+  debounceChanges = debounce(
+    (doc, docState, onChange) => {
       onChange(this.serialize(doc), docState)
     },
     350,
     { maxWait: 1000 }
   )
+
+  handleTitleChange = (doc, docState) => {
+    this.debounceChanges(doc, docState, this.updateTitle)
+  }
 
   updateURL = () => {
     var title = sanitizeHtml(this.state.post.data.attributes.title, {
@@ -166,22 +168,8 @@ class PostEditor extends React.Component {
     // Tell the parent component there are changes ("dirty state")
     // and also call debounced full change handler.
     this.setState({ lastUnsavedChangeAt: new Date() })
-    this.debounceChanges(doc, docState) // this is debounced to save bandwidth
+    this.debounceChanges(doc, docState, this.updatePost)
   }
-
-  // Debounces change handler so user has to stop typing to save,
-  // but also adds maxWait so that if they type continuously, changes will
-  // still be saved every so often.
-  //
-  // TODO: Move debouncing into updatePost()
-  debounceChanges = debounce(
-    (doc, docState) => {
-      const onChange = this.updatePost
-      onChange(this.serialize(doc), docState)
-    },
-    350,
-    { maxWait: 1000 }
-  )
 
   updatePost = (doc, docState) => {
     this.setState({ isLoading: true })
