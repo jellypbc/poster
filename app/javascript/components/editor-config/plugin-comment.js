@@ -47,7 +47,7 @@ class CommentState {
         to: comment.to,
         from: comment.from,
         id: comment.type.spec.comment.id,
-        text: comment.type.spec.comment.comment,
+        text: comment.type.spec.comment.text,
       }
     })
     return comments
@@ -96,7 +96,7 @@ export function serialize(action) {
     to: action.to,
     from: action.from,
     id: action.comment.id,
-    text: action.comment.comment,
+    text: action.comment.text,
   }
 }
 
@@ -138,7 +138,7 @@ function submitCreateComment(sel, comment) {
       data_to: sel.to,
       data_from: sel.from,
       data_key: comment.id,
-      text: comment.comment,
+      text: comment.text,
     },
   }
   if (currentPost) {
@@ -303,7 +303,7 @@ function ThreadedComment(props) {
         </div>
       )}
 
-      <p className="j-commentText">{comment.comment}</p>
+      <p className="j-commentText">{comment.text}</p>
       {!isShowingReply && (
         <div>
           {showActions.reply && (

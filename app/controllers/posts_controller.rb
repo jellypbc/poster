@@ -148,7 +148,7 @@ class PostsController < ApplicationController
           )
 
           comment.update(
-            comment: comment_data["comment"],
+            text: comment_data["text"],
             data_from: comment_data["from"],
             data_to: comment_data["to"]
           )
