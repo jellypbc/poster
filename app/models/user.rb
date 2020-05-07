@@ -89,7 +89,7 @@ class User < ApplicationRecord
   private
 
     def set_username
-      self.username = self.email[/^[^@]+/]
+      self.username = self.email[/^[^@]+/].tr('.','') if username.blank?
     end
 
 end
