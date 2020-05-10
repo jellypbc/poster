@@ -7,6 +7,7 @@
         .header-link
           .block.request-access
             = mail_to 'aloha@jellypbc.com', 'Request Early Access', class: "btn btn-secondary"
+          .login-block 
+            | Already have an account? #{link_to "Log In", new_user_session_path}
         / .header-link
         /   .block.request-access
-        /     = link_to 'Request Early Access', root_path, class: "btn btn-secondary"
