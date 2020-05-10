@@ -22,7 +22,7 @@ To get this app up and running locally, follow these steps:
 # 1. Install packages
 bundle install
 # 2. Set up database
-bundle exec rails rails db:schema:load
+bundle exec rails db:schema:load
 ```
 
 ```sh
