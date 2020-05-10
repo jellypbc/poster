@@ -7,7 +7,7 @@
         .header-link
           .block.request-access
             = mail_to 'aloha@jellypbc.com', 'Request Early Access', class: "btn btn-secondary"
-          p class="devise__registrationPrompt"
+          .login-block 
             | Already have an account? #{link_to "Log In", new_user_session_path}
         / .header-link
         /   .block.request-access
