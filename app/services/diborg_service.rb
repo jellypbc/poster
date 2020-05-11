@@ -161,8 +161,8 @@ class DiborgService
 		end
 
 		def parse_body
-      replace_refs
-			@doc.css('body div').to_xml
+      replace_refs_to_remove_inline_citations
+			@doc.css('body').to_xml
 		end
 
 		def parse_citation(bibStruct)
@@ -203,7 +203,7 @@ class DiborgService
 			return title
 		end
 
-    def replace_refs
+    def replace_refs_to_remove_inline_citations
       @doc.css('ref').map {|r| r.remove }
     end
 end
