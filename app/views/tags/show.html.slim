@@ -12,4 +12,5 @@
       - @posts.each do |post|
         = render 'posts/post', post: post
 
-      = link_to "Back to dashboard", root_path
+      - if current_user
+        = link_to "Back to dashboard", root_path
