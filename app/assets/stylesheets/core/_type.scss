@@ -13,6 +13,7 @@ a {
 a:hover {
   color: $linkHover;
   cursor: pointer;
+  text-decoration: none !important;
 }
 
 p, li {
