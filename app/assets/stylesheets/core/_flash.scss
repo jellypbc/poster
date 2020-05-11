@@ -22,7 +22,11 @@
 			a {
 				color: darken($color, 50%);
 			}
-
+      .dismiss {
+        color: darken($color, 50%);
+        float: right;
+        cursor: pointer;
+      }
 		}
 	}
 }
