@@ -2,7 +2,7 @@ const emDOM = ['em', 0],
   strongDOM = ['strong', 0],
   codeDOM = ['code', 0]
 
-const marks = {
+const defaultMarks = {
   // :: MarkSpec A link. Has `href` and `title` attributes. `title`
   // defaults to the empty string. Rendered and parsed as an `<a>`
   // element.
@@ -69,6 +69,25 @@ const marks = {
   },
 }
 
+const title = {
+  // :: MarkSpec An emphasis mark. Rendered as an `<em>` element.
+  // Has parse rules that also match `<i>` and `font-style: italic`.
+  em: {
+    parseDOM: [{ tag: 'i' }, { tag: 'em' }, { style: 'font-style=italic' }],
+    toDOM() {
+      return emDOM
+    },
+  },
+
+  // :: MarkSpec Code font mark. Represented as a `<code>` element.
+  code: {
+    parseDOM: [{ tag: 'code' }],
+    toDOM() {
+      return codeDOM
+    },
+  },
+}
+
 const subscript = {
   excludes: 'superscript',
   parseDOM: [{ tag: 'sub' }, { style: 'vertical-align=sub' }],
@@ -105,8 +124,14 @@ const underline = {
   ],
 }
 
-export default {
-  ...marks,
+export const titleMarks = {
+  ...title,
+  subscript,
+  superscript,
+}
+
+export const marks = {
+  ...defaultMarks,
   subscript,
   superscript,
   strikethrough,

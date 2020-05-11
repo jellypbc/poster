@@ -10,7 +10,7 @@ import { wrapInList } from './schema-list'
 // import { addColumnAfter, addColumnBefore } from 'prosemirror-tables'
 import { addAnnotation } from './plugin-comment'
 import { addFigure } from './images'
-import schema from './schema'
+import { schema } from './schema'
 import icons from './icons'
 
 const markActive = (type) => (state) => {

@@ -21,7 +21,7 @@ import {
   selectParentNode,
 } from 'prosemirror-commands'
 
-import schema from './schema'
+import { schema } from './schema'
 import { addAnnotation } from './plugin-comment'
 import menu from './menu'
 
