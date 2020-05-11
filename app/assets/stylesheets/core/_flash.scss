@@ -14,6 +14,12 @@
 		text-decoration: underline;
 	}
 
+  .dismiss{
+    color: darken(map-get($flash_types, info), 50%);
+    float: right;
+    cursor: pointer;
+  }
+
 	@each $type, $color in $flash_types {
 		&.#{$type} {
 			background-color: $white;
@@ -24,8 +30,6 @@
 			}
       .dismiss {
         color: darken($color, 50%);
-        float: right;
-        cursor: pointer;
       }
 		}
 	}

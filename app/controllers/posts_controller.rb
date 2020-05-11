@@ -21,7 +21,7 @@ class PostsController < ApplicationController
     if current_user
       redirect_to short_user_post_path(current_user, @post)
     else
-      flash[:notice] = 'You must be registered to view this page.'
+      flash[:warning] = "You must be registered to view this page."
       redirect_to root_path
     end
   end
