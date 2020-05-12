@@ -9,6 +9,7 @@
           thead
             tr
               th ID
+              th User
               th Uploads
               th Title
               th Authors
@@ -21,6 +22,11 @@
             - @posts.each do |post|
               tr
                 td = post.id
+                td
+                  - if post.user.present?
+                    = link_to post.user.username, post.user
+                  - else
+                    | guest
                 td
                   - if post.uploads.any?
                     - post.uploads.each do |upload|
