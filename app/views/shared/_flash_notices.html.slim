@@ -1,5 +1,17 @@
-- flash.each do | key, value |
-	#flash-container
-		.container
-			.flash.animated.fadeInDown class=key
-				= value
+- flash.each_with_index do | flash, index |
+  #flash-container class="flashes-#{index}"
+    .container
+      .flash.animated.fadeInDown class=flash.first
+        = flash.last
+        span class="dismiss js-flash-dismiss-#{index}" &#10005;
+
+  javascript:
+    document.addEventListener("DOMContentLoaded", function() {
+      var cancelIcon = document.querySelector('.js-flash-dismiss-#{index}')
+
+      cancelIcon.addEventListener('click', function (event) {
+        event.preventDefault();
+        var flash = cancelIcon.closest("#flash-container.flashes-#{index}")
+        if (flash) flash.remove()
+      })
+    });
