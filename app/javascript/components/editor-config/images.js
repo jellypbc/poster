@@ -1,5 +1,5 @@
 import { store } from '../store'
-import schema from './schema'
+import { schema } from './schema'
 
 export const addFigure = function (state, dispatch) {
   console.log(state)

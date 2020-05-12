@@ -12,7 +12,13 @@ import MenuBar from './MenuBar'
 import PostMasthead from './PostMasthead'
 import ChangesIndicator from './ChangesIndicator'
 import PostProcessingPlaceholder from './PostProcessingPlaceholder'
-import { options, menu, annotationMenu } from './editor-config/index'
+import {
+  options,
+  titleOptions,
+  menu,
+  titleMenu,
+  annotationMenu,
+} from './editor-config/index'
 
 import { pluginKey as commentPluginKey } from './editor-config/plugin-comment'
 
@@ -52,8 +58,11 @@ class PostEditor extends React.Component {
     }
 
     const schema = options.schema
+    const titleSchema = options.titleSchema
     this.parse = createParser(schema)
+    // this.parseTitle = createParser(titleSchema)
     this.serialize = createSerializer(schema)
+    // this.serializeTitle = createSerializer(titleSchema)
   }
 
   componentDidMount() {
@@ -180,7 +189,7 @@ class PostEditor extends React.Component {
 
   renderTitleEditor = ({ editor, view }) => {
     const { isEditable } = this.state
-    var menubar = isEditable ? menu : annotationMenu
+    var menubar = isEditable ? titleMenu : annotationMenu
     return (
       <div className="header">
         <div className="header-nav">
@@ -226,7 +235,7 @@ class PostEditor extends React.Component {
     options.doc = this.parse(body) // TODO: don't mutate "options"
     options.doc.comments = { comments: post.data.attributes.body_comments }
 
-    var titleOptions = Object.assign({}, options)
+    // var titleOptions = Object.assign({}, titleOptions)
     titleOptions.doc = this.parse(title)
     titleOptions.doc.comments = {
       comments: post.data.attributes.title_comments,
