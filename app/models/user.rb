@@ -35,13 +35,18 @@
 class User < ApplicationRecord
   include AvatarUploader::Attachment(:avatar)
 
+  VALID_EMAIL_REGEX = /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i
+  VALID_USERNAME_REGEX = /\A[0-9a-z_-]+\z/i
+
   # validates :description, length: 300
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
          :confirmable, :lockable, :timeoutable
 
-  before_save :set_username
+  before_create :set_username
+
+  validates :username, presence: true, uniqueness: { case_sensitive: false }, length: { maximum: 50 }, format: {with: VALID_USERNAME_REGEX, message: 'no special characters, only letters and numbers' }
 
   has_many :tags
   has_many :posts
@@ -89,7 +94,7 @@ class User < ApplicationRecord
   private
 
     def set_username
-      self.username = self.email[/^[^@]+/].tr('.','') if username.blank?
+      username = email[/^[^@]+/].tr('.','') if username.blank?
     end
 
 end
