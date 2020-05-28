@@ -21,6 +21,16 @@ import {
 } from './editor-config/index'
 
 import { pluginKey as commentPluginKey } from './editor-config/plugin-comment'
+import Authority from './editor-config/authority'
+import {
+  collab,
+  receiveTransaction,
+  sendableSteps,
+  getVersion,
+} from 'prosemirror-collab'
+
+import { ChangeSet } from 'prosemirror-changeset'
+import { Transform } from 'prosemirror-transform'
 
 import {
   getTimestamp,
@@ -55,6 +65,7 @@ class PostEditor extends React.Component {
       lastUnsavedChangeAt: null, // Date object or null, used to track dirty state
       isProcessing: this.props.isProcessing || false, // TODO: move this into container
       isEditable: this.props.editable || false,
+      newSteps: {},
     }
 
     const schema = options.schema
@@ -75,9 +86,30 @@ class PostEditor extends React.Component {
       {
         connected() {},
 
-        received: function (data) {
+        received: function (resp) {
+          // console.log("[transmitted data]", resp.data)
+          // console.log("[transmitted dog]", resp.dog)
+
+          const newBody = resp.data.attributes.body
+          const newTitle = resp.data.attributes.title
+
+          // var newBodyDoc = this.parse(newBody)
+
+          // const transform = new Transform(newBodyDoc);
+          // let changeSet = ChangeSet.create(newBodyDoc);
+
+          // console.log('changeSet',changeSet)
+          // console.log('transform', transform)
+
+          // trackedSteps.forEach(trackedStep => {
+          //   transform.step(trackedStep.step)
+          //   changeSet = changeSet.addSteps(transform.doc, trackedStep.maps)
+          // })
+
+          // changeSet.changes = simplifyChanges(changeSet.changes, currentDoc)
+
           this.setState((state) => ({
-            post: data,
+            post: resp,
             isProcessing: false,
           }))
           this.updateURL()
@@ -232,7 +264,13 @@ class PostEditor extends React.Component {
     const lastSavedAtDate = new Date(lastSavedAt) // convert to date object
     const hasUnsavedChanges = lastSavedAtDate < lastUnsavedChangeAt
 
-    options.doc = this.parse(body) // TODO: don't mutate "options"
+    // options.doc = this.parse(body) // TODO: don't mutate "options"
+
+    var bodyDoc = this.parse(body) // TODO: don't mutate "options"
+    var bodyAuth = new Authority(bodyDoc)
+
+    options.doc = bodyAuth.doc
+
     options.doc.comments = { comments: post.data.attributes.body_comments }
 
     // var titleOptions = Object.assign({}, titleOptions)
@@ -252,16 +290,44 @@ class PostEditor extends React.Component {
           </p>
         ) : null}
 
-        <Editor
+        <button onClick={this.updatePost} className="btn btn-primary mr-2">Send</button>
+
+        <button
+          className="btn btn-secondary ml-2"
+          onClick={(e) =>
+            this.setState({
+              post: {
+                ...this.state.post,
+                data: {
+                  ...this.state.post.data,
+                  attributes: {
+                    ...this.state.post.data.attributes,
+                    title: '<h1>This is My New Title</h1>',
+                    body:
+                      '<p>Hello this is a body. I am a new <a>link</a>.</p>',
+                  },
+                },
+              },
+            })
+          }
+        >
+          change props
+        </button>
+
+        {/*<Editor
           post={post}
           options={titleOptions}
           onChange={this.handleChange}
           isEditable={isEditable}
           render={this.renderTitleEditor}
           field="title"
-        />
+        />*/}
 
+        <h2>Editor #1</h2>
+        <br />
         <Editor
+          authority={bodyAuth}
+          newSteps={this.state.newSteps}
           post={post}
           options={options}
           onChange={this.handleChange}
@@ -271,6 +337,19 @@ class PostEditor extends React.Component {
           autoFocus
         />
 
+        {/*  <hr/>
+        <h2>Editor #2</h2>
+        <br/>
+        <Editor
+          post={post}
+          options={options}
+          onChange={this.handleChange}
+          isEditable={isEditable}
+          render={this.renderBodyEditor}
+          field="body"
+          autoFocus
+        />
+*/}
         {isEditable && (
           <ChangesIndicator
             isLoading={isLoading}
