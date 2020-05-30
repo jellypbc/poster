@@ -54,3 +54,15 @@ a:hover {
   height: 200px;
   top: 20vh;
 }
+
+.ProseMirror-yjs-cursor {
+  position: absolute;
+  left: 692px;
+  border-radius: 5px;
+  div {
+    min-width: 117px;
+    font-size: 13px;
+    padding: 2px 4px;
+    border-radius: 5px;
+  }
+}

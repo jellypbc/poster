@@ -252,14 +252,39 @@ class PostEditor extends React.Component {
           </p>
         ) : null}
 
-        <Editor
+        <button onClick={this.updatePost} className="btn btn-primary mr-2">
+          Send
+        </button>
+
+        <button
+          className="btn btn-secondary ml-2"
+          onClick={(e) =>
+            this.setState({
+              post: {
+                ...this.state.post,
+                data: {
+                  ...this.state.post.data,
+                  attributes: {
+                    ...this.state.post.data.attributes,
+                    title: '<h1>This is My New Title</h1>',
+                    body: this.state.post.data.attributes.body,
+                  },
+                },
+              },
+            })
+          }
+        >
+          change props
+        </button>
+
+        {/*<Editor
           post={post}
           options={titleOptions}
           onChange={this.handleChange}
           isEditable={isEditable}
           render={this.renderTitleEditor}
           field="title"
-        />
+        />*/}
 
         <Editor
           post={post}

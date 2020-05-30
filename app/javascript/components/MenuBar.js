@@ -11,7 +11,7 @@ const Button = ({ state, dispatch }) => (item, key) => (
     })}
     id={item.id}
     title={item.title}
-    disabled={item.enable && !item.enable(state)}
+    // disabled={item.enable && !item.enable(state)}
     onMouseDown={(e) => {
       if (item.run) {
         e.preventDefault()
@@ -23,18 +23,22 @@ const Button = ({ state, dispatch }) => (item, key) => (
   </button>
 )
 
-const MenuBar = ({ menu, children, view }) => (
-  <div>
-    <div className="bar">
-      {children && <span className="group">{children}</span>}
+const MenuBar = ({ menu, children, view }) => {
+  // console.log("menubar view", view)
 
-      {map(menu, (item, key) => (
-        <span key={key} className="group">
-          {map(item, Button(view))}
-        </span>
-      ))}
+  return (
+    <div>
+      <div className="bar">
+        {children && <span className="group">{children}</span>}
+
+        {map(menu, (item, key) => (
+          <span key={key} className="group">
+            {map(item, Button(view))}
+          </span>
+        ))}
+      </div>
     </div>
-  </div>
-)
+  )
+}
 
 export default MenuBar

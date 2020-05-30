@@ -63,7 +63,10 @@
     "turbolinks": "^5.2.0",
     "typescript": "^3.6.4",
     "webpack": "^4.41.2",
-    "whatwg-fetch": "^3.0.0"
+    "whatwg-fetch": "^3.0.0",
+    "y-indexeddb": "^9.0.3",
+    "y-websocket": "^1.2.5",
+    "yjs": "^13.0.8"
   },
   "version": "0.1.0",
   "devDependencies": {

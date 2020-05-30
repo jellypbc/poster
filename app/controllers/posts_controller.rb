@@ -52,9 +52,15 @@ class PostsController < ApplicationController
     # binding.pry
     respond_to do |format|
       if @post.update!(post_params)
-        update_comments(@post) if params[:comments]
+
+        serialized_post = PostSerializer.new(@post).as_json
+        if params[:comments]
+          update_comments(@post)
+          BroadcastPostsChannelWorker.perform_async(@post.id)
+        end
+
         format.html { redirect_to @post, notice: 'Post was successfully updated.' }
-        format.json { render json: { post: PostSerializer.new(@post).as_json } }
+        format.json { render json: { post: serialized_post } }
       else
         format.html { render :edit }
         format.json { render json: @post.errors, status: :unprocessable_entity }
