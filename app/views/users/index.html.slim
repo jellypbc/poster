@@ -3,14 +3,19 @@
     .col-md-12
       h1 Users
 
-      table
+      table.table
         thead
           tr
+            th ID
+            th Username
+            th Email
+            th Posts
             th colspan="3"
 
         tbody
           - @users.each do |user|
             tr
+              td = user.id
               td = user.username
               td = user.email
               td = user.posts.count
