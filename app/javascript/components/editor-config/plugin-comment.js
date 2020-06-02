@@ -9,7 +9,13 @@ import React from 'react'
 import superagent from 'superagent'
 import classnames from 'classnames'
 
-export const pluginKey = new PluginKey('comments')
+import {
+  absolutePositionToRelativePosition,
+  relativePositionToAbsolutePosition,
+} from './collab/lib.js'
+import { ySyncPluginKey } from './collab/sync-plugin'
+
+export const commentPluginKey = new PluginKey('comments')
 
 class Comment {
   constructor(text, id, user) {
@@ -20,15 +26,20 @@ class Comment {
 }
 
 function deco(from, to, comment) {
-  return Decoration.inline(from, to, { class: 'comment' }, { comment })
+  // console.log('comment:', comment)
+  var thing = Decoration.inline(from, to, { class: 'comment' }, { comment })
+  // console.log("thing", thing)
+  return thing
 }
 
 class CommentState {
-  constructor(version, decos, unsent, field) {
+  constructor(version, decos, unsent, field, ydoc, awareness) {
     this.version = version
     this.decos = decos
     this.unsent = unsent
     this.field = field
+    this.ydoc = ydoc
+    this.awareness = awareness
   }
 
   findComment(id) {
@@ -55,11 +66,11 @@ class CommentState {
   }
 
   apply(tr) {
+    let { version, decos, unsent, field, ydoc, awareness } = this
+
     let action = tr.getMeta(commentPlugin),
       actionType = action && action.type
     if (!action && !tr.docChanged) return this
-    let base = this
-    let { decos, unsent, field } = base
     decos = decos.map(tr.mapping, tr.doc)
 
     if (actionType == 'newComment') {
@@ -71,7 +82,7 @@ class CommentState {
       unsent = unsent.concat(action)
       submitDeleteComment(action.comment)
     }
-    return new CommentState(base.version, decos, unsent, field)
+    return new CommentState(version, decos, unsent, field, ydoc, awareness)
   }
 
   static init(config) {
@@ -80,15 +91,26 @@ class CommentState {
         ? config.doc.comments.comments
         : config.comments.comments) || []
 
-    let decos = existingComments.map((c) =>
-      deco(c.from, c.to, new Comment(c.text, c.id, c.user))
-    )
+    const decos = existingComments.map((c) => {
+      // console.log("making a deco")
+      const comment = new Comment(c.text, c.id, c.user)
+      // console.log("c", comment)
+      const decoo = deco(c.from, c.to, comment)
+      // console.log("decoo", decoo)
+      return decoo
+    })
+
+    console.log('inside commentplugin init: existingComments', existingComments)
+    console.log('inside commentplugin init: decos', decos)
+    console.log('inside commentplugin init: state', config)
 
     return new CommentState(
       config.comments.version,
       DecorationSet.create(config.doc, decos),
       [],
-      config.field
+      config.field,
+      config.ydoc,
+      config.awareness
     )
   }
 }
@@ -102,12 +124,33 @@ export function serialize(action) {
   }
 }
 
+const thing = (prevState, editorState, tr) => {
+  console.log('>>>>>>>>> im in thing', editorState)
+  // const state = state
+
+  const ystate = ySyncPluginKey.getState(editorState)
+  console.log('>>>>>>>>> YSTATE', ystate)
+
+  const commentState = tr.getMeta(commentPluginKey)
+  // console.log(">>>>>>>> commentState", commentState)
+  // console.log(">>>>>>>> prevState", prevState)
+
+  // const absoluteAnchor = relativePositionToAbsolutePosition(ydoc, ystate.type, relAnchor, ystate.binding.mapping)
+  // console.log(">>>>>>>>> absoluteAnchor", absoluteAnchor)
+  if (ystate && ystate.isChangeOrigin) {
+    console.log('ducks')
+    // return createDecorations(newState, awareness)
+  }
+  // return prevState.map(tr.mapping, tr.doc)
+}
+
 export const commentPlugin = new Plugin({
-  key: pluginKey,
+  key: commentPluginKey,
   state: {
     init: CommentState.init,
-    apply(tr, prev) {
-      return prev.apply(tr)
+    apply(tr, prevState, oldState, newState) {
+      thing(prevState, newState, tr)
+      return prevState.apply(tr)
     },
   },
   props: {
@@ -211,7 +254,6 @@ export const annotationIcon = {
 }
 
 // Comment UI
-
 export const commentUI = function (transaction) {
   return new Plugin({
     props: {
@@ -280,7 +322,7 @@ function ThreadedComment(props) {
   }
 
   const handleReplySubmit = ({ text = 'Comment...' }) => {
-    const replyTo = pluginKey.getState(state).findComment(comment.id)
+    const replyTo = commentPluginKey.getState(state).findComment(comment.id)
     const user = buildUser()
 
     dispatch(

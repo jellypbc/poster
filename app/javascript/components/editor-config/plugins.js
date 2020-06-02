@@ -14,14 +14,30 @@ import 'prosemirror-gapcursor/style/gapcursor.css'
 import '@aeaton/prosemirror-footnotes/style/footnotes.css'
 import '@aeaton/prosemirror-placeholder/style/placeholder.css'
 
+// yjs
+import { ySyncPlugin } from './collab/sync-plugin'
+import { yUndoPlugin, undo, redo } from './collab/undo-plugin'
+import { yCursorPlugin } from './collab/cursor-plugin'
+import { keymap } from 'prosemirror-keymap'
+
 import keys from './keys'
 import rules from './rules'
 
 // export a function here because some plugins need to be bound to a reference
 // to a state or view object
-const setupPlugins = (getView) => [
+const setupPlugins = (getView, type, provider) => [
   rules,
   keys,
+
+  ySyncPlugin(type),
+  yCursorPlugin(provider.awareness),
+  yUndoPlugin(),
+  keymap({
+    'Mod-z': undo,
+    'Mod-y': redo,
+    'Mod-Shift-z': redo,
+  }),
+
   placeholder(),
   footnotes(),
   dropCursor(),

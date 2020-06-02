@@ -38,8 +38,8 @@ const insertRule = (state, dispatch) => {
 }
 
 const keys = {
-  'Mod-z': undo,
-  'Shift-Mod-z': redo,
+  // 'Mod-z': undo,
+  // 'Shift-Mod-z': redo,
   Backspace: undoInputRule,
   'Mod-y': redo,
   'Alt-ArrowUp': joinUp,

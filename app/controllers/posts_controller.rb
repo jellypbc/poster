@@ -54,10 +54,10 @@ class PostsController < ApplicationController
       if @post.update!(post_params)
 
         serialized_post = PostSerializer.new(@post).as_json
-        if params[:comments]
-          update_comments(@post)
-          BroadcastPostsChannelWorker.perform_async(@post.id)
-        end
+
+        update_comments(@post) if params[:comments]
+        # BroadcastPostsChannelWorker.perform_async(@post.id)
+        PostsChannel.broadcast_to(@post, serialized_post)
 
         format.html { redirect_to @post, notice: 'Post was successfully updated.' }
         format.json { render json: { post: serialized_post } }

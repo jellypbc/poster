@@ -37,6 +37,10 @@ class PostSerializer
   attributes :title, :authors, :publisher, :id,
     :created_at, :updated_at, :plugins, :slug
 
+  attribute :collab_url do |object|
+    Rails.env.development? ? "ws://localhost:1234" : "wss://#{ENV["COLLAB_HOST"]}"
+  end
+
   attribute :form_url do |object|
     object.id.present? ? "/posts/#{object.slug}" : "/posts"
   end

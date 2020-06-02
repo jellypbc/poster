@@ -20,7 +20,7 @@ import {
   annotationMenu,
 } from './editor-config/index'
 
-import { pluginKey as commentPluginKey } from './editor-config/plugin-comment'
+import { commentPluginKey } from './editor-config/plugin-comment'
 
 import {
   getTimestamp,
@@ -76,6 +76,7 @@ class PostEditor extends React.Component {
         connected() {},
 
         received: function (data) {
+          console.log('[[0]] receiving new data', data)
           this.setState((state) => ({
             post: data,
             isProcessing: false,
@@ -98,6 +99,10 @@ class PostEditor extends React.Component {
     }
 
     this.removeStaticRenderPlaceholder()
+  }
+
+  componentWillUnmount() {
+    // this.updatePost
   }
 
   removeStaticRenderPlaceholder = () => {
@@ -166,7 +171,7 @@ class PostEditor extends React.Component {
   }
 
   onSuccess = (err, res) => {
-    console.log({ res, err })
+    // console.log({ res, err })
     const now = new Date().toISOString()
     this.setState((state) => ({
       isLoading: false,
@@ -234,6 +239,8 @@ class PostEditor extends React.Component {
 
     options.doc = this.parse(body) // TODO: don't mutate "options"
     options.doc.comments = { comments: post.data.attributes.body_comments }
+    options.comments = { comments: post.data.attributes.body_comments }
+    // console.log("!!!!!comments", post.data.attributes.body_comments)
 
     // var titleOptions = Object.assign({}, titleOptions)
     titleOptions.doc = this.parse(title)
@@ -268,6 +275,29 @@ class PostEditor extends React.Component {
                     ...this.state.post.data.attributes,
                     title: '<h1>This is My New Title</h1>',
                     body: this.state.post.data.attributes.body,
+                  },
+                },
+              },
+            })
+          }
+        >
+          reload props
+        </button>
+        <button
+          className="btn btn-secondary ml-2"
+          onClick={(e) =>
+            this.setState({
+              post: {
+                ...this.state.post,
+                data: {
+                  ...this.state.post.data,
+                  attributes: {
+                    ...this.state.post.data.attributes,
+                    title: '<h1>This is My New Title</h1>',
+                    body:
+                      '<p>' +
+                      Math.random().toString(36).substring(2, 15) +
+                      ' new post</p>',
                   },
                 },
               },

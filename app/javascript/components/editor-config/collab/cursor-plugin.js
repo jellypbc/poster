@@ -24,6 +24,7 @@ export const yCursorPluginKey = new PluginKey('yjs-cursor')
  */
 export const createDecorations = (state, awareness) => {
   const ystate = ySyncPluginKey.getState(state)
+  // console.log('### y SYNC state', ystate)
   const y = ystate.doc
   const decorations = []
   if (
