@@ -22,7 +22,7 @@
               td = user.email
               td = user.posts.count
               td = user.comments.count
-              td = user.comments.last.updated_at.strftime("%d/%m/%Y") 
+              td = time_ago_in_words(user.comments.last.updated_at) + " ago"
               td = link_to 'Show', user
               td = link_to 'Edit', edit_user_path(user)
               td = link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' }
