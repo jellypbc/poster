@@ -50,6 +50,7 @@ class User < ApplicationRecord
 
   has_many :tags
   has_many :posts
+  has_many :comments
   has_many :uploads
   has_many :follows, as: :follower
 

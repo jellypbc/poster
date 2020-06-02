@@ -2,7 +2,7 @@
   .row
     .col-md-12
       h1 Users
-
+      br 
       table.table
         thead
           tr
@@ -10,6 +10,8 @@
             th Username
             th Email
             th Posts
+            th Comments
+            th Last Comment
             th colspan="3"
 
         tbody
@@ -19,6 +21,8 @@
               td = user.username
               td = user.email
               td = user.posts.count
+              td = user.comments.count
+              td = user.comments.last.updated_at.strftime("%d/%m/%Y") 
               td = link_to 'Show', user
               td = link_to 'Edit', edit_user_path(user)
               td = link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' }
