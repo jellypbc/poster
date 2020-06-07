@@ -39,7 +39,6 @@ class Editor extends React.Component {
           this.props.onChange(state.doc, state, props.field)
         }
 
-        // this.props.onChange(state.doc, state, props.field)
         this.forceUpdate()
       },
       editable: function (state) {
@@ -52,38 +51,18 @@ class Editor extends React.Component {
 
   componentDidMount() {
     this.editorRef.current.appendChild(this.view.dom)
-    // if (this.props.autoFocus) this.view.focus()
+    if (this.props.autoFocus) this.view.focus()
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (snapshot) {
-      //   // console.log(">>>> snapshot componentDidUpdate", snapshot)
-      //   console.log('>>>>>>>>>>>>> componentDidUpdate this.props', this.props)
-
-      console.log('>>>> new props ' + this.props.field, this.props)
-
       this.view.state.doc = this.props.options.doc
-      // this.view.state.doc.comments = {
-      //   comments: this.props.options.doc.comments
-      // }
-
-      const commentState = commentPluginKey.getState(this.view.state)
-      console.log('commentState' + this.props.field, commentState)
-
-      const plugins = this.view.state.plugins
-
       const newState = EditorState.create({
         ...this.props.options,
         field: this.props.field,
-        plugins: plugins,
+        plugins: this.view.state.plugins,
       })
-
-      console.log('>>>> newState ' + this.props.field, newState)
-
       this.view.updateState(newState)
-      // this.view.updateState(this.view.state)
-
-      // console.log('>>>>>>>>>>>>> componentDidUpdate new view', this.view)
     }
   }
 
