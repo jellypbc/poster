@@ -76,6 +76,7 @@ class PostEditor extends React.Component {
         connected() {},
 
         received: function (data) {
+          console.log('>>>>>>>>>>>>>>>>> receiveing new data', data)
           this.setState((state) => ({
             post: data,
             isProcessing: false,
@@ -235,12 +236,15 @@ class PostEditor extends React.Component {
     options.doc = this.parse(body) // TODO: don't mutate "options"
     options.doc.comments = { comments: post.data.attributes.body_comments }
 
+    console.log('????? options', options)
+
     // var titleOptions = Object.assign({}, titleOptions)
     titleOptions.doc = this.parse(title)
     titleOptions.doc.comments = {
       comments: post.data.attributes.title_comments,
     }
     // titleOptions.comments = { comments: post.data.attributes.comments }
+    console.log('????? titleOptions', titleOptions)
 
     return (
       <div>
