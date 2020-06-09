@@ -9,6 +9,7 @@
       table.table
         thead
           tr
+            th ID
             th Text
             th Slug
             th colspan="3"
@@ -16,6 +17,7 @@
         tbody
           - @tags.each do |tag|
             tr
+              td = tag.id
               td = tag.text
               td = tag.slug
               td = link_to 'Show', tag
