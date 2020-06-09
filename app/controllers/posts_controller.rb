@@ -56,8 +56,7 @@ class PostsController < ApplicationController
 
         serialized_post = PostSerializer.new(@post).as_json
 
-        # BroadcastPostsChannelWorker.perform_async(@post.id)
-        PostsChannel.broadcast_to(@post, serialized_post)
+        BroadcastPostsChannelWorker.perform_async(@post.id)
 
         format.html { redirect_to @post, notice: 'Post was successfully updated.' }
         format.json { render json: { post: serialized_post } }
