@@ -92,8 +92,7 @@ class User < ApplicationRecord
       )
     end
   end
-  def last_commented
-    #last_commented = comments.last ? comments.last.updated_at : "none"
+  def time_since_last_comment
     last_commented = time_ago_in_words(comments.last.updated_at) unless comments.last.blank?
   end
   private
@@ -101,6 +100,5 @@ class User < ApplicationRecord
     def set_username
       username = email[/^[^@]+/].tr('.','') if username.blank?
     end
-
 
 end
