@@ -22,7 +22,7 @@
 #  username               :string           default(""), not null
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
-# 
+#
 # Indexes
 #
 #  index_users_on_confirmation_token    (confirmation_token) UNIQUE
@@ -31,7 +31,7 @@
 #  index_users_on_unlock_token          (unlock_token) UNIQUE
 #  index_users_on_username              (username) UNIQUE
 #
-include ActionView::Helpers::DateHelper
+
 
 class User < ApplicationRecord
   include AvatarUploader::Attachment(:avatar)
@@ -92,9 +92,7 @@ class User < ApplicationRecord
       )
     end
   end
-  def time_since_last_comment
-    last_commented = time_ago_in_words(comments.last.updated_at) unless comments.last.blank?
-  end
+
   private
 
     def set_username

@@ -50,4 +50,8 @@ module UsersHelper
     "<div class='#{klasses}' style='#{style}'></div>".html_safe
   end
 
+  def time_since_last_comment(user)
+    time_ago_in_words(user.comments.last.updated_at) + " ago" unless user.comments.last.blank?
+  end
+
 end
