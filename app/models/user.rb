@@ -32,6 +32,7 @@
 #  index_users_on_username              (username) UNIQUE
 #
 
+
 class User < ApplicationRecord
   include AvatarUploader::Attachment(:avatar)
 

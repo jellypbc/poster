@@ -2,7 +2,7 @@
   .row
     .col-md-12
       h1 Users
-      br 
+      br
       table.table
         thead
           tr
@@ -22,7 +22,7 @@
               td = user.email
               td = user.posts.count
               td = user.comments.count
-              td = time_ago_in_words(user.comments.last.updated_at) + " ago"
+              td = time_since_last_comment(user)
               td = link_to 'Show', user
               td = link_to 'Edit', edit_user_path(user)
               td = link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' }
