@@ -3,7 +3,7 @@ jobs:
   build:
     working_directory: ~/my-app
     docker:
-      - image: circleci/ruby:2.5.8-node-browsers
+      - image: circleci/ruby:2.7.1-node-browsers
         environment:
           BUNDLE_RETRY: 3
           BUNDLE_PATH: vendor/bundle
@@ -68,7 +68,7 @@ jobs:
 
   deploy:
     docker:
-      - image: circleci/ruby:2.5.3-node-browsers
+      - image: circleci/ruby:2.7.1-node-browsers
     working_directory: ~/repo
     steps:
       - checkout
@@ -85,7 +85,7 @@ jobs:
 
   test:
     docker:
-      - image: circleci/ruby:2.5.3-node-browsers
+      - image: circleci/ruby:2.7.1-node-browsers
     working_directory: ~/repo
     steps:
       - checkout
