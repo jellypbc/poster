@@ -1,3 +1,4 @@
+require 'support/request_spec_helper'
 require 'rails_helper'
 
 RSpec.describe "Comments", :type => :request do
@@ -29,7 +30,6 @@ RSpec.describe "Comments", :type => :request do
           }
           headers = { "ACCEPT" => "application/json" }
 
-          # binding.pry
           expect {
             post "add_comment", params: comment_params
           }.to change(Comment, :count).by(1)
