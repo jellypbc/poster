@@ -13,6 +13,7 @@
 #  encrypted_password     :string           default(""), not null
 #  failed_attempts        :integer          default(0), not null
 #  full_name              :string
+#  guest                  :boolean          default(FALSE)
 #  locked_at              :datetime
 #  remember_created_at    :datetime
 #  reset_password_sent_at :datetime
@@ -39,5 +40,12 @@ FactoryBot.define do
     description { 'A human bean' }
     sequence(:username) {|n| "user#{n}" }
     password { 'password' }
+
+    trait :guest do
+      guest { true }
+    end
+
+    factory :guest_user, traits: [:guest]
   end
+
 end

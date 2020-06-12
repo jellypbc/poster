@@ -18,7 +18,35 @@ class CommentsController < ApplicationController
   end
 
   def create
+
+    # if someone is logged in
+    # comment_params = {
+    #   comment: {
+    #     user_id: "cindywu"
+    #   }
+    # }
+
+    # if they are not logged in
+    # comment_params = {
+    #   comment: {
+    #     user_id: nil
+    #   }
+    # }
+
+
+    # comment_params will contain user_id
+
+    @user = User.find (comment_params.user_id)
+    @comment.user = @user
+
     @comment = Comment.new(comment_params)
+    # if current_user?
+      # continue
+    # else
+      # create a new user where guest is true
+      # set comment.user to new user
+      # log-in new user
+      # continue
 
     respond_to do |format|
       if @comment.save

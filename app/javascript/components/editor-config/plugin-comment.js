@@ -135,6 +135,16 @@ function submitDeleteComment(comment) {
 function submitCreateComment(action, comment, field) {
   var url = '/add_comment'
   var { currentUser, currentPost } = store.getState()
+
+  // currentUser = {
+  //   data: {
+  //     attributes: {
+  //       name: "Anonymous",
+  //       avatar_url: User.default_avatar_url
+  //     }
+  //   }
+  // }
+
   var data = {
     comment: {
       data_to: action.to,
