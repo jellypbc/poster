@@ -25,6 +25,13 @@ RSpec.configure do |config|
     Searchkick.disable_callbacks
   end
 
+  config.expect_with :rspec do |expectations|
+    # Enable only the newer, non-monkey-patching expect syntax.
+    # For more details, see:
+    #   - http://myronmars.to/n/dev-blog/2012/06/rspecs-new-expectation-syntax
+    expectations.syntax = :expect
+  end
+
   config.around(:each, search: true) do |example|
     Searchkick.callbacks(true) do
       example.run

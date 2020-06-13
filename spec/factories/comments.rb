@@ -28,6 +28,7 @@
 
 FactoryBot.define do
   factory :comment do
+    sequence(:data_key) {|n| "#{n}" }
     post
     user
   end

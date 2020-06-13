@@ -18,7 +18,6 @@ class CommentsController < ApplicationController
   end
 
   def create
-
     # if someone is logged in
     # comment_params = {
     #   comment: {
@@ -36,8 +35,8 @@ class CommentsController < ApplicationController
 
     # comment_params will contain user_id
 
-    @user = User.find (comment_params.user_id)
-    @comment.user = @user
+    # @user = User.find (comment_params.user_id)
+    # @comment.user = @user
 
     @comment = Comment.new(comment_params)
     # if current_user?
@@ -73,10 +72,13 @@ class CommentsController < ApplicationController
 
   def delete
     @comment.delete_now if comment_params["deleted_at"]
+
     respond_to do |format|
       if @comment.save
+        format.html { head :ok }
         format.json { render json: { comment: @comment }, status: :ok  }
       else
+        format.html { head :ok }
         format.json { render json: @comment.errors, status: :unprocessable_entity }
       end
     end
@@ -84,7 +86,10 @@ class CommentsController < ApplicationController
 
   private
     def set_comment
-      id_or_data_key = comment_params[:data_key].to_s || params[:id].to_s
+      id_or_data_key = params[:comment].present? ?
+        comment_params[:data_key].to_s :
+        params[:id].to_s
+
       @comment ||= begin
         Comment.find_by! data_key: id_or_data_key
       rescue ActiveRecord::RecordNotFound => e

@@ -50,6 +50,7 @@ Rails.application.routes.draw do
 
   resources :comments
   post 'add_comment', to: 'comments#create'
+  get 'add_comment', to: 'comments#create'
   post 'remove_comment', to: 'comments#delete'
 
   namespace :search do
