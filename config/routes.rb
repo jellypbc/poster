@@ -49,9 +49,8 @@ Rails.application.routes.draw do
   resources :tags
 
   resources :comments
-  post 'add_comment', to: 'comments#create'
-  get 'add_comment', to: 'comments#create'
-  post 'remove_comment', to: 'comments#delete'
+  post '/add_comment', to: 'comments#create', as: :add_comment
+  post '/remove_comment', to: 'comments#delete', as: :remove_comment
 
   namespace :search do
     get :results
@@ -63,13 +62,13 @@ Rails.application.routes.draw do
   post '/posts/add_figure', to: 'posts#add_figure'
   get '/write', to: 'posts#write'
 
-  get 'about', to: 'pages#about'
-  get 'terms', to: 'pages#terms'
-  get 'dashboard', to: 'pages#dashboard'
+  get '/about', to: 'pages#about'
+  get '/terms', to: 'pages#terms'
+  get '/dashboard', to: 'pages#dashboard'
 
-  get 'admin', to: 'pages#admin'
-  get 'pricing', to: 'pages#pricing'
-  get 'internship', to: 'pages#jobs'
+  get '/admin', to: 'pages#admin'
+  get '/pricing', to: 'pages#pricing'
+  get '/internship', to: 'pages#jobs'
 
   namespace :admin, module: 'admin' do
     resources :users
