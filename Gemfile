@@ -39,9 +39,13 @@ gem "searchkick"
 gem "typhoeus"
 gem "oj"
 
+gem "rspec-rails", '~> 4.0'
+gem "guard", "~> 2.16"
+gem "guard-rspec", "~> 4.7", require: false
+gem "guard-livereload", "~> 2.5", require: false
+
 group :development, :test do
   gem "dotenv-rails"
-  gem "rspec-rails", '4.0.0.beta3'
   gem "rails-controller-testing"
   gem "factory_bot"
   gem "factory_bot_rails"
@@ -56,18 +60,12 @@ group :development do
   gem "web-console", ">= 3.3.0"
   gem "listen", ">= 3.0.5", "< 3.2"
   gem "spring"
-  gem "spring-commands-rspec"
   gem "spring-watcher-listen", "~> 2.0.0"
   gem "bullet"
   gem "ngrok-tunnel", require: false
   gem "letter_opener", "~> 1.7"
   gem "letter_opener_web", "~> 1.3"
   gem "annotate"
-  gem "pry"
-  gem "pry-rails"
-  gem "pry-byebug"
-  gem "guard-rspec", require: false
-  gem "guard-livereload", "~> 2.5", require: false
   gem "foreman"
 end
 
