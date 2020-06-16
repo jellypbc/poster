@@ -5,6 +5,7 @@ require 'pry'
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|
     expectations.include_chain_clauses_in_custom_matcher_descriptions = true
+    expectations.syntax = :expect
   end
 
   config.mock_with :rspec do |mocks|
@@ -23,13 +24,6 @@ RSpec.configure do |config|
 
     # and disable callbacks
     Searchkick.disable_callbacks
-  end
-
-  config.expect_with :rspec do |expectations|
-    # Enable only the newer, non-monkey-patching expect syntax.
-    # For more details, see:
-    #   - http://myronmars.to/n/dev-blog/2012/06/rspecs-new-expectation-syntax
-    expectations.syntax = :expect
   end
 
   config.around(:each, search: true) do |example|

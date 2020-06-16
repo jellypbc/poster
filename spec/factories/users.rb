@@ -40,6 +40,8 @@ FactoryBot.define do
     description { 'A human bean' }
     sequence(:username) {|n| "user#{n}" }
     password { 'password' }
+    password_confirmation { "password" }
+    confirmed_at { Date.today }
 
     trait :guest do
       guest { true }
