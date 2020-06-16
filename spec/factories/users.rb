@@ -45,6 +45,7 @@ FactoryBot.define do
 
     trait :guest do
       guest { true }
+      confirmed_at { nil }
     end
 
     factory :guest_user, traits: [:guest]
