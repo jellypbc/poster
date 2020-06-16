@@ -75,17 +75,14 @@ class CommentState {
   }
 
   static init(config) {
-    const existingComments =
-      (config.doc.comments
-        ? config.doc.comments.comments
-        : config.comments.comments) || []
+    const existingComments = config.doc.comments.comments || []
 
     let decos = existingComments.map((c) =>
       deco(c.from, c.to, new Comment(c.text, c.id, c.user))
     )
 
     return new CommentState(
-      config.comments.version,
+      config.version,
       DecorationSet.create(config.doc, decos),
       [],
       config.field
@@ -107,6 +104,7 @@ export const commentPlugin = new Plugin({
   state: {
     init: CommentState.init,
     apply(tr, prev) {
+      CommentState.init // eslint-disable-line no-unused-expressions
       return prev.apply(tr)
     },
   },

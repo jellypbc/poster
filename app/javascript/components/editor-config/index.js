@@ -6,13 +6,13 @@ import setupPlugins from './plugins'
 export const options = {
   setupPlugins,
   schema,
-  comments: { comments: [] },
+  // comments: { comments: [] },
 }
 
 export const titleOptions = {
   setupPlugins,
   titleSchema,
-  comments: { comments: [] },
+  // comments: { comments: [] },
 }
 
 export { default as menu } from './menu'
