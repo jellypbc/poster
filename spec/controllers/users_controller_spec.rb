@@ -9,6 +9,7 @@ RSpec.describe UsersController, type: :controller do
       username: "dogdog"
     }
   }
+
   # describe "GET #show" do
   #   let(:user) { create :user }
   #   it "assigns the requested @user to user" do
