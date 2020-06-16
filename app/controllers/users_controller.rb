@@ -25,15 +25,46 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
 
+    if @user.guest
+      @user = guest_user
+    end
+
+    # binding.pry
+
+    # if user params contain guest flag
+      # post users_path, params: {guest: true}
+      # skip validations, return a guest user
+      # run user = guest user
+    # else
+      # post users_path, params: user_params
+      # user = user.new (user_params)
+
     respond_to do |format|
-      if @user.save
-        @user.process_avatars if @user.avatar
-        format.html { redirect_to @user, notice: 'User was successfully created.' }
-        format.json { render :show, status: :created, location: @user }
-      else
-        format.html { render :new }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
+
+      if @user.guest # run save(validate: false)
+        # make the @user valid
+
+        if @user.save(validate: false)
+          @user.process_avatars if @user.avatar
+          format.html { redirect_to @user, notice: 'User was successfully created.' }
+          format.json { render json: @user.as_json}
+        else
+          format.html { render :new }
+          format.json { render json: @user.errors, status: :unprocessable_entity }
+        end
+
+      else !@user.guest # run save
+        if @user.save
+          @user.process_avatars if @user.avatar
+          format.html { redirect_to @user, notice: 'User was successfully created.' }
+          format.json { render json: @user.as_json}
+        else
+          format.html { render :new }
+          format.json { render json: @user.errors, status: :unprocessable_entity }
+        end
       end
+
+
     end
   end
 
@@ -118,7 +149,7 @@ class UsersController < ApplicationController
     def user_params
       params.require(:user).permit(
         :username, :admin, :email, :full_name, :description,
-        :avatar
+        :avatar, :password, :password_confirmation, :guest
       )
     end
 
