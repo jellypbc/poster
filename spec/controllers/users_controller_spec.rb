@@ -26,7 +26,7 @@ RSpec.describe UsersController, type: :controller do
   describe "POST #create" do
     context "when logged out" do
       context "with valid params" do
-        it "returns a successful response" do
+        xit "returns a successful response" do
           process :create, method: :post, params: {user: valid_attributes, format: 'json' }
           expect(response.content_type).to eq("application/json; charset=utf-8")
           expect(response).to have_http_status(:success)
@@ -34,7 +34,7 @@ RSpec.describe UsersController, type: :controller do
       end
 
       context "with guest params" do
-        it "returns a successful response" do
+        xit "returns a successful response" do
           process :create, method: :post, params: { user: { guest: true }, format: 'json' }
           expect(response.content_type).to eq("application/json; charset=utf-8")
           expect(response).to have_http_status(:success)

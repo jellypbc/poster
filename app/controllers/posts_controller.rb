@@ -135,7 +135,7 @@ class PostsController < ApplicationController
           slug: tag.slug,
           color: tag.color,
         }}
-        .as_json
+        .as_json if current_user
     end
 
     def update_comments(post)

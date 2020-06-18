@@ -60,6 +60,10 @@ class User < ApplicationRecord
 		devise_mailer.send(notification, self, *args).deliver_later
 	end
 
+  def move_to(user)
+    comments.update_all(user_id: user.id)
+  end
+
   def to_param
     username
   end
@@ -94,10 +98,20 @@ class User < ApplicationRecord
     end
   end
 
-  private
+  # private
 
     def set_username
-      username = email[/^[^@]+/].tr('.','') if username.blank?
+      # if guest
+      #   puts ">>>>>> #{self}"
+      #   username = SecureRandom.hex(5)
+      #   puts ">>>>>> #{username}"
+      #   save!
+      # else
+      #   username = email[/^[^@]+/].tr('.','') if username.blank?
+      # end
+      puts ">>>>>> username is blank: #{username.blank?}"
+      self.username = email[/^[^@]+/].tr('.','') if username.blank?
+
     end
 
 end

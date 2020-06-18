@@ -1,10 +1,17 @@
-class UsersController < ApplicationController
+# class UsersController < ApplicationController
+class UsersController < Devise::RegistrationsController
   before_action :fetch_user, only: [:show, :edit, :update, :destroy, :remove_avatar, :follow, :unfollow]
   before_action :authenticate_user!, only: [:index, :edit, :destroy, :update, :remove_avatar, :follow, :unfollow]
+
+  skip_before_action :verify_authenticity_token, only: [:create]
 
   def index
     @users = User.order(created_at: :desc)
       .paginate(page: params[:page], per_page: 50)
+  end
+
+  def new
+    @user = User.new
   end
 
   def show
@@ -23,48 +30,34 @@ class UsersController < ApplicationController
   end
 
   def create
+    # binding.pry
     @user = User.new(user_params)
+    # @user = (params[:user] && !params[:user][:guest]) ? User.new(user_params) : guest_user
+
+    # current_user.move_to(@user) if current_user && current_user.guest?
+    # sign_out user if current_user && current_user.guest?
 
     if @user.guest
+      # puts ">>>>>> user #{@user}"
       @user = guest_user
+      # @user.username = @user.set_username
+      # puts ">>>>>> user #{@user}"
+      # binding.pry
+      @user.skip_confirmation!
+      @user.skip_confirmation_notification!
     end
 
-    # binding.pry
-
-    # if user params contain guest flag
-      # post users_path, params: {guest: true}
-      # skip validations, return a guest user
-      # run user = guest user
-    # else
-      # post users_path, params: user_params
-      # user = user.new (user_params)
-
     respond_to do |format|
+      if @user.save!
+        sign_in(:user, @user) if @user.guest
+        @user.process_avatars if @user.avatar
 
-      if @user.guest # run save(validate: false)
-        # make the @user valid
-
-        if @user.save(validate: false)
-          @user.process_avatars if @user.avatar
-          format.html { redirect_to @user, notice: 'User was successfully created.' }
-          format.json { render json: @user.as_json}
-        else
-          format.html { render :new }
-          format.json { render json: @user.errors, status: :unprocessable_entity }
-        end
-
-      else !@user.guest # run save
-        if @user.save
-          @user.process_avatars if @user.avatar
-          format.html { redirect_to @user, notice: 'User was successfully created.' }
-          format.json { render json: @user.as_json}
-        else
-          format.html { render :new }
-          format.json { render json: @user.errors, status: :unprocessable_entity }
-        end
+        format.html { redirect_to @user, notice: 'User was successfully created.' }
+        format.json { render json: UserSerializer.new(@user).as_json }
+      else
+        format.html
+        format.json { render json: @user.errors, status: :unprocessable_entity }
       end
-
-
     end
   end
 

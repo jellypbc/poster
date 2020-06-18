@@ -40,11 +40,14 @@ class UserSerializer
   include UsersHelper
 
   # From model
-  attributes :id, :email, :username, :admin, :full_name
+  attributes :id, :email, :username, :admin
 
   attribute :avatar_url do |object|
     object.avatar_url
   end
 
+  attribute :full_name do |object|
+    object.full_name.present? ? object.full_name : object.username
+  end
 
 end

@@ -22,38 +22,44 @@ nav.navbar.navbar-expand-lg id="#{opts[:id] if opts}" class="#{'white-nav' if wh
       ul.subnav.ml-auto
         - if current_user
 
-          - if @post
-            li.nav-item.mr-3
-              = link_to 'Save as draft', write_path, class: "btn btn-outline-dark btn-sm"
-            li.nav-item.mr-3
-              = link_to 'Publish', write_path, class: "btn btn-primary btn-sm"
+          - if current_user.guest
+              li.nav-item.mr-3
+                = link_to 'Register', signup_path, class: "btn btn-outline-dark btn-sm"
+
           - else
-            li.nav-item
-              = link_to 'Write', write_path, class: "nav-link"
-            li.nav-item
-              = link_to 'Upload a PDF', new_upload_path, class: "nav-link"
 
-          li.nav-item.dropdown
-            a.dropdown-toggle.avatar-link href="#" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-              = avatar_cropped_image_tag(current_user, classes: "avatar")
+            - if @post
+              li.nav-item.mr-3
+                = link_to 'Save as draft', write_path, class: "btn btn-outline-dark btn-sm"
+              li.nav-item.mr-3
+                = link_to 'Publish', write_path, class: "btn btn-primary btn-sm"
+            - else
+              li.nav-item
+                = link_to 'Write', write_path, class: "nav-link"
+              li.nav-item
+                = link_to 'Upload a PDF', new_upload_path, class: "nav-link"
 
-            .dropdown-menu.dropdown-menu-right
-              a.dropdown-item href=root_path
-                | Dashboard
-              a.dropdown-item href=short_user_path(current_user)
-                | Profile
-              a.dropdown-item href=edit_user_path(current_user)
-                | Settings
-              hr
-              = link_to 'Log Out', destroy_user_session_path, method: :delete, class:"dropdown-item"
-              - if current_user.admin?
+            li.nav-item.dropdown
+              a.dropdown-toggle.avatar-link href="#" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                = avatar_cropped_image_tag(current_user, classes: "avatar")
+
+              .dropdown-menu.dropdown-menu-right
+                a.dropdown-item href=root_path
+                  | Dashboard
+                a.dropdown-item href=short_user_path(current_user)
+                  | Profile
+                a.dropdown-item href=edit_user_path(current_user)
+                  | Settings
                 hr
-                a.dropdown-item href=admin_path
-                  | Admin
+                = link_to 'Log Out', destroy_user_session_path, method: :delete, class:"dropdown-item"
+                - if current_user.admin?
+                  hr
+                  a.dropdown-item href=admin_path
+                    | Admin
 
 
         - else
           li.nav-item.mr-0
-            = link_to 'Log In', new_user_session_path, class: "nav-link"
+            = link_to 'Log In', new_user_session_path, class: "nav-link", id: "login-link"
 
 

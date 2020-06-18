@@ -48,7 +48,4 @@ class ApplicationController < ActionController::Base
 			"application"
 			end
 		end
-
-  protected
-
 end

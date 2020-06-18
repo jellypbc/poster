@@ -1,0 +1,26 @@
+h2 Sign up
+
+/ = render "devise/shared/registration_prompt"
+
+= form_for(User.new) do |f|
+  / = render "devise/shared/error_messages", resource: resource
+
+  .field
+    = f.email_field :email, autofocus: true, autocomplete: "email", placeholder: true, "aria-label": :email
+
+  .field
+    = f.text_field :username, autocomplete: "name", placeholder: true, "aria-label": :username
+
+  .field
+    = f.password_field :password, autocomplete: "new-password", placeholder: true, "aria-label": :password
+    - if @minimum_password_length
+      em.devise__passwordLength
+        | (#{@minimum_password_length} characters minimum)
+
+  .field
+    = f.password_field :password_confirmation, autocomplete: "new-password", placeholder: "Confirm Password", "aria-label": :password_confirmation
+
+  / = render "devise/shared/links"
+
+  .actions
+    = f.submit "Sign up" , class: "btn btn-l btn-primary"

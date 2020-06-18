@@ -307,6 +307,8 @@ function ThreadedComment(props) {
     setIsShowingReply(false)
   }
 
+  const { currentUser } = store.getState()
+
   return (
     <div className={classnames('comment-show', className)}>
       {comment.user && (
@@ -327,14 +329,18 @@ function ThreadedComment(props) {
               Reply
             </button>
           )}
-          {showActions.delete && (
+          {
+            showActions.delete &&
+            currentUser &&
+            currentUser.currentUser &&
+            (currentUser.currentUser.id == comment.user.id) &&
             <button
               className="btn btn-plain btn-sm j-commentDelete px-0 mr-2"
               onClick={handleDelete}
             >
               Delete
             </button>
-          )}
+          }
         </div>
       )}
       {isShowingReply && (

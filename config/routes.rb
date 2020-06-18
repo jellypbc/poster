@@ -8,8 +8,14 @@ Rails.application.routes.draw do
   mount FileUploader.upload_endpoint(:store) => '/file/store'
 
   devise_for :users, skip: [:sessions]
+  # devise_for :users, skip: [:sessions, :registrations]
+
   devise_scope :user do
     get 'supersecretinvitelink', to: 'devise/registrations#new'
+
+    get 'signup', to: 'users#new' # this is for guest user creation
+    post 'guestcreate', to: 'users#create' # this is for guest user creation
+
     get 'login', to: 'devise/sessions#new', as: :new_user_session
     post 'login', to: 'devise/sessions#create', as: :user_session
     delete 'logout', to: 'devise/sessions#destroy', as: :destroy_user_session
@@ -32,6 +38,7 @@ Rails.application.routes.draw do
       post :unfollow
     end
   end
+  # post '/signup', to: 'users#create', as: :signup
 
   resources :uploads do
     get :extract_images

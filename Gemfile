@@ -52,6 +52,8 @@ group :development, :test do
   gem "factory_bot_rails"
   gem "rspec_junit_formatter"
   gem "shoulda-matchers"
+  gem "pry"
+  gem "pry-rails"
   gem "docker-sync", require: false
 end
 
