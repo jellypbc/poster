@@ -1,12 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react'
 import { store } from './store'
 import superagent from 'superagent'
+import autogrow from '../utils/autogrow'
 
 // import { useSelector, useDispatch } from 'react-redux'
 
-function useForceUpdate(){
-  const [value, setValue] = useState(0); // integer state
-  return () => setValue(value => ++value); // update the state to force render
+function useForceUpdate() {
+  const [value, setValue] = useState(0) // integer state
+  return () => setValue((value) => ++value) // update the state to force render
 }
 
 function CommentForm({ onSubmit, onCancel, className, ...rest }) {
@@ -14,11 +15,15 @@ function CommentForm({ onSubmit, onCancel, className, ...rest }) {
   // const comments = useSelector(state => state.comments)
   const textareaRef = React.useRef()
 
+  useEffect(() => {
+    autogrow()
+  }, [])
+
   const getSavePayload = () => {
     return { text: textareaRef.current.value }
   }
 
-  const forceUpdate = useForceUpdate();
+  const forceUpdate = useForceUpdate()
 
   // TODO: It might be a good idea to separate visibility check into a parent
   // component to keep this component solely concerned with internal state & layout.
@@ -64,18 +69,16 @@ function CommentForm({ onSubmit, onCancel, className, ...rest }) {
 
           // TODO: swap out login link in nav for a "register" button
           var link = document.getElementById('login-link')
-          link.innerHTML = "Register"
+          link.innerHTML = 'Register'
           link.setAttribute('target', 'upgrade')
         }
-
-
       })
   }
 
   const onLoginClick = (e) => {
     // render login form
     // which fires off login & login action
-    console.log("i was clicked login")
+    console.log('i was clicked login')
   }
 
   const handleCancel = () => {
@@ -99,66 +102,61 @@ function CommentForm({ onSubmit, onCancel, className, ...rest }) {
 
   return (
     <div>
-      { currentUser &&
+      {currentUser &&
         currentUser.currentUser &&
         currentUser.currentUser.attributes &&
-        !currentUser.currentUser.attributes.id &&
-
-        <div
-          className="j-commentForm ph-3 border-top pt-1 mb-4"
-          style={styles}
-        >
-          <p>Login or continue as guest</p>
-
-          <a
-            onClick={onLoginClick}
+        !currentUser.currentUser.attributes.id && (
+          <div
+            className="j-commentForm ph-3 border-top pt-1 mb-4"
+            style={styles}
           >
-            Login
-          </a>
-          <br/>
+            <p>Login or continue as guest</p>
 
-          <a
-            onClick={onGuestClick}
-          >
-            Continue as guest
-          </a>
-        </div>
-      }
+            <button onClick={onLoginClick}>Login</button>
+            <br />
 
-      { currentUser &&
-        currentUser.currentUser &&
-        currentUser.currentUser.attributes &&
-        currentUser.currentUser.attributes.id &&
-
-        <form
-          className={`${className} ${modifierClasses}`}
-          {...rest}
-          onSubmit={handleSubmit}
-        >
-          <textarea
-            className="j-commentForm__input"
-            defaultValue=""
-            placeholder="Add a comment..."
-            onKeyDown={handleKeyDown}
-            ref={textareaRef}
-            /* eslint-disable-next-line jsx-a11y/no-autofocus */
-            autoFocus
-            id="comment-form-input"
-          ></textarea>
-          <div className="j-commentForm__actions px-2 pt-1 pb-2 d-flex flex-row-reverse">
-            <button
-              type="button"
-              className="btn btn-primary btn-sm"
-              onClick={handleSubmit}
-            >
-              Post
-            </button>{' '}
-            <button type="button" className="btn btn-sm o" onClick={handleCancel}>
-              Cancel
-            </button>
+            <button onClick={onGuestClick}>Continue as guest</button>
           </div>
-        </form>
-      }
+        )}
+
+      {currentUser &&
+        currentUser.currentUser &&
+        currentUser.currentUser.attributes &&
+        currentUser.currentUser.attributes.id && (
+          <form
+            className={`${className} ${modifierClasses}`}
+            {...rest}
+            onSubmit={handleSubmit}
+          >
+            <textarea
+              data-autogrow
+              className="j-commentForm__input"
+              defaultValue=""
+              placeholder="Add a comment..."
+              onKeyDown={handleKeyDown}
+              ref={textareaRef}
+              /* eslint-disable-next-line jsx-a11y/no-autofocus */
+              autoFocus
+              id="comment-form-input"
+            ></textarea>
+            <div className="j-commentForm__actions px-2 pt-1 pb-2 d-flex flex-row-reverse">
+              <button
+                type="button"
+                className="btn btn-primary btn-sm"
+                onClick={handleSubmit}
+              >
+                Post
+              </button>{' '}
+              <button
+                type="button"
+                className="btn btn-sm o"
+                onClick={handleCancel}
+              >
+                Cancel
+              </button>
+            </div>
+          </form>
+        )}
     </div>
   )
 }

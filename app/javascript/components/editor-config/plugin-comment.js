@@ -114,6 +114,15 @@ export const commentPlugin = new Plugin({
     decorations(state) {
       return this.getState(state).decos
     },
+    // handlePaste: function(){
+    //   console.log("pasting")
+    // },
+    //   console.log(event)
+    // },
+    // handleDOMEvents: function (view, event) {
+    //   console.log("PLUGIN eve", event)
+    //   return true
+    // }
   },
 })
 
@@ -229,6 +238,16 @@ export const commentUI = function (transaction) {
         return commentTooltip(state, transaction)
       },
     },
+    // handlePaste: function(){
+    //   console.log("pasting")
+    // },
+    // handleKeyDown: function(view, e){
+    //   console.log(event)
+    // },
+    // handleDOMEvents: function (view, event) {
+    //   console.log("PLUGIN eve", event)
+    //   return true
+    // }
   })
 }
 
@@ -244,7 +263,7 @@ function commentTooltip(state, dispatch) {
 
 function renderComments(comments, dispatch, state) {
   const node = document.createElement('div')
-  node.className = 'tooltip-wrapper'
+  node.className = 'tooltip-wrapper animated fadeIn'
   ReactDOM.render(
     <ul className="commentList py-2">
       {comments.map((c, index) => {
@@ -310,11 +329,20 @@ function ThreadedComment(props) {
   const { currentUser } = store.getState()
 
   return (
-    <div className={classnames('comment-show', className)}>
+    <div
+      className={classnames('comment-show', className)}
+      id={'comment-' + comment.id}
+    >
       {comment.user && (
         <div className="j-commentUser">
           <img src={comment.user.avatar} alt={comment.user.name} />
-          <span>{comment.user.name}</span>
+          <a
+            className="name"
+            href={comment.user.username ? '/@' + comment.user.username : '#'}
+            target="blank"
+          >
+            {comment.user.name}
+          </a>
         </div>
       )}
 
@@ -329,18 +357,17 @@ function ThreadedComment(props) {
               Reply
             </button>
           )}
-          {
-            showActions.delete &&
+          {showActions.delete &&
             currentUser &&
             currentUser.currentUser &&
-            (currentUser.currentUser.id == comment.user.id) &&
-            <button
-              className="btn btn-plain btn-sm j-commentDelete px-0 mr-2"
-              onClick={handleDelete}
-            >
-              Delete
-            </button>
-          }
+            currentUser.currentUser.id == comment.user.id && (
+              <button
+                className="btn btn-plain btn-sm j-commentDelete px-0 mr-2"
+                onClick={handleDelete}
+              >
+                Delete
+              </button>
+            )}
         </div>
       )}
       {isShowingReply && (
@@ -348,7 +375,7 @@ function ThreadedComment(props) {
           <CommentForm
             onSubmit={handleReplySubmit}
             onCancel={handleReplyCancel}
-            className="j-commentReplyForm border-top mt-3 pt-1"
+            className="j-commentReplyForm border-top mt-3 pt-1 animated fadeIn"
           />
         </div>
       )}

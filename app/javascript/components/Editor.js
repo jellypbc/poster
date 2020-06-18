@@ -45,6 +45,10 @@ class Editor extends React.Component {
       editable: function (state) {
         return this.props.isEditable
       }.bind(this),
+      handleDOMEvents: function (view, event) {
+        console.log('eve', event)
+        return true
+      },
     })
 
     // applyDevTools(this.view)
