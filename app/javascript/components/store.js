@@ -81,7 +81,6 @@ const postReducers = {
 
 const userReducers = {
   setCurrentUser: (state, action) => {
-    console.log("receiving action", action)
     state.currentUser = action.payload.data
   },
 }
