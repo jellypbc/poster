@@ -14,35 +14,64 @@ class UsersController < Devise::RegistrationsController
     @user = User.new
   end
 
-  def show
-    @primary_posts = @user.posts
-      .primary
-      .order(created_at: :desc)
-      .paginate(page: params[:posts_page], per_page: 10)
+  def upgrade
+  end
 
-    @generated_posts = @user.posts
-      .generated
-      .order(created_at: :desc)
-      .paginate(page: params[:citations_page], per_page: 10)
+  def show
+    if @user.posts
+      @primary_posts = @user.posts
+        .primary
+        .order(created_at: :desc)
+        .paginate(page: params[:posts_page], per_page: 10)
+
+      @generated_posts = @user.posts
+        .generated
+        .order(created_at: :desc)
+        .paginate(page: params[:citations_page], per_page: 10)
+    end
   end
 
   def edit
   end
 
-  def create
-    # binding.pry
-    @user = User.new(user_params)
-    # @user = (params[:user] && !params[:user][:guest]) ? User.new(user_params) : guest_user
+  def cindy
+     @user = User.new(user_params)
 
-    # current_user.move_to(@user) if current_user && current_user.guest?
-    # sign_out user if current_user && current_user.guest?
+    if current_user && current_user.guest
+      respond_to do |format|
+        if @user.save!
+          current_user.move_to(@user)
+          sign_out current_user
+          sign_in(:user, @user)
+
+          format.html { redirect_to short_user_path(@user), notice: 'User was successfully created.' }
+          format.json { render json: UserSerializer.new(@user).as_json }
+        else
+          format.html
+          format.json { render json: @user.errors, status: :unprocessable_entity }
+        end
+      end
+    else
+      respond_to do |format|
+        if @user.save!
+          sign_in(:user, @user) if @user.guest
+          @user.process_avatars if @user.avatar
+
+          format.html { redirect_to short_user_path(@user), notice: 'User was successfully created.' }
+          format.json { render json: UserSerializer.new(@user).as_json }
+        else
+          format.html
+          format.json { render json: @user.errors, status: :unprocessable_entity }
+        end
+      end
+    end
+  end
+
+  def create
+    @user = User.new(user_params)
 
     if @user.guest
-      # puts ">>>>>> user #{@user}"
       @user = guest_user
-      # @user.username = @user.set_username
-      # puts ">>>>>> user #{@user}"
-      # binding.pry
       @user.skip_confirmation!
       @user.skip_confirmation_notification!
     end
@@ -52,7 +81,7 @@ class UsersController < Devise::RegistrationsController
         sign_in(:user, @user) if @user.guest
         @user.process_avatars if @user.avatar
 
-        format.html { redirect_to @user, notice: 'User was successfully created.' }
+        format.html { redirect_to short_user_path(@user), notice: 'User was successfully created.' }
         format.json { render json: UserSerializer.new(@user).as_json }
       else
         format.html

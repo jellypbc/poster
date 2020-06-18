@@ -65,7 +65,7 @@ function CommentForm({ onSubmit, onCancel, className, ...rest }) {
           // TODO: swap out login link in nav for a "register" button
           var link = document.getElementById('login-link')
           link.innerHTML = "Register"
-          link.setAttribute('target', 'supersecretsignuplink')
+          link.setAttribute('target', 'upgrade')
         }
 
 

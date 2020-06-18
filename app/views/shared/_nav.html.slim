@@ -24,7 +24,7 @@ nav.navbar.navbar-expand-lg id="#{opts[:id] if opts}" class="#{'white-nav' if wh
 
           - if current_user.guest
               li.nav-item.mr-3
-                = link_to 'Register', signup_path, class: "btn btn-outline-dark btn-sm"
+                = link_to 'Register', upgrade_path, class: "btn btn-outline-dark btn-sm"
 
           - else
 

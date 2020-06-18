@@ -1,0 +1,20 @@
+h2 Create a full account
+p Thanks for trying out jelly, turn your guest account into a real account.
+br
+
+= form_for(User.new, url: 'cindy') do |f|
+
+  .field
+    = f.email_field :email, autofocus: true, autocomplete: "email", placeholder: true, "aria-label": :email
+
+  .field
+    = f.text_field :username, autocomplete: "name", placeholder: true, "aria-label": :username
+
+  .field
+    = f.password_field :password, autocomplete: "new-password", placeholder: true, "aria-label": :password
+
+  .field
+    = f.password_field :password_confirmation, autocomplete: "new-password", placeholder: "Confirm Password", "aria-label": :password_confirmation
+
+  .actions
+    = f.submit "Sign up" , class: "btn btn-l btn-primary"

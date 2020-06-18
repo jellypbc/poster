@@ -98,20 +98,10 @@ class User < ApplicationRecord
     end
   end
 
-  # private
+  def set_username
+    self.username = email[/^[^@]+/].tr('.','') if username.blank?
+  end
 
-    def set_username
-      # if guest
-      #   puts ">>>>>> #{self}"
-      #   username = SecureRandom.hex(5)
-      #   puts ">>>>>> #{username}"
-      #   save!
-      # else
-      #   username = email[/^[^@]+/].tr('.','') if username.blank?
-      # end
-      puts ">>>>>> username is blank: #{username.blank?}"
-      self.username = email[/^[^@]+/].tr('.','') if username.blank?
-
-    end
+  private
 
 end

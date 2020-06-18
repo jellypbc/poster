@@ -10,7 +10,7 @@ RSpec.describe "Comments", :type => :request do
 
       # 1. create a guest account
       expect {
-        post signup_path, params: { user: { guest: true }, format: "json" }
+        post guestcreate_path, params: { user: { guest: true }, format: "json" }
       }.to change{User.count}.by(1)
 
       guest_user = User.last
@@ -48,25 +48,23 @@ RSpec.describe "Comments", :type => :request do
           email: "email@email.com",
           username: "username",
           password: "password",
-          password_confirmation: "password_confirmation",
+          password_confirmation: "password",
         },
         format: "json"
       }
 
       # TODO: fill out #move_to(new_user)
       expect {
-        post signup_path, params: guest_user_params
+        post cindy_path, params: guest_user_params
       }.to change{ User.count }.by(1)
 
+      new_user = User.last
       expect(new_user.comments.count).to eq(1)
       expect(new_user.guest).to eq(false)
       expect(Comment.last.user).to eq(new_user)
 
-
       # 5. delete a comment
-      expect {
-        post "/remove_comment", params: comment_params
-      }.to change { Comment.count }.by(1)
+      post "/remove_comment", params: { comment: { data_key: "1", user_id: new_user.id, deleted_at: true}, format: "json"}
       expect(new_user.comments.count).to eq(0)
 
     end
