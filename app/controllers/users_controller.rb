@@ -1,5 +1,4 @@
-# class UsersController < ApplicationController
-class UsersController < Devise::RegistrationsController
+class UsersController < ApplicationController
   before_action :fetch_user, only: [:show, :edit, :update, :destroy, :remove_avatar, :follow, :unfollow]
   before_action :authenticate_user!, only: [:index, :edit, :destroy, :update, :remove_avatar, :follow, :unfollow]
 
@@ -12,9 +11,6 @@ class UsersController < Devise::RegistrationsController
 
   def new
     @user = User.new
-  end
-
-  def upgrade
   end
 
   def show
@@ -34,7 +30,7 @@ class UsersController < Devise::RegistrationsController
   def edit
   end
 
-  def cindy
+  def upgrade
      @user = User.new(user_params)
 
     if current_user && current_user.guest

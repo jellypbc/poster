@@ -55,7 +55,7 @@ RSpec.describe "Comments", :type => :request do
 
       # TODO: fill out #move_to(new_user)
       expect {
-        post cindy_path, params: guest_user_params
+        post upgrade_path, params: guest_user_params
       }.to change{ User.count }.by(1)
 
       new_user = User.last

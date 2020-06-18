@@ -13,8 +13,8 @@ Rails.application.routes.draw do
     get 'supersecretinvitelink', to: 'devise/registrations#new'
 
     post 'guestcreate', to: 'users#create'
-    get 'upgrade', to: 'users#upgrade'
-    post 'cindy', to: 'users#cindy'
+    get 'upgrade', to: 'users#new'
+    post 'upgrade', to: 'users#upgrade'
 
     get 'login', to: 'devise/sessions#new', as: :new_user_session
     post 'login', to: 'devise/sessions#create', as: :user_session
