@@ -210,8 +210,15 @@ export const addAnnotation = function (state, dispatch) {
       handleClose()
     }
 
+    var thread = false
+    let sel = state.selection
+    let comments = commentPlugin.getState(state).commentsAt(sel.from)
+
+    if (!comments.length) thread = true
+
     ReactDOM.render(
       <CommentForm
+        thread={thread}
         onSubmit={handleNewComment}
         onCancel={handleClose}
         className="j-commentForm shadow rounded"
@@ -265,7 +272,7 @@ function renderComments(comments, dispatch, state) {
   const node = document.createElement('div')
   node.className = 'tooltip-wrapper animated fadeIn'
   ReactDOM.render(
-    <ul className="commentList py-2">
+    <ul className="commentList">
       {comments.map((c, index) => {
         const isLast = index === comments.length - 1
         return (
@@ -274,7 +281,7 @@ function renderComments(comments, dispatch, state) {
             comment={c.spec.comment}
             dispatch={dispatch}
             state={state}
-            className={classnames('px-3 py-1', { 'border-bottom': !isLast })}
+            className={classnames('px-3 ', { 'border-bottom': !isLast })}
             showActions={{ reply: isLast, delete: true }}
           />
         )
@@ -330,7 +337,7 @@ function ThreadedComment(props) {
 
   return (
     <div
-      className={classnames('comment-show', className)}
+      className={classnames('commentShow', className)}
       id={'comment-' + comment.id}
     >
       {comment.user && (

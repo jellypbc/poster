@@ -4,6 +4,8 @@ h2 Log In
 
 = form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
   .field
+    = f.hidden_field :redirect_to, value: params["redirect_to"]
+
     = f.email_field :email, autofocus: true, autocomplete: "email", "aria-label": :email, placeholder: true
 
   .field

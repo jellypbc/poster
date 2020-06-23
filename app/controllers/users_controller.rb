@@ -3,9 +3,10 @@ class UsersController < ApplicationController
   before_action :authenticate_user!, only: [:index, :edit, :destroy, :update, :remove_avatar, :follow, :unfollow]
   before_action :admin_only, only: [:index]
 
-  skip_before_action :verify_authenticity_token, only: [:create]
+  skip_before_action :verify_authenticity_token, only: [:create, :upgrade]
 
   def new
+    redirect_to root_path, notice: 'You are already logged in.' if (current_user && !current_user.guest)
     @user = User.new
   end
 
@@ -46,13 +47,7 @@ class UsersController < ApplicationController
     else
       respond_to do |format|
         if @user.save!
-          sign_in(:user, @user) if @user.guest
-          @user.process_avatars if @user.avatar
-
-          format.html { redirect_to short_user_path(@user), notice: 'User was successfully created.' }
-          format.json { render json: UserSerializer.new(@user).as_json }
-        else
-          format.html
+          format.html { redirect_to root_path, notice: "Sorry, something went wrong."}
           format.json { render json: @user.errors, status: :unprocessable_entity }
         end
       end

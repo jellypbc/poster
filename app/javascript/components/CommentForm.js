@@ -10,7 +10,7 @@ function useForceUpdate() {
   return () => setValue((value) => ++value) // update the state to force render
 }
 
-function CommentForm({ onSubmit, onCancel, className, ...rest }) {
+function CommentForm({ thread, onSubmit, onCancel, className, ...rest }) {
   // const dispatch = useDispatch()
   // const comments = useSelector(state => state.comments)
   const textareaRef = React.useRef()
@@ -67,18 +67,22 @@ function CommentForm({ onSubmit, onCancel, className, ...rest }) {
           store.dispatch({ type: 'setCurrentUser', payload: res.body })
           forceUpdate()
 
-          // TODO: swap out login link in nav for a "register" button
           var link = document.getElementById('login-link')
-          link.innerHTML = 'Register'
+          var username = res.body.data.attributes.full_name
+          link.innerHTML =
+            'You are viewing as guest, <b>' +
+            username +
+            '</b>, <a href="/upgrade">click to register</a>.'
           link.setAttribute('target', 'upgrade')
         }
       })
   }
 
   const onLoginClick = (e) => {
-    // render login form
-    // which fires off login & login action
-    console.log('i was clicked login')
+    /* eslint-disable-next-line no-restricted-globals */
+    var oldLocation = location.pathname
+    /* eslint-disable-next-line no-restricted-globals */
+    location = '/login?redirect_to=' + oldLocation
   }
 
   const handleCancel = () => {
@@ -96,9 +100,12 @@ function CommentForm({ onSubmit, onCancel, className, ...rest }) {
   }
 
   var { currentUser } = store.getState()
+
   var styles = {
     bottom: '200px',
   }
+
+  var classes = thread ? 'j-commentLoginForm floater' : 'j-commentLoginForm'
 
   return (
     <div>
@@ -106,16 +113,25 @@ function CommentForm({ onSubmit, onCancel, className, ...rest }) {
         currentUser.currentUser &&
         currentUser.currentUser.attributes &&
         !currentUser.currentUser.attributes.id && (
-          <div
-            className="j-commentForm ph-3 border-top pt-1 mb-4"
-            style={styles}
-          >
-            <p>Login or continue as guest</p>
+          <div className={classes + ' border-top'} style={styles}>
+            <p className="label">
+              Please login or continue as guest to continue.
+            </p>
 
-            <button onClick={onLoginClick}>Login</button>
-            <br />
-
-            <button onClick={onGuestClick}>Continue as guest</button>
+            <div className="button-row">
+              <button
+                onClick={onLoginClick}
+                className="btn btn-secondary btn-sm mr-2"
+              >
+                Login
+              </button>
+              <button
+                onClick={onGuestClick}
+                className="btn btn-secondary btn-sm"
+              >
+                Continue as guest
+              </button>
+            </div>
           </div>
         )}
 

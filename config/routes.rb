@@ -9,6 +9,7 @@ Rails.application.routes.draw do
 
   devise_for :users, skip: [:sessions]
 
+  # devise_scope :user, controllers: { sessions: 'sessions'} do
   devise_scope :user do
     get 'supersecretinvitelink', to: 'devise/registrations#new'
 
@@ -37,7 +38,7 @@ Rails.application.routes.draw do
       post :unfollow
     end
   end
-  get 'upgrade', to: 'users#upgrade'
+  # get 'upgrade', to: 'users#upgrade'
 
   resources :uploads do
     get :extract_images

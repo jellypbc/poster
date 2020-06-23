@@ -15,6 +15,35 @@
   margin: 0;
 }
 
+.j-commentLoginForm {
+  margin-top: 20px;
+
+  p.label {
+    text-align: center;
+    font-size: 12px;
+    color: $shale;
+    margin: 12px 0 8px 0;
+  }
+  .button-row {
+    text-align: center;
+  }
+  button {
+  }
+
+  &.floater {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    padding: 20px;
+    width: 375px;
+    display: block;
+    border: 2px solid $grayLight;
+    border-radius: $borderRadius-base;
+    background-color: $white;
+    transform: translate(0px, 0px);
+  }
+}
+
 // TODO: Connect to a Floater-style element to track cursor
 // instead of pinning to bottom left.
 .j-commentForm {
@@ -36,7 +65,7 @@
 .j-commentUser {
   line-height: 18px;
   margin-bottom: 8px;
-  margin-top: 10px;
+  margin-top: 12px;
   display: flow-root;
   width: 100%;
 
@@ -84,10 +113,15 @@
   }
 }
 
+.commentShow {
+  padding-bottom: 14px;
+}
+
 /* inline version of comment list */
 .ProseMirror ul.commentList {
   font-size: 16px;
   width: 22em;
+  padding: 0;
   max-height: 60vh;
   position: absolute;
   top: calc(100% + 8px);
@@ -99,7 +133,6 @@
   border: 1px solid #888;
   border-radius: 5px;
   z-index: 10;
-  padding: 0;
   overflow-y: scroll;
   overflow-x: hidden;
 }
