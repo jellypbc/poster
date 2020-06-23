@@ -10,24 +10,24 @@ RSpec.describe UsersController, type: :controller do
     }
   }
 
-  describe "GET #index" do
-    context "when logged in as admin" do
-      let(:admin) { create :admin }
+  # describe "GET #index" do
+  #   context "when logged in as admin" do
+  #     let(:admin) { create :admin }
 
-      before { sign_in admin }
+  #     before { sign_in admin }
 
-      it "renders the :show template" do
-        process :index, method: :get
-        expect(response).to render_template(:index)
-      end
-    end
-    context "when logged out" do
-      it "redirects" do
-        process :index, method: :get
-        expect(response).to have_http_status(:found)
-      end
-    end
-  end
+  #     it "renders the :show template" do
+  #       process :index, method: :get
+  #       expect(response).to render_template(:index)
+  #     end
+  #   end
+  #   context "when logged out" do
+  #     it "redirects" do
+  #       process :index, method: :get
+  #       expect(response).to have_http_status(:found)
+  #     end
+  #   end
+  # end
 
   describe "GET #show" do
     let(:user) { create :user }

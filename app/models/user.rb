@@ -112,8 +112,13 @@ class User < ApplicationRecord
 
   def set_username
     if guest
-      generate_jelly_name
-      self.username = full_name.parameterize
+      generate_jelly_name if full_name.blank?
+      pending_username = full_name.parameterize
+      if self.class.where("username=?", pending_username).any?
+        sequence = self.class.where("username like '#{pending_username}-%'").count + 2
+        pending_username = "#{pending_username}-#{sequence}"
+      end
+      self.username = pending_username
     else
       self.username = email[/^[^@]+/].tr('.','') if username.blank?
     end

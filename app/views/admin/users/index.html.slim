@@ -1,28 +1,31 @@
-.container.mt-5
+.container-fluid.mt-5
   .row
     .col-md-12
       h1 Users
 
-      table
+      br
+
+      = link_to 'New User', new_user_path, class: 'btn btn-primary mb-5'
+
+      table.table
         thead
           th ID
           th Username
           th Email
           th Posts
-          th colspan="3" Actions
+          th Comments
+          th Last Comment
+          th Actions
 
         tbody
           - @users.each do |user|
             tr
               td = user.id
-              td = user.username
+              td = link_to user.username, short_user_path(user)
               td = user.email
               td = user.posts.count
-              / - if user.username
-                / td = link_to 'Show', short_user_path(user)
-                / td = link_to 'Edit', edit_user_path(user)
-                td = link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' }
-      br
-      = link_to 'New User', new_user_path
+              td = user.comments.count
+              td = time_since_last_comment(user)
+              td = link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' }
 
       = will_paginate @users

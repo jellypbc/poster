@@ -28,7 +28,6 @@ Rails.application.routes.draw do
 
   # resources :users, param: :username, path: '/', only: :show do
   resources :users do
-    get :index
     resources :tags do
       get :show
     end

@@ -5,11 +5,6 @@ class UsersController < ApplicationController
 
   skip_before_action :verify_authenticity_token, only: [:create]
 
-  def index
-    @users = User.order(created_at: :desc)
-      .paginate(page: params[:page], per_page: 50)
-  end
-
   def new
     @user = User.new
   end
