@@ -27,8 +27,7 @@ class PostMasthead extends React.Component {
               target="_blank"
               rel="noopener noreferrer"
             >
-              View Original PDF | Copy Share Link | Export to Markdown | Version
-              History | Make it Perfect ✨ | 🙋🏻‍♀️
+              View Original PDF
             </a>
           </div>
         </div>
