@@ -24,8 +24,8 @@ nav.navbar.navbar-expand-lg id="#{opts[:id] if opts}" class="#{'white-nav' if wh
 
           - if current_user.guest
               li.nav-item.mr-3
-                span You are viewing as guest,
-                = link_to 'click here to register', upgrade_path, class: "ml-1"
+                span You are viewing as guest #{current_user.full_name},
+                = link_to 'click to register.', upgrade_path, class: "ml-1"
 
           - else
 

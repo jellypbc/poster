@@ -48,6 +48,11 @@ FactoryBot.define do
       confirmed_at { nil }
     end
 
+    trait :admin do
+      admin { true }
+    end
+
+    factory :admin, traits: [:admin]
     factory :guest_user, traits: [:guest]
   end
 

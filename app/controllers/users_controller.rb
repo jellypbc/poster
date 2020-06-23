@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
   before_action :fetch_user, only: [:show, :edit, :update, :destroy, :remove_avatar, :follow, :unfollow]
   before_action :authenticate_user!, only: [:index, :edit, :destroy, :update, :remove_avatar, :follow, :unfollow]
+  before_action :admin_only, only: [:index]
 
   skip_before_action :verify_authenticity_token, only: [:create]
 
@@ -31,7 +32,7 @@ class UsersController < ApplicationController
   end
 
   def upgrade
-     @user = User.new(user_params)
+    @user = User.new(user_params)
 
     if current_user && current_user.guest
       respond_to do |format|
@@ -68,7 +69,6 @@ class UsersController < ApplicationController
 
     if @user.guest
       @user = guest_user
-      @user.skip_confirmation!
       @user.skip_confirmation_notification!
     end
 
