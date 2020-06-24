@@ -32,7 +32,7 @@ class UsersController < ApplicationController
 
     if current_user && current_user.guest
       respond_to do |format|
-        if @user.save!
+        if @user.save
           current_user.move_to(@user)
           sign_out current_user
           sign_in(:user, @user)
@@ -40,16 +40,14 @@ class UsersController < ApplicationController
           format.html { redirect_to short_user_path(@user), notice: 'User was successfully created.' }
           format.json { render json: UserSerializer.new(@user).as_json }
         else
-          format.html
+          format.html { render :new }
           format.json { render json: @user.errors, status: :unprocessable_entity }
         end
       end
     else
       respond_to do |format|
-        if @user.save!
-          format.html { redirect_to root_path, notice: "Sorry, something went wrong."}
-          format.json { render json: @user.errors, status: :unprocessable_entity }
-        end
+        format.html { redirect_to root_path, notice: "Sorry, something went wrong."}
+        format.json { render json: @user.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -63,7 +61,7 @@ class UsersController < ApplicationController
     end
 
     respond_to do |format|
-      if @user.save!
+      if @user.save
         sign_in(:user, @user) if @user.guest
         @user.process_avatars if @user.avatar
 
