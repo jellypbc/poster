@@ -44,7 +44,13 @@
 
   .header-link {
     margin: 50px 0;
-
+    .social-icons {
+      margin: 20px;
+      .fab {
+        font-size: 30px;
+        color: $gray;
+      }
+    }
     .btn-primary {
       padding: 12px 20px;
       font-weight: 600;
