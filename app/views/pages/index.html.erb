@@ -1,0 +1,75 @@
+<% content_for(:meta_description) { "A new kind of science" } %>
+
+<div class="container">
+  <div class="row">
+    <div class="home">
+      <div class="header header-remove">
+        <h1 class="">
+          Jelly
+        </h1>
+        <p>
+          We are Denny and Cindy, working on building equitable platforms for scientists.
+        </p>
+
+        <div class="block">
+          <a class="newsletter">
+            Sign up for our newsletter
+          </a>
+
+          <div class="social-icons">
+            <span>Join us!</span>
+            <span>
+              <% if current_user %>
+                <a href="http://jelly-community.slack.com"><i class="fa fa-slack mlm"></i></a>
+              <% else %>
+                <a><i class="fa fa-slack mlm"></i></a>
+              <% end %>
+            </span>
+            <span>
+              <a href="http://twitter.com/jellypbc"><i class="fa fa-twitter mlm"></i></a>
+            </span>
+            <span>
+              <a href="https://github.com/jellypbc"><i class="fa fa-github mlm"></i></a>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="header hidden">
+        <canvas id='canvas' resize hidpi="off" background="#29D04E">
+        </canvas>
+        <h1 class="">
+          Jelly Labs
+        </h1>
+        <p>
+          We're Denny and Cindy, working on building equitable platforms for scientists.
+        </p>
+
+        <div class="block">
+          <a class="newsletter">
+            Sign up for our newsletter
+          </a>
+
+          <div class="social-icons">
+            <span>Join us!</span>
+            <span>
+              <% if current_user %>
+                <a href="http://jelly-community.slack.com"><i class="fa fa-slack mlm"></i></a>
+              <% else %>
+                <a><i class="fa fa-slack mlm"></i></a>
+              <% end %>
+            </span>
+            <span>
+              <a href="http://twitter.com/jellypbc"><i class="fa fa-twitter mlm"></i></a>
+            </span>
+            <span>
+              <a href="https://github.com/jellypbc"><i class="fa fa-github mlm"></i></a>
+            </span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>

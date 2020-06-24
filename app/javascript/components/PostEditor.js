@@ -124,7 +124,7 @@ class PostEditor extends React.Component {
 
     if (window.history.replaceState) {
       // Accounts for when there is no title for document
-      document.title = title == null ? title : 'Untitled | Jelly Poster'
+      document.title = title == null ? title : 'Untitled | Jelly'
 
       window.history.replaceState(
         {},
