@@ -1,0 +1,33 @@
+.container
+  .row
+    .col-md-12
+      .hero-header
+        #jelly.animated
+          = image_tag 'favicon.png', class: 'index-icon animated fadeInUp'
+        .header-link
+          .block.request-access
+            p
+            | We are Denny and Cindy, building equitable platforms for scientists.
+            p
+            = mail_to 'aloha@jellypbc.com', 'Request Early Access', class: "btn btn-secondary"
+          .block
+          .login-block
+            | Already have an account? #{link_to "Log In", new_user_session_path}
+          .newsletter
+           | Sign up for our newsletter
+          .social-icons
+            span
+              | Join us!
+            span
+              - if current_user
+                a href ="http://jelly-community.slack.com"
+                  i.fa.fa-slack
+              - else
+                a href ="http://jelly-community.slack.com"
+                  i.fa.fa-slack
+            span
+              a href = "http://twitter.com/jellypbc"
+                i.fa.fa-twitter
+            span
+              a href = "https://github.com/jellypbc"
+                i.fa.fa-github
