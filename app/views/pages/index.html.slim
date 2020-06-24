@@ -11,14 +11,13 @@
             = mail_to 'aloha@jellypbc.com', 'Request Early Access', class: "btn btn-secondary"
           .login-block
             | Returning? #{link_to "Log In", new_user_session_path}
-
-          .social-icons
-            span
-              a href ="http://jelly-community.slack.com"
-                i.fab.fa-slack
-            span
-              a href = "http://twitter.com/jellypbc"
-                i.fab.fa-twitter
-            span
-              a href = "https://github.com/jellypbc"
-                i.fab.fa-github
+          .social
+              = link_to 'Blog', blog_path, target: '_blank'
+              = " | "
+              = link_to 'Twitter', "http://twitter.com/jellypbc", target: '_blank'
+              = " | "
+              = link_to 'Slack', "http://jelly-community.slack.com", target: '_blank'
+              = " | "
+              = link_to 'GitHub', "https://github.com/jellypbc", target: '_blank'
+              = " | "
+              = mail_to "aloha@jellypbc.com", "Email"
