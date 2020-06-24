@@ -101,10 +101,6 @@ function CommentForm({ thread, onSubmit, onCancel, className, ...rest }) {
 
   var { currentUser } = store.getState()
 
-  var styles = {
-    bottom: '200px',
-  }
-
   var classes = thread ? 'j-commentLoginForm floater' : 'j-commentLoginForm'
 
   return (
@@ -113,7 +109,7 @@ function CommentForm({ thread, onSubmit, onCancel, className, ...rest }) {
         currentUser.currentUser &&
         currentUser.currentUser.attributes &&
         !currentUser.currentUser.attributes.id && (
-          <div className={classes + ' border-top'} style={styles}>
+          <div className={classes + ' border-top'}>
             <p className="label">
               Please login or continue as guest to continue.
             </p>
