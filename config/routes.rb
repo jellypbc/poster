@@ -8,8 +8,6 @@ Rails.application.routes.draw do
   mount FileUploader.upload_endpoint(:store) => '/file/store'
 
   devise_for :users, skip: [:sessions]
-
-  # devise_scope :user, controllers: { sessions: 'sessions'} do
   devise_scope :user do
     get 'supersecretinvitelink', to: 'devise/registrations#new'
 
@@ -27,7 +25,6 @@ Rails.application.routes.draw do
   get '/@:username/:id/edit', to: 'posts#edit'
   get '/@:username/tags/:id', to: 'tags#show', as: :short_user_tag
 
-  # resources :users, param: :username, path: '/', only: :show do
   resources :users do
     resources :tags do
       get :show
@@ -38,7 +35,6 @@ Rails.application.routes.draw do
       post :unfollow
     end
   end
-  # get 'upgrade', to: 'users#upgrade'
 
   resources :uploads do
     get :extract_images
