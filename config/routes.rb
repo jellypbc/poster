@@ -70,7 +70,7 @@ Rails.application.routes.draw do
   get 'pricing', to: 'pages#pricing'
   get 'internship', to: 'pages#jobs'
 
-  get 'blog', to: redirect('@cindy/tags/jelly-blog')
+  get 'blog', to: 'pages#blog'
 
   namespace :admin, module: 'admin' do
     resources :users

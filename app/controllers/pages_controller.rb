@@ -27,6 +27,10 @@ class PagesController < ApplicationController
   def admin
   end
 
+  def blog
+    @tag = Tag.find_by_slug("jelly-blog")
+  end
+
   def jobs
     @no_nav = true
   end
