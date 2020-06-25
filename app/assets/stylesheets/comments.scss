@@ -15,6 +15,32 @@
   margin: 0;
 }
 
+.j-commentLoginForm {
+  margin-top: 20px;
+
+  p.label {
+    text-align: center;
+    font-size: 12px;
+    color: $shale;
+    margin: 12px 0 8px 0;
+  }
+  .button-row {
+    text-align: center;
+  }
+  &.floater {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    padding: 20px;
+    width: 375px;
+    display: block;
+    border: 2px solid $grayLight;
+    border-radius: $borderRadius-base;
+    background-color: $white;
+    transform: translate(0px, 0px);
+  }
+}
+
 // TODO: Connect to a Floater-style element to track cursor
 // instead of pinning to bottom left.
 .j-commentForm {
@@ -36,7 +62,9 @@
 .j-commentUser {
   line-height: 18px;
   margin-bottom: 8px;
-  margin-top: 10px;
+  margin-top: 12px;
+  display: flow-root;
+  width: 100%;
 
   img {
     vertical-align: top;
@@ -44,11 +72,14 @@
     border-radius: 50%;
     height: 20px;
     width: 20px;
-    margin-right: 5px;
+    margin-right: 8px;
     display: inline-block;
   }
-  span {
+  .name {
+    color: $black;
+    display: inline;
     font-weight: 600;
+    word-break: break-all;
   }
 }
 
@@ -74,12 +105,21 @@
     padding-top: $spacer * 2;
     font-size: $fontsize-md;
   }
+  &.fadeIn {
+    animation-duration: 0.1s;
+  }
+}
+
+.commentShow {
+  padding-bottom: 14px;
 }
 
 /* inline version of comment list */
 .ProseMirror ul.commentList {
   font-size: 16px;
-  width: 15em;
+  width: 22em;
+  padding: 0;
+  max-height: 60vh;
   position: absolute;
   top: calc(100% + 8px);
   left: -2em;
@@ -90,7 +130,25 @@
   border: 1px solid #888;
   border-radius: 5px;
   z-index: 10;
-  padding: 0;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+.ProseMirror ul.commentList::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.1);
+  border-radius: 4px;
+  background-color: $white;
+}
+/* Optional: show position indicator in red */
+.ProseMirror ul.commentList::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+  background-color: $white;
+}
+.ProseMirror ul.commentList::-webkit-scrollbar-thumb {
+  border-radius: 2px;
+  height: 4px;
+  -webkit-box-shadow: inset 0 0 2px rgba(0,0,0,0.1);
+  background-color: $grayLighter;
 }
 
 .tooltip-wrapper {
@@ -100,6 +158,9 @@
   overflow: visible;
   vertical-align: bottom;
   margin-top: 15px;
+  &.fadeIn {
+    animation-duration: 0.15s;
+  }
 }
 
 .commentText {

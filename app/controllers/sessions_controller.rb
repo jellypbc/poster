@@ -2,6 +2,7 @@ class SessionsController < ApplicationController
   before_action :check_if_signed_in, only: [:new, :create]
 
   def new
+    super
   end
 
   def create
@@ -9,7 +10,7 @@ class SessionsController < ApplicationController
 
     if user && user.authenticate(session_params[:password])
       session[:user_id] = user.id
-      redirect_url = after_sign_in_path
+      redirect_url = params[:redirect_to] || after_sign_in_path
       msg = "Welcome back, #{user.full_name}."
 
       respond_to do |format|

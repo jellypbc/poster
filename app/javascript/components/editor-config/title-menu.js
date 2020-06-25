@@ -1,4 +1,4 @@
-import { joinUp, lift, toggleMark, wrapIn } from 'prosemirror-commands'
+import { toggleMark } from 'prosemirror-commands'
 import { addAnnotation } from './plugin-comment'
 import { schema } from './schema'
 import icons from './icons'
