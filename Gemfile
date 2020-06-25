@@ -40,12 +40,11 @@ gem "searchkick"
 gem "typhoeus"
 gem "oj"
 
-gem "rspec-rails", '~> 4.0'
-gem "guard", "~> 2.16"
-gem "guard-rspec", "~> 4.7", require: false
-gem "guard-livereload", "~> 2.5", require: false
-
 group :development, :test do
+  gem "rspec-rails", '~> 4.0'
+  gem "guard", "~> 2.16"
+  gem "guard-rspec", "~> 4.7", require: false
+  gem "guard-livereload", "~> 2.5", require: false
   gem "dotenv-rails"
   gem "rails-controller-testing"
   gem "factory_bot"
