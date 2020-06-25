@@ -6,8 +6,9 @@ import autogrow from '../utils/autogrow'
 // import { useSelector, useDispatch } from 'react-redux'
 
 function useForceUpdate() {
-  const [value, setValue] = useState(0) // integer state
-  return () => setValue((value) => ++value) // update the state to force render
+  /* eslint-disable-next-line no-unused-vars */
+  const [value, setValue] = useState(0)
+  return () => setValue((value) => ++value)
 }
 
 function CommentForm({ thread, onSubmit, onCancel, className, ...rest }) {
