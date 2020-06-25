@@ -80,10 +80,8 @@ function CommentForm({ thread, onSubmit, onCancel, className, ...rest }) {
   }
 
   const onLoginClick = (e) => {
-    /* eslint-disable-next-line no-restricted-globals */
-    var oldLocation = location.pathname
-    /* eslint-disable-next-line no-restricted-globals */
-    location = '/login?redirect_to=' + oldLocation
+    var oldLocation = window.location.pathname
+    window.location = '/login?redirect_to=' + oldLocation
   }
 
   const handleCancel = () => {
