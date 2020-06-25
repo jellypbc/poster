@@ -34,7 +34,7 @@ a:hover {
 	position: fixed;
 	right: 10px;
 	bottom: 10px;
-	background-color: transparentize($white, 0.5);
+	background-color: transparentize($white, 0.3);
 	border-radius: $borderRadius-base;
 	border: 1px solid $grayDarker;
 }
