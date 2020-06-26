@@ -16,7 +16,7 @@ ruby:
 
 head
   title = full_title yield(:title)
-  meta name="Jelly Poster | #{yield(:title)}" content=meta_tag_sanitize_and_truncate(meta_description)
+  meta name="Jelly | #{yield(:title)}" content=meta_tag_sanitize_and_truncate(meta_description)
   meta name="Description" content=""
   meta name="Keywords" content=""
   meta name='viewport' content='width=device-width, initial-scale=1'
@@ -25,7 +25,7 @@ head
   meta itemprop="name" content=yield(:title)
   meta itemprop="description" content=meta_tag_sanitize_and_truncate(meta_description)
 
-  meta property='og:site_name' content='Jelly Poster'
+  meta property='og:site_name' content='Jelly'
   meta property='og:url' content=request.original_url
   meta property="og:title" content=meta_tag_sanitize_and_truncate(yield(:title))
   meta property="og:description" content=meta_tag_sanitize_and_truncate(meta_description)

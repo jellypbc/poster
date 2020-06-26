@@ -6,8 +6,18 @@
           = image_tag 'favicon.png', class: 'index-icon animated fadeInUp'
         .header-link
           .block.request-access
+            | A new kind of science awaits.
+          .block.request-access
             = mail_to 'aloha@jellypbc.com', 'Request Early Access', class: "btn btn-secondary"
-          .login-block 
-            | Already have an account? #{link_to "Log In", new_user_session_path}
-        / .header-link
-        /   .block.request-access
+          .login-block
+            | Returning? #{link_to "Log In", new_user_session_path}
+          .social
+              = link_to 'Blog', blog_path, target: '_blank'
+              = " | "
+              = link_to 'Twitter', "http://twitter.com/jellypbc", target: '_blank'
+              = " | "
+              = link_to 'Slack', "http://jelly-community.slack.com", target: '_blank'
+              = " | "
+              = link_to 'GitHub', "https://github.com/jellypbc", target: '_blank'
+              = " | "
+              = mail_to "aloha@jellypbc.com", "Email"

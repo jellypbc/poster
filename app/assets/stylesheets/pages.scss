@@ -44,23 +44,24 @@
 
   .header-link {
     margin: 50px 0;
-
+    .social {
+      color: $grayLight;
+      a {
+        color: $grayLight;
+      }
+      a:hover{
+        color: $brandGreen;
+      }
+      margin: 20px;
+      .fab {
+        font-size: 30px;
+        color: $gray;
+      }
+    }
     .btn-primary {
       padding: 12px 20px;
       font-weight: 600;
       font-size: 17px;
-    }
-
-    span {
-      padding-left: 10px;
-      color: $grayLight;
-      font-size: 14px;
-    }
-
-    p {
-      margin-top: 50px;
-      font-size: 12px;
-      color: $grayLight;
     }
   }
 }

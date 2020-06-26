@@ -30,7 +30,7 @@ nav.navbar.navbar-expand-lg id="#{opts[:id] if opts}" class="#{'white-nav' if wh
                   = link_to 'click to register.', upgrade_path, class: "ml-1"
 
           - else
-
+          
             - if @post
               li.nav-item.mr-3
                 = link_to 'Save as draft', write_path, class: "btn btn-outline-dark btn-sm"
@@ -42,27 +42,28 @@ nav.navbar.navbar-expand-lg id="#{opts[:id] if opts}" class="#{'white-nav' if wh
               li.nav-item
                 = link_to 'Upload a PDF', new_upload_path, class: "nav-link"
 
-            li.nav-item.dropdown
-              a.dropdown-toggle.avatar-link href="#" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-                = avatar_cropped_image_tag(current_user, classes: "avatar")
+          li.nav-item.dropdown
+            a.dropdown-toggle.avatar-link href="#" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+              = avatar_cropped_image_tag(current_user, classes: "avatar")
 
-              .dropdown-menu.dropdown-menu-right
-                a.dropdown-item href=root_path
-                  | Dashboard
-                a.dropdown-item href=short_user_path(current_user)
-                  | Profile
-                a.dropdown-item href=edit_user_path(current_user)
-                  | Settings
+            .dropdown-menu.dropdown-menu-right
+              a.dropdown-item href=root_path
+                | Dashboard
+              a.dropdown-item href=short_user_path(current_user)
+                | Profile
+              a.dropdown-item href=edit_user_path(current_user)
+                | Settings
+              hr
+              = link_to 'Join Jelly Slack', 'https://join.slack.com/t/jelly-community/shared_invite/zt-fmq2uo68-1eF~6x11RkYLXYOOHLG6vg', :target => '_blank', class:"dropdown-item"
+              hr
+              = link_to 'Logout', destroy_user_session_path, method: :delete, class:"dropdown-item"
+              - if current_user.admin?
                 hr
-                = link_to 'Log Out', destroy_user_session_path, method: :delete, class:"dropdown-item"
-                - if current_user.admin?
-                  hr
-                  a.dropdown-item href=admin_path
-                    | Admin
-
+                a.dropdown-item href=admin_path
+                  | Admin
 
         - else
           li.nav-item.mr-0
-            = link_to 'Log In', new_user_session_path, class: "nav-link", id: "login-link"
+            = link_to 'Login', new_user_session_path, class: "nav-link"
 
 
