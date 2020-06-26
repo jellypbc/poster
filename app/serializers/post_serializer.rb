@@ -95,7 +95,7 @@ class PostSerializer
   end
 
   attribute :body_comments do |object|
-    object.comments.body.map{ |comment|
+    object.comments.includes([:user]).body.map{ |comment|
 
       if comment.user
         user = {

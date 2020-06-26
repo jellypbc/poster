@@ -49,7 +49,6 @@ class PostsController < ApplicationController
   end
 
   def update
-    # binding.pry
     respond_to do |format|
       if @post.update!(post_params)
         update_comments(@post) if params[:comments]
