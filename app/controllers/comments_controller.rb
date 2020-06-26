@@ -1,6 +1,7 @@
 class CommentsController < ApplicationController
   before_action :set_comment, only: [:show, :edit, :update, :delete]
   before_action :set_post, only: [:show, :create, :edit, :update, :delete]
+  before_action :authenticate_user!, only: [:create, :update, :delete]
   skip_before_action :verify_authenticity_token
 
   def index
@@ -22,7 +23,7 @@ class CommentsController < ApplicationController
 
     respond_to do |format|
       if @comment.save
-        format.html { head :ok }
+        format.html { redirect_to @comment, notice: 'Comment was successfully updated.' }
         format.json { render json: { comment: @comment.as_json } }
       else
         format.html { render :new }
@@ -45,10 +46,13 @@ class CommentsController < ApplicationController
 
   def delete
     @comment.delete_now if comment_params["deleted_at"]
+
     respond_to do |format|
       if @comment.save
+        format.html { head :ok }
         format.json { render json: { comment: @comment }, status: :ok  }
       else
+        format.html { head :ok }
         format.json { render json: @comment.errors, status: :unprocessable_entity }
       end
     end
@@ -56,7 +60,10 @@ class CommentsController < ApplicationController
 
   private
     def set_comment
-      id_or_data_key = comment_params[:data_key].to_s || params[:id].to_s
+      id_or_data_key = params[:comment].present? ?
+        comment_params[:data_key].to_s :
+        params[:id].to_s
+
       @comment ||= begin
         Comment.find_by! data_key: id_or_data_key
       rescue ActiveRecord::RecordNotFound => e

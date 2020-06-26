@@ -36,7 +36,6 @@ class PostsController < ApplicationController
 
   def create
     @post = Post.new(post_params)
-
     respond_to do |format|
       if @post.save
         format.html { redirect_to @post, notice: 'Post was successfully created.' }
@@ -49,7 +48,6 @@ class PostsController < ApplicationController
   end
 
   def update
-    # binding.pry
     respond_to do |format|
       if @post.update!(post_params)
         update_comments(@post) if params[:comments]
@@ -137,7 +135,7 @@ class PostsController < ApplicationController
           slug: tag.slug,
           color: tag.color,
         }}
-        .as_json
+        .as_json if current_user
     end
 
     def update_comments(post)

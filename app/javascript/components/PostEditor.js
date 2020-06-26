@@ -58,11 +58,8 @@ class PostEditor extends React.Component {
     }
 
     const schema = options.schema
-    const titleSchema = options.titleSchema
     this.parse = createParser(schema)
-    // this.parseTitle = createParser(titleSchema)
     this.serialize = createSerializer(schema)
-    // this.serializeTitle = createSerializer(titleSchema)
   }
 
   componentDidMount() {

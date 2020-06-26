@@ -10,6 +10,11 @@ Rails.application.routes.draw do
   devise_for :users, skip: [:sessions]
   devise_scope :user do
     get 'supersecretinvitelink', to: 'devise/registrations#new'
+
+    post 'guestcreate', to: 'users#create'
+    get 'upgrade', to: 'users#new'
+    post 'upgrade', to: 'users#upgrade'
+
     get 'login', to: 'devise/sessions#new', as: :new_user_session
     post 'login', to: 'devise/sessions#create', as: :user_session
     delete 'logout', to: 'devise/sessions#destroy', as: :destroy_user_session
@@ -20,9 +25,7 @@ Rails.application.routes.draw do
   get '/@:username/:id/edit', to: 'posts#edit'
   get '/@:username/tags/:id', to: 'tags#show', as: :short_user_tag
 
-  # resources :users, param: :username, path: '/', only: :show do
   resources :users do
-    get :index
     resources :tags do
       get :show
     end
@@ -49,8 +52,8 @@ Rails.application.routes.draw do
   resources :tags
 
   resources :comments
-  post 'add_comment', to: 'comments#create'
-  post 'remove_comment', to: 'comments#delete'
+  post '/add_comment', to: 'comments#create', as: :add_comment
+  post '/remove_comment', to: 'comments#delete', as: :remove_comment
 
   namespace :search do
     get :results
@@ -62,13 +65,13 @@ Rails.application.routes.draw do
   post '/posts/add_figure', to: 'posts#add_figure'
   get '/write', to: 'posts#write'
 
-  get 'about', to: 'pages#about'
-  get 'terms', to: 'pages#terms'
-  get 'dashboard', to: 'pages#dashboard'
+  get '/about', to: 'pages#about'
+  get '/terms', to: 'pages#terms'
+  get '/dashboard', to: 'pages#dashboard'
 
-  get 'admin', to: 'pages#admin'
-  get 'pricing', to: 'pages#pricing'
-  get 'internship', to: 'pages#jobs'
+  get '/admin', to: 'pages#admin'
+  get '/pricing', to: 'pages#pricing'
+  get '/internship', to: 'pages#jobs'
 
   get 'blog', to: 'pages#blog'
 

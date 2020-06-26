@@ -74,7 +74,7 @@ class PostSerializer
         user = {
           id: comment.user.id,
           avatar: comment.user.avatar_url,
-          name: comment.user.full_name,
+          name: comment.user.full_name || comment.user.username,
         }
       else
         user = {
@@ -101,13 +101,15 @@ class PostSerializer
         user = {
           id: comment.user.id,
           avatar: comment.user.avatar_url,
-          name: comment.user.full_name,
+          name: comment.user.full_name || comment.user.username,
+          username: comment.user.username
         }
       else
         user = {
           id: "",
           avatar: User.default_avatar_url,
           name: "Anonymous",
+          username: nil
         }
       end
 
