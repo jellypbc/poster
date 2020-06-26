@@ -78,9 +78,11 @@
 }
 
 .post-show {
-	width: 680px;
-  display: block;
-  margin: 0 auto;
+  @include desktop-styles {
+  	width: 680px;
+    display: block;
+    margin: 0 auto;
+  }
 
   // post editor body styles
   .post-editor {
