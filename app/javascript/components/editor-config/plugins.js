@@ -2,7 +2,7 @@ import { history } from 'prosemirror-history'
 import { dropCursor } from 'prosemirror-dropcursor'
 import { gapCursor } from 'prosemirror-gapcursor'
 import { columnResizing, tableEditing } from 'prosemirror-tables'
-import { commentPlugin, commentUI } from './plugin-comment'
+import { commentPlugin, commentUI } from './comments'
 import { selectPlugin } from './select'
 
 // TODO: move directly into components

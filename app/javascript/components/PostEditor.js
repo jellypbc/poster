@@ -20,7 +20,7 @@ import {
   annotationMenu,
 } from './editor-config/index'
 
-import { pluginKey as commentPluginKey } from './editor-config/plugin-comment'
+import { pluginKey as commentPluginKey } from './editor-config/comments'
 
 import {
   getTimestamp,
@@ -254,14 +254,14 @@ class PostEditor extends React.Component {
           </p>
         ) : null}
 
-        <Editor
-          post={post}
-          options={titleOptions}
-          onChange={this.handleChange}
-          isEditable={isEditable}
-          render={this.renderTitleEditor}
-          field="title"
-        />
+         {/* <Editor
+            post={post}
+            options={titleOptions}
+            onChange={this.handleChange}
+            isEditable={isEditable}
+            render={this.renderTitleEditor}
+            field="title"
+          />*/}
 
         <Editor
           post={post}

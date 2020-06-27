@@ -57,13 +57,17 @@ class CommentState {
 
   apply(tr) {
     let { version, decos, unsent, field, comments } = this
+
     let action = tr.getMeta(commentPlugin),
       actionType = action && action.type
 
-    // console.log('>>> inside commentplugin', tr)
+    console.log('>>> inside commentplugin: tr', tr)
+    console.log('>>> inside commentplugin: action', action)
 
     if (!action && !tr.docChanged) return this
     decos = decos.map(tr.mapping, tr.doc)
+
+    if (actionType == "receive") base = base.receive(action, tr.doc)
 
     if (actionType == 'newComment') {
       decos = decos.add(tr.doc, [deco(action.from, action.to, action.comment)])
@@ -75,6 +79,21 @@ class CommentState {
       submitDeleteComment(action.comment)
     }
     return new CommentState(version, decos, unsent, field, comments)
+  }
+
+  receive({version, events, sent}, doc) {
+    let set = this.decos
+    for (let i = 0; i < events.length; i++) {
+      let event = events[i]
+      if (event.type == "delete") {
+        let found = this.findComment(event.id)
+        if (found) set = set.remove([found])
+      } else {
+        if (!this.findComment(event.id))
+          comment = new Comment(event.text, event.id, event.user)
+          set = set.add(doc, [deco(event.from, event.to, comment)])
+      }
+    }
   }
 
   static init(config) {
