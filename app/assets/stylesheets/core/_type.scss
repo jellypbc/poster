@@ -54,7 +54,6 @@ pre {
   border-radius: 3px;
   background-color: #eee;
   padding: 5px 10px;
-  font-size: 11px;
 }
 
 label {
@@ -108,13 +107,11 @@ td { padding: 0 5px 7px; }
 }
 
 code {
-  color: $shaleDark;
+  color: $brandPink;
   overflow: auto;
-  padding: .2em .4em;
   margin: 0;
   font-size: 85%;
   line-height: 1.45;
-  background-color: rgba(27,31,35,.05);
   border-radius: 3px;
 }
 
