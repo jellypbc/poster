@@ -3,13 +3,14 @@ const emDOM = ['em', 0],
   codeDOM = ['code', 0]
 
 const defaultMarks = {
-  // :: MarkSpec A link. Has `href` and `title` attributes. `title`
+  // :: MarkSpec A link. Has `href`, `title`, and `target` attributes. `title`
   // defaults to the empty string. Rendered and parsed as an `<a>`
   // element.
   link: {
     attrs: {
       href: {},
       title: { default: null },
+      target: { default: '_blank' },
     },
     inclusive: false,
     parseDOM: [
@@ -19,13 +20,14 @@ const defaultMarks = {
           return {
             href: dom.getAttribute('href'),
             title: dom.getAttribute('title'),
+            target: dom.getAttribute('target'),
           }
         },
       },
     ],
     toDOM(node) {
-      let { href, title } = node.attrs
-      return ['a', { href, title }, 0]
+      let { href, title, target } = node.attrs
+      return ['a', { href, title, target }, 0]
     },
   },
 
