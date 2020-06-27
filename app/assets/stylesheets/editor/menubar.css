@@ -22,7 +22,7 @@
 .button {
 	background: #fff;
 	border: none;
-	font-size: inherit;
+	font-size: 80%;
 	cursor: pointer;
 	color: #777;
 	border-radius: 0;
