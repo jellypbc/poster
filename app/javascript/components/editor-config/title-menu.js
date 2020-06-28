@@ -15,33 +15,33 @@ export default {
   comments: {
     addComment: {
       title: 'Add Comment',
-      run: addAnnotation,
+      run: 'addAnnotation',
       // select: state => addAnnotation(state),
-      content: icons.comment,
+      content: 'Comment',
     },
   },
   marks: {
     em: {
       title: 'Toggle emphasis',
-      content: icons.em,
+      content: 'Italics',
       active: markActive(schema.marks.em),
       run: toggleMark(schema.marks.em),
     },
     code: {
       title: 'Toggle code',
-      content: icons.code,
+      content: '<code/>',
       active: markActive(schema.marks.code),
       run: toggleMark(schema.marks.code),
     },
     subscript: {
       title: 'Toggle subscript',
-      content: icons.subscript,
+      content: 'Subscript',
       active: markActive(schema.marks.subscript),
       run: toggleMark(schema.marks.subscript),
     },
     superscript: {
       title: 'Toggle superscript',
-      content: icons.superscript,
+      content: 'Superscript',
       active: markActive(schema.marks.superscript),
       run: toggleMark(schema.marks.superscript),
     },

@@ -9,6 +9,7 @@ import { store } from './store'
 import Editor from './Editor'
 import Floater from './Floater'
 import MenuBar from './MenuBar'
+import VertMenuBar from './VerticalMenuBar'
 import PostMasthead from './PostMasthead'
 import ChangesIndicator from './ChangesIndicator'
 import PostProcessingPlaceholder from './PostProcessingPlaceholder'
@@ -16,6 +17,7 @@ import {
   options,
   titleOptions,
   menu,
+  menu2,
   titleMenu,
   annotationMenu,
 } from './editor-config/index'
@@ -205,11 +207,11 @@ class PostEditor extends React.Component {
 
   renderBodyEditor = ({ editor, view }) => {
     const { isEditable } = this.state
-    var menubar = isEditable ? menu : annotationMenu
+    var menubar = isEditable ? menu2 : annotationMenu
     return (
       <div>
         <Floater view={view}>
-          <MenuBar menu={menubar} view={view} />
+          <VertMenuBar menu={menubar} view={view} />
         </Floater>
         <div className="post-editor">{editor}</div>
       </div>

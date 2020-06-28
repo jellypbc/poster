@@ -18,3 +18,4 @@ export const titleOptions = {
 export { default as menu } from './menu'
 export { default as annotationMenu } from './annotation-popup'
 export { default as titleMenu } from './title-menu'
+export { default as menu2 } from './menu2'

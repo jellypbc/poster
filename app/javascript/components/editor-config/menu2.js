@@ -56,70 +56,6 @@ const promptForURL = () => {
 }
 
 export default {
-  comments: {
-    addComment: {
-      title: 'Add Comment',
-      run: addAnnotation,
-      // select: state => addAnnotation(state),
-      content: 'Comment',
-    },
-  },
-  marks: {
-    strong: {
-      title: 'Toggle strong',
-      content: 'Bold',
-      active: markActive(schema.marks.strong),
-      run: toggleMark(schema.marks.strong),
-    },
-
-    em: {
-      title: 'Toggle emphasis',
-      content: 'Italic',
-      active: markActive(schema.marks.em),
-      run: toggleMark(schema.marks.em),
-    },
-
-    underline: {
-      title: 'Toggle underline',
-      content: 'Underline',
-      active: markActive(schema.marks.underline),
-      run: toggleMark(schema.marks.underline),
-    },
-
-    code: {
-      title: 'Toggle code',
-      content: '<code/>',
-      active: markActive(schema.marks.code),
-      run: toggleMark(schema.marks.code),
-    },
-
-    link: {
-      title: 'Add or remove link',
-      content: 'Link',
-      active: markActive(schema.marks.link),
-      enable: (state) => !state.selection.empty,
-      run(state, dispatch) {
-        if (markActive(schema.marks.link)(state)) {
-          toggleMark(schema.marks.link)(state, dispatch)
-          return true
-        }
-
-        const href = promptForURL()
-        if (!href) return false
-
-        toggleMark(schema.marks.link, { href })(state, dispatch)
-        // view.focus()
-      },
-    },
-  },
-
-  bidirectional_link: {
-    addBidirectionalLink: {
-      title: 'Link to Post',
-      content: 'Link to Post',
-    },
-  },
-
   // figures: {
   //   addFigure: {
   //     title: 'Add Image',
@@ -140,19 +76,19 @@ export default {
   // marks: {
   //   em: {
   //     title: 'Toggle emphasis',
-  //     content: icons.em,
+  //     content: 'Italic',
   //     active: markActive(schema.marks.em),
   //     run: toggleMark(schema.marks.em),
   //   },
   //   strong: {
   //     title: 'Toggle strong',
-  //     content: icons.strong,
+  //     content: 'Bold',
   //     active: markActive(schema.marks.strong),
   //     run: toggleMark(schema.marks.strong),
   //   },
   //   code: {
   //     title: 'Toggle code',
-  //     content: icons.code,
+  //     content: '<code/>',
   //     active: markActive(schema.marks.code),
   //     run: toggleMark(schema.marks.code),
   //   },
@@ -199,6 +135,86 @@ export default {
   //     },
   //   },
   // },
+  blocks: {
+    h2: {
+      title: 'Change to heading level 2',
+      content: 'Heading 2',
+      active: blockActive(schema.nodes.heading, { level: 2 }),
+      enable: setBlockType(schema.nodes.heading, { level: 2 }),
+      run: setBlockType(schema.nodes.heading, { level: 2 }),
+    },
+    h3: {
+      title: 'Change to heading level 3',
+      content: 'Heading 3',
+      active: blockActive(schema.nodes.heading, { level: 2 }),
+      enable: setBlockType(schema.nodes.heading, { level: 2 }),
+      run: setBlockType(schema.nodes.heading, { level: 2 }),
+    },
+    h4: {
+      title: 'Change to heading level 2',
+      content: 'Heading 4',
+      active: blockActive(schema.nodes.heading, { level: 2 }),
+      enable: setBlockType(schema.nodes.heading, { level: 2 }),
+      run: setBlockType(schema.nodes.heading, { level: 2 }),
+    },
+    ordered_list: {
+      title: 'Wrap in ordered list',
+      content: 'Numbered List',
+      active: blockActive(schema.nodes.ordered_list),
+      enable: wrapInList(schema.nodes.ordered_list),
+      run: wrapInList(schema.nodes.ordered_list),
+    },
+    bullet_list: {
+      title: 'Wrap in bullet list',
+      content: 'Bulleted List',
+      active: blockActive(schema.nodes.bullet_list),
+      enable: wrapInList(schema.nodes.bullet_list),
+      run: wrapInList(schema.nodes.bullet_list),
+    },
+    blockquote: {
+      title: 'Wrap in block quote',
+      content: 'Blockquote',
+      active: blockActive(schema.nodes.blockquote),
+      enable: wrapIn(schema.nodes.blockquote),
+      run: wrapIn(schema.nodes.blockquote),
+    },
+    code_block: {
+      title: 'Change to code block',
+      content: 'Codeblock',
+      active: blockActive(schema.nodes.code_block),
+      enable: setBlockType(schema.nodes.code_block),
+      run: setBlockType(schema.nodes.code_block),
+    },
+    strong: {
+      title: 'Toggle strong',
+      content: 'Bold',
+    },
+    em: {
+      title: 'Toggle strong',
+      content: 'Italic',
+    },
+    code: {
+      title: 'Toggle code',
+      content: '<code/>',
+    },
+    figure: {
+      title: 'Upload figure',
+      content: 'Figure',
+    },
+    upload_pdf: {
+      title: 'Upload a PDF',
+      content: 'Upload a PDF',
+    },
+    bidirectional_link: {
+      title: 'Link to post',
+      content: 'Link to post',
+    },
+    equation: {
+      title: 'Change to equation block',
+      content: 'LaTeX',
+    },
+  },
+
   // blocks: {
   //   plain: {
   //     title: 'Change to paragraph',
@@ -207,48 +223,7 @@ export default {
   //     enable: setBlockType(schema.nodes.paragraph),
   //     run: setBlockType(schema.nodes.paragraph),
   //   },
-  //   code_block: {
-  //     title: 'Change to code block',
-  //     content: icons.code_block,
-  //     active: blockActive(schema.nodes.code_block),
-  //     enable: setBlockType(schema.nodes.code_block),
-  //     run: setBlockType(schema.nodes.code_block),
-  //   },
-  //   h1: {
-  //     title: 'Change to heading level 1',
-  //     content: icons.heading,
-  //     active: blockActive(schema.nodes.heading, { level: 1 }),
-  //     enable: setBlockType(schema.nodes.heading, { level: 1 }),
-  //     run: setBlockType(schema.nodes.heading, { level: 1 }),
-  //   },
-  //   // h2: {
-  //   //   title: 'Change to heading level 2',
-  //   //   content: 'H2',
-  //   //   active: blockActive(schema.nodes.heading, { level: 2 }),
-  //   //   enable: setBlockType(schema.nodes.heading, { level: 2 }),
-  //   //   run: setBlockType(schema.nodes.heading, { level: 2 })
-  //   // },
-  //   blockquote: {
-  //     title: 'Wrap in block quote',
-  //     content: icons.blockquote,
-  //     active: blockActive(schema.nodes.blockquote),
-  //     enable: wrapIn(schema.nodes.blockquote),
-  //     run: wrapIn(schema.nodes.blockquote),
-  //   },
-  //   bullet_list: {
-  //     title: 'Wrap in bullet list',
-  //     content: icons.bullet_list,
-  //     active: blockActive(schema.nodes.bullet_list),
-  //     enable: wrapInList(schema.nodes.bullet_list),
-  //     run: wrapInList(schema.nodes.bullet_list),
-  //   },
-  //   ordered_list: {
-  //     title: 'Wrap in ordered list',
-  //     content: icons.ordered_list,
-  //     active: blockActive(schema.nodes.ordered_list),
-  //     enable: wrapInList(schema.nodes.ordered_list),
-  //     run: wrapInList(schema.nodes.ordered_list),
-  //   },
+
   //   lift: {
   //     title: 'Lift out of enclosing block',
   //     content: icons.lift,
