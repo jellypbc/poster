@@ -342,7 +342,11 @@ function ThreadedComment(props) {
     >
       {comment.user && (
         <div className="j-commentUser">
-          <img src={comment.user.avatar} alt={comment.user.name} />
+          <img
+            className="avatar"
+            src={comment.user.avatar}
+            alt={comment.user.name}
+          />
           <a
             className="name"
             href={comment.user.username ? '/@' + comment.user.username : '#'}
