@@ -23,7 +23,7 @@ const Button = ({ state, dispatch }) => (item, key) => (
   </button>
 )
 
-const MenuBar = ({ menu, children, view }) => (
+const FloatingToolbar = ({ menu, children, view }) => (
   <div>
     <div className="bar">
       {children && <span className="group">{children}</span>}
@@ -37,4 +37,4 @@ const MenuBar = ({ menu, children, view }) => (
   </div>
 )
 
-export default MenuBar
+export default FloatingToolbar

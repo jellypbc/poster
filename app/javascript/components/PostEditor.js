@@ -8,7 +8,7 @@ import sanitizeHtml from 'sanitize-html'
 import { store } from './store'
 import Editor from './Editor'
 import Floater from './Floater'
-import MenuBar from './MenuBar'
+import FloatingToolbar from './FloatingToolbar'
 import PostMasthead from './PostMasthead'
 import ChangesIndicator from './ChangesIndicator'
 import PostProcessingPlaceholder from './PostProcessingPlaceholder'
@@ -188,12 +188,12 @@ class PostEditor extends React.Component {
 
   renderTitleEditor = ({ editor, view }) => {
     const { isEditable } = this.state
-    var menubar = isEditable ? titleMenu : annotationMenu
+    var floatingtoolbar = isEditable ? titleMenu : annotationMenu
     return (
       <div className="header">
         <div className="header-nav">
           <Floater view={view}>
-            <MenuBar menu={menubar} view={view} />
+            <FloatingToolbar menu={floatingtoolbar} view={view} />
           </Floater>
           <div className="title">
             <h1>{editor}</h1>
@@ -205,11 +205,11 @@ class PostEditor extends React.Component {
 
   renderBodyEditor = ({ editor, view }) => {
     const { isEditable } = this.state
-    var menubar = isEditable ? menu : annotationMenu
+    var floatingtoolbar = isEditable ? menu : annotationMenu
     return (
       <div>
         <Floater view={view}>
-          <MenuBar menu={menubar} view={view} />
+          <FloatingToolbar menu={floatingtoolbar} view={view} />
         </Floater>
         <div className="post-editor">{editor}</div>
       </div>
