@@ -40,6 +40,7 @@ class Editor extends React.Component {
         }
 
         this.forceUpdate()
+        // this.view.focus()
       },
       editable: function (state) {
         return this.props.isEditable
@@ -61,8 +62,10 @@ class Editor extends React.Component {
         ...this.props.options,
         field: this.props.field,
         plugins: this.view.state.plugins,
+        selection: this.view.state.selection,
       })
       this.view.updateState(newState)
+      this.view.focus()
     }
   }
 
