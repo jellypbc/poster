@@ -38,7 +38,7 @@
           li.nav-item
             a#citations-tab.nav-link data-toggle="tab" href="#citations" role="tab" aria-controls="citations" aria-selected="false"
               | Citations
-              span.pill.tab-count.ml-2 = @generated_posts.count
+              span.pill.tab-count.ml-2 = @generated_posts.count 
 
         .tab-content#tabContent.my-5
           #posts.tab-pane.fade.show.active role="tabpanel" aria-labelledby="posts-tab"

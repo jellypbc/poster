@@ -25,7 +25,6 @@ class Tag < ApplicationRecord
   validates :slug, presence: true, uniqueness: { case_sensitive: false }
 
   before_validation :check_and_set_slug
-
   def to_param
     slug
   end
