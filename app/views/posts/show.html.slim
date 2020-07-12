@@ -9,28 +9,5 @@
     .editor
       = react_component "PostPage", { post: PostSerializer.new(@post).serializable_hash, currentUser: current_user.present? ? UserSerializer.new(current_user) : guest_user, isProcessing: @post.body.nil?, editable: (current_user && (@post.user && @post.user == current_user)) }
 
-    - if @post.citations.any?
-      = render 'citations', post: @post
-
-    - if @post.backlinks.any?
-      .citations.my-5
-        h4.my-3 Backlinks
-        hr
-        - @post.backlinks.each_with_index do |backlink, i|
-          = link_to post_path(backlink.source_post) do
-            .reference
-              .list-index
-                p = "#{i+1}. "
-              .citation-info
-                p
-                  |
-                  - if backlink.authors
-                    = "#{backlink.authors.html_safe}. "
-                  - if backlink.title
-                    = "#{backlink.title.html_safe}. "
-                  - if backlink.publisher
-                    = "#{backlink.publisher.html_safe}, "
-                  - if backlink.imprint_date
-                    = "#{backlink.imprint_date.html_safe}."
-
-
+    = render 'citations', post: @post
+    = render 'backlinks', post: @post
