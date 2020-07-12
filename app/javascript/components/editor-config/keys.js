@@ -22,7 +22,7 @@ import {
 } from 'prosemirror-commands'
 
 import { schema } from './schema'
-import { addAnnotation } from './plugin-comment'
+import { addAnnotation } from './comments'
 import menu from './menu'
 
 const insertBreak = (state, dispatch) => {
