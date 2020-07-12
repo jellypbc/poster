@@ -20,7 +20,7 @@ import {
   annotationMenu,
 } from './editor-config/index'
 
-import { pluginKey as commentPluginKey } from './editor-config/plugin-comment'
+import { commentPluginKey } from './editor-config/comments'
 
 import {
   getTimestamp,

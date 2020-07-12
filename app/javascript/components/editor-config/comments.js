@@ -9,7 +9,7 @@ import React from 'react'
 import superagent from 'superagent'
 import classnames from 'classnames'
 
-export const pluginKey = new PluginKey('comments')
+export const commentPluginKey = new PluginKey('comments')
 
 class Comment {
   constructor(text, id, user) {
@@ -100,7 +100,7 @@ export function serialize(action) {
 }
 
 export const commentPlugin = new Plugin({
-  key: pluginKey,
+  key: commentPluginKey,
   state: {
     init: CommentState.init,
     apply(tr, prev) {
@@ -314,7 +314,7 @@ function ThreadedComment(props) {
   }
 
   const handleReplySubmit = ({ text = 'Comment...' }) => {
-    const replyTo = pluginKey.getState(state).findComment(comment.id)
+    const replyTo = commentPluginKey.getState(state).findComment(comment.id)
     const user = buildUser()
 
     dispatch(

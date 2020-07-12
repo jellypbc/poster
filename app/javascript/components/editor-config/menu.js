@@ -8,7 +8,7 @@ import {
 import { redo, undo } from 'prosemirror-history'
 import { wrapInList } from './schema-list'
 // import { addColumnAfter, addColumnBefore } from 'prosemirror-tables'
-import { addAnnotation } from './plugin-comment'
+import { addAnnotation } from './comments'
 import { addFigure } from './images'
 import { schema } from './schema'
 import icons from './icons'
