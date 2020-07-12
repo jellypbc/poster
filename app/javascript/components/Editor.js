@@ -59,6 +59,10 @@ class Editor extends React.Component {
     if (this.props.autoFocus) this.view.focus()
   }
 
+  componentWillUnmount() {
+    this.view.destroy()
+  }
+
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (snapshot) {
       this.view.state.doc = this.props.options.doc
