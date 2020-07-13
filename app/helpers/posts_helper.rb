@@ -20,8 +20,6 @@ module PostsHelper
   	newPost.title = title
   	newPost.body = file.read
   	newPost.user = userId
-  	# TODO: figure out how to make a slug
-  	newPost
   	newPost.save
   end
 
