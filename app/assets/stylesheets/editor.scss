@@ -1,24 +1,11 @@
 @import 'editor/defaults';
+@import 'editor/masthead';
 @import 'editor/floater';
 @import 'editor/menubar';
+@import 'editor/sidebar';
 
 a:hover {
   text-decoration: underline;
-}
-
-.header {
-  .title {
-    h1 {
-      p {
-        font-size: 32px;
-        line-height: 40px;
-      }
-    }
-    .j-commentText {
-      line-height: 22px;
-      font-size: 14px;
-    }
-  }
 }
 
 .loading-indicator {

@@ -1,0 +1,71 @@
+#sidebarContainer {
+  @include desktop-styles {
+    display: block;
+  }
+  display: none;
+
+  // position: fixed;
+  // width: 100px;
+  // left: 20px;
+  // top: 100px;
+
+  #sidebarToggle {
+    color: $shaleLight;
+    top: -10px;
+    position: relative;
+
+    -moz-transition: all 0.2s linear;
+    -webkit-transition: all 0.2s linear;
+    transition: all 0.2s linear;
+
+    & > .rotate {
+      -moz-transform:rotate(180deg);
+      -webkit-transform:rotate(180deg);
+      transform:rotate(180deg);
+    }
+  }
+
+  .ProseMirror {
+    h1 {
+      font-size: 4px;
+      line-height: 4px;
+    }
+    p, strong, li, a {
+      font-size: 3px;
+      line-height: 4px;
+    }
+  }
+}
+
+
+// .minimap {
+//     z-index : 10000;
+//     position : fixed;
+//     font-size: 1em;
+// }
+
+// .miniregion {
+//     z-index : 10001;
+//     position : fixed;
+//     background : transparent;
+//     border: 2px solid silver;
+// }
+
+// .miniregion.dragging {
+//     cursor: -webkit-grabbing;
+//     cursor: -moz-grabbing;
+// }
+
+// .miniregion:hover {
+//     /*box-shadow: 0 0 0.4em darkgrey;*/
+// }
+
+// .noselect {
+//     -webkit-touch-callout: none;
+//     -webkit-user-select: none;
+//     -khtml-user-select: none;
+//     -moz-user-select: none;
+//     -ms-user-select: none;
+//     user-select: none;
+// }
+

@@ -10,6 +10,8 @@ import Editor from './Editor'
 import Floater from './Floater'
 import MenuBar from './MenuBar'
 import PostMasthead from './PostMasthead'
+import Sidebar from './Sidebar'
+import Citations from './Citations'
 import ChangesIndicator from './ChangesIndicator'
 import PostProcessingPlaceholder from './PostProcessingPlaceholder'
 import {
@@ -73,6 +75,7 @@ class PostEditor extends React.Component {
         connected() {},
 
         received: function (data) {
+          console.log("[receiving]")
           this.setState((state) => ({
             post: data,
             isProcessing: false,
@@ -211,7 +214,9 @@ class PostEditor extends React.Component {
         <Floater view={view}>
           <MenuBar menu={menubar} view={view} />
         </Floater>
-        <div className="post-editor">{editor}</div>
+        <div className="post-editor">
+          {editor}
+        </div>
       </div>
     )
   }
@@ -242,33 +247,56 @@ class PostEditor extends React.Component {
     // titleOptions.comments = { comments: post.data.attributes.comments }
 
     return (
-      <div>
-        <PostMasthead post={post} />
+      <div className="row">
+        <div className="col-md-12 masthead">
 
-        {error ? (
-          <p className="post__error">
-            <strong>{errorAt}</strong>: {error}
-          </p>
-        ) : null}
+          {error ? (
+            <p className="post__error">
+              <strong>{errorAt}</strong>: {error}
+            </p>
+          ) : null}
 
-        <Editor
-          post={post}
-          options={titleOptions}
-          onChange={this.handleChange}
-          isEditable={isEditable}
-          render={this.renderTitleEditor}
-          field="title"
-        />
+          <Editor
+            post={post}
+            options={titleOptions}
+            onChange={this.handleChange}
+            isEditable={isEditable}
+            render={this.renderTitleEditor}
+            field="title"
+          />
+          <PostMasthead post={post} />
 
-        <Editor
-          post={post}
-          options={options}
-          onChange={this.handleChange}
-          isEditable={isEditable}
-          render={this.renderBodyEditor}
-          field="body"
-          autoFocus
-        />
+        </div>
+
+        <div className="col-md-2">
+          {post.data.attributes.body &&
+            <Sidebar
+              post={post}
+              options={options}
+            />
+          }
+        </div>
+
+        <div className="col-md-8">
+          <Editor
+            post={post}
+            options={options}
+            onChange={this.handleChange}
+            isEditable={isEditable}
+            render={this.renderBodyEditor}
+            field="body"
+            autoFocus
+          />
+
+          <Citations
+            post={post}
+          />
+        </div>
+
+        <div className="col-md-2">
+          <p>comments</p>
+        </div>
+
 
         {isEditable && (
           <ChangesIndicator
@@ -278,6 +306,7 @@ class PostEditor extends React.Component {
             lastSavedAtDate={lastSavedAtDate}
           />
         )}
+
       </div>
     )
   }

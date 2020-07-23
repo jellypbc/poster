@@ -79,7 +79,7 @@
 
 .post-show {
   @include desktop-styles {
-  	width: 680px;
+  	// width: 680px;
     display: block;
     margin: 0 auto;
   }
@@ -125,24 +125,30 @@
 	  font-size: 18px;
 	  font-weight: 500;
 	}
+
 	.publisher {
 	  font-size: 10px;
 	}
+
   .reference {
     margin: 10px 0;
+
     .list-index {
     	display: inline-block;
     	margin: 0 8px 0 0;
     	vertical-align: top;
+
     	p {
 	    	font-size: 13px;
 	    	color: $shale;
     	}
     }
+
     .citation-info {
     	max-width: 595px;
       display: inline-block;
     	vertical-align: top;
+
       p {
         font-size: 14px;
         line-height: 18px;
@@ -196,18 +202,6 @@
       height: 350px;
       margin-top: 100px;
       z-index: 2;
-    }
-  }
-
-  .header{
-    padding-bottom: 40px;
-    .pdf-url {
-      margin-top: 40px;
-      color: #bbb;
-      font-size: 13px;
-      a, a:hover {
-        color: #bbb;
-      }
     }
   }
 }

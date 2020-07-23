@@ -15,3 +15,6 @@
   br
   .editor
     = post.body.html_safe if post.body
+
+  - if post.citations.any?
+    = render 'citations', post: post
