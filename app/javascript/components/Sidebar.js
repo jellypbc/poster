@@ -1,10 +1,10 @@
-import React, { useEffect, useRef, useState, useCallback } from "react"
+import React, { useEffect, useRef, useState, useCallback } from 'react'
 import { EditorView } from 'prosemirror-view'
 import { EditorState, Plugin, PluginKey } from 'prosemirror-state'
 
-const reactPropsKey = new PluginKey("reactProps")
+const reactPropsKey = new PluginKey('reactProps')
 
-function useEventListener(eventName, handler, element = window){
+function useEventListener(eventName, handler, element = window) {
   // Create a ref that stores handler
   const savedHandler = useRef()
 
@@ -24,7 +24,7 @@ function useEventListener(eventName, handler, element = window){
       if (!isSupported) return
 
       // Create event listener that calls handler function stored in ref
-      const eventListener = event => savedHandler.current(event)
+      const eventListener = (event) => savedHandler.current(event)
 
       // Add event listener
       element.addEventListener(eventName, eventListener)
@@ -54,6 +54,13 @@ function Sidebar(props) {
   const view = useRef(null)
   const { post } = props
 
+  const [portalTop, setPortalTop] = useState('0px')
+  const [editorContainerHeight, setEditorContainerHeight] = useState(0)
+  const [sidebarEditorTop, setSidebarEditorTop] = useState(0)
+  const [portalHeight, setPortalHeight] = useState(0)
+  const [visible, setVisible] = useState(true)
+  const [sticky, setSticky] = useState(false)
+
   // initial render
   useEffect(() => {
     view.current = new EditorView(viewHost.current, {
@@ -62,150 +69,149 @@ function Sidebar(props) {
       }),
       editable: function (state) {
         return false
-      }.bind(this),
+      },
     })
 
-    if (viewHost.current) {
-      const vpHeight = window.innerHeight
-      const pageHeight = document.getElementById('root').scrollHeight - document.getElementsByClassName('citations')[0].offsetHeight
-      let editorHeight = viewHost.current.clientHeight
-      let pHeight = (vpHeight / pageHeight) * editorHeight
-      setPortalHeight(pHeight)
-    }
+    // if (viewHost.current) {
+    //   const vpHeight = window.innerHeight
+    //   const pageHeight = document.getElementById('root').scrollHeight - document.getElementsByClassName('citations')[0].offsetHeight
+    //   let editorHeight = viewHost.current.clientHeight
+    //   let pHeight = (vpHeight / pageHeight) * editorHeight
+    //   setPortalHeight(pHeight)
+    // }
     return () => view.current.destroy()
-  })
+  }, [props, visible])
 
   // every render
   useEffect(() => {
+    const vpHeight = window.innerHeight
+    const pageHeight =
+      document.getElementById('root').scrollHeight -
+      document.getElementsByClassName('citations')[0].offsetHeight
+
     const tr = view.current.state.tr.setMeta(reactPropsKey, props)
     view.current.dispatch(tr)
 
-    // set this scroll trigger to be dynamic
-    setSticky( (window.scrollY >= 260) ? true : false )
+    // set this scroll trigger to be dynamic based on masthead height
+    const mh = document.getElementsByClassName('masthead')[0]
+    const mastheadHeight = mh.offsetHeight + mh.offsetTop
+    setSticky(window.scrollY >= mastheadHeight ? true : false)
 
-    let editorHeight
+    // sets the editor container height for smaller than page length viewports
+    let ech
     if (viewHost.current) {
-      editorHeight = viewHost.current.clientHeight
+      ech = viewHost.current.clientHeight
     }
-    const vpHeight = window.innerHeight
-    const pageHeight = document.getElementById('root').scrollHeight -document.getElementsByClassName('citations')[0].offsetHeight
+    setEditorContainerHeight(vpHeight > ech ? ech + 'px' : vpHeight * 0.8)
 
+    // sets the portal position
     let calcTop
-    if (vpHeight < editorHeight) {
-      calcTop = Math.floor(window.scrollY / editorHeight * -100)
+    if (vpHeight < ech) {
+      calcTop = Math.floor((window.scrollY / ech) * -100)
     } else {
       calcTop = 'auto'
     }
 
-    let st = (sticky ? calcTop : 'auto')
+    let st = sticky ? calcTop : 'auto'
     setSidebarEditorTop(st)
-    setEditorContainerHeight( vpHeight > editorHeight ? editorHeight + 'px' : '80vh' )
 
-  })
+    let pHeight = (vpHeight / pageHeight) * ech
+    setPortalHeight(pHeight)
+  }, [props, sticky])
 
-  const [portalTop, setPortalTop] = useState('0px')
-  const [editorContainerHeight, setEditorContainerHeight] = useState(0)
-  const [sidebarEditorTop, setSidebarEditorTop] = useState(0)
-  const [portalHeight, setPortalHeight] = useState(0)
-  const [visible, setVisible] = useState(true)
-  const [sticky, setSticky] = useState(false)
-
-  const handler = useCallback(
-    ({sticky}) => { // this order matters
+  // on scroll
+  const scrollHandler = useCallback(
+    ({}) => {
+      // this order matters
       const vpHeight = window.innerHeight
-      const pageHeight = document.getElementById('root').scrollHeight - document.getElementsByClassName('citations')[0].offsetHeight
+      const pageHeight =
+        document.getElementById('root').scrollHeight -
+        document.getElementsByClassName('citations')[0].offsetHeight
 
       // set top position of portal as &
-      const scrollPercentage = Math.floor( ( (window.scrollY) / pageHeight) * 100 )
-      setPortalTop(scrollPercentage)
+      const scrollPercentage = Math.floor((window.scrollY / pageHeight) * 100)
+      setPortalTop(scrollPercentage + '%')
 
       // fetch sidebarHeight
       let ech = viewHost.current.clientHeight
-      // if (viewHost.current) setEditorContainerHeight(ech)
+      if (viewHost.current) setEditorContainerHeight(ech)
 
       // set portal height based on viewport height
-      let pHeight = (vpHeight / pageHeight) * ech
+      let pHeight = (vpHeight / pageHeight) * editorContainerHeight
       if (viewHost.current) setPortalHeight(pHeight)
     },
-    []
+    [editorContainerHeight]
   )
-  useEventListener('resize', handler)
-  useEventListener('scroll', handler)
-
+  useEventListener('resize', scrollHandler)
+  useEventListener('scroll', scrollHandler)
 
   var container = {
-    'position': sticky ? 'fixed' : 'relative',
-    'top': sticky ? (OFFSET + 'px') : 'auto',
-    'width': '110px',
-    // 'border': '4px solid pink',
+    position: 'sticky',
+    top: sticky ? OFFSET + 'px' : 'auto',
+    width: '110px',
+    height: '100%',
+  }
+
+  var toggleIconStyle = {
+    top: sticky ? '4px' : '24px',
+    position: sticky ? 'sticky' : 'relative',
   }
 
   var editorContainerStyle = {
-    // 'border': 'red solid 4px',
-    'position': sticky ? 'fixed' : 'relative',
-    'height': editorContainerHeight,
-    'width': '110px',
-    'overflow': 'hidden',
+    position: sticky ? 'sticky' : 'relative',
+    height: editorContainerHeight,
+    top: '30px',
+    width: '120px',
+    overflow: 'hidden',
   }
 
   var sidebarEditorStyle = {
-    // 'border': '4px solid green',
-    'display': visible ? 'block' : 'none',
-    'position': 'absolute',
-    'width': '110px',
-    'top': sticky ? sidebarEditorTop + 'px' : 'auto',
+    display: visible ? 'block' : 'none',
+    position: 'relative',
+    width: '110px',
+    top: sticky ? sidebarEditorTop + 'px' : 'auto',
+    background: 'white',
+    transition: 'all 0.15s linear',
   }
 
   var sidebarPortalStyle = {
-    // 'border': '4px solid blue',
-    'height':  portalHeight + 'px',
-    'top': portalTop + '%',
-    // 'top':  'calc(' + top + '% - ' + windowHeight + 'px)',
-    'width': '110px',
-    'zIndex': 33,
-    'position': 'relative',
-    'background': 'rgba(0,0,0,0.1)',
-    'display': visible ? 'block' : 'none',
-    'cursor': 'move !important',
+    height: portalHeight + 'px',
+    top: portalTop,
+    width: '110px',
+    zIndex: 33,
+    position: 'absolute',
+    background: 'rgba(0,0,0,0.1)',
+    display: visible ? 'block' : 'none',
+    cursor: 'move !important',
+    transition: 'all 0.15s linear',
   }
 
   return (
-    <div>
+    <div id="sidebarContainer" style={container}>
+      <i
+        id="sidebarToggle"
+        style={toggleIconStyle}
+        className={visible ? 'fa fa-caret-right' : 'fa fa-caret-right rotate'}
+        onClick={() => setVisible(!visible)}
+        onKeyDown={() => setVisible(!visible)}
+        aria-checked={visible}
+        role="switch"
+        tabIndex={0}
+      />
 
-      <div
-        id="sidebarContainer"
-        style={container}
-      >
-        <i
-          id='sidebarToggle'
-          className={visible ? "fa fa-caret-right" : "fa fa-caret-right rotate"}
-          onClick={() => setVisible(!visible) }
-        />
-
-        {visible &&
+      {visible && (
+        <div className="sidebarEditorContainer" style={editorContainerStyle}>
           <div
-            className="sidebarEditorContainer"
-            style={editorContainerStyle}
-          >
-            <div
-              id="sidebarEditor"
-              ref={viewHost}
-              style={sidebarEditorStyle}
-              className="animated fadeIn"
-            />
-            <div
-              className="sidebarPortal"
-              style={sidebarPortalStyle}
-            />
-          </div>
-        }
-
-      </div>
-
+            id="sidebarEditor"
+            ref={viewHost}
+            style={sidebarEditorStyle}
+            className="animated fadeIn"
+          />
+          <div className="sidebarPortal" style={sidebarPortalStyle} />
+        </div>
+      )}
     </div>
   )
-
 }
-
 
 export default Sidebar
