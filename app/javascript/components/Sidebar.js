@@ -50,9 +50,13 @@ function reactProps(initialProps) {
 
 function Sidebar(props) {
   const OFFSET = '30'
+  const pageHeight =
+    document.getElementById('root').scrollHeight -
+    document.getElementsByClassName('citations')[0].offsetHeight
+  const vpHeight = window.innerHeight
+
   const viewHost = useRef()
   const view = useRef(null)
-  const { post } = props
 
   const [portalTop, setPortalTop] = useState('0px')
   const [editorContainerHeight, setEditorContainerHeight] = useState(0)
@@ -72,23 +76,16 @@ function Sidebar(props) {
       },
     })
 
-    // if (viewHost.current) {
-    //   const vpHeight = window.innerHeight
-    //   const pageHeight = document.getElementById('root').scrollHeight - document.getElementsByClassName('citations')[0].offsetHeight
-    //   let editorHeight = viewHost.current.clientHeight
-    //   let pHeight = (vpHeight / pageHeight) * editorHeight
-    //   setPortalHeight(pHeight)
-    // }
+    if (viewHost.current) {
+      let editorHeight = viewHost.current.clientHeight
+      let pHeight = (vpHeight / pageHeight) * editorHeight
+      setPortalHeight(pHeight)
+    }
     return () => view.current.destroy()
-  }, [props, visible])
+  }, [pageHeight, props, visible, vpHeight])
 
   // every render
   useEffect(() => {
-    const vpHeight = window.innerHeight
-    const pageHeight =
-      document.getElementById('root').scrollHeight -
-      document.getElementsByClassName('citations')[0].offsetHeight
-
     const tr = view.current.state.tr.setMeta(reactPropsKey, props)
     view.current.dispatch(tr)
 
@@ -102,7 +99,7 @@ function Sidebar(props) {
     if (viewHost.current) {
       ech = viewHost.current.clientHeight
     }
-    setEditorContainerHeight(vpHeight > ech ? ech + 'px' : vpHeight * 0.8)
+    setEditorContainerHeight(vpHeight > ech ? ech : vpHeight * 0.8)
 
     // sets the portal position
     let calcTop
@@ -117,33 +114,35 @@ function Sidebar(props) {
 
     let pHeight = (vpHeight / pageHeight) * ech
     setPortalHeight(pHeight)
-  }, [props, sticky])
+  }, [props, vpHeight, sticky, pageHeight])
 
   // on scroll
-  const scrollHandler = useCallback(
-    ({}) => {
-      // this order matters
-      const vpHeight = window.innerHeight
-      const pageHeight =
-        document.getElementById('root').scrollHeight -
-        document.getElementsByClassName('citations')[0].offsetHeight
+  const scrollHandler = useCallback(() => {
+    const scrollPercentage = Math.floor((window.scrollY / pageHeight) * 100)
+    setPortalTop(scrollPercentage + '%')
 
-      // set top position of portal as &
-      const scrollPercentage = Math.floor((window.scrollY / pageHeight) * 100)
-      setPortalTop(scrollPercentage + '%')
+    // fetch sidebarHeight
+    let ech = viewHost.current.clientHeight
+    if (viewHost.current) setEditorContainerHeight(ech)
 
-      // fetch sidebarHeight
-      let ech = viewHost.current.clientHeight
-      if (viewHost.current) setEditorContainerHeight(ech)
-
-      // set portal height based on viewport height
-      let pHeight = (vpHeight / pageHeight) * editorContainerHeight
-      if (viewHost.current) setPortalHeight(pHeight)
-    },
-    [editorContainerHeight]
-  )
+    // set portal height based on viewport height
+    let pHeight = (vpHeight / pageHeight) * editorContainerHeight
+    if (viewHost.current) setPortalHeight(pHeight)
+  }, [editorContainerHeight, pageHeight, vpHeight])
   useEventListener('resize', scrollHandler)
   useEventListener('scroll', scrollHandler)
+
+  const clickHandler = useCallback((e) => {
+    const coord = (eventCoord) => {
+      return (
+        ((eventCoord - Math.floor(portalHeight * 0.5)) /
+          editorContainerHeight) *
+        pageHeight
+      )
+    }
+    window.scroll(coord(e.layerX), coord(e.layerY))
+  })
+  useEventListener('click', clickHandler, viewHost.current)
 
   var container = {
     position: 'sticky',
@@ -155,11 +154,12 @@ function Sidebar(props) {
   var toggleIconStyle = {
     top: sticky ? '4px' : '24px',
     position: sticky ? 'sticky' : 'relative',
+    outline: 'none',
   }
 
   var editorContainerStyle = {
     position: sticky ? 'sticky' : 'relative',
-    height: editorContainerHeight,
+    height: editorContainerHeight + 'px',
     top: '30px',
     width: '120px',
     overflow: 'hidden',
@@ -183,7 +183,8 @@ function Sidebar(props) {
     background: 'rgba(0,0,0,0.1)',
     display: visible ? 'block' : 'none',
     cursor: 'move !important',
-    transition: 'all 0.15s linear',
+    transition: 'all 0.2s linear',
+    pointerEvents: 'none',
   }
 
   return (
