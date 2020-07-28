@@ -45,7 +45,7 @@ const keys = {
   'Alt-ArrowUp': joinUp,
   'Alt-ArrowDown': joinDown,
   'Mod-BracketLeft': lift,
-  Escape: selectParentNode,
+  'Mod-Escape': selectParentNode,
   'Mod-b': toggleMark(schema.marks.strong),
   'Mod-i': toggleMark(schema.marks.em),
   'Mod-u': toggleMark(schema.marks.underline),

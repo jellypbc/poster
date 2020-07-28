@@ -2,8 +2,6 @@ import React, { useEffect, useRef, useState, useCallback } from 'react'
 import { EditorView } from 'prosemirror-view'
 import { EditorState, Plugin, PluginKey } from 'prosemirror-state'
 
-const reactPropsKey = new PluginKey('reactProps')
-
 function useEventListener(eventName, handler, element = window) {
   // Create a ref that stores handler
   const savedHandler = useRef()
@@ -38,16 +36,6 @@ function useEventListener(eventName, handler, element = window) {
   )
 }
 
-function reactProps(initialProps) {
-  return new Plugin({
-    key: reactPropsKey,
-    state: {
-      init: () => initialProps,
-      apply: (tr, prev) => tr.getMeta(reactPropsKey) || prev,
-    },
-  })
-}
-
 function Sidebar(props) {
   const OFFSET = '30'
   const pageHeight =
@@ -64,6 +52,7 @@ function Sidebar(props) {
   const [portalHeight, setPortalHeight] = useState(0)
   const [visible, setVisible] = useState(true)
   const [sticky, setSticky] = useState(false)
+  const [mastheadHeight, setMastheadHeight] = useState(0)
 
   // initial render
   useEffect(() => {
@@ -80,55 +69,24 @@ function Sidebar(props) {
       let editorHeight = viewHost.current.clientHeight
       let pHeight = (vpHeight / pageHeight) * editorHeight
       setPortalHeight(pHeight)
+
+      const mh = document.getElementsByClassName('masthead')[0]
+      setMastheadHeight(mh.offsetHeight + mh.offsetTop)
     }
     return () => view.current.destroy()
   }, [pageHeight, props, visible, vpHeight])
 
   // every render
   useEffect(() => {
-    const tr = view.current.state.tr.setMeta(reactPropsKey, props)
-    view.current.dispatch(tr)
-
-    // set this scroll trigger to be dynamic based on masthead height
-    const mh = document.getElementsByClassName('masthead')[0]
-    const mastheadHeight = mh.offsetHeight + mh.offsetTop
-    setSticky(window.scrollY >= mastheadHeight ? true : false)
-
-    // sets the editor container height for smaller than page length viewports
-    let ech
-    if (viewHost.current) {
-      ech = viewHost.current.clientHeight
-    }
-    setEditorContainerHeight(vpHeight > ech ? ech : vpHeight * 0.8)
-
-    // sets the portal position
-    let calcTop
-    if (vpHeight < ech) {
-      calcTop = Math.floor((window.scrollY / ech) * -100)
-    } else {
-      calcTop = 'auto'
-    }
-
-    let st = sticky ? calcTop : 'auto'
-    setSidebarEditorTop(st)
-
-    let pHeight = (vpHeight / pageHeight) * ech
-    setPortalHeight(pHeight)
-  }, [props, vpHeight, sticky, pageHeight])
+    reposition(vpHeight)
+  }, [props, vpHeight, sticky, pageHeight, mastheadHeight, reposition])
 
   // on scroll
   const scrollHandler = useCallback(() => {
-    const scrollPercentage = Math.floor((window.scrollY / pageHeight) * 100)
-    setPortalTop(scrollPercentage + '%')
+    reposition(vpHeight)
+    setPortalTop(Math.floor((window.scrollY / pageHeight) * 100) + '%')
+  }, [pageHeight, reposition, vpHeight])
 
-    // fetch sidebarHeight
-    let ech = viewHost.current.clientHeight
-    if (viewHost.current) setEditorContainerHeight(ech)
-
-    // set portal height based on viewport height
-    let pHeight = (vpHeight / pageHeight) * editorContainerHeight
-    if (viewHost.current) setPortalHeight(pHeight)
-  }, [editorContainerHeight, pageHeight, vpHeight])
   useEventListener('resize', scrollHandler)
   useEventListener('scroll', scrollHandler)
 
@@ -140,46 +98,93 @@ function Sidebar(props) {
         pageHeight
       )
     }
-    window.scroll(coord(e.layerX), coord(e.layerY))
+
+    const scrollToCoords = (event) => {
+      window.scrollTo({
+        left: coord(event.layerX),
+        top: coord(event.layerY),
+        behavior: 'smooth',
+      })
+    }
+
+    viewHost.current.addEventListener(
+      'mousedown',
+      function (event) {
+        scrollToCoords(event)
+      },
+      true
+    )
   })
-  useEventListener('click', clickHandler, viewHost.current)
+  useEventListener('mousedown', clickHandler, viewHost.current)
+
+  const reposition = useCallback((vpHeight) => {
+    setSticky(window.scrollY >= mastheadHeight ? true : false)
+
+    let ech
+    if (viewHost.current) {
+      ech = viewHost.current.clientHeight
+    }
+    setEditorContainerHeight(vpHeight > ech ? ech : vpHeight * 0.8)
+    setSidebarEditorTop(calculateEditorPosition(sticky, vpHeight, ech))
+
+    let pHeight = (vpHeight / pageHeight) * ech
+    setPortalHeight(pHeight)
+  })
+
+  const calculateEditorPosition = (sticky, vp, ech) => {
+    let calcTop
+    // console.log('>>>>>>>>>>>>')
+    // console.log('vp < ech: ' + vp + ', ' + ech + ': ' + (vp < ech).toString())
+    // console.log('viewport percentage', (window.scrollY / pageHeight))
+    if (vp < ech) {
+      // console.log('ech', ech)
+      // console.log('vp ratio', window.scrollY / pageHeight)
+      // calcTop = Math.floor((window.scrollY / ech) * -100)
+      calcTop = Math.floor((window.scrollY / pageHeight) * -100 - 100)
+    } else {
+      calcTop = 'auto'
+    }
+    // console.log('calcTop', calcTop)
+    // console.log('>>>>>>>>>>>>')
+    return sticky ? calcTop : 'auto'
+  }
 
   var container = {
     position: 'sticky',
     top: sticky ? OFFSET + 'px' : 'auto',
-    width: '110px',
     height: '100%',
+    width: '110px',
   }
 
   var toggleIconStyle = {
-    top: sticky ? '4px' : '24px',
     position: sticky ? 'sticky' : 'relative',
+    top: sticky ? '4px' : '24px',
     outline: 'none',
   }
 
   var editorContainerStyle = {
     position: sticky ? 'sticky' : 'relative',
-    height: editorContainerHeight + 'px',
     top: '30px',
+    height: editorContainerHeight + 'px',
     width: '120px',
     overflow: 'hidden',
   }
 
   var sidebarEditorStyle = {
-    display: visible ? 'block' : 'none',
     position: 'relative',
-    width: '110px',
     top: sticky ? sidebarEditorTop + 'px' : 'auto',
+    display: visible ? 'block' : 'none',
+    width: '110px',
     background: 'white',
     transition: 'all 0.15s linear',
   }
 
   var sidebarPortalStyle = {
-    height: portalHeight + 'px',
+    position: 'absolute',
     top: portalTop,
+    height: portalHeight + 'px',
     width: '110px',
     zIndex: 33,
-    position: 'absolute',
     background: 'rgba(0,0,0,0.1)',
     display: visible ? 'block' : 'none',
     cursor: 'move !important',
