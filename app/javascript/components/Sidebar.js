@@ -54,19 +54,22 @@ function Sidebar(props) {
   const [sticky, setSticky] = useState(false)
   const [mastheadHeight, setMastheadHeight] = useState(0)
 
-  const reposition = useCallback((vpHeight) => {
-    setSticky(window.scrollY >= mastheadHeight ? true : false)
+  const reposition = useCallback(
+    (vpHeight) => {
+      setSticky(window.scrollY >= mastheadHeight ? true : false)
 
-    let ech
-    if (viewHost.current) {
-      ech = viewHost.current.clientHeight
-    }
-    setEditorContainerHeight(vpHeight > ech ? ech : vpHeight * 0.8)
-    setSidebarEditorTop(calculateEditorPosition(sticky, vpHeight, ech))
+      let ech
+      if (viewHost.current) {
+        ech = viewHost.current.clientHeight
+      }
+      setEditorContainerHeight(vpHeight > ech ? ech : vpHeight * 0.8)
+      setSidebarEditorTop(calculateEditorPosition(sticky, vpHeight, ech))
 
-    let pHeight = (vpHeight / pageHeight) * ech
-    setPortalHeight(pHeight)
-  })
+      let pHeight = (vpHeight / pageHeight) * ech
+      setPortalHeight(pHeight)
+    },
+    [mastheadHeight, calculateEditorPosition, sticky, pageHeight]
+  )
 
   const calculateEditorPosition = (sticky, vp, ech) => {
     let calcTop
@@ -114,7 +117,7 @@ function Sidebar(props) {
   useEventListener('resize', scrollHandler)
   useEventListener('scroll', scrollHandler)
 
-  const clickHandler = useCallback((e) => {
+  const clickHandler = (e) => {
     const coord = (eventCoord) => {
       return (
         ((eventCoord - Math.floor(portalHeight * 0.5)) /
@@ -131,14 +134,8 @@ function Sidebar(props) {
       })
     }
 
-    viewHost.current.addEventListener(
-      'mousedown',
-      function (event) {
-        scrollToCoords(event)
-      },
-      true
-    )
-  })
+    scrollToCoords(e)
+  }
   useEventListener('mousedown', clickHandler, viewHost.current)
 
   var container = {
