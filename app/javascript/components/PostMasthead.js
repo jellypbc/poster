@@ -19,9 +19,7 @@ class PostMasthead extends React.Component {
   render() {
     return (
       <div>
-        <p className="authors">
-          {this.state.authors}
-        </p>
+        <p className="authors">{this.state.authors}</p>
       </div>
     )
   }

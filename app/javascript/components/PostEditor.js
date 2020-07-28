@@ -75,7 +75,6 @@ class PostEditor extends React.Component {
         connected() {},
 
         received: function (data) {
-          console.log("[receiving]")
           this.setState((state) => ({
             post: data,
             isProcessing: false,
@@ -214,9 +213,7 @@ class PostEditor extends React.Component {
         <Floater view={view}>
           <MenuBar menu={menubar} view={view} />
         </Floater>
-        <div className="post-editor">
-          {editor}
-        </div>
+        <div className="post-editor">{editor}</div>
       </div>
     )
   }
@@ -249,7 +246,6 @@ class PostEditor extends React.Component {
     return (
       <div className="row">
         <div className="col-md-12 masthead">
-
           {error ? (
             <p className="post__error">
               <strong>{errorAt}</strong>: {error}
@@ -265,16 +261,12 @@ class PostEditor extends React.Component {
             field="title"
           />
           <PostMasthead post={post} />
-
         </div>
 
         <div className="col-md-2">
-          {post.data.attributes.body &&
-            <Sidebar
-              post={post}
-              options={options}
-            />
-          }
+          {post.data.attributes.body && (
+            <Sidebar post={post} options={options} />
+          )}
         </div>
 
         <div className="col-md-8">
@@ -288,15 +280,12 @@ class PostEditor extends React.Component {
             autoFocus
           />
 
-          <Citations
-            post={post}
-          />
+          <Citations post={post} />
         </div>
 
         <div className="col-md-2">
           <p>comments</p>
         </div>
-
 
         {isEditable && (
           <ChangesIndicator
@@ -306,7 +295,6 @@ class PostEditor extends React.Component {
             lastSavedAtDate={lastSavedAtDate}
           />
         )}
-
       </div>
     )
   }
