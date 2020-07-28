@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react'
 import { EditorView } from 'prosemirror-view'
-import { EditorState, Plugin, PluginKey } from 'prosemirror-state'
+import { EditorState } from 'prosemirror-state'
 
 function useEventListener(eventName, handler, element = window) {
   // Create a ref that stores handler
@@ -53,6 +53,30 @@ function Sidebar(props) {
   const [visible, setVisible] = useState(true)
   const [sticky, setSticky] = useState(false)
   const [mastheadHeight, setMastheadHeight] = useState(0)
+
+  const reposition = useCallback((vpHeight) => {
+    setSticky(window.scrollY >= mastheadHeight ? true : false)
+
+    let ech
+    if (viewHost.current) {
+      ech = viewHost.current.clientHeight
+    }
+    setEditorContainerHeight(vpHeight > ech ? ech : vpHeight * 0.8)
+    setSidebarEditorTop(calculateEditorPosition(sticky, vpHeight, ech))
+
+    let pHeight = (vpHeight / pageHeight) * ech
+    setPortalHeight(pHeight)
+  })
+
+  const calculateEditorPosition = (sticky, vp, ech) => {
+    let calcTop
+    if (vp < ech) {
+      calcTop = Math.floor((window.scrollY / pageHeight) * -100 - 100)
+    } else {
+      calcTop = 'auto'
+    }
+    return sticky ? calcTop : 'auto'
+  }
 
   // initial render
   useEffect(() => {
@@ -116,38 +140,6 @@ function Sidebar(props) {
     )
   })
   useEventListener('mousedown', clickHandler, viewHost.current)
-
-  const reposition = useCallback((vpHeight) => {
-    setSticky(window.scrollY >= mastheadHeight ? true : false)
-
-    let ech
-    if (viewHost.current) {
-      ech = viewHost.current.clientHeight
-    }
-    setEditorContainerHeight(vpHeight > ech ? ech : vpHeight * 0.8)
-    setSidebarEditorTop(calculateEditorPosition(sticky, vpHeight, ech))
-
-    let pHeight = (vpHeight / pageHeight) * ech
-    setPortalHeight(pHeight)
-  })
-
-  const calculateEditorPosition = (sticky, vp, ech) => {
-    let calcTop
-    // console.log('>>>>>>>>>>>>')
-    // console.log('vp < ech: ' + vp + ', ' + ech + ': ' + (vp < ech).toString())
-    // console.log('viewport percentage', (window.scrollY / pageHeight))
-    if (vp < ech) {
-      // console.log('ech', ech)
-      // console.log('vp ratio', window.scrollY / pageHeight)
-      // calcTop = Math.floor((window.scrollY / ech) * -100)
-      calcTop = Math.floor((window.scrollY / pageHeight) * -100 - 100)
-    } else {
-      calcTop = 'auto'
-    }
-    // console.log('calcTop', calcTop)
-    // console.log('>>>>>>>>>>>>')
-    return sticky ? calcTop : 'auto'
-  }
 
   var container = {
     position: 'sticky',
