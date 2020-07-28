@@ -1,3 +1,9 @@
+@include media-breakpoint-down(md) {
+  #sidebar {
+    display: none;
+  }
+}
+
 #sidebarContainer {
   @include desktop-styles {
     display: block;
@@ -37,5 +43,26 @@
   }
   .ProseMirror-selectednode {
     outline: none;
+  }
+}
+
+@include media-breakpoint-down(xl) {
+  #sidebarContainer {
+    display: block;
+  }
+}
+@include media-breakpoint-down(lg) {
+  #sidebarContainer {
+    display: block;
+  }
+}
+@include media-breakpoint-down(md) {
+  #sidebarContainer {
+    display: none;
+  }
+}
+@include media-breakpoint-down(sm) {
+  #sidebarContainer {
+    display: none;
   }
 }

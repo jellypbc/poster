@@ -1,3 +1,20 @@
+@include media-breakpoint-down(lg) {
+  .center-column {
+    width: 640px;
+    min-width: 640px;
+    margin: 0;
+    padding: 0;
+    // width: 70vw;
+    // min-width: 70vw;
+  }
+}
+@include media-breakpoint-down(md) {
+  .center-column {
+    width: 70vw;
+    min-width: 70vw;
+    margin: 0 auto;
+  }
+}
 
 .ProseMirror {
   font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;

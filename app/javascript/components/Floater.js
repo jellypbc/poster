@@ -51,11 +51,12 @@ class Floater extends React.Component {
 
     var top =
       anchor.top - 10 > 0
-        ? anchor.top - 10 + scrollY - offsetHeight
+        ? anchor.top - 110 + scrollY - offsetHeight
         : anchor.top + 20
+
     var left =
       window.innerWidth - offsetWidth < anchor.left
-        ? anchor.left - offsetWidth + 20
+        ? anchor.left - offsetWidth - 120
         : anchor.left
 
     if (left < 5) {

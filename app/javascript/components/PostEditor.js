@@ -263,13 +263,13 @@ class PostEditor extends React.Component {
           <PostMasthead post={post} />
         </div>
 
-        <div className="col-md-2">
+        <div className="col-md-2" id="sidebar">
           {post.data.attributes.body && (
             <Sidebar post={post} options={options} />
           )}
         </div>
 
-        <div className="col-md-8">
+        <div className="col-md-8 center-column">
           <Editor
             post={post}
             options={options}
@@ -283,9 +283,7 @@ class PostEditor extends React.Component {
           <Citations post={post} />
         </div>
 
-        <div className="col-md-2">
-          <p>comments</p>
-        </div>
+        <div className="col-md-2"></div>
 
         {isEditable && (
           <ChangesIndicator

@@ -123,4 +123,8 @@ class PostSerializer
     }.as_json
   end
 
+  attribute :contributors do |object|
+    object.user.full_name if object.user
+  end
+
 end
