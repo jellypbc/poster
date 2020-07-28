@@ -1,23 +1,19 @@
 import React from 'react'
 
-class Citations extends React.Component {
-  constructor(props) {
-    super(props)
-  }
-
-  renderCitation(citation, index) {
+function Citations(props) {
+  const renderCitation = (citation, index) => {
     var c = citation.attributes
 
     return (
       <div key={index}>
-        {c.generated_post_id &&
+        {c.generated_post_id && (
           <a href={c.generated_post_path}>
-            <div className='reference'>
-              <div className='list-index'>
+            <div className="reference">
+              <div className="list-index">
                 <p>{index + 1}.</p>
               </div>
 
-              <div className='citation-info'>
+              <div className="citation-info">
                 <p>
                   {c.authors}.&nbsp;
                   {c.title}.&nbsp;
@@ -27,31 +23,25 @@ class Citations extends React.Component {
               </div>
             </div>
           </a>
-        }
+        )}
       </div>
     )
   }
 
-  renderCitations(citations) {
-    const citationList = citations.map((c, i) => this.renderCitation(c, i))
+  const renderCitations = (citations) => {
+    const citationList = citations.map((c, i) => renderCitation(c, i))
 
-    return (
-      <div>
-        {citationList}
-      </div>
-    )
+    return <div>{citationList}</div>
   }
 
-  render() {
-    const citations = this.props.post.included.filter(c => c.type === 'citation')
+  const citations = props.post.included.filter((c) => c.type === 'citation')
 
-    return (
-      <div className='citations my-5'>
-        <h4 className='my-3'>References</h4>
-        {this.renderCitations(citations)}
-      </div>
-    )
-  }
+  return (
+    <div className="citations my-5">
+      <h4 className="my-3">References</h4>
+      {renderCitations(citations)}
+    </div>
+  )
 }
 
 export default Citations
