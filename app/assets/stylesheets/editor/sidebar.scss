@@ -1,0 +1,68 @@
+@include media-breakpoint-down(md) {
+  #sidebar {
+    display: none;
+  }
+}
+
+#sidebarContainer {
+  @include desktop-styles {
+    display: block;
+  }
+  display: none;
+
+  #sidebarToggle {
+    color: $shaleLight;
+    transition: all 0.1s linear;
+
+    &.rotate {
+      -moz-transform:rotate(180deg);
+      -webkit-transform:rotate(180deg);
+      transform:rotate(180deg);
+    }
+  }
+
+  .ProseMirror {
+    user-select: none;
+    h1 {
+      font-size: 3px;
+      line-height: 4px;
+    }
+    h2, h3, h4 {
+      font-size: 3px;
+      line-height: 4px;
+    }
+    p, strong, li, a {
+      font-size: 2px;
+      line-height: 3px;
+    }
+    img {
+      max-height: 30px;
+      text-align: center;
+      margin: auto;
+    }
+  }
+  .ProseMirror-selectednode {
+    outline: none;
+  }
+}
+
+@include media-breakpoint-down(xl) {
+  #sidebarContainer {
+    display: block;
+  }
+}
+@include media-breakpoint-down(lg) {
+  #sidebarContainer {
+    display: block;
+  }
+}
+@include media-breakpoint-down(md) {
+  #sidebarContainer {
+    display: none;
+  }
+}
+@include media-breakpoint-down(sm) {
+  #sidebarContainer {
+    display: none;
+  }
+}

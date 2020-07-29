@@ -21,7 +21,7 @@ class GrobidService
 	def initialize(upload_id)
 		@upload = Upload.find upload_id
 		@upload_tei = @upload.upload_tei
-		@file = File.open(open(file_url))
+		@file = File.open(URI.open(file_url))
 	end
 
 	def call

@@ -268,6 +268,7 @@ function commentTooltip(state, dispatch) {
 
 function renderComments(comments, dispatch, state) {
   const node = document.createElement('div')
+  // const node = document.getElementById('comment-container')
   node.className = 'tooltip-wrapper animated fadeIn'
   ReactDOM.render(
     <ul className="commentList">
