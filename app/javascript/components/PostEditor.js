@@ -10,6 +10,8 @@ import Editor from './Editor'
 import Floater from './Floater'
 import MenuBar from './MenuBar'
 import PostMasthead from './PostMasthead'
+import Sidebar from './Sidebar'
+import Citations from './Citations'
 import ChangesIndicator from './ChangesIndicator'
 import PostProcessingPlaceholder from './PostProcessingPlaceholder'
 import {
@@ -20,7 +22,7 @@ import {
   annotationMenu,
 } from './editor-config/index'
 
-import { pluginKey as commentPluginKey } from './editor-config/plugin-comment'
+import { commentPluginKey } from './editor-config/comments'
 
 import {
   getTimestamp,
@@ -242,33 +244,46 @@ class PostEditor extends React.Component {
     // titleOptions.comments = { comments: post.data.attributes.comments }
 
     return (
-      <div>
-        <PostMasthead post={post} />
+      <div className="row">
+        <div className="col-md-12 masthead">
+          {error ? (
+            <p className="post__error">
+              <strong>{errorAt}</strong>: {error}
+            </p>
+          ) : null}
 
-        {error ? (
-          <p className="post__error">
-            <strong>{errorAt}</strong>: {error}
-          </p>
-        ) : null}
+          <Editor
+            post={post}
+            options={titleOptions}
+            onChange={this.handleChange}
+            isEditable={isEditable}
+            render={this.renderTitleEditor}
+            field="title"
+          />
+          <PostMasthead post={post} />
+        </div>
 
-        <Editor
-          post={post}
-          options={titleOptions}
-          onChange={this.handleChange}
-          isEditable={isEditable}
-          render={this.renderTitleEditor}
-          field="title"
-        />
+        <div className="col-md-2" id="sidebar">
+          {post.data.attributes.body && (
+            <Sidebar post={post} options={options} />
+          )}
+        </div>
 
-        <Editor
-          post={post}
-          options={options}
-          onChange={this.handleChange}
-          isEditable={isEditable}
-          render={this.renderBodyEditor}
-          field="body"
-          autoFocus
-        />
+        <div className="col-md-8 center-column">
+          <Editor
+            post={post}
+            options={options}
+            onChange={this.handleChange}
+            isEditable={isEditable}
+            render={this.renderBodyEditor}
+            field="body"
+            autoFocus
+          />
+
+          <Citations post={post} />
+        </div>
+
+        <div className="col-md-2"></div>
 
         {isEditable && (
           <ChangesIndicator

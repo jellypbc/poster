@@ -1,5 +1,5 @@
 import { toggleMark } from 'prosemirror-commands'
-import { addAnnotation } from './plugin-comment'
+import { addAnnotation } from './comments'
 import { schema } from './schema'
 import icons from './icons'
 

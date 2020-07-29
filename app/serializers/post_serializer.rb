@@ -95,7 +95,7 @@ class PostSerializer
   end
 
   attribute :body_comments do |object|
-    object.comments.body.map{ |comment|
+    object.comments.includes(:user).body.map{ |comment|
 
       if comment.user
         user = {
@@ -121,6 +121,10 @@ class PostSerializer
         user: user,
       }
     }.as_json
+  end
+
+  attribute :contributors do |object|
+    object.user.full_name if object.user
   end
 
 end

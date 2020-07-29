@@ -1,0 +1,30 @@
+.masthead {
+  padding: 40px 40px;
+
+  .header {
+    .title {
+      h1 {
+        p {
+          font-size: 32px;
+          line-height: 40px;
+        }
+        text-align: center;
+      }
+      .j-commentText {
+        line-height: 22px;
+        font-size: 14px;
+      }
+    }
+  }
+
+  .authors {
+    font-size: 16px;
+    a, a:hover {
+      color: #bbb;
+    }
+    text-align: center;
+    display: block;
+    margin: 0 auto;
+    color: $grayLight;
+  }
+}

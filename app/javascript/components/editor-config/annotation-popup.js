@@ -1,4 +1,4 @@
-import { addAnnotation } from './plugin-comment'
+import { addAnnotation } from './comments'
 
 export default {
   comments: {
