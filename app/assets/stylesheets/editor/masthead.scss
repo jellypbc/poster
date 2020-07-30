@@ -27,4 +27,23 @@
     margin: 0 auto;
     color: $grayLight;
   }
+
+  .upload {
+    text-align: center;
+    margin: 14px auto;
+    color: #a0aba5;
+    // background: #e8efed;
+    background: $white;
+    position: relative;
+    width: 60px;
+    border: 1px solid;
+    border-radius: 4px;
+    font-size: 10px;
+    line-height: 17px;
+
+    &:hover {
+      color: #56635c;
+      transition-duration: 0.2s;
+    }
+  }
 }

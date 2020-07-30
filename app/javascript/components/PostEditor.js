@@ -254,6 +254,16 @@ class PostEditor extends React.Component {
             </p>
           ) : null}
 
+          {post.data.attributes.upload_url && (
+            <a
+              className="upload d-flex justify-content-center"
+              target="blank"
+              href={post.data.attributes.upload_url}
+            >
+              View PDF
+            </a>
+          )}
+
           <Editor
             post={post}
             options={titleOptions}
