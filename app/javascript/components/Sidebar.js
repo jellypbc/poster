@@ -60,6 +60,16 @@ function Sidebar(props) {
   const [sticky, setSticky] = useState(false)
   const [mastheadHeight, setMastheadHeight] = useState(0)
 
+  const calculateEditorPosition = (sticky, vp, ech) => {
+    let calcTop
+    if (vp < ech) {
+      calcTop = Math.floor((window.scrollY / pageHeight) * -100 - 100)
+    } else {
+      calcTop = 'auto'
+    }
+    return sticky ? calcTop : 'auto'
+  }
+
   const reposition = useCallback(
     (vpHeight) => {
       setSticky(window.scrollY >= mastheadHeight ? true : false)
@@ -76,16 +86,6 @@ function Sidebar(props) {
     },
     [mastheadHeight, calculateEditorPosition, sticky, pageHeight]
   )
-
-  const calculateEditorPosition = (sticky, vp, ech) => {
-    let calcTop
-    if (vp < ech) {
-      calcTop = Math.floor((window.scrollY / pageHeight) * -100 - 100)
-    } else {
-      calcTop = 'auto'
-    }
-    return sticky ? calcTop : 'auto'
-  }
 
   // initial render
   useEffect(() => {
