@@ -38,9 +38,15 @@ function useEventListener(eventName, handler, element = window) {
 
 function Sidebar(props) {
   const OFFSET = '30'
-  const pageHeight =
-    document.getElementById('root').scrollHeight -
-    document.getElementsByClassName('citations')[0].offsetHeight
+  let pageHeight = document.getElementById('root').scrollHeight
+  let citations = document.getElementsByClassName('citations')[0]
+  let backlinks = document.getElementsByClassName('backlinks')[0]
+  if (citations) {
+    pageHeight = pageHeight - citations.offsetHeight
+  }
+  if (backlinks) {
+    pageHeight = pageHeight - backlinks.offsetHeight
+  }
   const vpHeight = window.innerHeight
 
   const viewHost = useRef()

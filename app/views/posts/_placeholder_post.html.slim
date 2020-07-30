@@ -18,3 +18,5 @@
 
   - if post.citations.any?
     = render 'citations', post: post
+  - if post.backlinks.any?
+    = render 'backlinks', post: post

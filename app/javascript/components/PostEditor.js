@@ -12,6 +12,7 @@ import MenuBar from './MenuBar'
 import PostMasthead from './PostMasthead'
 import Sidebar from './Sidebar'
 import Citations from './Citations'
+import Backlinks from './Backlinks'
 import ChangesIndicator from './ChangesIndicator'
 import PostProcessingPlaceholder from './PostProcessingPlaceholder'
 import {
@@ -228,6 +229,7 @@ class PostEditor extends React.Component {
       lastSavedAt,
       lastUnsavedChangeAt,
     } = this.state
+    const { included } = post
     const { body, title } = post.data.attributes
     const isNewPost = getIsNewPost(post)
     const lastSavedAtDate = new Date(lastSavedAt) // convert to date object
@@ -280,7 +282,12 @@ class PostEditor extends React.Component {
             autoFocus
           />
 
-          <Citations post={post} />
+          {included && (
+            <div>
+              <Citations included={included} />
+              <Backlinks included={included} />
+            </div>
+          )}
         </div>
 
         <div className="col-md-2"></div>

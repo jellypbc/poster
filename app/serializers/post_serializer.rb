@@ -31,8 +31,8 @@ class PostSerializer
 
   has_many :uploads
 	has_many :citations
+  has_many :backlinks
   has_many :figures
-  # has_many :comments, serializer: CommentSerializer
 
   attributes :title, :authors, :publisher, :id,
     :created_at, :updated_at, :plugins, :slug

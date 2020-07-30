@@ -55,7 +55,7 @@ class Post < ApplicationRecord
   scope :generated, -> { includes(:uploads).where(uploads: { id: nil }) }
 
   def serialize
-    PostSerializer.new(self, {include: [:citations]}).serializable_hash
+    PostSerializer.new(self, {include: [:citations, :backlinks]}).serializable_hash
   end
 
 	def to_param

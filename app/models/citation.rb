@@ -24,9 +24,4 @@ class Citation < ApplicationRecord
 	belongs_to :source_post, class_name: 'Post', foreign_key: 'post_id'
 	belongs_to :generated_post, class_name: 'Post', foreign_key: 'generated_post_id', dependent: :destroy, optional: true
 
-  # after_create_commit :create_generated_post
-
-  def create_generated_post
-  end
-
 end
