@@ -39,6 +39,7 @@ class Post < ApplicationRecord
   belongs_to :user, optional: true
 	has_many :uploads
 	has_many :citations
+  has_many :backlinks, class_name: 'Citation', foreign_key: 'generated_post_id'
   has_many :figures, through: :uploads, source: :upload_figures, class_name: 'UploadFigure'
 
   has_many :tag_ownerships
@@ -54,7 +55,7 @@ class Post < ApplicationRecord
   scope :generated, -> { includes(:uploads).where(uploads: { id: nil }) }
 
   def serialize
-    PostSerializer.new(self, {include: [:citations]}).serializable_hash
+    PostSerializer.new(self, {include: [:citations, :backlinks]}).serializable_hash
   end
 
 	def to_param

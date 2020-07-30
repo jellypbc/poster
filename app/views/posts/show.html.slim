@@ -7,8 +7,7 @@
     = render 'placeholder_post', post: @post
 
     .editor
-      = react_component "PostPage", { post: PostSerializer.new(@post, {include: [:citations]}).serializable_hash,
+      = react_component "PostPage", { post: @post.serialize,
         currentUser: current_user.present? ? UserSerializer.new(current_user) : guest_user,
         isProcessing: @post.body.nil?,
         editable: (current_user && (@post.user && @post.user == current_user)) }
-

@@ -38,9 +38,15 @@ function useEventListener(eventName, handler, element = window) {
 
 function Sidebar(props) {
   const OFFSET = '30'
-  const pageHeight =
-    document.getElementById('root').scrollHeight -
-    document.getElementsByClassName('citations')[0].offsetHeight
+  let pageHeight = document.getElementById('root').scrollHeight
+  let citations = document.getElementsByClassName('citations')[0]
+  let backlinks = document.getElementsByClassName('backlinks')[0]
+  if (citations) {
+    pageHeight = pageHeight - citations.offsetHeight
+  }
+  if (backlinks) {
+    pageHeight = pageHeight - backlinks.offsetHeight
+  }
   const vpHeight = window.innerHeight
 
   const viewHost = useRef()
@@ -53,6 +59,16 @@ function Sidebar(props) {
   const [visible, setVisible] = useState(true)
   const [sticky, setSticky] = useState(false)
   const [mastheadHeight, setMastheadHeight] = useState(0)
+
+  const calculateEditorPosition = (sticky, vp, ech) => {
+    let calcTop
+    if (vp < ech) {
+      calcTop = Math.floor((window.scrollY / pageHeight) * -100 - 100)
+    } else {
+      calcTop = 'auto'
+    }
+    return sticky ? calcTop : 'auto'
+  }
 
   const reposition = useCallback(
     (vpHeight) => {
@@ -70,16 +86,6 @@ function Sidebar(props) {
     },
     [mastheadHeight, calculateEditorPosition, sticky, pageHeight]
   )
-
-  const calculateEditorPosition = (sticky, vp, ech) => {
-    let calcTop
-    if (vp < ech) {
-      calcTop = Math.floor((window.scrollY / pageHeight) * -100 - 100)
-    } else {
-      calcTop = 'auto'
-    }
-    return sticky ? calcTop : 'auto'
-  }
 
   // initial render
   useEffect(() => {

@@ -1,15 +1,15 @@
 import React from 'react'
 
-function Citations(props) {
-  const renderCitation = (citation, index) => {
-    var c = citation.attributes
+function Backlinks(props) {
+  const renderBacklink = (backlink, index) => {
+    var c = backlink.attributes
 
     let { authors, title, publisher, imprint_date } = c
 
     return (
       <div key={index}>
-        {c.generated_post_id && (
-          <a href={c.generated_post_path}>
+        {c.post_id && (
+          <a href={c.source_post_path}>
             <div className="reference">
               <div className="list-index">
                 <p>{index + 1}.</p>
@@ -30,19 +30,19 @@ function Citations(props) {
     )
   }
 
-  const renderCitations = (citations) => {
-    const citationList = citations.map((c, i) => renderCitation(c, i))
-    return <div>{citationList}</div>
+  const renderBacklinks = (backlink) => {
+    const backlinkList = backlinks.map((c, i) => renderBacklink(c, i))
+    return <div>{backlinkList}</div>
   }
 
-  const citations = props.included.filter((c) => c.type === 'citation')
+  const backlinks = props.included.filter((c) => c.type === 'backlink')
 
   let rendered
-  if (citations.length >= 1) {
+  if (backlinks.length >= 1) {
     rendered = (
-      <div className="citations my-5">
-        <h4 className="my-3">References</h4>
-        {renderCitations(citations)}
+      <div className="backlinks my-5">
+        <h4 className="my-3">Backlinks</h4>
+        {renderBacklinks(backlinks)}
       </div>
     )
   }
@@ -50,4 +50,4 @@ function Citations(props) {
   return <div>{rendered}</div>
 }
 
-export default Citations
+export default Backlinks
