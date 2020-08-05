@@ -9,6 +9,7 @@ import { redo, undo } from 'prosemirror-history'
 import { wrapInList } from './schema-list'
 // import { addColumnAfter, addColumnBefore } from 'prosemirror-tables'
 import { addAnnotation } from './comments'
+import { addPostLink } from './links'
 import { addFigure } from './images'
 import { schema } from './schema'
 import icons from './icons'
@@ -71,6 +72,15 @@ export default {
       run: addAnnotation,
       // select: state => addAnnotation(state),
       content: icons.comment,
+    },
+  },
+  postlink: {
+    addPostLink: {
+      title: 'Add Post Link',
+      content: icons.comment,
+      run(state, dispatch, view) {
+        addPostLink(state, dispatch, view)
+      },
     },
   },
   marks: {

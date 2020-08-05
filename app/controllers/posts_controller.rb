@@ -38,8 +38,8 @@ class PostsController < ApplicationController
     @post = Post.new(post_params)
     respond_to do |format|
       if @post.save
-        format.html { redirect_to @post, notice: 'Post was successfully created.' }
-        format.json { render json: { redirect_to: post_url(@post) } }
+        # format.html { redirect_to @post, notice: 'Post was successfully created.' }
+        format.json { render json: { redirect_to: post_url(@post), post: @post.as_json } }
       else
         format.html { render :new }
         format.json { render json: @post.errors, status: :unprocessable_entity }

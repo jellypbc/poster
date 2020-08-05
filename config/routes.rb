@@ -55,6 +55,8 @@ Rails.application.routes.draw do
   post '/add_comment', to: 'comments#create', as: :add_comment
   post '/remove_comment', to: 'comments#delete', as: :remove_comment
 
+  post '/add_citation', to: 'citations#add_citation', as: :add_citation
+
   namespace :search do
     get :results
     get :bar

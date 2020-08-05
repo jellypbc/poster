@@ -184,6 +184,7 @@ function submitRequest(data, url) {
 export const addAnnotation = function (state, dispatch) {
   let sel = state.selection
   if (sel.empty) return false
+  console.log('dispatch', dispatch)
   if (dispatch) {
     const root =
       document.querySelector('#comment-modal') || document.createElement('div')
