@@ -207,7 +207,6 @@ class PostEditor extends React.Component {
   }
 
   renderBodyEditor = ({ editor, view }) => {
-    console.log('>>>> view', view)
     const { isEditable } = this.state
     var menubar = isEditable ? menu : annotationMenu
     console.log(menubar)
