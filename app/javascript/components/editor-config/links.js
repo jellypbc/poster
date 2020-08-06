@@ -7,8 +7,8 @@ export const addPostLink = function (state, dispatch, view) {
   if (sel && sel.empty) return false
   if (dispatch) {
     const root =
-      document.querySelector('#comment-modal') || document.createElement('div')
-    root.id = '#comment-modal'
+      document.querySelector('#link-search-modal') || document.createElement('div')
+    root.id = '#link-search-modal'
     document.body.appendChild(root)
 
     const handleClose = () => ReactDOM.unmountComponentAtNode(root)
