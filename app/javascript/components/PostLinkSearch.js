@@ -85,11 +85,13 @@ class PostLinkSearch extends React.Component {
   }
 
   handleFormSubmit = () => {
-    if (!this.state.id) {
-      this.requestGeneratePost()
-    } else {
-      this.requestAddCitation()
-    }
+    // if (!this.state.id) {
+    //   this.requestGeneratePost()
+    // } else {
+    //   this.requestAddCitation()
+    // }
+
+    this.props.parentHandleSubmit(this.state)
   }
 
   requestGeneratePost() {
@@ -143,22 +145,24 @@ class PostLinkSearch extends React.Component {
     this.setState({ value: data.attributes.title })
   }
 
-  // renderSuggestion = (suggestion) => {
-  //   const { data } = suggestion
-  //   return (
-  //     <div
-  //       className="suggestion-row"
-  //       role="button"
-  //       onClick={() => this.handleClick(data)}
-  //     >
-  //       {data.attributes.title && (
-  //         <p className="suggestion-title">
-  //           {data.attributes.title}
-  //         </p>
-  //       )}
-  //     </div>
-  //   )
-  // }
+  renderSuggestion = (suggestion) => {
+    const { data } = suggestion
+    return (
+      <div
+        className="suggestion-row"
+        role="button"
+        onClick={() => this.handleClick(data)}
+        onKeyPress={() => this.handleClick(data)}
+        tabIndex={0}
+      >
+        {data.attributes.title && (
+          <p className="suggestion-title">
+            {data.attributes.title}
+          </p>
+        )}
+      </div>
+    )
+  }
 
   storeInputReference = (autosuggest) => {
     if (autosuggest != null) {
@@ -179,38 +183,72 @@ class PostLinkSearch extends React.Component {
 
     const theme = {
       input: 'form-control',
-      suggestionsList: 'suggestionsList',
+      suggestionsList: 'postLinkSuggestionsList',
+    }
+
+    // const autosuggestStyle = {
+    //   'width': '300px',
+    //   'display': 'inline-block',
+    //   'margin-right': '10px',
+    // }
+
+    const containerStyle = {
+      'display': 'inline-block',
+      'background': 'white',
+      'padding': '6px',
+    }
+
+    const buttonRow = {
+      'display': 'inline-block'
+    }
+
+    const buttonStyle = {
+      'padding': '9px 10px 8px 10px',
+      'top': '-1px',
+      'position': 'relative',
     }
 
     return (
-      <div className=" shadow rounded">
+      <div>
         <Floater view={view}>
-          <Autosuggest
-            className="searchthing"
-            suggestions={suggestions}
-            onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
-            onSuggestionsClearRequested={this.onSuggestionsClearRequested}
-            getSuggestionValue={this.getSuggestionValue}
-            renderSuggestion={this.renderSuggestion}
-            renderSectionTitle={() => null}
-            getSectionSuggestions={() => null}
-            onSuggestionSelected={this.onSuggestionSelected}
-            inputProps={inputProps}
-            theme={theme}
-            ref={this.storeInputReference}
-          />
-          <div>
-            <button
-              type="button"
-              className="btn btn-primary btn-sm"
-              onClick={this.handleFormSubmit}
-            >
-              Submit
-            </button>
-            &nbsp;
-            <button type="button" className="btn btn-sm o" onClick={belly}>
-              Cancel
-            </button>
+          <div
+            className="postlinksearch shadow rounded"
+            style={containerStyle}
+          >
+            <div className="d-inline-block">
+              <Autosuggest
+                id="postlinksearch"
+                suggestions={suggestions}
+                onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
+                onSuggestionsClearRequested={this.onSuggestionsClearRequested}
+                getSuggestionValue={this.getSuggestionValue}
+                renderSuggestion={this.renderSuggestion}
+                renderSectionTitle={() => null}
+                getSectionSuggestions={() => null}
+                onSuggestionSelected={this.onSuggestionSelected}
+                inputProps={inputProps}
+                theme={theme}
+                ref={this.storeInputReference}
+              />
+            </div>
+            <div className="button-row" style={buttonRow}>
+              <button
+                type="button"
+                className="btn btn-primary btn-sm"
+                onClick={this.handleFormSubmit}
+                style={buttonStyle}
+              >
+                Submit
+              </button>
+              &nbsp;
+              <button
+                type="button"
+                className="btn btn-sm o"
+                onClick={belly}
+              >
+                Cancel
+              </button>
+            </div>
           </div>
         </Floater>
       </div>

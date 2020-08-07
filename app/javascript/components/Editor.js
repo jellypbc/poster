@@ -22,6 +22,8 @@ class Editor extends React.Component {
         plugins: props.options.setupPlugins(getView),
       }),
       dispatchTransaction: (transaction) => {
+        console.log('editorstate', this.view.state)
+
         const oldComments = commentPluginKey.getState(this.view.state)
 
         const { state, transactions } = this.view.state.applyTransaction(
@@ -78,7 +80,7 @@ class Editor extends React.Component {
   }
 
   getSnapshotBeforeUpdate(prevProps, prevState) {
-    if (this.props.post != prevProps.post) {
+    if (this.props.post !== prevProps.post) {
       return this.props
     }
     return null

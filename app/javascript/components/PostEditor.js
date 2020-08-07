@@ -207,10 +207,8 @@ class PostEditor extends React.Component {
   }
 
   renderBodyEditor = ({ editor, view }) => {
-    console.log('>>>> view', view)
     const { isEditable } = this.state
     var menubar = isEditable ? menu : annotationMenu
-    console.log(menubar)
     return (
       <div>
         <Floater view={view}>
@@ -239,6 +237,7 @@ class PostEditor extends React.Component {
 
     options.doc = this.parse(body) // TODO: don't mutate "options"
     options.doc.comments = { comments: post.data.attributes.body_comments }
+    options.doc.postlinks = { postlinks: post.data.attributes.body_postlinks }
 
     // var titleOptions = Object.assign({}, titleOptions)
     titleOptions.doc = this.parse(title)

@@ -16,7 +16,8 @@ class CitationsController < ApplicationController
 
     def citation_params
       params.require(:citation).permit(
-        :generated_post_id, :title, :post_id
+        :generated_post_id, :title, :post_id,
+        :data_to, :data_from, :data_key, :highlighted_text
       )
     end
 

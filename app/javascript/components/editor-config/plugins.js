@@ -4,6 +4,7 @@ import { gapCursor } from 'prosemirror-gapcursor'
 import { columnResizing, tableEditing } from 'prosemirror-tables'
 import { commentPlugin, commentUI } from './comments'
 import { selectPlugin } from './select'
+import { postLinkPlugin, specklePlugin } from './links'
 
 // TODO: move directly into components
 import { placeholder } from '@aeaton/prosemirror-placeholder'
@@ -34,6 +35,8 @@ const setupPlugins = (getView) => [
   commentUI((transaction) => {
     getView().dispatch(transaction)
   }),
+  postLinkPlugin,
+  specklePlugin
 ]
 
 export default setupPlugins

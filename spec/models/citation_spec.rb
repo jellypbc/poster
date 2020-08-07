@@ -5,6 +5,11 @@
 #  id                :bigint           not null, primary key
 #  authors           :text
 #  body              :json
+#  data_from         :string
+#  data_key          :string
+#  data_to           :string
+#  field_type        :integer
+#  highlighted_text  :text
 #  imprint_date      :string
 #  imprint_type      :string
 #  publisher         :string

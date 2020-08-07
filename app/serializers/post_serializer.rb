@@ -127,4 +127,15 @@ class PostSerializer
     object.user.full_name if object.user
   end
 
+  attribute :body_postlinks do |object|
+    object.citations.map{ |citation|
+      {
+        to: citation.data_to.to_i,
+        from: citation.data_from.to_i,
+        id: citation.data_key.to_i,
+        highlightedText: citation.highlighted_text
+      }
+    }.as_json
+  end
+
 end
