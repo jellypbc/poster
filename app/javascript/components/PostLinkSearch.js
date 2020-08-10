@@ -1,7 +1,6 @@
 import React from 'react'
 import Autosuggest from 'react-autosuggest'
 import superagent from 'superagent'
-
 import Floater from './Floater'
 import { store } from './store'
 
@@ -91,7 +90,8 @@ class PostLinkSearch extends React.Component {
     //   this.requestAddCitation()
     // }
 
-    this.props.parentHandleSubmit(this.state)
+    this.props.onHandleSubmit(this.state)
+    console.log('handleFormSubmit', this.state)
   }
 
   requestGeneratePost() {
@@ -156,9 +156,7 @@ class PostLinkSearch extends React.Component {
         tabIndex={0}
       >
         {data.attributes.title && (
-          <p className="suggestion-title">
-            {data.attributes.title}
-          </p>
+          <p className="suggestion-title">{data.attributes.title}</p>
         )}
       </div>
     )
@@ -171,7 +169,7 @@ class PostLinkSearch extends React.Component {
   }
 
   render() {
-    const { belly, view } = this.props
+    const { onCancel, view } = this.props
     const { value, suggestions } = this.state
 
     const inputProps = {
@@ -193,28 +191,25 @@ class PostLinkSearch extends React.Component {
     // }
 
     const containerStyle = {
-      'display': 'inline-block',
-      'background': 'white',
-      'padding': '6px',
+      display: 'inline-block',
+      background: 'white',
+      padding: '6px',
     }
 
     const buttonRow = {
-      'display': 'inline-block'
+      display: 'inline-block',
     }
 
     const buttonStyle = {
-      'padding': '9px 10px 8px 10px',
-      'top': '-1px',
-      'position': 'relative',
+      padding: '9px 10px 8px 10px',
+      top: '-1px',
+      position: 'relative',
     }
 
     return (
       <div>
         <Floater view={view}>
-          <div
-            className="postlinksearch shadow rounded"
-            style={containerStyle}
-          >
+          <div className="postlinksearch shadow rounded" style={containerStyle}>
             <div className="d-inline-block">
               <Autosuggest
                 id="postlinksearch"
@@ -241,11 +236,7 @@ class PostLinkSearch extends React.Component {
                 Submit
               </button>
               &nbsp;
-              <button
-                type="button"
-                className="btn btn-sm o"
-                onClick={belly}
-              >
+              <button type="button" className="btn btn-sm o" onClick={onCancel}>
                 Cancel
               </button>
             </div>

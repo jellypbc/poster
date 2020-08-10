@@ -274,6 +274,7 @@ function renderComments(comments, dispatch, state) {
   ReactDOM.render(
     <ul className="commentList">
       {comments.map((c, index) => {
+        console.log('c', c)
         const isLast = index === comments.length - 1
         return (
           <ThreadedComment
