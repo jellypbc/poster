@@ -91,7 +91,6 @@ class PostLinkSearch extends React.Component {
     // }
 
     this.props.onHandleSubmit(this.state)
-    console.log('handleFormSubmit', this.state)
   }
 
   requestGeneratePost() {

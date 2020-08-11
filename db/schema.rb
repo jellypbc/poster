@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_06_231847) do
+ActiveRecord::Schema.define(version: 2020_08_11_034447) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -32,6 +32,7 @@ ActiveRecord::Schema.define(version: 2020_08_06_231847) do
     t.string "data_to"
     t.text "highlighted_text"
     t.integer "field_type"
+    t.datetime "deleted_at"
     t.index ["post_id"], name: "index_citations_on_post_id"
   end
 

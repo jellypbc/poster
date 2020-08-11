@@ -8,6 +8,7 @@
 #  data_from         :string
 #  data_key          :string
 #  data_to           :string
+#  deleted_at        :datetime
 #  field_type        :integer
 #  highlighted_text  :text
 #  imprint_date      :string
