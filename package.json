@@ -57,7 +57,7 @@
     "react-tag-input": "^6.4.2",
     "react_ujs": "^2.6.0",
     "sanitize-html": "^1.21.1",
-    "serialize-javascript": "^2.1.1",
+    "serialize-javascript": "^3.1.0",
     "styled-components": "^4.4.0",
     "superagent": "^5.1.0",
     "ts-loader": "^6.2.1",
