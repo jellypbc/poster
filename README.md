@@ -1,6 +1,6 @@
 # Jelly Poster
 
-**http://poster.jellypbc.com**
+**http://jellypbc.com**
 
 [![CircleCI](https://circleci.com/gh/jellypbc/poster/tree/master.svg?style=svg)](https://circleci.com/gh/jellypbc/poster/tree/master)
 

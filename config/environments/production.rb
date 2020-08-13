@@ -41,7 +41,7 @@ Rails.application.configure do
   # Mount Action Cable outside main process or domain.
   # config.action_cable.mount_path = nil
   # config.action_cable.url = 'wss://example.com/cable'
-  # config.action_cable.allowed_request_origins = [ 'poster.jellypbc.com', /http:\/\/jellypbc.*/ ]
+  # config.action_cable.allowed_request_origins = [ 'jellypbc.com', /http:\/\/jellypbc.*/ ]
   config.action_cable.url = "wss://#{ENV["HOST"]}/cable"
   config.action_cable.allowed_request_origins = ["https://#{ENV["HOST"]}"]
 
@@ -67,14 +67,14 @@ Rails.application.configure do
   config.action_mailer.smtp_settings = {
     user_name: 'apikey',
     password: ENV['SENDGRID_API_KEY'],
-    domain: 'poster.jellypbc.com',
+    domain: 'jellypbc.com',
     address: 'smtp.sendgrid.net',
     port: '587',
     authentication: 'plain',
     enable_starttls_auto: true
   }
   config.action_mailer.default_url_options = {
-    host: 'poster.jellypbc.com',
+    host: 'jellypbc.com',
     protocol: 'https'
   }
   # Ignore bad email addresses and do not raise email delivery errors.
