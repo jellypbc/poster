@@ -17,4 +17,4 @@ Please check out the below for how to get involved with this project.
 
 ## Asking Questions
 
-Join our slack at [http://jelly-community.slack.com](http://jelly-community.slack.com), or follow along with general things at [http://jellypbc.com](http://jellypbc.com).
+Join our slack at [http://jelly-community.slack.com](https://join.slack.com/t/jelly-community/shared_invite/zt-gldzxtjm-an~oC_8YCjvQScUGaBbj6Q), or follow along with general things at [http://jellypbc.com](http://jellypbc.com).
