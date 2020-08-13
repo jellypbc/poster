@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/no-autofocus */
 import React from 'react'
 import { createConsumer } from '@rails/actioncable'
 import superagent from 'superagent'
@@ -219,6 +218,19 @@ class PostEditor extends React.Component {
     )
   }
 
+  citations = (included) => {
+    const citationsList = included.filter((c) => c.type === 'citation')
+
+    return [
+      ...new Map(
+        citationsList.map((citation) => [
+          citation.attributes.generated_post_id,
+          citation,
+        ])
+      ).values(),
+    ]
+  }
+
   renderPost() {
     const {
       post,
@@ -290,12 +302,13 @@ class PostEditor extends React.Component {
             isEditable={isEditable}
             render={this.renderBodyEditor}
             field="body"
+            // eslint-disable-next-line jsx-a11y/no-autofocus
             autoFocus
           />
 
           {included && (
             <div>
-              <Citations included={included} />
+              <Citations citations={this.citations(included)} />
               <Backlinks included={included} />
             </div>
           )}

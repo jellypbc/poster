@@ -1,6 +1,6 @@
 import React from 'react'
 
-function Citations(props) {
+export default function Citations({ citations }) {
   const renderCitation = (citation, index) => {
     var c = citation.attributes
 
@@ -35,8 +35,6 @@ function Citations(props) {
     return <div>{citationList}</div>
   }
 
-  const citations = props.included.filter((c) => c.type === 'citation')
-
   let rendered
   if (citations.length >= 1) {
     rendered = (
@@ -49,5 +47,3 @@ function Citations(props) {
 
   return <div>{rendered}</div>
 }
-
-export default Citations

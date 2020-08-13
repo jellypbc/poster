@@ -77,7 +77,7 @@ export default {
   postlink: {
     addPostLink: {
       title: 'Add Post Link',
-      content: icons.comment,
+      content: icons.link,
       run(state, dispatch, view) {
         addPostLink(state, dispatch, view)
       },

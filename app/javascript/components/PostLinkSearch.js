@@ -16,14 +16,12 @@ class PostLinkSearch extends React.Component {
     }
   }
 
-  componentDidMount() {
-    this.input.focus()
-  }
-
   getSuggestionValue = (suggestion) => suggestion.title || ''
 
-  fetchSearchResults = (value) => {
+  getSuggestions = (value) => {
+    console.log('value', value)
     const inputValue = value.trim().toLowerCase()
+    console.log('value2', value)
     const inputLength = inputValue.length
 
     if (inputLength === 0) return []
@@ -69,7 +67,7 @@ class PostLinkSearch extends React.Component {
   }
 
   onSuggestionsFetchRequested = ({ value }) => {
-    this.fetchSearchResults(value)
+    this.getSuggestions(value)
   }
 
   onSuggestionsClearRequested = () => {
@@ -84,60 +82,7 @@ class PostLinkSearch extends React.Component {
   }
 
   handleFormSubmit = () => {
-    // if (!this.state.id) {
-    //   this.requestGeneratePost()
-    // } else {
-    //   this.requestAddCitation()
-    // }
-
     this.props.onHandleSubmit(this.state)
-  }
-
-  requestGeneratePost() {
-    const token = document.head.querySelector('[name~=csrf-token][content]')
-      .content
-
-    const data = { post: { title: this.state.value } }
-    const url = '/posts'
-
-    superagent
-      .post(url)
-      .send(data)
-      .set('X-CSRF-Token', token)
-      .set('accept', 'application/json')
-      .then((res) => {
-        var id = res.body.post.id
-        this.setState({ id: id }, this.requestAddCitation(id))
-      })
-      .catch((err) => {
-        console.log(err.message)
-      })
-  }
-
-  requestAddCitation(generated_post_id) {
-    const token = document.head.querySelector('[name~=csrf-token][content]')
-      .content
-
-    const { id, value, currentPostId } = this.state
-    const url = '/add_citation'
-    const data = {
-      citation: {
-        generated_post_id: generated_post_id || id,
-        title: value,
-        post_id: currentPostId,
-      },
-    }
-
-    superagent
-      .post(url)
-      .send(data)
-      .set('X-CSRF-Token', token)
-      .then((res) => {
-        console.log('citation response', res.body)
-      })
-      .catch((err) => {
-        console.log(err.message)
-      })
   }
 
   handleClick(data) {
@@ -161,9 +106,9 @@ class PostLinkSearch extends React.Component {
     )
   }
 
-  storeInputReference = (autosuggest) => {
+  inputRef = (autosuggest) => {
     if (autosuggest != null) {
-      this.input = autosuggest.input
+      this.input = autosuggest.input.focus()
     }
   }
 
@@ -222,7 +167,7 @@ class PostLinkSearch extends React.Component {
                 onSuggestionSelected={this.onSuggestionSelected}
                 inputProps={inputProps}
                 theme={theme}
-                ref={this.storeInputReference}
+                ref={this.inputRef}
               />
             </div>
             <div className="button-row" style={buttonRow}>

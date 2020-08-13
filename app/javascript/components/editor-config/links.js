@@ -4,14 +4,12 @@ import { Decoration, DecorationSet } from 'prosemirror-view'
 import PostLinkSearch from '../PostLinkSearch'
 
 import ReactDOM from 'react-dom'
-import React, { useState } from 'react'
+import React from 'react'
 import superagent from 'superagent'
 import classnames from 'classnames'
 
-// Assigning a key does mean only one plugin of that type (of type 'postlinks') can be active in a state.
 export const postLinkPluginKey = new PluginKey('postlinks')
 
-// this creates a new post link object?
 class PostLink {
   constructor(id, title, highlightedText, url) {
     this.id = id
@@ -32,7 +30,6 @@ class PostLinkState {
 
   findPostLink(id) {
     let current = this.decos.find()
-    console.log('current.length', current.length)
     for (let i = 0; i < current.length; i++)
       if (current[i].type.spec.id == id) return current[i]
   }
@@ -45,7 +42,6 @@ class PostLinkState {
     let { decos } = base
     decos = decos.map(tr.mapping, tr.doc)
     console.log('action', action)
-    console.log('actionType', actionType)
     if (actionType == 'newPostLink') {
       decos = decos.add(tr.doc, [deco(action.from, action.to, action.postLink)])
       submitCitationCreate(action)
@@ -67,8 +63,6 @@ class PostLinkState {
           new PostLink(p.id, p.title, p.highlightedText, p.url)
         )
       )
-      console.log('decos', decos[0])
-
       const d = DecorationSet.create(config.doc, decos)
       return new PostLinkState(d)
     } else {
@@ -95,7 +89,7 @@ export const addPostLink = function (state, dispatch, view) {
     const handleClose = () => ReactDOM.unmountComponentAtNode(root)
 
     const handleNewPostLink = (payload) => {
-      console.log('state from my child component', payload)
+      console.log('in handleNewPostLink this is the payload', payload)
       // TODO: refactor this code
       if (payload.id !== '') {
         const action = {
@@ -113,7 +107,7 @@ export const addPostLink = function (state, dispatch, view) {
       } else {
         const token = document.head.querySelector('[name~=csrf-token][content]')
           .content
-        const data = { post: { title: payload.value } }
+        const data = { post: { title: payload.value, body: '' } }
         const url = '/posts'
 
         let p = new Promise(function (resolve, reject) {
@@ -161,15 +155,8 @@ export const addPostLink = function (state, dispatch, view) {
   return true
 }
 
-// function submitPostCreate(action) {
-//   var url
-//   var data
-
-//   submitRequest(data, url)
-// }
-
 function submitCitationCreate(action) {
-  console.log('submitCitationCreate', action)
+  console.log('in submitCitationCreate. this is action:', action)
 
   var url = '/add_citation'
   var data = {
@@ -188,9 +175,7 @@ function submitCitationCreate(action) {
 }
 
 function submitCitationDelete(action) {
-  console.log('submitCitationDelete', action)
-  console.log('action.postLink.id', action.postLink.id)
-
+  console.log('insubmitCitationDelete. this is action:', action)
   var url = '/remove_citation'
   var data = {
     citation: {
@@ -216,7 +201,7 @@ function submitRequest(data, url) {
 }
 
 export const postLinkPlugin = new Plugin({
-  key: postLinkPluginKey, // is the key = 'postlinks'?
+  key: postLinkPluginKey,
   state: {
     init: PostLinkState.init,
     apply(tr, prev) {
@@ -256,14 +241,12 @@ function postLinkTooltip(state, dispatch) {
 }
 
 function renderPostLinks(postLinks, dispatch, state) {
-  console.log('postLinks', postLinks)
+  console.log('in renderPostLinks. this is postLinks:', postLinks)
   const node = document.createElement('div')
   node.className = 'tooltip-wrapper animated fadeIn'
   ReactDOM.render(
     <ul className="commentList">
       {postLinks.map((p, index) => {
-        console.log('p', p)
-        console.log('index', index)
         const isLast = index === postLinks.length - 1
         return (
           <ThreadedPostLink
@@ -283,8 +266,7 @@ function renderPostLinks(postLinks, dispatch, state) {
 }
 
 function ThreadedPostLink(props) {
-  const { postLink, dispatch, state, className, showActions } = props
-  const [isShowingReply, setIsShowingReply] = useState(false)
+  const { postLink, dispatch, state, className } = props
 
   const highlightedText = {
     background: 'rgba(90,173,152,.4)',
@@ -304,10 +286,6 @@ function ThreadedPostLink(props) {
     )
   }
 
-  const handleClose = () => {
-    setIsShowingReply(false)
-  }
-
   return (
     <div
       className={classnames('commentShow', className)}
@@ -315,8 +293,8 @@ function ThreadedPostLink(props) {
     >
       <div style={highlightedText}> {postLink.highlightedText} </div>
       <div>
-        {/* Fix the URL */}
         <a
+          //fix this URL
           href={'http://localhost:3000/@cindy/' + postLink.url}
           target="_blank"
           style={titleText}
