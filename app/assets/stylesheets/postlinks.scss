@@ -1,0 +1,97 @@
+.highlighted-text {
+  background: rgba(90,173,152,.4);
+  font-size: 1em;
+  margin: 4px 0px;
+}
+
+.title-text {
+  a { 
+    font-size: 1em;
+    color: black;
+    line-height: .5;
+    text-decoration: underline;
+  }
+}
+
+.link {
+  background-color: rgba(90,173,152,.4);
+  cursor: pointer;
+}
+
+.tooltip-wrapper {
+  display: inline-block;
+  position: absolute;
+  z-index: 10;
+  overflow: visible;
+  vertical-align: bottom;
+  margin-top: 15px;
+  &.fadeIn {
+    animation-duration: 0.15s;
+  }
+}
+
+@include media-breakpoint-down(xl) {
+  .tooltip-wrapper {
+    width: 280px;
+    right: -280px;
+  }
+}
+@include media-breakpoint-down(lg) {
+  .tooltip-wrapper {
+    width: 280px;
+    right: -26%;
+  }
+}
+@include media-breakpoint-down(md) {
+  .tooltip-wrapper {
+    width: 280px;
+    right: -19%;
+  }
+}
+@include media-breakpoint-down(sm) {
+  .tooltip-wrapper {
+    width: 280px;
+    right: -50px;
+  }
+}
+
+.referenceShow {
+  padding-bottom: 14px;
+}
+
+/* inline version of comment list */
+.ProseMirror ul.referenceList {
+  // position: absolute;
+  // width: 22em;
+  // left: -2em;
+  // top: calc(100% + 8px);
+
+  position: relative;
+  font-size: 16px;
+  padding: 0;
+  max-height: 60vh;
+  font-size: 1rem;
+  color: black;
+  background: white;
+  font-weight: normal;
+  // border: 1px solid #888;
+  border-radius: 5px;
+  // z-index: 10;
+  // overflow-y: scroll;
+  overflow-x: hidden;
+}
+.ProseMirror ul.referenceList::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.05);
+  background-color: $white;
+}
+.ProseMirror ul.referenceList::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+  background-color: $white;
+}
+.ProseMirror ul.referenceList::-webkit-scrollbar-thumb {
+  border-radius: 2px;
+  height: 4px;
+  -webkit-box-shadow: inset 0 0 2px rgba(0,0,0,0.1);
+  background-color: $grayLighter;
+}

@@ -135,7 +135,8 @@ class PostSerializer
         id: citation.data_key.to_i,
         highlightedText: citation.highlighted_text,
         title: citation.generated_post ? citation.generated_post.title : "no title",
-        url: citation.generated_post ? citation.generated_post.slug : "no generated post slug"
+        url: citation.generated_post ? citation.generated_post.slug : "no generated post slug",
+        # username: citation.generated_post.user ? citation.generated_post.user : "no username"
       }
     }.as_json
   end

@@ -19,9 +19,7 @@ class PostLinkSearch extends React.Component {
   getSuggestionValue = (suggestion) => suggestion.title || ''
 
   getSuggestions = (value) => {
-    console.log('value', value)
     const inputValue = value.trim().toLowerCase()
-    console.log('value2', value)
     const inputLength = inputValue.length
 
     if (inputLength === 0) return []

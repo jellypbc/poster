@@ -7,6 +7,7 @@ import ReactDOM from 'react-dom'
 import React from 'react'
 import superagent from 'superagent'
 import classnames from 'classnames'
+import { store } from '../store'
 
 export const postLinkPluginKey = new PluginKey('postlinks')
 
@@ -90,6 +91,8 @@ export const addPostLink = function (state, dispatch, view) {
 
     const handleNewPostLink = (payload) => {
       console.log('in handleNewPostLink this is the payload', payload)
+      var { currentUser, currentPost } = store.getState()
+      // var { currentUser, currentPost } = store.getState()
       // TODO: refactor this code
       if (payload.id !== '') {
         const action = {
@@ -98,16 +101,30 @@ export const addPostLink = function (state, dispatch, view) {
           to: sel.to,
           generatedPostId: payload.id,
           highlightedText: highlightedText,
-          post_id: payload.currentPostId,
+          // post_id: payload.currentPostId,
           value: payload.value,
           id: randomID(),
         }
-        console.log('action', action)
+
+        if (currentPost) {
+          action.post_id = currentPost.currentPost.id
+        }
+
+        if (currentUser && currentUser.currentUser) {
+          action.user_id = currentUser.currentUser.id
+        }
+
         dispatch(state.tr.setMeta(postLinkPlugin, action))
       } else {
         const token = document.head.querySelector('[name~=csrf-token][content]')
           .content
-        const data = { post: { title: payload.value, body: '' } }
+        const data = {
+          post: {
+            title: payload.value,
+            body: '',
+            user_id: currentUser.currentUser.id,
+          },
+        }
         const url = '/posts'
 
         let p = new Promise(function (resolve, reject) {
@@ -157,6 +174,7 @@ export const addPostLink = function (state, dispatch, view) {
 
 function submitCitationCreate(action) {
   console.log('in submitCitationCreate. this is action:', action)
+  var { currentUser, currentPost } = store.getState()
 
   var url = '/add_citation'
   var data = {
@@ -164,11 +182,20 @@ function submitCitationCreate(action) {
       generated_post_id: action.generatedPostId,
       title: action.value,
       highlighted_text: action.highlightedText,
-      post_id: action.post_id,
+      // remove sending post_id through action
+      // post_id: action.post_id,
       data_to: action.to,
       data_from: action.from,
       data_key: action.id,
     },
+  }
+
+  if (currentPost) {
+    data.citation.post_id = currentPost.currentPost.id
+  }
+
+  if (currentUser && currentUser.currentUser) {
+    data.citation.user_id = currentUser.currentUser.id
   }
 
   submitRequest(data, url)
@@ -231,9 +258,14 @@ export const postLinkUI = function (transaction) {
 }
 
 function postLinkTooltip(state, dispatch) {
+  //postlinks is undefined
+  console.log('state.selection', state.selection)
   let sel = state.selection
+  console.log('!sel', !sel.empty)
   if (!sel.empty) return null
   let postLinks = postLinkPlugin.getState(state).postLinksAt(sel.from)
+  //postLinks is empty
+  console.log('yabba dabba doo', postLinks)
   if (!postLinks.length) return null
   return DecorationSet.create(state.doc, [
     Decoration.widget(sel.from, renderPostLinks(postLinks, dispatch, state)),
@@ -241,11 +273,12 @@ function postLinkTooltip(state, dispatch) {
 }
 
 function renderPostLinks(postLinks, dispatch, state) {
+  // this is not post links
   console.log('in renderPostLinks. this is postLinks:', postLinks)
   const node = document.createElement('div')
   node.className = 'tooltip-wrapper animated fadeIn'
   ReactDOM.render(
-    <ul className="commentList">
+    <ul className="referenceList">
       {postLinks.map((p, index) => {
         const isLast = index === postLinks.length - 1
         return (
@@ -268,16 +301,11 @@ function renderPostLinks(postLinks, dispatch, state) {
 function ThreadedPostLink(props) {
   const { postLink, dispatch, state, className } = props
 
-  const highlightedText = {
-    background: 'rgba(90,173,152,.4)',
-    fontSize: '.5em',
-    margin: '4px 0px',
-  }
-
   const titleText = {
-    fontSize: '.5em',
+    fontSize: '1em',
     color: 'black',
-    lineHeight: '1',
+    lineHeight: '.5',
+    textDecoration: 'underline',
   }
 
   const handleDelete = () => {
@@ -286,27 +314,30 @@ function ThreadedPostLink(props) {
     )
   }
 
+  const { currentUser, currentPost } = store.getState()
+
   return (
     <div
-      className={classnames('commentShow', className)}
-      id={'comment-' + postLink.id}
+      className={classnames('referenceShow', className)}
+      id={'reference-' + postLink.id}
     >
-      <div style={highlightedText}> {postLink.highlightedText} </div>
-      <div>
+      <div className="highlighted-text"> {postLink.highlightedText} </div>
+      <div className="title-text">
         <a
-          //fix this URL
           href={'http://localhost:3000/@cindy/' + postLink.url}
-          target="_blank"
-          style={titleText}
+          // href={ postLink.url ? '/@' + postLink.url : '#'}
+          target="blank"
         >
-          {postLink.title}
+          {postLink.title.replace(/<[^>]*>?/gm, '') || '[ No Title ]'}
         </a>
       </div>
-      <div>
-        <button className="btn" onClick={handleDelete} style={titleText}>
-          Delete
-        </button>
-      </div>
+      {/* {currentUser && currentUser.currentUser &&(
+        <div>
+          <button className="btn" onClick={handleDelete} style={titleText}>
+            Delete
+          </button>
+        </div>
+      )} */}
     </div>
   )
 }
