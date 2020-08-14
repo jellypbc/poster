@@ -18,7 +18,7 @@ class TagsController < ApplicationController
   end
 
   def create
-    @tag = Tag.find_or_create_by(text: tag_params[:text])
+    @tag = Tag.find_or_create_by(text: tag_params[:text], user_id: tag_params[:user_id])
 
     if @tag.save
       @post.tags << @tag if @post
