@@ -263,9 +263,7 @@ export const commentUI = function (transaction) {
 function commentTooltip(state, dispatch) {
   let sel = state.selection
   if (!sel.empty) return null
-  console.log('did i make it?')
   let comments = commentPlugin.getState(state).commentsAt(sel.from)
-  console.log('comments', comments)
   if (!comments.length) return null
   return DecorationSet.create(state.doc, [
     Decoration.widget(sel.from, renderComments(comments, dispatch, state)),
@@ -279,7 +277,6 @@ function renderComments(comments, dispatch, state) {
   ReactDOM.render(
     <ul className="commentList">
       {comments.map((c, index) => {
-        console.log('c', c)
         const isLast = index === comments.length - 1
         return (
           <ThreadedComment

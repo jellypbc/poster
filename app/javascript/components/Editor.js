@@ -22,8 +22,6 @@ class Editor extends React.Component {
         plugins: props.options.setupPlugins(getView),
       }),
       dispatchTransaction: (transaction) => {
-        console.log('editorstate', this.view.state)
-
         const oldComments = commentPluginKey.getState(this.view.state)
 
         const { state, transactions } = this.view.state.applyTransaction(
