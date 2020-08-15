@@ -18,7 +18,13 @@ export default function Citations({ citations }) {
               <div className="citation-info">
                 <p>
                   {authors && <span>{authors}.&nbsp;</span>}
-                  {title && <span>{title}.&nbsp;</span>}
+                  {title ? (
+                    <span>{title}.&nbsp;</span>
+                  ) : (
+                    <span>
+                      <em>[ No Title ].</em>
+                    </span>
+                  )}
                   {publisher && <span>{publisher},&nbsp;</span>}
                   {imprint_date && <span>{imprint_date}.</span>}
                 </p>

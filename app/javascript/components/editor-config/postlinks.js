@@ -92,7 +92,6 @@ export const addPostLink = function (state, dispatch, view) {
     const handleNewPostLink = (payload) => {
       console.log('in handleNewPostLink this is the payload', payload)
       var { currentUser, currentPost } = store.getState()
-      // var { currentUser, currentPost } = store.getState()
       // TODO: refactor this code
       if (payload.id !== '') {
         const action = {
@@ -173,7 +172,6 @@ export const addPostLink = function (state, dispatch, view) {
 }
 
 function submitCitationCreate(action) {
-  console.log('in submitCitationCreate. this is action:', action)
   var { currentUser, currentPost } = store.getState()
 
   var url = '/add_citation'
@@ -202,7 +200,6 @@ function submitCitationCreate(action) {
 }
 
 function submitCitationDelete(action) {
-  console.log('insubmitCitationDelete. this is action:', action)
   var url = '/remove_citation'
   var data = {
     citation: {
@@ -258,14 +255,9 @@ export const postLinkUI = function (transaction) {
 }
 
 function postLinkTooltip(state, dispatch) {
-  //postlinks is undefined
-  console.log('state.selection', state.selection)
   let sel = state.selection
-  console.log('!sel', !sel.empty)
   if (!sel.empty) return null
   let postLinks = postLinkPlugin.getState(state).postLinksAt(sel.from)
-  //postLinks is empty
-  console.log('yabba dabba doo', postLinks)
   if (!postLinks.length) return null
   return DecorationSet.create(state.doc, [
     Decoration.widget(sel.from, renderPostLinks(postLinks, dispatch, state)),
@@ -273,12 +265,10 @@ function postLinkTooltip(state, dispatch) {
 }
 
 function renderPostLinks(postLinks, dispatch, state) {
-  // this is not post links
-  console.log('in renderPostLinks. this is postLinks:', postLinks)
   const node = document.createElement('div')
   node.className = 'tooltip-wrapper animated fadeIn'
   ReactDOM.render(
-    <ul className="referenceList">
+    <ul className="reference-list">
       {postLinks.map((p, index) => {
         const isLast = index === postLinks.length - 1
         return (
@@ -299,14 +289,7 @@ function renderPostLinks(postLinks, dispatch, state) {
 }
 
 function ThreadedPostLink(props) {
-  const { postLink, dispatch, state, className } = props
-
-  const titleText = {
-    fontSize: '1em',
-    color: 'black',
-    lineHeight: '.5',
-    textDecoration: 'underline',
-  }
+  const { postLink, dispatch, state } = props
 
   const handleDelete = () => {
     dispatch(
@@ -314,30 +297,22 @@ function ThreadedPostLink(props) {
     )
   }
 
-  const { currentUser, currentPost } = store.getState()
-
+  var { currentUser } = store.getState()
   return (
-    <div
-      className={classnames('referenceShow', className)}
-      id={'reference-' + postLink.id}
-    >
-      <div className="highlighted-text"> {postLink.highlightedText} </div>
-      <div className="title-text">
-        <a
-          href={'http://localhost:3000/@cindy/' + postLink.url}
-          // href={ postLink.url ? '/@' + postLink.url : '#'}
-          target="blank"
-        >
+    <div className="reference-show" id={'reference-' + postLink.id}>
+      <div className="reference-highlight"> {postLink.highlightedText} </div>
+      <div className="reference-title">
+        <a href={postLink.url} target="blank">
           {postLink.title.replace(/<[^>]*>?/gm, '') || '[ No Title ]'}
         </a>
       </div>
-      {/* {currentUser && currentUser.currentUser &&(
-        <div>
-          <button className="btn" onClick={handleDelete} style={titleText}>
-            Delete
+      {currentUser && currentUser.currentUser.attributes.name !== 'Anonymous' && (
+        <div className="reference-actions">
+          <button className="btn remove-btn" onClick={handleDelete}>
+            Remove
           </button>
         </div>
-      )} */}
+      )}
     </div>
   )
 }

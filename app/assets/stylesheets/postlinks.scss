@@ -1,10 +1,12 @@
-.highlighted-text {
-  background: rgba(90,173,152,.4);
-  font-size: 1em;
-  margin: 4px 0px;
+.reference-highlight {
+  background:#B8E986;
+  font-size: .8em;
+  margin: .5rem 0rem;
+  // margin: 4px 0px;
 }
 
-.title-text {
+.reference-title {
+  margin: .5rem 0rem;
   a { 
     font-size: 1em;
     color: black;
@@ -14,7 +16,7 @@
 }
 
 .link {
-  background-color: rgba(90,173,152,.4);
+  background-color: #B8E986;
   cursor: pointer;
 }
 
@@ -55,12 +57,14 @@
   }
 }
 
-.referenceShow {
-  padding-bottom: 14px;
+.reference-show {
+  // border: 1px solid #888;
+  padding: .5em .5rem;
+  border-radius: .3em;
 }
 
 /* inline version of comment list */
-.ProseMirror ul.referenceList {
+.ProseMirror ul.reference-list {
   // position: absolute;
   // width: 22em;
   // left: -2em;
@@ -80,18 +84,34 @@
   // overflow-y: scroll;
   overflow-x: hidden;
 }
-.ProseMirror ul.referenceList::-webkit-scrollbar-track {
+.ProseMirror ul.reference-ist::-webkit-scrollbar-track {
   -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.05);
   background-color: $white;
 }
-.ProseMirror ul.referenceList::-webkit-scrollbar {
+.ProseMirror ul.reference-list::-webkit-scrollbar {
   width: 4px;
   height: 4px;
   background-color: $white;
 }
-.ProseMirror ul.referenceList::-webkit-scrollbar-thumb {
+.ProseMirror ul.reference-list::-webkit-scrollbar-thumb {
   border-radius: 2px;
   height: 4px;
   -webkit-box-shadow: inset 0 0 2px rgba(0,0,0,0.1);
   background-color: $grayLighter;
+}
+
+.btn.remove-btn {
+  font-size: .8rem;
+  text-decoration: none;
+  color:#555;
+}
+
+.remove-btn:hover,
+.remove-btn:focus {
+  color: #E5502A;
+}
+
+.reference-actions {
+  display: flex;
+  justify-content: flex-end;
 }
