@@ -78,7 +78,7 @@ class Editor extends React.Component {
   }
 
   getSnapshotBeforeUpdate(prevProps, prevState) {
-    if (this.props.post != prevProps.post) {
+    if (this.props.post !== prevProps.post) {
       return this.props
     }
     return null

@@ -30,17 +30,10 @@ nav.navbar.navbar-expand-lg id="#{opts[:id] if opts}" class="#{'white-nav' if wh
                   = link_to 'click to register.', upgrade_path, class: "ml-1"
 
           - else
-          
-            - if @post
-              li.nav-item.mr-3
-                = link_to 'Save as draft', write_path, class: "btn btn-outline-dark btn-sm"
-              li.nav-item.mr-3
-                = link_to 'Publish', write_path, class: "btn btn-primary btn-sm"
-            - else
-              li.nav-item
-                = link_to 'Write', write_path, class: "nav-link"
-              li.nav-item
-                = link_to 'Upload a PDF', new_upload_path, class: "nav-link"
+            li.nav-item
+              = link_to 'Write', write_path, class: "nav-link"
+            li.nav-item
+              = link_to 'Upload a PDF', new_upload_path, class: "nav-link"
 
           li.nav-item.dropdown
             a.dropdown-toggle.avatar-link href="#" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"

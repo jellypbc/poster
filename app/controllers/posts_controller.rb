@@ -39,7 +39,7 @@ class PostsController < ApplicationController
     respond_to do |format|
       if @post.save
         format.html { redirect_to @post, notice: 'Post was successfully created.' }
-        format.json { render json: { redirect_to: post_url(@post) } }
+        format.json { render json: { redirect_to: post_url(@post), post: @post.as_json } }
       else
         format.html { render :new }
         format.json { render json: @post.errors, status: :unprocessable_entity }
@@ -122,7 +122,7 @@ class PostsController < ApplicationController
     def post_params
       params.require(:post).permit(
         :title, :body, :publisher, :authors,
-        :slug, tags: [:id, :text, :post_id, :slug]
+        :slug, :user_id, tags: [:id, :text, :post_id, :slug]
       )
     end
 

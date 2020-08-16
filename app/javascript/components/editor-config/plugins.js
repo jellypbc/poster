@@ -4,6 +4,7 @@ import { gapCursor } from 'prosemirror-gapcursor'
 import { columnResizing, tableEditing } from 'prosemirror-tables'
 import { commentPlugin, commentUI } from './comments'
 import { selectPlugin } from './select'
+import { postLinkPlugin, postLinkUI } from './postlinks'
 
 // TODO: move directly into components
 import { placeholder } from '@aeaton/prosemirror-placeholder'
@@ -32,6 +33,10 @@ const setupPlugins = (getView) => [
   selectPlugin,
   commentPlugin,
   commentUI((transaction) => {
+    getView().dispatch(transaction)
+  }),
+  postLinkPlugin,
+  postLinkUI((transaction) => {
     getView().dispatch(transaction)
   }),
 ]

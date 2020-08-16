@@ -171,9 +171,12 @@ function submitCreateComment(action, comment, field) {
 }
 
 function submitRequest(data, url) {
+  const token = document.head.querySelector('[name~=csrf-token][content]')
+    .content
   superagent
     .post(url)
     .send(data)
+    .set('X-CSRF-Token', token)
     .set('accept', 'application/json')
     .end((err, res) => {
       console.log({ res, err }) // DEBUG SAVE
@@ -184,6 +187,7 @@ function submitRequest(data, url) {
 export const addAnnotation = function (state, dispatch) {
   let sel = state.selection
   if (sel.empty) return false
+  console.log('dispatch', dispatch)
   if (dispatch) {
     const root =
       document.querySelector('#comment-modal') || document.createElement('div')
