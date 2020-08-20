@@ -87,6 +87,14 @@ class PostLinkSearch extends React.Component {
     this.setState({ value: data.attributes.title })
   }
 
+  truncateTitle(title) {
+    if (title.length > 75) {
+      return title.slice(0, 75) + '...'
+    } else {
+      return title
+    }
+  }
+
   renderSuggestion = (suggestion) => {
     const { data } = suggestion
     return (
@@ -98,7 +106,9 @@ class PostLinkSearch extends React.Component {
         tabIndex={0}
       >
         {data.attributes.title && (
-          <p className="suggestion-title">{data.attributes.title}</p>
+          <p className="suggestion-title">
+            {this.truncateTitle(data.attributes.title)}
+          </p>
         )}
       </div>
     )
