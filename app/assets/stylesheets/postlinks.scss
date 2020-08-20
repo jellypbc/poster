@@ -115,3 +115,23 @@
   display: flex;
   justify-content: flex-end;
 }
+
+.search-container {
+  display: inline-block;
+  background: white;
+  padding: 6px;
+}
+
+.button-row {
+  display: inline-block;
+}
+
+.button-row {
+  .button {
+    padding: 9px 10px 8px 10px;
+    height: 3em;
+    width: 6em;
+    top: -1px;
+    position: relative;
+  }
+}

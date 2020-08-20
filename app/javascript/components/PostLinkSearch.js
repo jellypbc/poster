@@ -136,32 +136,10 @@ class PostLinkSearch extends React.Component {
       suggestionsList: 'postLinkSuggestionsList',
     }
 
-    // const autosuggestStyle = {
-    //   'width': '300px',
-    //   'display': 'inline-block',
-    //   'margin-right': '10px',
-    // }
-
-    const containerStyle = {
-      display: 'inline-block',
-      background: 'white',
-      padding: '6px',
-    }
-
-    const buttonRow = {
-      display: 'inline-block',
-    }
-
-    const buttonStyle = {
-      padding: '9px 10px 8px 10px',
-      top: '-1px',
-      position: 'relative',
-    }
-
     return (
       <div>
         <Floater view={view}>
-          <div className="postlinksearch shadow rounded" style={containerStyle}>
+          <div className="postlinksearch search-container shadow rounded">
             <div className="d-inline-block">
               <Autosuggest
                 id="postlinksearch"
@@ -178,17 +156,20 @@ class PostLinkSearch extends React.Component {
                 ref={this.inputRef}
               />
             </div>
-            <div className="button-row" style={buttonRow}>
+            <div className="button-row">
               <button
                 type="button"
-                className="btn btn-primary btn-sm"
+                className="button btn btn-primary btn-sm"
                 onClick={this.handleFormSubmit}
-                style={buttonStyle}
               >
                 Submit
               </button>
               &nbsp;
-              <button type="button" className="btn btn-sm o" onClick={onCancel}>
+              <button
+                type="button"
+                className="button btn btn-sm o"
+                onClick={onCancel}
+              >
                 Cancel
               </button>
             </div>
