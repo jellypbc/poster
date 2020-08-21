@@ -4,7 +4,7 @@ import Autosuggest from 'react-autosuggest'
 import superagent from 'superagent'
 import { store } from './store'
 
-export default function PostLinkSearch2({ onCancel, onHandleSubmit, view }) {
+export default function PostLinkSearch({ onCancel, onHandleSubmit, view }) {
   const [suggestions, setSuggestions] = useState([])
   const [value, setValue] = useState('')
   const [id, setId] = useState('')
