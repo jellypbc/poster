@@ -276,7 +276,6 @@ class PostEditor extends React.Component {
               View PDF
             </a>
           )}
-
           <Editor
             post={post}
             options={titleOptions}
