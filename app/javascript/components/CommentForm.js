@@ -109,9 +109,7 @@ function CommentForm({ thread, onSubmit, onCancel, className, ...rest }) {
         currentUser.currentUser.attributes &&
         !currentUser.currentUser.attributes.id && (
           <div className={classes + ' border-top'}>
-            <p className="label">
-              Please login or continue as guest to continue.
-            </p>
+            <p className="label">Please login or continue as guest.</p>
 
             <div className="button-row">
               <button

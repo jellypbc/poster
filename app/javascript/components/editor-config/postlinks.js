@@ -89,18 +89,17 @@ export const addPostLink = function (state, dispatch, view) {
 
     const handleClose = () => ReactDOM.unmountComponentAtNode(root)
 
-    const handleNewPostLink = (payload) => {
-      console.log('in handleNewPostLink this is the payload', payload)
+    const handleNewCitation = (payload) => {
+      console.log('in handleNewCitation this is the payload', payload)
       var { currentUser, currentPost } = store.getState()
       // TODO: refactor this code
       if (payload.id !== '') {
         const action = {
-          type: 'newPostLink',
+          type: 'newCitation',
           from: sel.from,
           to: sel.to,
           generatedPostId: payload.id,
           highlightedText: highlightedText,
-          // post_id: payload.currentPostId,
           value: payload.value,
           id: randomID(),
         }
@@ -142,7 +141,7 @@ export const addPostLink = function (state, dispatch, view) {
         })
         p.then((result) => {
           const action = {
-            type: 'newPostLink',
+            type: 'newCitation',
             from: sel.from,
             to: sel.to,
             generatedPostId: result.body.post.id,
@@ -163,7 +162,7 @@ export const addPostLink = function (state, dispatch, view) {
     ReactDOM.render(
       <PostLinkSearch
         onCancel={handleClose}
-        onHandleSubmit={handleNewPostLink}
+        onHandleSubmit={handleNewCitation}
         view={view}
       />,
       root
@@ -298,19 +297,33 @@ function ThreadedPostLink(props) {
     )
   }
 
+  // function handleAdd() {
+  // }
+
   var { currentUser } = store.getState()
+
   return (
     <div className="reference-show" id={'reference-' + postLink.id}>
       <div className="reference-highlight"> {postLink.highlightedText} </div>
       <div className="reference-title">
         <a href={postLink.url} target="blank">
-          {/* TODO: keep italics in titles */}
-          {postLink.title.replace(/<[^>]*>?/gm, '') || '[ No Title ]'}
+          {/* TODO: refactor */}
+          <div
+            dangerouslySetInnerHTML={{
+              __html: `${
+                postLink.title.replace(/(<p[^>]+?>|<p>|<\/p>)/gim, '') ||
+                '[ No Title]'
+              }`,
+            }}
+          ></div>
         </a>
       </div>
       {currentUser && currentUser.currentUser.attributes.name !== 'Anonymous' && (
         <div className="reference-actions">
-          <button className="btn remove-btn" onClick={handleDelete}>
+          {/* <button className="btn btn-add" onClick={handleAdd}>
+            Add
+          </button> */}
+          <button className="btn btn-remove" onClick={handleDelete}>
             Remove
           </button>
         </div>

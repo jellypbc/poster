@@ -101,15 +101,20 @@
   background-color: $grayLighter;
 }
 
-.btn.remove-btn {
+.btn.btn-remove .btn-add {
   font-size: .8rem;
   text-decoration: none;
   color:#555;
 }
 
-.remove-btn:hover,
-.remove-btn:focus {
-  color: #E5502A;
+.btn-remove:hover,
+.btn-remove:focus {
+  color: $error;
+}
+
+.btn-add:hover,
+.btn-add:focus {
+  color: $success;
 }
 
 .reference-actions {
