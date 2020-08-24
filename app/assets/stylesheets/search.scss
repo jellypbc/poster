@@ -1,7 +1,7 @@
 .search-result {
   margin: 10px 0;
   h4 {
-    font-family: $serifFontFamily;
+    font-family: $baseFontFamily;
   }
   p {
     color: $grayLight;
@@ -42,7 +42,7 @@
     color: $shaleDark;
   }
   .suggestion-title {
-    font-family: $serifFontFamily;
+    font-family: $baseFontFamily;
   }
   .suggestion-date {
     color: $grayLight;

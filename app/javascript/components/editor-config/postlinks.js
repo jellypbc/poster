@@ -159,6 +159,7 @@ export const addPostLink = function (state, dispatch, view) {
       // open up post link window
     }
 
+    // TODO: make PostLinkForm.js
     ReactDOM.render(
       <PostLinkSearch
         onCancel={handleClose}
@@ -303,6 +304,7 @@ function ThreadedPostLink(props) {
       <div className="reference-highlight"> {postLink.highlightedText} </div>
       <div className="reference-title">
         <a href={postLink.url} target="blank">
+          {/* TODO: keep italics in titles */}
           {postLink.title.replace(/<[^>]*>?/gm, '') || '[ No Title ]'}
         </a>
       </div>

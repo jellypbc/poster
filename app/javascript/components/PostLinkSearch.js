@@ -8,13 +8,12 @@ export default function PostLinkSearch({ onCancel, onHandleSubmit, view }) {
   const [suggestions, setSuggestions] = useState([])
   const [value, setValue] = useState('')
   const [id, setId] = useState('')
-  const [currentPostId, setCurrentPostId] = useState(
-    store.getState().currentPost.currentPost.id || ''
-  )
+
+  var { currentPostId } = store.getState().currentPost.currentPost.id || ''
 
   const inputProps = {
     placeholder: 'Search',
-    value,
+    value: value,
     onChange: onChange,
     onKeyDown: onKeyDown,
   }
@@ -81,8 +80,8 @@ export default function PostLinkSearch({ onCancel, onHandleSubmit, view }) {
   }
 
   function truncateTitle(title) {
-    if (title.length > 75) {
-      return title.slice(0, 75) + '...'
+    if (title.length > 80) {
+      return title.slice(0, 80) + '...'
     } else {
       return title
     }
@@ -126,9 +125,9 @@ export default function PostLinkSearch({ onCancel, onHandleSubmit, view }) {
   }
 
   return (
-    <div>
+    <div className="post-link-form-container">
       <Floater view={view}>
-        <div className="postlinksearch search-container shadow rounded">
+        <div className="postlinksearch shadow">
           <div className="d-inline-block">
             <Autosuggest
               id="postlinksearch"
