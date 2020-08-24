@@ -21,7 +21,7 @@ class PostLink {
 }
 
 function deco(from, to, postLink) {
-  return Decoration.inline(from, to, { class: 'link' }, postLink)
+  return Decoration.inline(from, to, { class: 'post-link' }, postLink)
 }
 
 class PostLinkState {

@@ -15,7 +15,7 @@
   }
 }
 
-.link {
+.post-link {
   background-color: #B8E986;
   cursor: pointer;
 }
@@ -72,13 +72,14 @@
 
   position: relative;
   font-size: 16px;
+  font-style: initial;
   padding: 0;
   max-height: 60vh;
   font-size: 1rem;
   color: black;
   background: white;
   font-weight: normal;
-  // border: 1px solid #888;
+  border: 1px solid #888;
   border-radius: 5px;
   // z-index: 10;
   // overflow-y: scroll;
