@@ -1,192 +1,169 @@
-import React from 'react'
+import React, { useState } from 'react'
+import Floater from './Floater'
 import Autosuggest from 'react-autosuggest'
 import superagent from 'superagent'
-import Floater from './Floater'
 import { store } from './store'
 
-class PostLinkSearch extends React.Component {
-  constructor(props) {
-    super(props)
+export default function PostLinkSearch({ onCancel, onHandleSubmit, view }) {
+  const [suggestions, setSuggestions] = useState([])
+  const [value, setValue] = useState('')
+  const [id, setId] = useState('')
+  const [currentPostId, setCurrentPostId] = useState(
+    store.getState().currentPost.currentPost.id || ''
+  )
 
-    this.state = {
-      id: '',
-      value: '',
-      suggestions: [],
-      currentPostId: store.getState().currentPost.currentPost.id || '',
-    }
+  const inputProps = {
+    placeholder: 'Search',
+    value,
+    onChange: onChange,
+    onKeyDown: onKeyDown,
   }
 
-  getSuggestionValue = (suggestion) => suggestion.title || ''
+  const theme = {
+    input: 'form-control',
+    suggestionsList: 'postLinkSuggestionsList',
+  }
 
-  getSuggestions = (value) => {
-    const inputValue = value.trim().toLowerCase()
-    const inputLength = inputValue.length
+  function onSuggestionsFetchRequested(input) {
+    getSuggestions(input)
+  }
+
+  function getSuggestions(input) {
+    const inputValue = input.value.trim().toLowerCase()
+    const inputLength = inputValue.inputLength
 
     if (inputLength === 0) return []
 
-    var query = value
+    var query = input.value
     const url = '/search/bar?query=' + query
-    let suggestions = []
+    let suggestions
 
     superagent
       .get(url)
       .set('accept', 'application/json')
       .then((res) => {
-        console.log(res.body)
         suggestions = res.body
-        this.setState({ suggestions: suggestions })
+        setSuggestions(suggestions)
       })
   }
 
-  onChange = (event, { newValue, method }) => {
-    this.setState({
-      value: newValue,
-    })
+  function onSuggestionsClearRequested() {
+    setSuggestions([])
   }
 
-  onKeyDown = (event) => {
+  function getSuggestionValue(suggestion) {
+    // eslint-disable-next-line no-unused-expressions
+    suggestion.title || ''
+  }
+
+  function renderSuggestion(suggestion) {
+    const { data } = suggestion
+    return (
+      <div
+        className="suggestion-row"
+        role="button"
+        onClick={() => handleClick(data)}
+        onKeyPress={() => handleClick(data)}
+        tabIndex={0}
+      >
+        {data.attributes.title && (
+          <p className="suggestion-title">
+            {truncateTitle(data.attributes.title)}
+          </p>
+        )}
+      </div>
+    )
+  }
+
+  function handleClick(data) {
+    console.log('data', data)
+    setValue(data.attributes.title)
+  }
+
+  function truncateTitle(title) {
+    if (title.length > 75) {
+      return title.slice(0, 75) + '...'
+    } else {
+      return title
+    }
+  }
+
+  function onSuggestionSelected(event, { suggestion }) {
+    setValue(suggestion.data.attributes.title.trim())
+    setId(suggestion.data.id)
+  }
+
+  function onChange(event, { newValue, method }) {
+    setValue(newValue)
+  }
+
+  function onKeyDown(event) {
     if (event.keyCode === 13) {
       let suggestion
-      if (this.state.suggestions.length > 0) {
-        suggestion = this.state.suggestions[0]
+      if (suggestions.length > 0) {
+        suggestion = suggestions[0]
       }
 
       if (
         suggestion &&
         suggestion.data.attributes.title
           .toLowerCase()
-          .includes(this.state.value.toLowerCase())
+          .includes(value.toLowerCase())
       ) {
-        this.setState({
-          id: suggestion.data.id,
-        })
+        setId(suggestion.data.id)
       }
     }
   }
 
-  onSuggestionsFetchRequested = ({ value }) => {
-    this.getSuggestions(value)
-  }
-
-  onSuggestionsClearRequested = () => {
-    this.setState({ suggestions: [] })
-  }
-
-  onSuggestionSelected = (event, { suggestion }) => {
-    this.setState({
-      value: suggestion.data.attributes.title.trim(),
-      id: suggestion.data.id,
-    })
-  }
-
-  handleFormSubmit = () => {
-    this.props.onHandleSubmit(this.state)
-  }
-
-  handleClick(data) {
-    this.setState({ value: data.attributes.title })
-  }
-
-  renderSuggestion = (suggestion) => {
-    const { data } = suggestion
-    return (
-      <div
-        className="suggestion-row"
-        role="button"
-        onClick={() => this.handleClick(data)}
-        onKeyPress={() => this.handleClick(data)}
-        tabIndex={0}
-      >
-        {data.attributes.title && (
-          <p className="suggestion-title">{data.attributes.title}</p>
-        )}
-      </div>
-    )
-  }
-
-  inputRef = (autosuggest) => {
+  function inputRef(autosuggest) {
     if (autosuggest != null) {
-      this.input = autosuggest.input.focus()
+      return autosuggest.input.focus({ preventScroll: true })
     }
   }
 
-  render() {
-    const { onCancel, view } = this.props
-    const { value, suggestions } = this.state
+  function handleFormSubmit() {
+    onHandleSubmit({ id, value, suggestions, currentPostId })
+  }
 
-    const inputProps = {
-      placeholder: 'Search',
-      value,
-      onChange: this.onChange,
-      onKeyDown: this.onKeyDown,
-    }
-
-    const theme = {
-      input: 'form-control',
-      suggestionsList: 'postLinkSuggestionsList',
-    }
-
-    // const autosuggestStyle = {
-    //   'width': '300px',
-    //   'display': 'inline-block',
-    //   'margin-right': '10px',
-    // }
-
-    const containerStyle = {
-      display: 'inline-block',
-      background: 'white',
-      padding: '6px',
-    }
-
-    const buttonRow = {
-      display: 'inline-block',
-    }
-
-    const buttonStyle = {
-      padding: '9px 10px 8px 10px',
-      top: '-1px',
-      position: 'relative',
-    }
-
-    return (
-      <div>
-        <Floater view={view}>
-          <div className="postlinksearch shadow rounded" style={containerStyle}>
-            <div className="d-inline-block">
-              <Autosuggest
-                id="postlinksearch"
-                suggestions={suggestions}
-                onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
-                onSuggestionsClearRequested={this.onSuggestionsClearRequested}
-                getSuggestionValue={this.getSuggestionValue}
-                renderSuggestion={this.renderSuggestion}
-                renderSectionTitle={() => null}
-                getSectionSuggestions={() => null}
-                onSuggestionSelected={this.onSuggestionSelected}
-                inputProps={inputProps}
-                theme={theme}
-                ref={this.inputRef}
-              />
-            </div>
-            <div className="button-row" style={buttonRow}>
-              <button
-                type="button"
-                className="btn btn-primary btn-sm"
-                onClick={this.handleFormSubmit}
-                style={buttonStyle}
-              >
-                Submit
-              </button>
-              &nbsp;
-              <button type="button" className="btn btn-sm o" onClick={onCancel}>
-                Cancel
-              </button>
-            </div>
+  return (
+    <div>
+      <Floater view={view}>
+        <div className="postlinksearch search-container shadow rounded">
+          <div className="d-inline-block">
+            <Autosuggest
+              id="postlinksearch"
+              suggestions={suggestions}
+              onSuggestionsFetchRequested={onSuggestionsFetchRequested}
+              onSuggestionsClearRequested={onSuggestionsClearRequested}
+              getSuggestionValue={getSuggestionValue}
+              renderSuggestion={renderSuggestion}
+              renderSectionTitle={() => null}
+              getSectionSuggestions={() => null}
+              onSuggestionSelected={onSuggestionSelected}
+              inputProps={inputProps}
+              theme={theme}
+              ref={inputRef}
+            />
           </div>
-        </Floater>
-      </div>
-    )
-  }
+          <div className="button-row">
+            <button
+              type="button"
+              className="button btn btn-primary btn-sm"
+              onClick={handleFormSubmit}
+            >
+              Submit
+            </button>
+            &nbsp;
+            <button
+              type="button"
+              className="button btn btn-sm o"
+              onClick={onCancel}
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      </Floater>
+    </div>
+  )
 }
-
-export default PostLinkSearch
