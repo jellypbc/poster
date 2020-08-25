@@ -8,7 +8,7 @@ gem "rails", "~> 6.0.3"
 gem "pg", "~> 1.1"
 gem "puma", "~> 4.3"
 gem "sassc-rails", "~> 2.1"
-gem "webpacker", "~> 4.0"
+gem "webpacker", "~> 5.1"
 gem "turbolinks", "~> 5"
 gem "jbuilder", "~> 2.7"
 gem "bcrypt", "~> 3.1.7"
@@ -28,7 +28,7 @@ gem "fast_jsonapi"
 gem "will_paginate"
 gem "will_paginate-bootstrap4"
 gem "nokogiri"
-gem "sidekiq"
+gem "sidekiq", "~> 6.1.1"
 gem "sidekiq-batch"
 gem "sidekiq-cron"
 gem "redis"
@@ -82,4 +82,3 @@ group :production do
   gem "scout_apm"
 end
 
-gem "tzinfo-data", platforms: [:mingw, :mswin, :x64_mingw, :jruby]
