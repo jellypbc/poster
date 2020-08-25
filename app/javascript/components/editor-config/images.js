@@ -1,5 +1,5 @@
 import { store, images, waitForStore, TIMEOUT_ERROR } from '../store'
-import schema from './schema'
+import { schema } from './schema'
 
 // note: "pm" = ProseMirror, "store" = app-wide redux store
 export const addFigure = function (pmState, pmDispatch) {
@@ -12,14 +12,13 @@ export const addFigure = function (pmState, pmDispatch) {
     succeed: (images) => !images.isAddingImage && images.lastImage,
     fail: (images) => !images.isAddingImage && !images.lastImage,
     timeout: 1000 * 30,
+  }).then((imageStoreState) => {
+    const imageUrl = imageStoreState.lastImage.fileUrl
+    const imageType = schema.nodes.image
+    pmDispatch(
+      pmState.tr.replaceSelectionWith(imageType.create({ src: imageUrl }))
+    )
   })
-    .then((imageStoreState) => {
-      const imageUrl = imageStoreState.lastImage.fileUrl
-      const imageType = schema.nodes.image
-      pmDispatch(
-        pmState.tr.replaceSelectionWith(imageType.create({ src: imageUrl }))
-      )
-    })
-  }
+
   return true
 }
