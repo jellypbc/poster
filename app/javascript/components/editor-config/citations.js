@@ -5,6 +5,7 @@ import CitationSearch from '../CitationSearch'
 
 import ReactDOM from 'react-dom'
 import React from 'react'
+import parse from 'html-react-parser'
 import superagent from 'superagent'
 import classnames from 'classnames'
 import { store } from '../store'
@@ -90,9 +91,8 @@ export const addCitation = function (state, dispatch, view) {
 
     const handleClose = () => ReactDOM.unmountComponentAtNode(root)
 
+    // TODO: refactor
     const handleNewCitation = (payload) => {
-      console.log('in handleNewCitation payload', payload)
-      // TODO: refactor
       var { currentUser, currentPost } = store.getState()
 
       const newCitation = new Citation(
@@ -302,33 +302,24 @@ function ThreadedCitation(props) {
     )
   }
 
-  // function handleAdd() {
-  // }
-
   var { currentUser } = store.getState()
+
+  const sanitizedTitle = parse(
+    `${
+      citation.title.replace(/(<p[^>]+?>|<p>|<\/p>)/gim, '') || '[ No Title ]'
+    }`
+  )
 
   return (
     <div className="citation-show px-3" id={'citation-' + citation.id}>
       <div className="citation-highlight"> {citation.highlightedText} </div>
       <div className="citation-title">
         <a href={citation.url} target="blank">
-          {/* TODO: refactor */}
-          <div
-            className="citation-title-text"
-            dangerouslySetInnerHTML={{
-              __html: `${
-                citation.title.replace(/(<p[^>]+?>|<p>|<\/p>)/gim, '') ||
-                '[ No Title]'
-              }`,
-            }}
-          ></div>
+          <div className="citation-title-text">{sanitizedTitle}</div>
         </a>
       </div>
       {currentUser && currentUser.currentUser.attributes.name !== 'Anonymous' && (
         <div className="citation-actions">
-          {/* <button className="btn btn-add" onClick={handleAdd}>
-            Add
-          </button> */}
           <button className="btn btn-remove" onClick={handleDelete}>
             Remove
           </button>
