@@ -91,14 +91,15 @@ export const addPostLink = function (state, dispatch, view) {
     const handleClose = () => ReactDOM.unmountComponentAtNode(root)
 
     const handleNewCitation = (payload) => {
-      // TODO: refactor this code
+      console.log('in handleNewCitation payload', payload)
+      // TODO: refactor
       var { currentUser, currentPost } = store.getState()
 
       const newPostLink = new PostLink(
         randomID(),
         payload.value,
         highlightedText,
-        'url_placeholder' // TODO: source url from store
+        payload.url
       )
       if (payload.id !== '') {
         const action = {

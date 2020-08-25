@@ -8,6 +8,7 @@ export default function PostLinkSearch({ onCancel, onHandleSubmit, view }) {
   const [suggestions, setSuggestions] = useState([])
   const [value, setValue] = useState('')
   const [id, setId] = useState('')
+  const [url, setUrl] = useState('')
 
   var { currentPostId } = store.getState().currentPost.currentPost.id || ''
 
@@ -77,6 +78,7 @@ export default function PostLinkSearch({ onCancel, onHandleSubmit, view }) {
   function handleClick(data) {
     console.log('data', data)
     setValue(data.attributes.title)
+    setUrl(data.links.post_url)
   }
 
   function truncateTitle(title) {
@@ -121,7 +123,7 @@ export default function PostLinkSearch({ onCancel, onHandleSubmit, view }) {
   }
 
   function handleFormSubmit() {
-    onHandleSubmit({ id, value, suggestions, currentPostId })
+    onHandleSubmit({ id, value, currentPostId, url })
   }
 
   return (
