@@ -9,7 +9,7 @@ import { redo, undo } from 'prosemirror-history'
 import { wrapInList } from './schema-list'
 // import { addColumnAfter, addColumnBefore } from 'prosemirror-tables'
 import { addAnnotation } from './comments'
-import { addPostLink } from './postlinks'
+import { addCitation } from './citations'
 import { addFigure } from './images'
 import { schema } from './schema'
 import icons from './icons'
@@ -74,13 +74,11 @@ export default {
       content: icons.comment,
     },
   },
-  postlink: {
-    addPostLink: {
-      title: 'Add Post Link',
+  citation: {
+    addCitation: {
+      title: 'Add Citation',
       content: icons.link,
-      run(state, dispatch, view) {
-        addPostLink(state, dispatch, view)
-      },
+      run: addCitation,
     },
   },
   marks: {

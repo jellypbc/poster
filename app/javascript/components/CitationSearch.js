@@ -4,7 +4,7 @@ import Autosuggest from 'react-autosuggest'
 import superagent from 'superagent'
 import { store } from './store'
 
-export default function PostLinkSearch({ onCancel, onHandleSubmit, view }) {
+export default function CitationSearch({ onCancel, onHandleSubmit, view }) {
   const [suggestions, setSuggestions] = useState([])
   const [value, setValue] = useState('')
   const [id, setId] = useState('')
@@ -21,7 +21,7 @@ export default function PostLinkSearch({ onCancel, onHandleSubmit, view }) {
 
   const theme = {
     input: 'form-control',
-    suggestionsList: 'postLinkSuggestionsList',
+    suggestionsList: 'citationSuggestionsList',
   }
 
   function onSuggestionsFetchRequested(input) {
@@ -127,12 +127,12 @@ export default function PostLinkSearch({ onCancel, onHandleSubmit, view }) {
   }
 
   return (
-    <div className="post-link-form-container">
+    <div className="citation-form-container">
       <Floater view={view}>
-        <div className="postlinksearch shadow">
+        <div className="citation-search shadow">
           <div className="d-inline-block">
             <Autosuggest
-              id="postlinksearch"
+              id="citation-search"
               suggestions={suggestions}
               onSuggestionsFetchRequested={onSuggestionsFetchRequested}
               onSuggestionsClearRequested={onSuggestionsClearRequested}

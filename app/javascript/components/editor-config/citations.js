@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-expressions */
 import { Plugin, PluginKey } from 'prosemirror-state'
 import { Decoration, DecorationSet } from 'prosemirror-view'
-import PostLinkSearch from '../PostLinkSearch'
+import CitationSearch from '../CitationSearch'
 
 import ReactDOM from 'react-dom'
 import React from 'react'
@@ -9,9 +9,9 @@ import superagent from 'superagent'
 import classnames from 'classnames'
 import { store } from '../store'
 
-export const postLinkPluginKey = new PluginKey('postlinks')
+export const citationPluginKey = new PluginKey('citations')
 
-class PostLink {
+class Citation {
   constructor(id, title, highlightedText, url) {
     this.id = id
     this.title = title
@@ -20,23 +20,23 @@ class PostLink {
   }
 }
 
-function deco(from, to, postLink) {
-  return Decoration.inline(from, to, { class: 'post-link' }, postLink)
+function deco(from, to, citation) {
+  return Decoration.inline(from, to, { class: 'citation' }, citation)
 }
 
-class PostLinkState {
+class CitationState {
   constructor(decos) {
     this.decos = decos
   }
 
-  findPostLink(id) {
+  findCitation(id) {
     let current = this.decos.find()
     for (let i = 0; i < current.length; i++)
       if (current[i].type.spec.id == id) return current[i]
   }
 
   apply(tr) {
-    let action = tr.getMeta(postLinkPlugin),
+    let action = tr.getMeta(citationPlugin),
       actionType = action && action.type
     if (!action && !tr.docChanged) return this
     let base = this
@@ -44,39 +44,39 @@ class PostLinkState {
     decos = decos.map(tr.mapping, tr.doc)
     console.log('action', action)
     if (actionType == 'newCitation') {
-      decos = decos.add(tr.doc, [deco(action.from, action.to, action.postLink)])
+      decos = decos.add(tr.doc, [deco(action.from, action.to, action.citation)])
       submitCitationCreate(action)
-    } else if (actionType == 'deletePostLink') {
-      decos = decos.remove([this.findPostLink(action.postLink.id)])
+    } else if (actionType == 'deleteCitation') {
+      decos = decos.remove([this.findCitation(action.citation.id)])
       submitCitationDelete(action)
     }
-    return new PostLinkState(decos)
+    return new CitationState(decos)
   }
 
   static init(config) {
-    const postLinks = config.doc.postlinks
+    const citations = config.doc.citations
 
-    if (postLinks) {
-      let decos = postLinks.postlinks.map((p) =>
+    if (citations) {
+      let decos = citations.citations.map((p) =>
         deco(
           p.from,
           p.to,
-          new PostLink(p.id, p.title, p.highlightedText, p.url)
+          new Citation(p.id, p.title, p.highlightedText, p.url)
         )
       )
       const d = DecorationSet.create(config.doc, decos)
-      return new PostLinkState(d)
+      return new CitationState(d)
     } else {
-      return new PostLinkState(DecorationSet.create(config.doc, []))
+      return new CitationState(DecorationSet.create(config.doc, []))
     }
   }
 
-  postLinksAt(pos) {
+  citationsAt(pos) {
     return this.decos.find(pos, pos)
   }
 }
 
-export const addPostLink = function (state, dispatch, view) {
+export const addCitation = function (state, dispatch, view) {
   let sel = state.selection
   if (sel && sel.empty) return false
   let highlightedText = state.doc.textBetween(sel.from, sel.to)
@@ -95,7 +95,7 @@ export const addPostLink = function (state, dispatch, view) {
       // TODO: refactor
       var { currentUser, currentPost } = store.getState()
 
-      const newPostLink = new PostLink(
+      const newCitation = new Citation(
         randomID(),
         payload.value,
         highlightedText,
@@ -106,7 +106,7 @@ export const addPostLink = function (state, dispatch, view) {
           type: 'newCitation',
           from: sel.from,
           to: sel.to,
-          postLink: newPostLink,
+          citation: newCitation,
           generatedPostId: payload.id,
         }
 
@@ -118,7 +118,7 @@ export const addPostLink = function (state, dispatch, view) {
           action.user_id = currentUser.currentUser.id
         }
 
-        dispatch(state.tr.setMeta(postLinkPlugin, action))
+        dispatch(state.tr.setMeta(citationPlugin, action))
       } else {
         const token = document.head.querySelector('[name~=csrf-token][content]')
           .content
@@ -146,7 +146,7 @@ export const addPostLink = function (state, dispatch, view) {
             })
         })
         p.then((result) => {
-          const newPostLink = new PostLink(
+          const newCitation = new Citation(
             randomID(),
             payload.value,
             highlightedText,
@@ -158,17 +158,17 @@ export const addPostLink = function (state, dispatch, view) {
             from: sel.from,
             to: sel.to,
             generatedPostId: result.body.post.id,
-            postLink: newPostLink,
+            citation: newCitation,
           }
 
-          dispatch(state.tr.setMeta(postLinkPlugin, action))
+          dispatch(state.tr.setMeta(citationPlugin, action))
         })
       }
       handleClose()
     }
 
     ReactDOM.render(
-      <PostLinkSearch
+      <CitationSearch
         onCancel={handleClose}
         onHandleSubmit={handleNewCitation}
         view={view}
@@ -185,11 +185,11 @@ function submitCitationCreate(action) {
   var data = {
     citation: {
       generated_post_id: action.generatedPostId,
-      title: action.postLink.value,
-      highlighted_text: action.postLink.highlightedText,
+      title: action.citation.value,
+      highlighted_text: action.citation.highlightedText,
       data_to: action.to,
       data_from: action.from,
-      data_key: action.postLink.id,
+      data_key: action.citation.id,
     },
   }
 
@@ -208,7 +208,7 @@ function submitCitationDelete(action) {
   var url = '/remove_citation'
   var data = {
     citation: {
-      data_key: action.postLink.id,
+      data_key: action.citation.id,
       deleted_at: true, // TODO: change true to timestamp
     },
   }
@@ -229,12 +229,12 @@ function submitRequest(data, url) {
     })
 }
 
-export const postLinkPlugin = new Plugin({
-  key: postLinkPluginKey,
+export const citationPlugin = new Plugin({
+  key: citationPluginKey,
   state: {
-    init: PostLinkState.init,
+    init: CitationState.init,
     apply(tr, prev) {
-      PostLinkState.init // eslint-disable-next-line no-unused-expressions
+      CitationState.init // eslint-disable-next-line no-unused-expressions
       return prev.apply(tr)
     },
   },
@@ -249,37 +249,37 @@ function randomID() {
   return Math.floor(Math.random() * 0xffffffff)
 }
 
-export const postLinkUI = function (transaction) {
+export const citationUI = function (transaction) {
   return new Plugin({
     props: {
       decorations(state) {
-        return postLinkTooltip(state, transaction)
+        return citationTooltip(state, transaction)
       },
     },
   })
 }
 
-function postLinkTooltip(state, dispatch) {
+function citationTooltip(state, dispatch) {
   let sel = state.selection
   if (!sel.empty) return null
-  let postLinks = postLinkPlugin.getState(state).postLinksAt(sel.from)
-  if (!postLinks.length) return null
+  let citations = citationPlugin.getState(state).citationsAt(sel.from)
+  if (!citations.length) return null
   return DecorationSet.create(state.doc, [
-    Decoration.widget(sel.from, renderPostLinks(postLinks, dispatch, state)),
+    Decoration.widget(sel.from, renderCitations(citations, dispatch, state)),
   ])
 }
 
-function renderPostLinks(postLinks, dispatch, state) {
+function renderCitations(citations, dispatch, state) {
   const node = document.createElement('div')
   node.className = 'tooltip-wrapper animated fadeIn'
   ReactDOM.render(
-    <ul className="reference-list">
-      {postLinks.map((p, index) => {
-        const isLast = index === postLinks.length - 1
+    <ul className="citation-list">
+      {citations.map((p, index) => {
+        const isLast = index === citations.length - 1
         return (
-          <ThreadedPostLink
+          <ThreadedCitation
             key={index}
-            postLink={p.type.spec}
+            citation={p.type.spec}
             dispatch={dispatch}
             state={state}
             className={classnames('px-3 ', { 'border-bottom': !isLast })}
@@ -293,12 +293,12 @@ function renderPostLinks(postLinks, dispatch, state) {
   return node
 }
 
-function ThreadedPostLink(props) {
-  const { postLink, dispatch, state } = props
+function ThreadedCitation(props) {
+  const { citation, dispatch, state } = props
 
   const handleDelete = () => {
     dispatch(
-      state.tr.setMeta(postLinkPlugin, { type: 'deletePostLink', postLink })
+      state.tr.setMeta(citationPlugin, { type: 'deleteCitation', citation })
     )
   }
 
@@ -308,15 +308,16 @@ function ThreadedPostLink(props) {
   var { currentUser } = store.getState()
 
   return (
-    <div className="reference-show" id={'reference-' + postLink.id}>
-      <div className="reference-highlight"> {postLink.highlightedText} </div>
-      <div className="reference-title">
-        <a href={postLink.url} target="blank">
+    <div className="citation-show px-3" id={'citation-' + citation.id}>
+      <div className="citation-highlight"> {citation.highlightedText} </div>
+      <div className="citation-title">
+        <a href={citation.url} target="blank">
           {/* TODO: refactor */}
           <div
+            className="citation-title-text"
             dangerouslySetInnerHTML={{
               __html: `${
-                postLink.title.replace(/(<p[^>]+?>|<p>|<\/p>)/gim, '') ||
+                citation.title.replace(/(<p[^>]+?>|<p>|<\/p>)/gim, '') ||
                 '[ No Title]'
               }`,
             }}
@@ -324,7 +325,7 @@ function ThreadedPostLink(props) {
         </a>
       </div>
       {currentUser && currentUser.currentUser.attributes.name !== 'Anonymous' && (
-        <div className="reference-actions">
+        <div className="citation-actions">
           {/* <button className="btn btn-add" onClick={handleAdd}>
             Add
           </button> */}

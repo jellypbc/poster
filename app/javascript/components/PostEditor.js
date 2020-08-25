@@ -249,7 +249,7 @@ class PostEditor extends React.Component {
 
     options.doc = this.parse(body) // TODO: don't mutate "options"
     options.doc.comments = { comments: post.data.attributes.body_comments }
-    options.doc.postlinks = { postlinks: post.data.attributes.body_postlinks }
+    options.doc.citations = { citations: post.data.attributes.body_citations }
 
     // var titleOptions = Object.assign({}, titleOptions)
     titleOptions.doc = this.parse(title)
