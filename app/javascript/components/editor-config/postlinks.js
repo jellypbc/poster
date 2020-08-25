@@ -43,7 +43,7 @@ class PostLinkState {
     let { decos } = base
     decos = decos.map(tr.mapping, tr.doc)
     console.log('action', action)
-    if (actionType == 'newPostLink') {
+    if (actionType == 'newCitation') {
       decos = decos.add(tr.doc, [deco(action.from, action.to, action.postLink)])
       submitCitationCreate(action)
     } else if (actionType == 'deletePostLink') {
@@ -80,6 +80,7 @@ export const addPostLink = function (state, dispatch, view) {
   let sel = state.selection
   if (sel && sel.empty) return false
   let highlightedText = state.doc.textBetween(sel.from, sel.to)
+
   if (dispatch) {
     const root =
       document.querySelector('#link-search-modal') ||
@@ -90,18 +91,22 @@ export const addPostLink = function (state, dispatch, view) {
     const handleClose = () => ReactDOM.unmountComponentAtNode(root)
 
     const handleNewCitation = (payload) => {
-      console.log('in handleNewCitation this is the payload', payload)
-      var { currentUser, currentPost } = store.getState()
       // TODO: refactor this code
+      var { currentUser, currentPost } = store.getState()
+
+      const newPostLink = new PostLink(
+        randomID(),
+        payload.value,
+        highlightedText,
+        'url_placeholder' // TODO: source url from store
+      )
       if (payload.id !== '') {
         const action = {
           type: 'newCitation',
           from: sel.from,
           to: sel.to,
+          postLink: newPostLink,
           generatedPostId: payload.id,
-          highlightedText: highlightedText,
-          value: payload.value,
-          id: randomID(),
         }
 
         if (currentPost) {
@@ -140,25 +145,27 @@ export const addPostLink = function (state, dispatch, view) {
             })
         })
         p.then((result) => {
+          const newPostLink = new PostLink(
+            randomID(),
+            payload.value,
+            highlightedText,
+            result.body.post.slug
+          )
+
           const action = {
             type: 'newCitation',
             from: sel.from,
             to: sel.to,
             generatedPostId: result.body.post.id,
-            highlightedText: highlightedText,
-            post_id: payload.currentPostId,
-            value: payload.value,
-            id: randomID(),
+            postLink: newPostLink,
           }
-          console.log('action', action)
+
           dispatch(state.tr.setMeta(postLinkPlugin, action))
         })
       }
       handleClose()
-      // open up post link window
     }
 
-    // TODO: make PostLinkForm.js
     ReactDOM.render(
       <PostLinkSearch
         onCancel={handleClose}
@@ -173,18 +180,15 @@ export const addPostLink = function (state, dispatch, view) {
 
 function submitCitationCreate(action) {
   var { currentUser, currentPost } = store.getState()
-
   var url = '/add_citation'
   var data = {
     citation: {
       generated_post_id: action.generatedPostId,
-      title: action.value,
-      highlighted_text: action.highlightedText,
-      // remove sending post_id through action
-      // post_id: action.post_id,
+      title: action.postLink.value,
+      highlighted_text: action.postLink.highlightedText,
       data_to: action.to,
       data_from: action.from,
-      data_key: action.id,
+      data_key: action.postLink.id,
     },
   }
 
