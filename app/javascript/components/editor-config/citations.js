@@ -91,7 +91,6 @@ export const addCitation = function (state, dispatch, view) {
 
     const handleClose = () => ReactDOM.unmountComponentAtNode(root)
 
-    // TODO: refactor
     const handleNewCitation = (payload) => {
       var { currentUser, currentPost } = store.getState()
 
