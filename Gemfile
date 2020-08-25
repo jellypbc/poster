@@ -8,7 +8,7 @@ gem "rails", "~> 6.0.3"
 gem "pg", "~> 1.1"
 gem "puma", "~> 4.3"
 gem "sassc-rails", "~> 2.1"
-gem "webpacker", "~> 4.0"
+gem "webpacker", "~> 5.1"
 gem "turbolinks", "~> 5"
 gem "jbuilder", "~> 2.7"
 gem "bcrypt", "~> 3.1.7"
@@ -82,4 +82,3 @@ group :production do
   gem "scout_apm"
 end
 
-gem "tzinfo-data", platforms: [:mingw, :mswin, :x64_mingw, :jruby]
