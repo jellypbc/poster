@@ -1,6 +1,6 @@
 import React from 'react'
 
-function Backlinks(props) {
+function Backlinks({ backlinks }) {
   const renderBacklink = (backlink, index) => {
     var c = backlink.attributes
 
@@ -30,12 +30,10 @@ function Backlinks(props) {
     )
   }
 
-  const renderBacklinks = (backlink) => {
+  const renderBacklinks = (backlinks) => {
     const backlinkList = backlinks.map((c, i) => renderBacklink(c, i))
     return <div>{backlinkList}</div>
   }
-
-  const backlinks = props.included.filter((c) => c.type === 'backlink')
 
   let rendered
   if (backlinks.length >= 1) {
