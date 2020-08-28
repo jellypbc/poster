@@ -228,6 +228,19 @@ class PostEditor extends React.Component {
     ]
   }
 
+  backlinks = (included) => {
+    const backlinksList = included.filter((c) => c.type === 'backlink')
+
+    return [
+      ...new Map(
+        backlinksList.map((backlink) => [
+          backlink.attributes.generated_post_id,
+          backlink,
+        ])
+      ).values(),
+    ]
+  }
+
   renderPost() {
     const {
       post,
@@ -305,7 +318,7 @@ class PostEditor extends React.Component {
           {included && (
             <div>
               <Citations citations={this.citations(included)} />
-              <Backlinks included={included} />
+              <Backlinks backlinks={this.backlinks(included)} />
             </div>
           )}
         </div>
