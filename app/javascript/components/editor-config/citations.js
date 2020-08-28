@@ -181,7 +181,7 @@ function submitCitationCreate(action) {
   var data = {
     citation: {
       generated_post_id: action.generatedPostId,
-      title: action.citation.value,
+      title: action.citation.title,
       highlighted_text: action.citation.highlightedText,
       data_to: action.to,
       data_from: action.from,
