@@ -3,7 +3,7 @@ import Uppy from '@uppy/core'
 import XHRUpload from '@uppy/xhr-upload'
 import { DragDrop } from '@uppy/react'
 
-import superagent from 'superagent'
+import saRequest from '../utils/saRequest'
 
 class FileUploader extends React.Component {
   constructor(props) {
@@ -48,18 +48,14 @@ class FileUploader extends React.Component {
   }
 
   fireAway(id) {
-    const token = document.head.querySelector('[name~=csrf-token][content]')
-      .content
-
     const url = this.props.url
     const data = {
       file_id: id,
       upload: {},
     }
-    superagent
+    saRequest
       .post(url)
       .send(data)
-      .set('X-CSRF-Token', token)
       .set('accept', 'application/json')
       .then((res) => {
         console.log(res)

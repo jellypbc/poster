@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import Floater from './Floater'
 import Autosuggest from 'react-autosuggest'
-import superagent from 'superagent'
+import saRequest from '../utils/saRequest'
 import { store } from './store'
 
 export default function CitationSearch({ onCancel, onHandleSubmit, view }) {
@@ -38,7 +38,7 @@ export default function CitationSearch({ onCancel, onHandleSubmit, view }) {
     const url = '/search/bar?query=' + query
     let suggestions
 
-    superagent
+    saRequest
       .get(url)
       .set('accept', 'application/json')
       .then((res) => {

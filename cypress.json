@@ -1,10 +1,11 @@
 {
-  "integrationFolder": "spec/javascript",
   "fileServerFolder": null,
-  "testFiles": "*.spec.js",
-  "videosFolder": ".artifacts/videos",
-  "screenshotsFolder": ".artifacts/screenshots",
   "fixturesFolder": "config/cypress/fixtures",
+  "integrationFolder": "spec/javascript",
   "pluginsFile": "config/cypress/plugins/index.js",
-  "supportFile": "config/cypress/support/index.js"
+  "screenshotsFolder": "tmp/cypress_screenshots",
+  "supportFile": "config/cypress/support/index.js",
+  "testFiles": "*.spec.js",
+  "trashAssetsBeforeRuns": false,
+  "videosFolder": "tmp/cypress_videos"
 }

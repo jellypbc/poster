@@ -54,6 +54,7 @@ group :development, :test do
   gem "pry"
   gem "pry-rails"
   gem "docker-sync", require: false
+  gem "cypress-rails"
 end
 
 group :development do

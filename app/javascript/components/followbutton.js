@@ -1,5 +1,5 @@
 import React from 'react'
-import superagent from 'superagent'
+import saRequest from '../utils/saRequest'
 import Modal from 'react-modal'
 
 // TODO: add debounce and rate limiter
@@ -32,17 +32,13 @@ class FollowButton extends React.Component {
   }
 
   setFollow() {
-    const token = document.head.querySelector('[name~=csrf-token][content]')
-      .content
-
     if (this.props.current_user) {
       var data = this.followData()
       var url = '/users/' + this.props.object_id + '/follow'
 
-      superagent
+      saRequest
         .post(url)
         .send(data)
-        .set('X-CSRF-Token', token)
         .set('accept', 'application/json')
         .then((res) => {
           this.setState({ following: true })
@@ -55,17 +51,13 @@ class FollowButton extends React.Component {
   }
 
   setUnfollow() {
-    const token = document.head.querySelector('[name~=csrf-token][content]')
-      .content
-
     if (this.props.current_user) {
       var data = this.followData()
       var url = '/users/' + this.props.object_id + '/unfollow'
 
-      superagent
+      saRequest
         .post(url)
         .send(data)
-        .set('X-CSRF-Token', token)
         .set('accept', 'application/json')
         .then((res) => {
           this.setState({ following: false })

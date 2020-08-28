@@ -1,6 +1,6 @@
 import React from 'react'
 import { createConsumer } from '@rails/actioncable'
-import superagent from 'superagent'
+import saRequest from '../utils/saRequest'
 import debounce from 'lodash/debounce'
 import sanitizeHtml from 'sanitize-html'
 
@@ -147,8 +147,6 @@ class PostEditor extends React.Component {
     )
     const url = isNewPost ? '/posts' : post.data.attributes.form_url
     const method = isNewPost ? 'post' : 'put'
-    const token = document.head.querySelector('[name~=csrf-token][content]')
-      .content
 
     let data = {}
     if (field === 'title') {
@@ -163,7 +161,7 @@ class PostEditor extends React.Component {
       }
     }
 
-    this.submit(data, token, method, url, this.onSuccess)
+    this.submit(data, method, url, this.onSuccess)
   }
 
   onSuccess = (err, res) => {
@@ -178,10 +176,9 @@ class PostEditor extends React.Component {
     this.updateURL()
   }
 
-  submit(data, token, method, url, onSuccess) {
-    superagent[method](url)
+  submit(data, method, url, onSuccess) {
+    saRequest[method](url)
       .send(data)
-      .set('X-CSRF-Token', token)
       .set('accept', 'application/json')
       .end((err, res) => {
         onSuccess(err, res)
