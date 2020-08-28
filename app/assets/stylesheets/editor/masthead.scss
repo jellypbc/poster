@@ -1,5 +1,8 @@
 .masthead {
-  padding: 40px 40px;
+  margin: 40px auto;
+  @include media-breakpoint-down(xs) {
+    width: 95vw;
+  }
 
   .header {
     .title {
@@ -8,7 +11,9 @@
           font-size: 32px;
           line-height: 40px;
         }
-        text-align: center;
+        @include media-breakpoint-up(sm) {
+          text-align: center;
+        }
       }
       .commentList {
         text-align: left;
@@ -21,11 +26,13 @@
   }
 
   .authors {
+    @include media-breakpoint-up(sm) {
+      text-align: center;
+    }
     font-size: 16px;
     a, a:hover {
       color: #bbb;
     }
-    text-align: center;
     display: block;
     margin: 0 auto;
     color: $grayLight;
