@@ -5,7 +5,7 @@ import PostLinkSearch from '../PostLinkSearch'
 
 import ReactDOM from 'react-dom'
 import React from 'react'
-import superagent from 'superagent'
+import saRequest from '../../utils/saRequest'
 import classnames from 'classnames'
 import { store } from '../store'
 
@@ -115,8 +115,6 @@ export const addPostLink = function (state, dispatch, view) {
 
         dispatch(state.tr.setMeta(postLinkPlugin, action))
       } else {
-        const token = document.head.querySelector('[name~=csrf-token][content]')
-          .content
         const data = {
           post: {
             title: payload.value,
@@ -127,10 +125,9 @@ export const addPostLink = function (state, dispatch, view) {
         const url = '/posts'
 
         let p = new Promise(function (resolve, reject) {
-          superagent
+          saRequest
             .post(url)
             .send(data)
-            .set('X-CSRF-Token', token)
             .set('accept', 'application/json')
             .then((res) => {
               console.log('res', res.body.post.id)
@@ -211,13 +208,9 @@ function submitCitationDelete(action) {
 }
 
 function submitRequest(data, url) {
-  const token = document.head.querySelector('[name~=csrf-token][content]')
-    .content
-
-  superagent
+  saRequest
     .post(url)
     .send(data)
-    .set('X-CSRF-Token', token)
     .set('accept', 'application/json')
     .end((err, res) => {
       console.log({ res, err }) // DEBUG SAVE

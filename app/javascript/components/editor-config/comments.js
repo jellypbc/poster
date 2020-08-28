@@ -6,7 +6,7 @@ import { store } from './../store'
 
 import ReactDOM from 'react-dom'
 import React from 'react'
-import superagent from 'superagent'
+import saRequest from '../../utils/saRequest'
 import classnames from 'classnames'
 
 export const commentPluginKey = new PluginKey('comments')
@@ -171,12 +171,9 @@ function submitCreateComment(action, comment, field) {
 }
 
 function submitRequest(data, url) {
-  const token = document.head.querySelector('[name~=csrf-token][content]')
-    .content
-  superagent
+  saRequest
     .post(url)
     .send(data)
-    .set('X-CSRF-Token', token)
     .set('accept', 'application/json')
     .end((err, res) => {
       console.log({ res, err }) // DEBUG SAVE

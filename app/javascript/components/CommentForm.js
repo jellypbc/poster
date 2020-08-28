@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { store } from './store'
-import superagent from 'superagent'
+import saRequest from '../utils/saRequest'
 import autogrow from '../utils/autogrow'
 
 // import { useSelector, useDispatch } from 'react-redux'
@@ -57,7 +57,7 @@ function CommentForm({ thread, onSubmit, onCancel, className, ...rest }) {
     // send a request to create a user
     var data = { user: { guest: true } }
     var url = '/guestcreate'
-    superagent
+    saRequest
       .post(url)
       .send(data)
       .set('accept', 'application/json')

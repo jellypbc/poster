@@ -1,6 +1,6 @@
 import React from 'react'
 import { WithContext as ReactTags } from 'react-tag-input'
-import superagent from 'superagent'
+import saRequest from '../utils/saRequest'
 
 class TagForm extends React.Component {
   constructor(props) {
@@ -19,7 +19,7 @@ class TagForm extends React.Component {
   handleFocus() {
     const { post } = this.props
     var url = post.data.attributes.form_url + '/suggested_tags'
-    superagent
+    saRequest
       .get(url)
       .set('accept', 'application/json')
       .then((res) => {
@@ -58,8 +58,6 @@ class TagForm extends React.Component {
 
   async sendRequest(tag, action) {
     const { post, currentUser } = this.props
-    const token = document.head.querySelector('[name~=csrf-token][content]')
-      .content
 
     var data = {
       tag: {
@@ -81,9 +79,8 @@ class TagForm extends React.Component {
     }
 
     return new Promise(function (resolve, reject) {
-      superagent[method](url)
+      saRequest[method](url)
         .send(data)
-        .set('X-CSRF-Token', token)
         .set('accept', 'application/json')
         .then((res) => {
           return res
