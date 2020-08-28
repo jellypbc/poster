@@ -4,15 +4,22 @@
     min-width: 640px;
     margin: 0;
     padding: 0;
-    // width: 70vw;
-    // min-width: 70vw;
+
   }
 }
+
 @include media-breakpoint-down(md) {
   .center-column {
     width: 70vw;
     min-width: 70vw;
     margin: 0 auto;
+  }
+}
+
+@include media-breakpoint-down(xs) {
+  .center-column {
+    width: 90vw;
+    min-width: 90vw;
   }
 }
 

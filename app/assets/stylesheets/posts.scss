@@ -78,11 +78,6 @@
 }
 
 .post-show {
-  @include desktop-styles {
-    display: block;
-    margin: 0 auto;
-  }
-
   // post editor body styles
   .post-editor {
 		font-family: $serifFontFamily;
