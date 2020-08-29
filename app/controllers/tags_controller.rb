@@ -8,6 +8,21 @@ class TagsController < ApplicationController
 
   def show
     @posts = @tag.posts
+      .order(created_at: :desc)
+      .paginate(page: params[:posts_page], per_page: 10)
+
+    @generated_posts = []
+    @tag.posts.each do | post |
+      if post.citations.present?
+        post.citations.each do |citation|
+          if citation.generated_post_id?
+            post = Post.find_by_id(citation.generated_post_id)
+            @generated_posts << post
+          end
+        end
+      end
+    end
+
   end
 
   def new
