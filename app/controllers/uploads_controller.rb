@@ -5,11 +5,6 @@ class UploadsController < ApplicationController
   # skip_before_filter :verify_authenticity_token, only: [:file]
   protect_from_forgery except: :file
 
-  def index
-    @uploads = Upload.order(created_at: :desc)
-      .paginate(page: params[:page], per_page: 30)
-  end
-
   def show
   end
 

@@ -1,16 +1,33 @@
-.container.my-4
-  .row
-    .col-md-12
-      p#notice = notice
+.users
+  .container.my-5
+    header.row.my-5
+      .col-md-3
+        p#notice = notice
+        h6.muted Collection /
+        h2.my-3 = @tag.text        
+        p.muted Created #{@tag.created_at.strftime("%b %d, %Y")}
+      .row.mt-4
+      .col-md-9
+        ul#tab.nav.nav-tabs role="tablist"
+          li.nav-item
+            a#posts-tab.nav-link.active data-toggle="tab" href="#posts" role="tab" aria-controls="posts" aria-selected="true"
+              | Posts
+              span.pill.tab-count.ml-2 = @posts.count
 
-      h1 Collection
-      h2.my-3 = @tag.text
-      p.muted Created #{@tag.created_at.strftime("%b %d, %Y")}
+          li.nav-item
+            a#citations-tab.nav-link data-toggle="tab" href="#citations" role="tab" aria-controls="citations" aria-selected="false"
+              | Citations
+              / find number of citations
+              / span.pill.tab-count.ml-2 = 3
 
-      - if @posts.empty?
-        p.muted.my-5 No posts have been added to this collection yet.
-      - @posts.each do |post|
-        = render 'posts/post', post: post
+        - if @posts.empty?
+          p.muted.my-5 No posts have been added to this collection yet.
+        - @posts.each do |post|
+          = render 'posts/post', post: post
 
-      - if current_user
-        = link_to "Back to dashboard", root_path
+        / = will_paginate(@posts)
+
+        - if current_user
+          = link_to "Back to dashboard", root_path
+
+    
