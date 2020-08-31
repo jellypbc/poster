@@ -11,19 +11,14 @@ class TagsController < ApplicationController
       .order(created_at: :desc)
       .paginate(page: params[:posts_page], per_page: 10)
 
-    @post_ids = []
-    @posts.each do | post |
-      @post_ids << post.id
-    end
+
+    @post_ids = @posts.map{ |p| p.id}
 
     @citations = Citation.where(:post_id => @post_ids)
 
-    @citation_array = []
-    @citations.each do | citation |
-      @citation_array << citation.generated_post_id
-    end
-
-    @citation_array = @citation_array.uniq
+    @citation_array = @citations
+      .map{ |c| c.generated_post_id}
+      .uniq
 
     @generated_posts = Post.where(:id => @citation_array)
       .order(created_at: :desc)
