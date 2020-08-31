@@ -32,5 +32,5 @@
             - @generated_posts.each do |post|
               = render 'posts/post', post: post
 
-            / = will_paginate @generated_posts, param_name: :citations_page, anchor: "citations"
+            = will_paginate @generated_posts, param_name: :citations_page, anchor: "citations"
 
