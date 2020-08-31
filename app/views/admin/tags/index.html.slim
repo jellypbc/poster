@@ -1,14 +1,17 @@
-.container.my-4
-  .row
+.container
+  .row.mt-5
     .col-md-12
       p id="notice" = notice
-
-      h1 Tags
+      p.muted = link_to 'Admin Dashboard /', admin_path
+      
+      h2 Tags
       br
 
-      table.table
+      = link_to 'New Tag', new_tag_path, class: 'btn btn-primary mb-5'
+
+      table.table.table-hover
         thead
-          tr
+          tr.column-titles
             th ID
             th Text
             th Slug
@@ -18,12 +21,12 @@
           - @tags.each do |tag|
             tr
               td = tag.id
-              td = tag.text
-              td = tag.slug
+              td = tag.text.truncate(40)
+              td = tag.slug.truncate(40)
               td = link_to 'Show', tag
               td = link_to 'Edit', edit_tag_path(tag)
               td = link_to 'Destroy', tag, method: :delete, data: { confirm: 'Are you sure?' }
 
       br
 
-      = link_to 'New Tag', new_tag_path
+

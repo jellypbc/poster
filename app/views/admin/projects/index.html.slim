@@ -1,17 +1,25 @@
 .container
   .row
     .col-md-12
-      h1 Projects
+      p id="notice" = notice
+      p.muted = link_to 'Admin Dashboard /', admin_path
+      
+      h2 Projects
+      br
 
-      table.table
+      = link_to "New Project", new_project_path, class: 'btn btn-primary mb-5'
+
+
+      table.table.table-hover
         thead
-          th ID
-          th Title
-          th Munged Title
-          th Description
-          th
-          th
-          th
+          tr.column-titles
+            th ID
+            th Title
+            th Munged Title
+            th Description
+            th
+            th
+            th
 
         - @projects.each do |project|
           tr
@@ -22,8 +30,5 @@
             td = link_to "Show", project
             td = link_to "Edit", edit_project_path(project)
             td = link_to 'Destroy', project, method: :delete, data: { confirm: 'Are you sure?' }
-
-      br
-      = link_to "New Project", new_project_path, class: "btn btn-primary"
 
       = will_paginate @projects

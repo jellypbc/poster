@@ -1,0 +1,21 @@
+.dashboard-list {
+  text-decoration: none;
+}
+
+.posts-index {
+  td, th {
+    padding: 10px 20px;
+  }
+  font-size: 12px;
+  padding-bottom: 100px;
+}
+
+.muted {
+  a {
+    color: $grayLight;
+  }
+}
+
+.column-titles {
+  font-size: .8rem;
+}

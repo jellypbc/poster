@@ -2,13 +2,16 @@
   .row
     .col-md-12
       p id="notice" = notice
-
-      h1 Comments
+      p.muted = link_to 'Admin Dashboard /', admin_path
+      
+      h2 Comments
       br
+
+      = link_to 'New Comment', new_comment_path, class: 'btn btn-primary mb-5'
 
       table.table
         thead
-          tr
+          tr.column-titles
             th ID
             th Text
             th colspan="3"
@@ -21,7 +24,5 @@
               td = link_to 'Show', comment
               td = link_to 'Edit', edit_comment_path(comment)
               td = link_to 'Destroy', comment, method: :delete, data: { confirm: 'Are you sure?' }
-      
-      br
-
-      = link_to 'New Comment', new_comment_path
+        
+      / = will_paginate @comments
