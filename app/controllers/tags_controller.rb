@@ -26,6 +26,7 @@ class TagsController < ApplicationController
     @citation_array = @citation_array.uniq
 
     @generated_posts = Post.where(:id => @citation_array)
+      .order(created_at: :desc)
       .paginate(page: params[:citations_page], per_page: 10)
 
   end
