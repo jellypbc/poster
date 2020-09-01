@@ -4,10 +4,6 @@ class CommentsController < ApplicationController
   before_action :authenticate_user!, only: [:create, :update, :delete]
   skip_before_action :verify_authenticity_token
 
-  def index
-    @comments = Comment.all
-  end
-
   def show
   end
 

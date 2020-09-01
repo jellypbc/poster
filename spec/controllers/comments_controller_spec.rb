@@ -13,14 +13,6 @@ RSpec.describe CommentsController, type: :controller do
     }
   }
 
-  describe "GET #index" do
-    it "returns a success response" do
-      Comment.create! valid_attributes
-      get :index, params: {}
-      expect(response).to be_successful
-    end
-  end
-
   describe "GET #edit" do
     it "returns a success response" do
       comment = Comment.create! valid_attributes

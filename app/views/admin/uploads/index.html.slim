@@ -1,13 +1,17 @@
 .container
   .row.mt-5
     .col-md-12
-      h1 Uploads
+      p id="notice" = notice
+      p.muted = link_to 'Admin Dashboard /', admin_path
 
-      = link_to 'New Upload', new_upload_path, class: 'btn btn-outline-dark my-3'
+      h2 Uploads
+      br
+
+      = link_to 'New Upload', new_upload_path, class: 'btn btn-primary mb-5'
 
       table.table.table-hover
         thead
-          tr
+          tr.column-titles
             th ID
             th Link
             th Filename

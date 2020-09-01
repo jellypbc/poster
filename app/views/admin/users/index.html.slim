@@ -1,21 +1,26 @@
-.container-fluid.mt-5
-  .row
+.container
+  .row.mt-5
     .col-md-12
-      h1 Users
+      p id="notice" = notice
+      p.muted = link_to 'Admin Dashboard /', admin_path
 
+      h2 Users
       br
 
       = link_to 'New User', new_user_path, class: 'btn btn-primary mb-5'
 
-      table.table
+      table.table.table-hover
         thead
-          th ID
-          th Username
-          th Email
-          th Posts
-          th Comments
-          th Last Comment
-          th Actions
+          tr.column-titles
+            th ID
+            th Username
+            th Email
+            th Posts
+            th Comments
+            th Last Comment
+            th
+            th
+            th
 
         tbody
           - @users.each do |user|
@@ -26,6 +31,8 @@
               td = user.posts.count
               td = user.comments.count
               td = time_since_last_comment(user)
+              td = link_to "Show", user
+              td = link_to "Edit", edit_user_path(user)
               td = link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' }
 
       = will_paginate @users

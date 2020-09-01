@@ -2,10 +2,6 @@ class TagsController < ApplicationController
   before_action :set_tag, only: [:show, :edit, :update, :destroy]
   before_action :set_post, only: [:show, :create, :edit, :update, :destroy]
 
-  def index
-    @tags = Tag.all
-  end
-
   def show
     @posts = @tag.posts
       .order(created_at: :desc)

@@ -3,12 +3,6 @@ class PostsController < ApplicationController
   before_action :authenticate_user!, only: [:destroy, :set_post, :suggested_tags]
   before_action :set_suggested_tags, only: [:edit]
 
-  def index
-    @posts = Post.primary
-      .order(created_at: :desc)
-      .paginate(page: params[:page], per_page: 40)
-  end
-
   def show
   	@no_footer = true
   end
@@ -121,7 +115,7 @@ class PostsController < ApplicationController
 
     def post_params
       params.require(:post).permit(
-        :title, :body, :publisher, :authors,
+        :title, :body, :publisher, :authors, :abstract,
         :slug, :user_id, tags: [:id, :text, :post_id, :slug]
       )
     end
