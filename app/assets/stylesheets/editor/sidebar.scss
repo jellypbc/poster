@@ -10,14 +10,18 @@
   }
   display: none;
 
+  a {
+    pointer-events: none;
+  }
+
   #sidebarToggle {
     color: $shaleLight;
     transition: all 0.1s linear;
 
     &.rotate {
-      -moz-transform:rotate(180deg);
-      -webkit-transform:rotate(180deg);
-      transform:rotate(180deg);
+      -moz-transform:rotate(-90deg);
+      -webkit-transform:rotate(-90deg);
+      transform:rotate(-90deg);
     }
   }
 
