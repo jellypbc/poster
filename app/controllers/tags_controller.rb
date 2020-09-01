@@ -3,8 +3,23 @@ class TagsController < ApplicationController
   before_action :set_post, only: [:show, :create, :edit, :update, :destroy]
 
   def show
-    # order the posts
-    @posts = @tag.posts.reverse
+    @posts = @tag.posts
+      .order(created_at: :desc)
+      .paginate(page: params[:posts_page], per_page: 10)
+
+
+    @post_ids = @posts.map{ |p| p.id}
+
+    @citations = Citation.where(:post_id => @post_ids)
+
+    @citation_array = @citations
+      .map{ |c| c.generated_post_id}
+      .uniq
+
+    @generated_posts = Post.where(:id => @citation_array)
+      .order(created_at: :desc)
+      .paginate(page: params[:citations_page], per_page: 10)
+
   end
 
   def new

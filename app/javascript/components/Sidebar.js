@@ -192,7 +192,7 @@ function Sidebar(props) {
       <i
         id="sidebarToggle"
         style={toggleIconStyle}
-        className={visible ? 'fa fa-caret-right' : 'fa fa-caret-right rotate'}
+        className={visible ? 'fa fa-caret-down' : 'fa fa-caret-down rotate'}
         onClick={() => setVisible(!visible)}
         onKeyDown={() => setVisible(!visible)}
         aria-checked={visible}

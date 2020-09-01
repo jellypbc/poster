@@ -6,8 +6,7 @@ module PostsHelper
   end
 
   def sanitize_title(title)
-    Sanitize.clean(title)
-    # Sanitize.clean(strip_tags(CGI.unescapeHTML(title.to_str))).truncate(length, separator: ' ')
+    Sanitize.fragment(title, :elements => ['b', 'sup', 'sub', 'em', 'code'])
   end
 
 end

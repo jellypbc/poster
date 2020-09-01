@@ -16,9 +16,6 @@
   p {
     margin: 10px 0;
   }
-  .title {
-    font-family: $serifFontFamily;
-  }
   .authors {
     color: $shaleLight;
   }
@@ -40,7 +37,6 @@
 
   .preview {
   	color: $shaleDark;
-  	font-family: $serifFontFamily;
   	font-size: 14px;
   	line-height: 20px;
   	margin: 30px 0;
@@ -62,7 +58,6 @@
 .post-show {
   // post editor body styles
   .post-editor {
-		font-family: $serifFontFamily;
 
   	p,
   	a,

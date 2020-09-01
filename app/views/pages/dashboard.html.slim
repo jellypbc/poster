@@ -24,24 +24,6 @@
                 p.muted.my-3 You haven't added any posts yet!
 
               - @posts.each do |post|
-                - resource = post.user_id? ? short_user_post_path(post.user, post) : post_path(post)
-
-                .post-row
-                  = link_to resource do
-                    h4.title
-                      = sanitize_title(post.title).present? ? sanitize_title(post.title) : "Title"
-                    p.authors
-                      = sanitize_title(post.authors)
-
-                    p.preview
-                      - if post.abstract
-                        = post.abstract.truncate(200, seperator: "...")
-
-                    p.date
-                      = "Added on " + post.created_at.strftime("%b %d, %Y")
-
-                      - if post.updated_at
-                        span.ml-3
-                          = "Last updated #{time_ago_in_words(post.updated_at)} ago"
+                = render 'posts/post', post: post
 
               = will_paginate(@posts)
