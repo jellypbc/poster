@@ -2,7 +2,7 @@
 import { Plugin, PluginKey } from 'prosemirror-state'
 import { Decoration, DecorationSet } from 'prosemirror-view'
 import CommentForm from '../CommentForm'
-import { store } from './../store'
+import { store } from '../../store'
 
 import ReactDOM from 'react-dom'
 import React from 'react'

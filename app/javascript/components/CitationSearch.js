@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import Floater from './Floater'
 import Autosuggest from 'react-autosuggest'
 import saRequest from '../utils/saRequest'
-import { store } from './store'
+import { store } from '../store'
 
 export default function CitationSearch({ onCancel, onHandleSubmit, view }) {
   const [suggestions, setSuggestions] = useState([])

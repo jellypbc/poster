@@ -8,7 +8,7 @@ import React from 'react'
 import saRequest from '../../utils/saRequest'
 import parse from 'html-react-parser'
 import classnames from 'classnames'
-import { store } from '../store'
+import { store } from '../../store'
 
 export const citationPluginKey = new PluginKey('citations')
 

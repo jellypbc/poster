@@ -1,5 +1,5 @@
 import React from 'react'
-import { images } from './store'
+import { images } from '../store'
 import { useSelector, useDispatch } from 'react-redux'
 import Modal from 'react-modal'
 import Uppy from '@uppy/core'
