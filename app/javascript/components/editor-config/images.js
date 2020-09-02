@@ -1,4 +1,4 @@
-import { store, images, waitForStore, TIMEOUT_ERROR } from '../store'
+import { store, images, waitForStore, TIMEOUT_ERROR } from '../../store'
 import { schema } from './schema'
 
 // note: "pm" = ProseMirror, "store" = app-wide redux store

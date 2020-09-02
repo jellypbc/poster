@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { store } from './store'
+import { store } from '../store'
 import saRequest from '../utils/saRequest'
 import autogrow from '../utils/autogrow'
 

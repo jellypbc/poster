@@ -4,7 +4,7 @@ import saRequest from '../utils/saRequest'
 import debounce from 'lodash/debounce'
 import sanitizeHtml from 'sanitize-html'
 
-import { store } from './store'
+import { store } from '../store'
 import Editor from './Editor'
 import Floater from './Floater'
 import MenuBar from './MenuBar'
