@@ -8,6 +8,7 @@ import {
 } from 'prosemirror-inputrules'
 
 import { schema } from './schema'
+import { blockInputRule } from './math-inputrules'
 
 export default inputRules({
   rules: [
@@ -40,6 +41,6 @@ export default inputRules({
     ),
 
     // $$ math block
-    textblockTypeInputRule(/^\$\$\s+$/, schema.nodes.math_block),
+    blockInputRule(/^\$\$\s+$/, schema.nodes.math_block),
   ],
 })
