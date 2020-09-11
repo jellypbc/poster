@@ -6,7 +6,8 @@ const pDOM = ['p', 0],
   blockquoteDOM = ['blockquote', 0],
   hrDOM = ['hr'],
   preDOM = ['pre', ['code', 0]],
-  brDOM = ['br']
+  brDOM = ['br'],
+  mathDOM = ['pre', ['math', 0]]
 
 const nodes = {
   // :: NodeSpec The top level document node.
@@ -135,6 +136,21 @@ const nodes = {
     parseDOM: [{ tag: 'br' }],
     toDOM() {
       return brDOM
+    },
+  },
+
+  // :: NodeSpec A math listing. Disallows marks or non-text inline
+  // nodes by default. Represented as a `<pre>` element with a
+  // `<math>` element inside of it.
+  math_block: {
+    content: 'text*',
+    marks: '',
+    group: 'block',
+    math: true, // math?
+    defining: true,
+    parseDOM: [{ tag: 'pre', preserveWhitespace: 'full' }],
+    toDOM() {
+      return mathDOM
     },
   },
 }

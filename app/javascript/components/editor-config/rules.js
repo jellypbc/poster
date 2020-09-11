@@ -38,5 +38,8 @@ export default inputRules({
       schema.nodes.heading,
       (match) => ({ level: match[1].length })
     ),
+
+    // $$ math block
+    textblockTypeInputRule(/^\$\$\s+$/, schema.nodes.math_block),
   ],
 })
