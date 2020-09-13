@@ -1,13 +1,12 @@
 import { orderedList, bulletList, listItem } from './schema-list'
 import { tableNodes } from 'prosemirror-tables'
-import { footnoteNodes } from '@aeaton/prosemirror-footnotes'
 
 const pDOM = ['p', 0],
   blockquoteDOM = ['blockquote', 0],
   hrDOM = ['hr'],
   preDOM = ['pre', ['code', 0]],
   brDOM = ['br'],
-  mathDOM = ['pre', ['math', 0]]
+  mathDOM = ['math', 0]
 
 const nodes = {
   // :: NodeSpec The top level document node.
@@ -146,9 +145,7 @@ const nodes = {
     content: 'text*',
     marks: '',
     group: 'block',
-    math: true, // math?
-    defining: true,
-    parseDOM: [{ tag: 'pre', preserveWhitespace: 'full' }],
+    parseDOM: [{ tag: 'math' }],
     toDOM() {
       return mathDOM
     },
@@ -169,6 +166,18 @@ const listNodes = {
   list_item: {
     ...listItem,
     content: 'paragraph block*',
+  },
+}
+
+const footnoteNodes = {
+  footnote: {
+    group: 'inline',
+    content: 'inline*',
+    inline: true,
+    draggable: true,
+    atom: true,
+    toDOM: () => ['prosemirror-footnote', 0],
+    parseDOM: [{ tag: 'prosemirror-footnote' }],
   },
 }
 
