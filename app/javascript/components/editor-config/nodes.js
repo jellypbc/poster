@@ -5,8 +5,7 @@ const pDOM = ['p', 0],
   blockquoteDOM = ['blockquote', 0],
   hrDOM = ['hr'],
   preDOM = ['pre', ['code', 0]],
-  brDOM = ['br'],
-  mathDOM = ['math', 0]
+  brDOM = ['br']
 
 const nodes = {
   // :: NodeSpec The top level document node.
@@ -137,19 +136,6 @@ const nodes = {
       return brDOM
     },
   },
-
-  // :: NodeSpec A math listing. Disallows marks or non-text inline
-  // nodes by default. Represented as a `<pre>` element with a
-  // `<math>` element inside of it.
-  math_block: {
-    content: 'text*',
-    marks: '',
-    group: 'block',
-    parseDOM: [{ tag: 'math' }],
-    toDOM() {
-      return mathDOM
-    },
-  },
 }
 
 const listNodes = {
@@ -181,6 +167,22 @@ const footnoteNodes = {
   },
 }
 
+const mathNodes = {
+  // :: NodeSpec A math listing. Disallows marks or non-text inline
+  // nodes by default. Represented as a `<pre>` element with a
+  // `<math>` element inside of it.
+  math_block: {
+    group: 'inline',
+    content: 'inline*',
+    draggable: true,
+    inline: true,
+    atom: true,
+    // marks: '',
+    toDOM: () => ['math', 0],
+    parseDOM: [{ tag: 'math' }],
+  },
+}
+
 export default {
   ...nodes,
   ...listNodes,
@@ -189,4 +191,5 @@ export default {
     cellContent: 'block+',
   }),
   ...footnoteNodes,
+  ...mathNodes,
 }
