@@ -7,13 +7,10 @@ import { selectPlugin } from './select'
 import { citationPlugin, citationUI } from './citations'
 import { default as footnotes } from './footnotes'
 import { default as math } from './math'
-
-// TODO: move directly into components
-import { placeholder } from '@aeaton/prosemirror-placeholder'
+import { default as placeholder } from './placeholder'
 
 // import 'prosemirror-tables/style/tables.css'
 import 'prosemirror-gapcursor/style/gapcursor.css'
-import '@aeaton/prosemirror-placeholder/style/placeholder.css'
 
 import keys from './keys'
 import rules from './rules'

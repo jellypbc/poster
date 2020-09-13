@@ -1,0 +1,23 @@
+.title .ProseMirror .empty-node::before {
+  float: center;
+  color: #aaa;
+  pointer-events: none;
+  height: 0;
+  font-style: italic;
+}
+
+.post-editor .ProseMirror .empty-node::before {
+  float: left;
+  color: #aaa;
+  pointer-events: none;
+  height: 0;
+  font-style: italic;
+}
+
+.title .ProseMirror p.empty-node:first-child::before {
+  content: 'Start typing...';
+}
+
+.post-editor .ProseMirror p.empty-node:first-child::before {
+  content: 'Start typing...';
+}
