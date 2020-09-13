@@ -10,7 +10,6 @@ import { default as math } from './math'
 import { default as placeholder } from './placeholder'
 
 // import 'prosemirror-tables/style/tables.css'
-import 'prosemirror-gapcursor/style/gapcursor.css'
 
 import keys from './keys'
 import rules from './rules'
