@@ -6,6 +6,7 @@ import { commentPlugin, commentUI } from './comments'
 import { selectPlugin } from './select'
 import { citationPlugin, citationUI } from './citations'
 import { default as footnotes } from './footnotes'
+import { default as math } from './math'
 
 // TODO: move directly into components
 import { placeholder } from '@aeaton/prosemirror-placeholder'
@@ -24,6 +25,7 @@ const setupPlugins = (getView) => [
   keys,
   placeholder(),
   footnotes(),
+  math(),
   dropCursor(),
   gapCursor(),
   history(),

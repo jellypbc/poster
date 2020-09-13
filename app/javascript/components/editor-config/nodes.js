@@ -136,9 +136,6 @@ const nodes = {
       return brDOM
     },
   },
-}
-
-const listNodes = {
   ordered_list: {
     ...orderedList,
     content: 'list_item+',
@@ -153,9 +150,6 @@ const listNodes = {
     ...listItem,
     content: 'paragraph block*',
   },
-}
-
-const footnoteNodes = {
   footnote: {
     group: 'inline',
     content: 'inline*',
@@ -165,13 +159,19 @@ const footnoteNodes = {
     toDOM: () => ['prosemirror-footnote', 0],
     parseDOM: [{ tag: 'prosemirror-footnote' }],
   },
-}
-
-const mathNodes = {
   // :: NodeSpec A math listing. Disallows marks or non-text inline
   // nodes by default. Represented as a `<pre>` element with a
   // `<math>` element inside of it.
   math_block: {
+    content: 'text*',
+    marks: '',
+    group: 'block',
+    math: true,
+    defining: true,
+    parseDOM: [{ tag: 'pre', preserveWhitespace: 'full' }],
+    toDOM: () => ['math', 0],
+  },
+  math_inline: {
     group: 'inline',
     content: 'inline*',
     draggable: true,
@@ -185,11 +185,8 @@ const mathNodes = {
 
 export default {
   ...nodes,
-  ...listNodes,
   ...tableNodes({
     tableGroup: 'block',
     cellContent: 'block+',
   }),
-  ...footnoteNodes,
-  ...mathNodes,
 }
