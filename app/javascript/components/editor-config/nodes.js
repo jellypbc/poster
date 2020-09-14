@@ -85,6 +85,7 @@ const nodes = {
     group: 'block',
     code: true,
     defining: true,
+
     parseDOM: [{ tag: 'pre', preserveWhitespace: 'full' }],
     toDOM() {
       return preDOM
@@ -152,12 +153,24 @@ const nodes = {
   },
   footnote: {
     group: 'inline',
-    content: 'inline*',
+    content: 'text*',
     inline: true,
     draggable: true,
     atom: true,
-    toDOM: () => ['prosemirror-footnote', 0],
-    parseDOM: [{ tag: 'prosemirror-footnote' }],
+    toDOM: () => ['div', { class: 'Math' }, 0],
+    parseDOM: [{ tag: 'div.Math' }],
+    // toDOM: () => ['prosemirror-footnote', 0],
+    // parseDOM: [{ tag: 'prosemirror-footnote' }],
+  },
+  footnote_display: {
+    group: 'block',
+    content: 'text*',
+    marks: '',
+    atom: true,
+    code: true,
+    defining: true,
+    toDOM: () => ['div', { class: 'Math' }, 0],
+    parseDOM: [{ tag: 'div.Math' }],
   },
   // :: NodeSpec A math listing. Disallows marks or non-text inline
   // nodes by default. Represented as a `<pre>` element with a
@@ -170,16 +183,6 @@ const nodes = {
     defining: true,
     parseDOM: [{ tag: 'pre', preserveWhitespace: 'full' }],
     toDOM: () => ['math', 0],
-  },
-  math_inline: {
-    group: 'inline',
-    content: 'inline*',
-    draggable: true,
-    inline: true,
-    atom: true,
-    // marks: '',
-    toDOM: () => ['math', 0],
-    parseDOM: [{ tag: 'math' }],
   },
 }
 

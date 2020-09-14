@@ -2,7 +2,8 @@ import React from 'react'
 import { EditorState } from 'prosemirror-state'
 import { EditorView } from 'prosemirror-view'
 import { commentPluginKey } from './editor-config/comments'
-// import applyDevTools from 'prosemirror-dev-tools'
+import applyDevTools from 'prosemirror-dev-tools'
+import FootnoteView from './FootnoteView'
 
 class Editor extends React.Component {
   constructor(props) {
@@ -13,6 +14,9 @@ class Editor extends React.Component {
     this.editorRef = React.createRef()
 
     const getView = () => this.view
+
+    // var that = this
+    // var edit = that.isEditable
 
     this.view = new EditorView(null, {
       // prosemirror options = { plugins, schema, comments: { comments: [] } }
@@ -49,9 +53,17 @@ class Editor extends React.Component {
         console.log('eve', event)
         return true
       },
+      nodeViews: {
+        // var edit = that.isEditable
+        // var edit = store.getState.currentUser
+        // if edit { edit = true }
+        footnote(node, view, getPos) {
+          return new FootnoteView(node, view, getPos)
+        },
+      },
     })
 
-    // applyDevTools(this.view)
+    applyDevTools(this.view)
   }
 
   componentDidMount() {

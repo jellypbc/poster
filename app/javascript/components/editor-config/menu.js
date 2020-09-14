@@ -81,6 +81,13 @@ export default {
       run: addCitation,
     },
   },
+  math: {
+    addMath: {
+      title: 'Add Math',
+      content: icons.math,
+      run: setBlockType(schema.nodes.math_block),
+    },
+  },
   marks: {
     em: {
       title: 'Toggle emphasis',
@@ -207,18 +214,6 @@ export default {
     },
   },
   insert: {
-    // image: {
-    //   title: 'Insert image',
-    //   content: icons.image,
-    //   enable: canInsert(schema.nodes.image),
-    //   run: (state, dispatch) => {
-    //     const src = promptForURL()
-    //     if (!src) return false
-
-    //     const img = schema.nodes.image.createAndFill({ src })
-    //     dispatch(state.tr.replaceSelectionWith(img))
-    //   },
-    // },
     footnote: {
       title: 'Insert footnote',
       content: icons.footnote,
@@ -226,6 +221,15 @@ export default {
       run: (state, dispatch) => {
         const footnote = schema.nodes.footnote.create()
         dispatch(state.tr.replaceSelectionWith(footnote))
+      },
+    },
+    math: {
+      title: 'Insert math',
+      content: icons.math,
+      enable: canInsert(schema.nodes.math_inline),
+      run: (state, dispatch) => {
+        const math = schema.nodes.inline_math.create()
+        dispatch(state.tr.replaceSelectionWith(math))
       },
     },
     // hr: {

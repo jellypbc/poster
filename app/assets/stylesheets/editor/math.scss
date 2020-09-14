@@ -1,3 +1,41 @@
 math {
   background-color: orange;
 }
+
+.ProseMirror {
+  counter-reset: prosemirror-footnote;
+}
+
+.Math {
+  display: inline-block;
+  width: auto;
+  white-space: normal;
+  position: relative;
+  font-family: monospace;
+}
+
+.Math > * {
+  display: block;
+}
+
+.Math .ProseMirror {
+  display: block;
+  font-size: inherit;
+  padding: 0em;
+}
+
+.Math .katex-editor,
+.Math .katex-render {
+  padding: 0em;
+}
+
+// .Math .katex-editor:before,
+// .Math .katex-editor:after {
+//   content: "$";
+//   color: #E1E1E0;
+//   font-style: monospace;
+// }
+
+.katex {
+  font: normal 1.1em KaTeX_Main !important;
+}

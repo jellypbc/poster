@@ -22,6 +22,7 @@ import {
   faOutdent,
   faAngleUp,
   faComment,
+  faBomb,
 } from '@fortawesome/fontawesome-free-solid'
 
 export default {
@@ -49,4 +50,5 @@ export default {
   lift: <FontAwesomeIcon icon={faOutdent} />,
   join_up: <FontAwesomeIcon icon={faAngleUp} />,
   comment: <FontAwesomeIcon icon={faComment} />,
+  math: <FontAwesomeIcon icon={faBomb} />,
 }

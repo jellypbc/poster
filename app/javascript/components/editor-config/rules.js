@@ -8,7 +8,7 @@ import {
 } from 'prosemirror-inputrules'
 
 import { schema } from './schema'
-import { blockInputRule } from './math-inputrules'
+import { blockInputRule, inlineInputRule } from './math-inputrules'
 
 export default inputRules({
   rules: [
@@ -41,6 +41,9 @@ export default inputRules({
     ),
 
     // $$ math block
-    blockInputRule(/^\$\$\s+$/, schema.nodes.math_block),
+    inlineInputRule(/^\$\$\s+$/, schema.nodes.footnote_display),
+
+    // $a+b$ inline math
+    inlineInputRule(/(?:\$)([^\$]+)(?:\$)$/, schema.nodes.footnote),
   ],
 })

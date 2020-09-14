@@ -3,15 +3,32 @@ import { keymap } from 'prosemirror-keymap'
 import { undo, redo } from 'prosemirror-history'
 import { EditorView } from 'prosemirror-view'
 import { EditorState } from 'prosemirror-state'
+import { store } from '../store'
+
+import katex from 'katex'
 
 class FootnoteView {
   constructor(node, view, getPos) {
     this.node = node
+    console.log('this.node', this.node)
     this.outerView = view
+    console.log('this.outerView', this.outerView)
     this.getPos = getPos
+    console.log('this.getPos', this.getPos)
 
-    this.dom = document.createElement('prosemirror-footnote')
+    let temp = document.createElement('div')
+    temp.innerHTML = `
+      <div class="Math" contentEditable="false">
+        <div class="katex-render" ref="render"></div>
+        <div class="katex-editor" ref="editor"></div>
+      </div>`
+
+    this.dom = temp.firstElementChild
     this.innerView = null
+    // var { currentUser } = store.getState()
+    // console.log('currentUser', currentUser)
+    this.open()
+    this.close()
   }
 
   selectNode() {
@@ -31,8 +48,7 @@ class FootnoteView {
   }
 
   open() {
-    const tooltip = this.dom.appendChild(document.createElement('div'))
-    tooltip.className = 'footnote-tooltip'
+    const tooltip = this.dom.querySelector('.katex-editor')
 
     this.innerView = new EditorView(tooltip, {
       state: EditorState.create({
@@ -52,39 +68,57 @@ class FootnoteView {
           }
         },
       },
+      // editable: function (state) {
+      //   console.log('rprops', this)
+      //   return false
+      // }.bind(this),
     })
 
+    var editor = this.innerView
+    var dom = this.dom
+
+    this.dom
+      .querySelector('.katex-editor')
+      .addEventListener('input', function (event) {
+        let value = editor.dom.textContent
+        katex.render(value, dom.querySelector('.katex-render'), {
+          throwOnError: false,
+          displayMod: false,
+        })
+      })
     this.innerView.focus()
+    let value = editor.dom.textContent
+    katex.render(value, dom.querySelector('.katex-render'), {
+      throwOnError: false,
+      displayMode: false,
+    })
   }
 
   close() {
     this.innerView.destroy()
     this.innerView = null
-    this.dom.textContent = ''
   }
 
   dispatchInner(tr) {
+    console.log('dispatch inner', JSON.stringify(tr.steps))
     const { state, transactions } = this.innerView.state.applyTransaction(tr)
 
     this.innerView.updateState(state)
 
     if (!tr.getMeta('fromOutside')) {
-      const outerTr = this.outerView.state.tr
-      const offsetMap = StepMap.offset(this.getPos() + 1)
-
-      transactions.forEach((transaction) => {
-        transaction.steps.forEach((step) => {
-          outerTr.step(step.map(offsetMap))
-        })
-      })
-
-      if (outerTr.docChanged) {
-        this.outerView.dispatch(outerTr)
+      let outerTr = this.outerView.state.tr,
+        offsetMap = StepMap.offset(this.getPos() + 1)
+      for (let i = 0; i < transactions.length; i++) {
+        let steps = transactions[i].steps
+        for (let j = 0; j < steps.length; j++)
+          outerTr.step(steps[j].map(offsetMap))
       }
+      if (outerTr.docChanged) this.outerView.dispatch(outerTr)
     }
   }
 
   update(node) {
+    console.log('update node to ', node)
     if (!node.sameMarkup(this.node)) {
       return false
     }
