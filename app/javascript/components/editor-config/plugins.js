@@ -6,7 +6,6 @@ import { commentPlugin, commentUI } from './comments'
 import { selectPlugin } from './select'
 import { citationPlugin, citationUI } from './citations'
 import { default as footnotes } from './footnotes'
-import { default as math } from './math'
 import { default as placeholder } from './placeholder'
 
 // import 'prosemirror-tables/style/tables.css'
@@ -21,7 +20,6 @@ const setupPlugins = (getView) => [
   keys,
   placeholder(),
   footnotes(),
-  math(),
   dropCursor(),
   gapCursor(),
   history(),
