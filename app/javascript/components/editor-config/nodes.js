@@ -86,7 +86,6 @@ const nodes = {
     group: 'block',
     code: true,
     defining: true,
-
     parseDOM: [{ tag: 'pre', preserveWhitespace: 'full' }],
     toDOM() {
       return preDOM

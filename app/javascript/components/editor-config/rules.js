@@ -8,7 +8,7 @@ import {
 } from 'prosemirror-inputrules'
 
 import { schema } from './schema'
-import { inlineInputRule } from './math-inputrules'
+import { inlineInputRule } from './inputrules'
 
 export default inputRules({
   rules: [
