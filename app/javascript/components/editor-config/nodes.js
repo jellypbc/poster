@@ -1,5 +1,6 @@
 import { orderedList, bulletList, listItem } from './schema-list'
 import { tableNodes } from 'prosemirror-tables'
+import { footnoteNodes } from '@aeaton/prosemirror-footnotes'
 
 const pDOM = ['p', 0],
   blockquoteDOM = ['blockquote', 0],
@@ -151,7 +152,7 @@ const nodes = {
     ...listItem,
     content: 'paragraph block*',
   },
-  footnote: {
+  math: {
     group: 'inline',
     content: 'text*',
     inline: true,
@@ -159,30 +160,6 @@ const nodes = {
     atom: true,
     toDOM: () => ['div', { class: 'Math' }, 0],
     parseDOM: [{ tag: 'div.Math' }],
-    // toDOM: () => ['prosemirror-footnote', 0],
-    // parseDOM: [{ tag: 'prosemirror-footnote' }],
-  },
-  footnote_display: {
-    group: 'block',
-    content: 'text*',
-    marks: '',
-    atom: true,
-    code: true,
-    defining: true,
-    toDOM: () => ['div', { class: 'Math' }, 0],
-    parseDOM: [{ tag: 'div.Math' }],
-  },
-  // :: NodeSpec A math listing. Disallows marks or non-text inline
-  // nodes by default. Represented as a `<pre>` element with a
-  // `<math>` element inside of it.
-  math_block: {
-    content: 'text*',
-    marks: '',
-    group: 'block',
-    math: true,
-    defining: true,
-    parseDOM: [{ tag: 'pre', preserveWhitespace: 'full' }],
-    toDOM: () => ['math', 0],
   },
 }
 
@@ -192,4 +169,5 @@ export default {
     tableGroup: 'block',
     cellContent: 'block+',
   }),
+  ...footnoteNodes,
 }

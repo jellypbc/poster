@@ -1,12 +1,12 @@
 import { Plugin } from 'prosemirror-state'
-import FootnoteView from '../FootnoteView'
+import MathView from '../MathView'
 
 export default (options) => {
   return new Plugin({
     props: {
       nodeViews: {
-        footnote: (node, view, getPos) => {
-          return new FootnoteView(node, view, getPos)
+        math: (node, view, getPos) => {
+          return new MathView(node, view, getPos)
         },
       },
     },

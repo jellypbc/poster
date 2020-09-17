@@ -85,7 +85,7 @@ export default {
     addMath: {
       title: 'Add Math',
       content: icons.math,
-      run: setBlockType(schema.nodes.math_block),
+      run: setBlockType(schema.nodes.math),
     },
   },
   marks: {

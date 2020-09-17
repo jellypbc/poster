@@ -3,11 +3,10 @@ import { keymap } from 'prosemirror-keymap'
 import { undo, redo } from 'prosemirror-history'
 import { EditorView } from 'prosemirror-view'
 import { EditorState } from 'prosemirror-state'
-import { store } from '../store'
 
 import katex from 'katex'
 
-class FootnoteView {
+class MathView {
   constructor(node, view, getPos) {
     this.node = node
     console.log('this.node', this.node)
@@ -165,4 +164,4 @@ class FootnoteView {
   }
 }
 
-export default FootnoteView
+export default MathView

@@ -5,10 +5,14 @@ import { columnResizing, tableEditing } from 'prosemirror-tables'
 import { commentPlugin, commentUI } from './comments'
 import { selectPlugin } from './select'
 import { citationPlugin, citationUI } from './citations'
-import { default as footnotes } from './footnotes'
+import { footnotes } from '@aeaton/prosemirror-footnotes'
+import { default as math } from './math'
 import { default as placeholder } from './placeholder'
 
 // import 'prosemirror-tables/style/tables.css'
+import 'prosemirror-gapcursor/style/gapcursor.css'
+import '@aeaton/prosemirror-footnotes/style/footnotes.css'
+import '@aeaton/prosemirror-placeholder/style/placeholder.css'
 
 import keys from './keys'
 import rules from './rules'
@@ -34,6 +38,7 @@ const setupPlugins = (getView) => [
   citationUI((transaction) => {
     getView().dispatch(transaction)
   }),
+  math(),
 ]
 
 export default setupPlugins

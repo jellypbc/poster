@@ -41,6 +41,6 @@ export default inputRules({
     ),
 
     // $...$ inline math
-    inlineInputRule(/(?:\$)([^\$]+)(?:\$)$/, schema.nodes.footnote),
+    inlineInputRule(/(?:\$)([^\$]+)(?:\$)$/, schema.nodes.math),
   ],
 })
