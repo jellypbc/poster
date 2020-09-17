@@ -83,9 +83,13 @@ export default {
   },
   math: {
     addMath: {
-      title: 'Add Math',
+      title: 'Add math',
       content: icons.math,
-      run: setBlockType(schema.nodes.math),
+      enable: canInsert(schema.nodes.math),
+      run: (state, dispatch) => {
+        const math = schema.nodes.math.create()
+        dispatch(state.tr.replaceSelectionWith(math))
+      },
     },
   },
   marks: {
@@ -221,15 +225,6 @@ export default {
       run: (state, dispatch) => {
         const footnote = schema.nodes.footnote.create()
         dispatch(state.tr.replaceSelectionWith(footnote))
-      },
-    },
-    math: {
-      title: 'Insert math',
-      content: icons.math,
-      enable: canInsert(schema.nodes.math_inline),
-      run: (state, dispatch) => {
-        const math = schema.nodes.inline_math.create()
-        dispatch(state.tr.replaceSelectionWith(math))
       },
     },
     // hr: {
