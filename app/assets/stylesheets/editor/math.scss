@@ -1,9 +1,5 @@
-math {
-  background-color: orange;
-}
-
-.ProseMirror {
-  counter-reset: prosemirror-footnote;
+.Prosemirror {
+  counter-reset: math;
 }
 
 .Math {
@@ -15,11 +11,11 @@ math {
 }
 
 .Math > * {
-  display: block;
+  display: inline;
 }
 
 .Math .ProseMirror {
-  display: block;
+  display: inline;
   font-size: inherit;
   padding: 0em;
 }
@@ -37,5 +33,5 @@ math {
 // }
 
 .katex {
-  font: normal 1.1em KaTeX_Main !important;
+  font: normal 1.1em KaTeX_Math !important;
 }

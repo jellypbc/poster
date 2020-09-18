@@ -153,7 +153,7 @@ const nodes = {
   },
   math: {
     group: 'inline',
-    content: 'text*',
+    content: 'inline*',
     inline: true,
     draggable: true,
     atom: true,
