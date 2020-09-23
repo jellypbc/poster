@@ -14,17 +14,6 @@ const nodes = {
     content: 'block+',
   },
 
-  header: {
-    attrs: { level: { default: 0 } },
-    content: 'inline*',
-    group: 'block',
-    defining: true,
-    parseDOM: [{ tag: 'head', preserveWhitespace: false }],
-    toDOM() {
-      return ['p', 0]
-    },
-  },
-
   // :: NodeSpec A plain paragraph textblock. Represented in the DOM
   // as a `<p>` element.
   paragraph: {
