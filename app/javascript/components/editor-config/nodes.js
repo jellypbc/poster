@@ -14,17 +14,6 @@ const nodes = {
     content: 'block+',
   },
 
-  header: {
-    attrs: { level: { default: 0 } },
-    content: 'inline*',
-    group: 'block',
-    defining: true,
-    parseDOM: [{ tag: 'head', preserveWhitespace: false }],
-    toDOM() {
-      return ['p', 0]
-    },
-  },
-
   // :: NodeSpec A plain paragraph textblock. Represented in the DOM
   // as a `<p>` element.
   paragraph: {
@@ -151,14 +140,23 @@ const nodes = {
     ...listItem,
     content: 'paragraph block*',
   },
-  math: {
+  math_inline: {
     group: 'inline',
     content: 'inline*',
     inline: true,
     draggable: true,
     atom: true,
-    toDOM: () => ['div', { class: 'Math' }, 0],
-    parseDOM: [{ tag: 'div.Math' }],
+    toDOM: () => ['div', { class: 'math' }, 0],
+    parseDOM: [{ tag: 'div.math' }],
+  },
+  math_block: {
+    group: 'block',
+    content: 'text*',
+    draggable: true,
+    atom: true,
+    block: true,
+    toDOM: () => ['div', { class: 'math-block' }, 0],
+    parseDOM: [{ tag: 'div.math-block' }],
   },
 }
 

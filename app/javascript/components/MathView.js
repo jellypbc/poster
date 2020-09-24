@@ -7,25 +7,34 @@ import { EditorState } from 'prosemirror-state'
 import katex from 'katex'
 
 class MathView {
-  constructor(node, view, getPos) {
+  constructor(node, view, getPos, block) {
     this.node = node
-    console.log('this.node', this.node)
     this.outerView = view
-    console.log('this.outerView', this.outerView)
     this.getPos = getPos
-    console.log('this.getPos', this.getPos)
+    this.block = block
 
     let temp = document.createElement('div')
-    temp.innerHTML = `
-      <div class="Math" contentEditable="false">
-        <div class="katex-render" ref="render"></div>
-        <div class="katex-editor" ref="editor"></div>
+
+    if (this.block) {
+      temp.innerHTML = `
+      <div class="math-block" contentEditable="false">
+        <div class="katex-render" ref="render">
+        </div>
+        <div class="katex-editor" ref="editor">
+        </div>
       </div>`
+    } else {
+      temp.innerHTML = `
+      <div class="math" contentEditable="false">
+        <div class="katex-render" ref="render">
+        </div>
+        <div class="katex-editor" ref="editor">
+        </div>
+      </div>`
+    }
 
     this.dom = temp.firstElementChild
     this.innerView = null
-    // var { currentUser } = store.getState()
-    // console.log('currentUser', currentUser)
     this.open()
     this.close()
   }

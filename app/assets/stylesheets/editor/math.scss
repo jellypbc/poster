@@ -2,7 +2,11 @@
   counter-reset: math;
 }
 
-.Math {
+.math-block {
+  background: yellowgreen;
+}
+
+.math {
   display: inline-block;
   width: auto;
   white-space: normal;
@@ -10,18 +14,18 @@
   font-family: monospace;
 }
 
-.Math > * {
+.math > * {
   display: inline;
 }
 
-.Math .ProseMirror {
+.math .ProseMirror {
   display: inline;
   font-size: inherit;
   padding: 0em;
 }
 
-.Math .katex-editor,
-.Math .katex-render {
+.math .katex-editor,
+.math .katex-render {
   padding: 0em;
 }
 
