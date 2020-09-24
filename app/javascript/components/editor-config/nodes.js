@@ -142,7 +142,7 @@ const nodes = {
   },
   math_inline: {
     group: 'inline',
-    content: 'inline*',
+    content: 'text*',
     inline: true,
     draggable: true,
     atom: true,
