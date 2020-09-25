@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react'
 import { EditorView } from 'prosemirror-view'
 import { EditorState } from 'prosemirror-state'
+import { default as math } from './editor-config/math'
 
 function useEventListener(eventName, handler, element = window) {
   // Create a ref that stores handler
@@ -91,6 +92,7 @@ function Sidebar(props) {
   useEffect(() => {
     view.current = new EditorView(viewHost.current, {
       state: EditorState.create({
+        plugins: [math()],
         ...props.options,
       }),
       editable: function (state) {

@@ -26,6 +26,8 @@
   }
 
   .ProseMirror {
+    padding-left: 1px;
+    counter-reset: math-block;
     user-select: none;
     h1 {
       font-size: 3px;
@@ -44,7 +46,25 @@
       text-align: center;
       margin: auto;
     }
+    pre {
+      padding-left: 1px;
+      margin: 0;
+      border-radius: 1px;
+      line-height: 0;
+    }
+    code {
+      font-size: 2px;
+      line-height: 0;
+    }
+    .math-block {
+      font-size: 2px;
+    }
+    .math-block .katex-render::after {
+      counter-increment: math-block;
+      content: counter(math-block)
+    }
   }
+
   .ProseMirror-selectednode {
     outline: none;
   }
