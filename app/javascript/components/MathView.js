@@ -42,7 +42,7 @@ class MathView {
   selectNode() {
     this.dom.classList.add('ProseMirror-selectednode')
 
-    if (!this.innerView) {
+    if (!this.innerView && this.outerView.editable) {
       this.open()
     }
   }
@@ -76,10 +76,6 @@ class MathView {
           }
         },
       },
-      // editable: function (state) {
-      //   console.log('rprops', this)
-      //   return false
-      // }.bind(this),
     })
 
     var editor = this.innerView
