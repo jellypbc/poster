@@ -25,7 +25,7 @@ class MathView {
       </div>`
     } else {
       temp.innerHTML = `
-      <div class="math" contentEditable="false">
+      <div class="math-inline" contentEditable="false">
         <div class="katex-render" ref="render">
         </div>
         <div class="katex-editor" ref="editor">

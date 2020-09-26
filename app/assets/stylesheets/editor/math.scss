@@ -10,11 +10,11 @@
   right: 1rem;
 }
 
-.math-block {
+.math-block .katex-render {
   text-align: center;
 }
 
-.math {
+.math-inline {
   display: inline-block;
   width: auto;
   white-space: normal;
@@ -22,18 +22,18 @@
   font-family: monospace;
 }
 
-.math > * {
+.math-inline > * {
   display: inline;
 }
 
-.math .ProseMirror {
+.math-inline .ProseMirror {
   display: inline;
   font-size: inherit;
   padding: 0em;
 }
 
-.math .katex-editor,
-.math .katex-render {
+.math-inline .katex-editor,
+.math-inline .katex-render {
   padding: 0em;
 }
 

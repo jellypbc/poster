@@ -146,17 +146,17 @@ const nodes = {
     inline: true,
     draggable: true,
     atom: true,
-    toDOM: () => ['div', { class: 'math' }, 0],
-    parseDOM: [{ tag: 'div.math' }],
+    toDOM: () => ['math-inline', 0],
+    parseDOM: [{ tag: 'math-inline' }],
   },
   math_block: {
     group: 'block',
     content: 'text*',
+    block: true,
     draggable: true,
     atom: true,
-    block: true,
-    toDOM: () => ['div', { class: 'math-block' }, 0],
-    parseDOM: [{ tag: 'div.math-block' }],
+    toDOM: () => ['math-block', 0],
+    parseDOM: [{ tag: 'math-block' }],
   },
 }
 
