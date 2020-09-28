@@ -6,7 +6,7 @@ import { commentPlugin, commentUI } from './comments'
 import { selectPlugin } from './select'
 import { citationPlugin, citationUI } from './citations'
 import { footnotes } from '@aeaton/prosemirror-footnotes'
-import { default as math } from './math'
+import { math } from './math'
 
 // TODO: move directly into components
 import { placeholder } from '@aeaton/prosemirror-placeholder'
