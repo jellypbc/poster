@@ -5,7 +5,7 @@ import { columnResizing, tableEditing } from 'prosemirror-tables'
 import { commentPlugin, commentUI } from './comments'
 import { selectPlugin } from './select'
 import { citationPlugin, citationUI } from './citations'
-import { default as placeholder } from './placeholder'
+import { placeholder } from './placeholder'
 
 // TODO: move directly into components
 import { footnotes } from '@aeaton/prosemirror-footnotes'
