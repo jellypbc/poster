@@ -13,3 +13,7 @@
   float: left;
   content: 'Start typing...';
 }
+
+.post-editor .ProseMirror table p.empty-node:only-child::before {
+  content: none;
+}
