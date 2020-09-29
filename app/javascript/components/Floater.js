@@ -38,7 +38,14 @@ class Floater extends React.Component {
     const { view } = props
     const { selection } = view.state
 
-    if (!selection || selection.empty) {
+    let mathNodeIsSelected =
+      selection.node &&
+      selection.node.type &&
+      selection.node.type.name &&
+      (selection.node.type.name === 'math_block' ||
+        selection.node.type.name === 'math_inline')
+
+    if (!selection || selection.empty || mathNodeIsSelected) {
       return {
         left: -1000,
         top: 0,
