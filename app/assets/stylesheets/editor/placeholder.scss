@@ -17,3 +17,11 @@
 .post-editor .ProseMirror table p.empty-node:only-child::before {
   content: none;
 }
+
+.post-editor .ProseMirror ul p.empty-node:only-child::before {
+  content: none;
+}
+
+.post-editor .ProseMirror ol p.empty-node:only-child::before {
+  content: none;
+}
