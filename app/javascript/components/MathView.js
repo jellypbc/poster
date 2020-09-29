@@ -15,13 +15,23 @@ class MathView {
 
     let temp = document.createElement('div')
 
-    temp.innerHTML = `
-    <div class="math-inline" contentEditable="false">
-      <div class="katex-render" ref="render">
-      </div>
-      <div class="katex-editor" ref="editor">
-      </div>
-    </div>`
+    if (this.block) {
+      temp.innerHTML = `
+      <div class="math-block" contentEditable="false">
+        <div class="katex-render" ref="render">
+        </div>
+        <div class="katex-editor" ref="editor">
+        </div>
+      </div>`
+    } else {
+      temp.innerHTML = `
+      <div class="math-inline" contentEditable="false">
+        <div class="katex-render" ref="render">
+        </div>
+        <div class="katex-editor" ref="editor">
+        </div>
+      </div>`
+    }
 
     this.dom = temp.firstElementChild
     this.innerView = null

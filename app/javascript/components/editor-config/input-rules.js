@@ -19,6 +19,27 @@ export function inlineMathInputRule(regexp, nodeType, getAttrs) {
   })
 }
 
+export function blockMathInputRule(regexp, nodeType, getAttrs) {
+  return new InputRule(regexp, (state, match, start, end) => {
+    let $start = state.doc.resolve(start)
+    let attrs = getAttrs instanceof Function ? getAttrs(match) : getAttrs
+    if (
+      !$start
+        .node(-1)
+        .canReplaceWith($start.index(-1), $start.indexAfter(-1), nodeType)
+    )
+      return null
+    let tr = state.tr
+      .delete(start, end)
+      .setBlockType(start, start, nodeType, attrs)
+
+    // sets selection to math node
+    return tr.setSelection(
+      NodeSelection.create(tr.doc, tr.mapping.map($start.pos - 1))
+    )
+  })
+}
+
 export function textblockTypeInputRule(regexp, nodeType, getAttrs) {
   return new InputRule(regexp, (state, match, start, end) => {
     let $start = state.doc.resolve(start)

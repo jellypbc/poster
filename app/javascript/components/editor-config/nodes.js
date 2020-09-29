@@ -137,6 +137,17 @@ const nodes = {
     toDOM: () => ['math-inline', 0],
     parseDOM: [{ tag: 'math-inline' }],
   },
+
+  // :: NodeSpec A block math element.
+  math_block: {
+    group: 'block',
+    content: 'text*',
+    block: true,
+    draggable: true,
+    atom: true,
+    toDOM: () => ['math-block', 0],
+    parseDOM: [{ tag: 'math-block' }],
+  },
 }
 
 const listNodes = {

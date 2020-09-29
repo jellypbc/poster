@@ -7,6 +7,7 @@ import {
 
 import {
   inlineMathInputRule,
+  blockMathInputRule,
   wrappingInputRule,
   textblockTypeInputRule,
 } from './input-rules'
@@ -45,5 +46,8 @@ export default inputRules({
 
     // $...$ math inline
     inlineMathInputRule(/(?:\$)([^$]+)(?:\$)$/, schema.nodes.math_inline),
+
+    // $$ math block
+    blockMathInputRule(/^\$\$$/, schema.nodes.math_block),
   ],
 })

@@ -8,6 +8,9 @@ export function math(options) {
         math_inline: (node, view, getPos) => {
           return new MathView(node, view, getPos)
         },
+        math_block: (node, view, getPos, block) => {
+          return new MathView(node, view, getPos, block)
+        },
       },
     },
   })
