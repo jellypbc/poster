@@ -5,6 +5,7 @@ import { columnResizing, tableEditing } from 'prosemirror-tables'
 import { commentPlugin, commentUI } from './comments'
 import { selectPlugin } from './select'
 import { citationPlugin, citationUI } from './citations'
+import { math } from './math'
 
 // TODO: move directly into components
 import { placeholder } from '@aeaton/prosemirror-placeholder'
@@ -39,6 +40,7 @@ const setupPlugins = (getView) => [
   citationUI((transaction) => {
     getView().dispatch(transaction)
   }),
+  math(),
 ]
 
 export default setupPlugins

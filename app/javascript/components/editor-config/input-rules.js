@@ -1,9 +1,26 @@
 import { InputRule } from 'prosemirror-inputrules'
-// import { NodeSelection } from 'prosemirror-state'
+import { NodeSelection } from 'prosemirror-state'
 import { findWrapping, canJoin } from 'prosemirror-transform'
 
-export function textblockTypeInputRule(rule, nodeType, getAttrs) {
-  return new InputRule(rule, (state, match, start, end) => {
+export function inlineMathInputRule(regexp, nodeType, getAttrs) {
+  return new InputRule(regexp, (state, match, start, end) => {
+    let attrs = getAttrs instanceof Function ? getAttrs(match) : getAttrs
+    const [matchedText, content] = match
+    const { tr, schema } = state
+    if (matchedText) {
+      const node = nodeType.createChecked(attrs, schema.text(content))
+      tr.replaceWith(start, end, node)
+      const contentPos = tr.doc.resolve(
+        tr.selection.anchor - tr.selection.$anchor.nodeBefore.nodeSize
+      )
+      tr.setSelection(new NodeSelection(contentPos))
+    }
+    return tr
+  })
+}
+
+export function textblockTypeInputRule(regexp, nodeType, getAttrs) {
+  return new InputRule(regexp, (state, match, start, end) => {
     let $start = state.doc.resolve(start)
     let attrs = getAttrs instanceof Function ? getAttrs(match) : getAttrs
     if (
@@ -18,8 +35,8 @@ export function textblockTypeInputRule(rule, nodeType, getAttrs) {
   })
 }
 
-export function wrappingInputRule(rule, nodeType, getAttrs, joinPredicate) {
-  return new InputRule(rule, (state, match, start, end) => {
+export function wrappingInputRule(regexp, nodeType, getAttrs, joinPredicate) {
+  return new InputRule(regexp, (state, match, start, end) => {
     let attrs = getAttrs instanceof Function ? getAttrs(match) : getAttrs
     let tr = state.tr.delete(start, end)
     let $start = tr.doc.resolve(start),

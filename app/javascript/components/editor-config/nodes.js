@@ -126,6 +126,17 @@ const nodes = {
       return brDOM
     },
   },
+
+  // :: NodeSpec An inline math element.
+  math_inline: {
+    group: 'inline',
+    content: 'text*',
+    inline: true,
+    draggable: true,
+    atom: true,
+    toDOM: () => ['math-inline', 0],
+    parseDOM: [{ tag: 'math-inline' }],
+  },
 }
 
 const listNodes = {
