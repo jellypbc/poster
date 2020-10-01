@@ -1,0 +1,27 @@
+.ProseMirror .empty-node::before {
+  color: #aaa;
+  pointer-events: none;
+  height: 0;
+}
+
+.title .ProseMirror p.empty-node:first-child::before {
+  float: center;
+  content: 'Untitled';
+}
+
+.post-editor .ProseMirror p.empty-node:only-child::before {
+  float: left;
+  content: 'Start typing...';
+}
+
+.post-editor .ProseMirror table p.empty-node:only-child::before {
+  content: none;
+}
+
+.post-editor .ProseMirror ul p.empty-node:only-child::before {
+  content: none;
+}
+
+.post-editor .ProseMirror ol p.empty-node:only-child::before {
+  content: none;
+}
