@@ -1,11 +1,16 @@
 import {
   inputRules,
-  wrappingInputRule,
-  textblockTypeInputRule,
   smartQuotes,
   emDash,
   ellipsis,
 } from 'prosemirror-inputrules'
+
+import {
+  inlineMathInputRule,
+  blockMathInputRule,
+  wrappingInputRule,
+  textblockTypeInputRule,
+} from './input-rules'
 
 import { schema } from './schema'
 
@@ -38,5 +43,11 @@ export default inputRules({
       schema.nodes.heading,
       (match) => ({ level: match[1].length })
     ),
+
+    // $...$ math inline
+    inlineMathInputRule(/(?:\$)([^$]+)(?:\$)$/, schema.nodes.math_inline),
+
+    // $$ math block
+    blockMathInputRule(/^\$\$$/, schema.nodes.math_block),
   ],
 })

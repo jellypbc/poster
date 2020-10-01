@@ -1,0 +1,38 @@
+.post-editor {
+  counter-reset: math-block;
+}
+
+.math-block .katex-render::after {
+  counter-increment: math-block;
+  content: "( " counter(math-block) " )";
+  padding-left: 100px;
+  position: absolute;
+  right: 1rem;
+}
+
+.math-block .katex-render {
+  text-align: center;
+}
+
+.math-inline {
+  display: inline-block;
+  width: auto;
+  white-space: normal;
+  position: relative;
+  font-family: monospace;
+}
+
+.math-inline > * {
+  display: inline;
+}
+
+.math-inline .ProseMirror {
+  display: inline;
+  font-size: inherit;
+  padding: 0em;
+}
+
+.math-inline .katex-editor,
+.math-inline .katex-render {
+  padding: 0em;
+}

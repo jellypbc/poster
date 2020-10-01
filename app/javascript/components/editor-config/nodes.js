@@ -126,6 +126,28 @@ const nodes = {
       return brDOM
     },
   },
+
+  // :: NodeSpec An inline math element.
+  math_inline: {
+    group: 'inline',
+    content: 'text*',
+    inline: true,
+    draggable: true,
+    atom: true,
+    toDOM: () => ['math-inline', 0],
+    parseDOM: [{ tag: 'math-inline' }],
+  },
+
+  // :: NodeSpec A block math element.
+  math_block: {
+    group: 'block',
+    content: 'text*',
+    block: true,
+    draggable: true,
+    atom: true,
+    toDOM: () => ['math-block', 0],
+    parseDOM: [{ tag: 'math-block' }],
+  },
 }
 
 const listNodes = {

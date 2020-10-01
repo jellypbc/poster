@@ -4,6 +4,8 @@
 @import 'editor/menubar';
 @import 'editor/sidebar';
 @import 'editor/placeholder';
+@import 'editor/math';
+@import 'editor/katex';
 
 a:hover {
   text-decoration: underline;
