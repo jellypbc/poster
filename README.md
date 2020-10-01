@@ -2,6 +2,8 @@
 
 **http://jellypbc.com**
 
+💬 [Join the Jelly Community Slack](https://join.slack.com/t/jelly-community/shared_invite/zt-gldzxtjm-an~oC_8YCjvQScUGaBbj6Q)
+
 [![CircleCI](https://circleci.com/gh/jellypbc/poster/tree/master.svg?style=svg)](https://circleci.com/gh/jellypbc/poster/tree/master)
 
 This is a Rails toy application that converts PDFs into XML/JSON with a collaborative editor with JSON, for science.
