@@ -36,6 +36,7 @@
     h2, h3, h4 {
       font-size: 3px;
       line-height: 4px;
+      letter-spacing: -0.1em;
     }
     p, strong, li, a {
       font-size: 2px;
@@ -55,6 +56,17 @@
     code {
       font-size: 2px;
       line-height: 0;
+    }
+    li {
+      margin: 2px 0px;
+    }
+    ol {
+      padding-left: 4px;
+      margin-bottom: 4px;
+    }
+    ul {
+      padding-left: 4px;
+      margin-bottom: 4px;
     }
     .math-block {
       font-size: 2px;
