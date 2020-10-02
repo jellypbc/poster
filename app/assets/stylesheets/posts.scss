@@ -2,6 +2,9 @@
 	padding: 0px;
 }
 
+.post-edit-page .row{
+  display: block;
+}
 
 .posts-index {
   td, th {
@@ -58,7 +61,6 @@
 .post-show {
   // post editor body styles
   .post-editor {
-
   	p,
   	a,
 		li, {
