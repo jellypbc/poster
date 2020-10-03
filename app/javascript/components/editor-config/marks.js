@@ -126,13 +126,7 @@ const underline = {
   ],
 }
 
-export const titleMarks = {
-  ...title,
-  subscript,
-  superscript,
-}
-
-export const marks = {
+export default {
   ...defaultMarks,
   subscript,
   superscript,

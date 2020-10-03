@@ -8,7 +8,7 @@ const pDOM = ['p', 0],
   preDOM = ['pre', ['code', 0]],
   brDOM = ['br']
 
-const nodes = {
+const defaultNodes = {
   // :: NodeSpec The top level document node.
   doc: {
     content: 'block+',
@@ -168,7 +168,7 @@ const listNodes = {
 }
 
 export default {
-  ...nodes,
+  ...defaultNodes,
   ...listNodes,
   ...tableNodes({
     tableGroup: 'block',

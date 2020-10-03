@@ -14,13 +14,21 @@ class Editor extends React.Component {
 
     const getView = () => this.view
 
+    if (this.props.field === 'title') {
+      this.plugins = props.options.titleSetupPlugins(getView)
+    } else {
+      this.plugins = props.options.setupPlugins(getView)
+    }
+
+    this.schema = {
+      ...props.options,
+      field: props.field,
+      plugins: this.plugins,
+    }
+
     this.view = new EditorView(null, {
       // prosemirror options = { plugins, schema, comments: { comments: [] } }
-      state: EditorState.create({
-        ...props.options,
-        field: props.field,
-        plugins: props.options.setupPlugins(getView),
-      }),
+      state: EditorState.create(this.schema),
       dispatchTransaction: (transaction) => {
         const oldComments = commentPluginKey.getState(this.view.state)
 
