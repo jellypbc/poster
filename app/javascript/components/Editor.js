@@ -14,16 +14,10 @@ class Editor extends React.Component {
 
     const getView = () => this.view
 
-    if (this.props.field === 'title') {
-      this.plugins = props.options.titleSetupPlugins(getView)
-    } else {
-      this.plugins = props.options.setupPlugins(getView)
-    }
-
     this.schema = {
       ...props.options,
       field: props.field,
-      plugins: this.plugins,
+      plugins: props.options.setupPlugins(getView),
     }
 
     this.view = new EditorView(null, {

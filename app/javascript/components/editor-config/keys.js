@@ -82,4 +82,13 @@ Object.keys(baseKeymap).forEach((key) => {
   }
 })
 
-export default keymap(keys)
+const titleKeys = {
+  'Mod-z': undo,
+  'Shift-Mod-z': redo,
+  'Mod-y': redo,
+  'Mod-i': toggleMark(schema.marks.em),
+  'Mod-Shift-m': addAnnotation,
+}
+
+export const bodyEditorKeys = keymap(keys)
+export const titleEditorKeys = keymap(titleKeys)

@@ -1,17 +1,14 @@
-// An example setup, adapted from prosemirror-example-setup
-
 import { schema } from './schema'
-import setupPlugins from './plugins'
-import titleSetupPlugins from './title-plugins'
+import { setupPlugins, titleSetupPlugins } from './plugins'
 
 export const options = {
-  setupPlugins,
+  setupPlugins: setupPlugins,
   schema,
   // comments: { comments: [] },
 }
 
 export const titleOptions = {
-  titleSetupPlugins,
+  setupPlugins: titleSetupPlugins,
   schema,
   // comments: { comments: [] },
 }
