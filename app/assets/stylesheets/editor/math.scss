@@ -36,3 +36,33 @@
 .math-inline .katex-render {
   padding: 0em;
 }
+
+.katex-editor {
+  color: purple;
+}
+
+.ProseMirror-selectednode.math-inline .katex-render {
+  span {
+    color: white;
+  }
+  cursor: auto;
+  position: absolute;
+  top: calc(100% + 10px);
+  background: $grayDark;
+  padding: 4px 8px;
+  border-radius: 2px;
+  z-index: 1;
+}
+
+.ProseMirror-selectednode.math-inline .katex-render::before {
+  border: 5px solid $grayDark;
+  border-top-width: 0px;
+  border-left-color: transparent;
+  border-right-color: transparent;
+  position: absolute;
+  top: -5px;
+  left: 4px;
+  content: " ";
+  height: 0;
+  width: 0;
+}

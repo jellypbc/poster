@@ -43,7 +43,6 @@ class CitationState {
     let base = this
     let { decos } = base
     decos = decos.map(tr.mapping, tr.doc)
-    console.log('action', action)
     if (actionType == 'newCitation') {
       decos = decos.add(tr.doc, [deco(action.from, action.to, action.citation)])
       submitCitationCreate(action)
