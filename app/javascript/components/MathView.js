@@ -18,9 +18,9 @@ class MathView {
     if (this.block) {
       temp.innerHTML = `
       <div class="math-block" contentEditable="false">
-        <div class="katex-render" ref="render">
-        </div>
         <div class="katex-editor" ref="editor">
+        </div>
+        <div class="katex-render" ref="render">
         </div>
       </div>`
     } else {
