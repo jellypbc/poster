@@ -72,8 +72,6 @@
   line-height: 0;
 }
 
-
-
 // prosemirror-view/style/prosemirror
 // https://github.com/ProseMirror/prosemirror-view/blob/master/style/prosemirror.css
 
@@ -106,6 +104,10 @@
   outline: 2px solid #8cf;
 }
 
+.ProseMirror-selectednode.math-block,
+.ProseMirror-selectednode.math-inline {
+  outline: none;
+}
 /* Make sure li selections wrap around markers */
 .selection-marker {
   font-family: inherit;
