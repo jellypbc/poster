@@ -61,15 +61,18 @@ function Sidebar(props) {
   const [sticky, setSticky] = useState(false)
   const [mastheadHeight, setMastheadHeight] = useState(0)
 
-  const calculateEditorPosition = (sticky, vp, ech) => {
-    let calcTop
-    if (vp < ech) {
-      calcTop = Math.floor((window.scrollY / pageHeight) * -100 - 100)
-    } else {
-      calcTop = 'auto'
-    }
-    return sticky ? calcTop : 'auto'
-  }
+  const calculateEditorPosition = useCallback(
+    (sticky, vp, ech) => {
+      let calcTop
+      if (vp < ech) {
+        calcTop = Math.floor((window.scrollY / pageHeight) * -100 - 100)
+      } else {
+        calcTop = 'auto'
+      }
+      return sticky ? calcTop : 'auto'
+    },
+    [pageHeight]
+  )
 
   const reposition = useCallback(
     (vpHeight) => {
@@ -146,20 +149,20 @@ function Sidebar(props) {
   }
   useEventListener('mousedown', clickHandler, viewHost.current)
 
-  var container = {
+  let container = {
     position: 'sticky',
     top: sticky ? OFFSET + 'px' : 'auto',
     height: '100%',
     width: '110px',
   }
 
-  var toggleIconStyle = {
+  let toggleIconStyle = {
     position: sticky ? 'sticky' : 'relative',
     top: sticky ? '4px' : '24px',
     outline: 'none',
   }
 
-  var editorContainerStyle = {
+  let editorContainerStyle = {
     position: sticky ? 'sticky' : 'relative',
     top: '30px',
     height: editorContainerHeight + 'px',
@@ -167,7 +170,7 @@ function Sidebar(props) {
     overflow: 'hidden',
   }
 
-  var sidebarEditorStyle = {
+  let sidebarEditorStyle = {
     position: 'relative',
     top: sticky ? sidebarEditorTop + 'px' : 'auto',
     display: visible ? 'block' : 'none',
@@ -176,7 +179,7 @@ function Sidebar(props) {
     transition: 'all 0.15s linear',
   }
 
-  var sidebarPortalStyle = {
+  let sidebarPortalStyle = {
     position: 'absolute',
     top: portalTop,
     height: portalHeight + 'px',
