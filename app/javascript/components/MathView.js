@@ -11,29 +11,19 @@ class MathView {
     this.node = node
     this.outerView = view
     this.getPos = getPos
-    this.block = block
 
-    let temp = document.createElement('div')
+    let temp = document.createElement('math')
 
-    if (this.block) {
-      temp.innerHTML = `
-      <div class="math-block" contentEditable="false">
-        <div class="katex-editor" ref="editor">
-        </div>
-        <div class="katex-render" ref="render">
-        </div>
+    block ? temp.classList.add('math-block') : temp.classList.add('math-inline')
+
+    temp.setAttribute('contentEditable', 'false')
+    temp.innerHTML = `
+      <div class="katex-render" ref="render">
+      </div>
+      <div class="katex-editor" ref="editor">
       </div>`
-    } else {
-      temp.innerHTML = `
-      <div class="math-inline" contentEditable="false">
-        <div class="katex-render" ref="render">
-        </div>
-        <div class="katex-editor" ref="editor">
-        </div>
-      </div>`
-    }
 
-    this.dom = temp.firstElementChild
+    this.dom = temp
     this.innerView = null
     this.open()
     this.close()

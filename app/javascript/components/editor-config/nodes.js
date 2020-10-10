@@ -134,7 +134,7 @@ const nodes = {
     inline: true,
     draggable: true,
     atom: true,
-    toDOM: () => ['math-inline', 0],
+    toDOM: () => ['math', ['math-inline', 0]],
     parseDOM: [{ tag: 'math-inline' }],
   },
 
@@ -145,7 +145,7 @@ const nodes = {
     block: true,
     draggable: true,
     atom: true,
-    toDOM: () => ['math-block', 0],
+    toDOM: () => ['math', ['math-block', 0]],
     parseDOM: [{ tag: 'math-block' }],
   },
 }
