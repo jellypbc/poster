@@ -31,8 +31,6 @@ import {
   createSerializer,
 } from './postUtils'
 
-import 'prosemirror-view/style/prosemirror.css'
-
 class PostEditor extends React.Component {
   constructor(props) {
     super(props)
