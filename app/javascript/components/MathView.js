@@ -18,9 +18,9 @@ class MathView {
 
     temp.setAttribute('contentEditable', 'false')
     temp.innerHTML = `
-      <div class="katex-render" ref="render">
-      </div>
       <div class="katex-editor" ref="editor">
+      </div>
+      <div class="katex-render" ref="render">
       </div>`
 
     this.dom = temp

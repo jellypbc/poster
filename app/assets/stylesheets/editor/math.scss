@@ -33,6 +33,7 @@
   width: auto;
   white-space: normal;
   position: relative;
+  // max-width: 600px;
 }
 
 .math-inline > * {
@@ -45,10 +46,13 @@
   padding: 0em;
 }
 
-// move to defaults.scss
-.katex-editor .ProseMirror {
+math .katex-editor .ProseMirror {
   font-family: monospace;
   color: purple;
+}
+
+// move to defaults.scss
+.math-block .katex-editor .ProseMirror {
   background: $grayLightest;
 }
 
@@ -63,6 +67,8 @@
   padding: 4px 8px;
   border-radius: 2px;
   z-index: 1;
+  white-space: nowrap;
+  left: 8px;
 }
 
 .ProseMirror-selectednode.math-inline .katex-render::before {
