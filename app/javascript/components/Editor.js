@@ -85,7 +85,7 @@ class Editor extends React.Component {
   }
 
   render() {
-    const editor = <div ref={this.editorRef} />
+    const editor = <div className="post-editor" ref={this.editorRef} />
 
     return this.props.render
       ? this.props.render({

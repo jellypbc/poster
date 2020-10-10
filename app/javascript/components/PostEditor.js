@@ -204,11 +204,11 @@ class PostEditor extends React.Component {
     const { isEditable } = this.state
     var menubar = isEditable ? menu : annotationMenu
     return (
-      <div>
+      <div className="post-editor-container">
         <Floater view={view}>
           <MenuBar menu={menubar} view={view} />
         </Floater>
-        <div className="post-editor">{editor}</div>
+        {editor}
       </div>
     )
   }
