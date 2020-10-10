@@ -2,94 +2,92 @@
   counter-reset: math-block;
 }
 
-.math-block .katex-render::after {
-  counter-increment: math-block;
-  content: "( " counter(math-block) " )";
-  padding-left: 100px;
-  position: absolute;
-  right: 1rem;
+math {
+  .katex-editor .ProseMirror {
+    font-family: monospace;
+    color: purple;
+  }
 }
 
-.math-block .katex-render {
-  text-align: center;
+math.math-block {
+  .katex-render {
+    text-align: center;
+  }
+
+  .katex-render::after {
+    counter-increment: math-block;
+    content: "( " counter(math-block) " )";
+    padding-left: 100px;
+    position: absolute;
+    right: 1rem;
+  }
+
+  .katex-editor .ProseMirror {
+    background: $grayLightest;
+  }
 }
 
-.ProseMirror-selectednode.math-block .katex-editor {
-  background: $grayLightest;
+math.math-block.ProseMirror-selectednode {
+  .katex-editor {
+    background: $grayLightest;
+  }
+
+  .katex-editor::before,
+  .katex-editor::after {
+    content: "$$";
+    color: $grayLighter;
+  }
 }
 
-.ProseMirror-selectednode.math-block .katex-editor::before {
-  content: "$$";
-  color: $grayLighter;
+math.math-inline > * {
+  display: inline;
 }
 
-.ProseMirror-selectednode.math-block .katex-editor::after {
-  content: "$$";
-  color: $grayLighter;
-}
-
-.math-inline {
+math.math-inline {
   display: inline-block;
   width: auto;
   white-space: normal;
   position: relative;
-  // max-width: 600px;
-}
 
-.math-inline > * {
-  display: inline;
-}
-
-.math-inline .ProseMirror {
-  display: inline;
-  font-size: inherit;
-  padding: 0em;
-}
-
-math .katex-editor .ProseMirror {
-  font-family: monospace;
-  color: purple;
-}
-
-// move to defaults.scss
-.math-block .katex-editor .ProseMirror {
-  background: $grayLightest;
-}
-
-.ProseMirror-selectednode.math-inline .katex-render {
-  span {
-    color: white;
+  .ProseMirror {
+    display: inline;
+    font-size: inherit;
+    padding: 0em;
   }
-  cursor: auto;
-  position: absolute;
-  top: calc(100% + 10px);
-  background: $grayDark;
-  padding: 4px 8px;
-  border-radius: 2px;
-  z-index: 1;
-  white-space: nowrap;
-  left: 8px;
 }
 
-.ProseMirror-selectednode.math-inline .katex-render::before {
-  border: 5px solid $grayDark;
-  border-top-width: 0px;
-  border-left-color: transparent;
-  border-right-color: transparent;
-  position: absolute;
-  top: -5px;
-  left: 4px;
-  content: " ";
-  height: 0;
-  width: 0;
-}
+math.math-inline.ProseMirror-selectednode {
+  .katex-render {
+    span {
+      color: white;
+    }
+    cursor: auto;
+    position: absolute;
+    top: calc(100% + 10px);
+    background: $grayDark;
+    padding: 4px 8px;
+    border-radius: 2px;
+    z-index: 1;
+    white-space: nowrap;
+    left: 8px;
+  }
 
-.ProseMirror-selectednode.math-inline .katex-editor::before {
-  content: "$";
-  color: $grayLighter;
-}
+  .katex-render::before {
+    border: 5px solid $grayDark;
+    border-top-width: 0px;
+    border-left-color: transparent;
+    border-right-color: transparent;
+    position: absolute;
+    top: -5px;
+    left: 4px;
+    content: " ";
+    height: 0;
+    width: 0;
+  }
 
-.ProseMirror-selectednode.math-inline .katex-editor::after {
-  content: " $";
-  color: $grayLighter;
+  .katex-editor::before,
+  .katex-editor::after {
+    content: "$";
+    color: $grayLighter;
+  }
 }
