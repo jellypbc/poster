@@ -6,12 +6,17 @@ import autogrow from '../utils/autogrow'
 // import { useSelector, useDispatch } from 'react-redux'
 
 function useForceUpdate() {
-  /* eslint-disable-next-line no-unused-vars */
-  const [value, setValue] = useState(0)
+  const [, setValue] = useState(0)
   return () => setValue((value) => ++value)
 }
 
-function CommentForm({ thread, onSubmit, onCancel, className, ...rest }) {
+export default function CommentForm({
+  thread,
+  onSubmit,
+  onCancel,
+  className,
+  ...rest
+}) {
   // const dispatch = useDispatch()
   // const comments = useSelector(state => state.comments)
   const textareaRef = React.useRef()
@@ -55,8 +60,8 @@ function CommentForm({ thread, onSubmit, onCancel, className, ...rest }) {
 
   const onGuestClick = (e) => {
     // send a request to create a user
-    var data = { user: { guest: true } }
-    var url = '/guestcreate'
+    let data = { user: { guest: true } }
+    let url = '/guestcreate'
     saRequest
       .post(url)
       .send(data)
@@ -68,8 +73,8 @@ function CommentForm({ thread, onSubmit, onCancel, className, ...rest }) {
           store.dispatch({ type: 'setCurrentUser', payload: res.body })
           forceUpdate()
 
-          var link = document.getElementById('login-link')
-          var username = res.body.data.attributes.full_name
+          let link = document.getElementById('login-link')
+          let username = res.body.data.attributes.full_name
           link.innerHTML =
             'You are viewing as guest, <b>' +
             username +
@@ -80,7 +85,7 @@ function CommentForm({ thread, onSubmit, onCancel, className, ...rest }) {
   }
 
   const onLoginClick = (e) => {
-    var oldLocation = window.location.pathname
+    let oldLocation = window.location.pathname
     window.location = '/login?redirect_to=' + oldLocation
   }
 
@@ -98,9 +103,9 @@ function CommentForm({ thread, onSubmit, onCancel, className, ...rest }) {
     }
   }
 
-  var { currentUser } = store.getState()
+  let { currentUser } = store.getState()
 
-  var classes = thread ? 'j-commentLoginForm floater' : 'j-commentLoginForm'
+  let classes = thread ? 'j-commentLoginForm floater' : 'j-commentLoginForm'
 
   return (
     <div>
@@ -169,5 +174,3 @@ function CommentForm({ thread, onSubmit, onCancel, className, ...rest }) {
     </div>
   )
 }
-
-export default CommentForm

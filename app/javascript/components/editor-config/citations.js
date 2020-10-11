@@ -298,7 +298,7 @@ function ThreadedCitation(props) {
 
   const sanitizedTitle = parse(
     `${
-      citation.title.replace(/(<p[^>]+?>|<p>|<\/p>)/gim, '') || '[ No Title ]'
+      citation.title.replace(/(<p[^>]+?>|<p>|<\/p>)/gim, '') || '[ Untitled ]'
     }`
   )
 

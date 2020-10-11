@@ -10,7 +10,7 @@ export default function CitationSearch({ onCancel, onHandleSubmit, view }) {
   const [id, setId] = useState('')
   const [url, setUrl] = useState('')
 
-  var { currentPostId } = store.getState().currentPost.currentPost.id || ''
+  const { currentPostId } = store.getState().currentPost.currentPost.id || ''
 
   const inputProps = {
     placeholder: 'Search',
@@ -34,7 +34,7 @@ export default function CitationSearch({ onCancel, onHandleSubmit, view }) {
 
     if (inputLength === 0) return []
 
-    var query = input.value
+    let query = input.value
     const url = '/search/bar?query=' + query
     let suggestions
 
