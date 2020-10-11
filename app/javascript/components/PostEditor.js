@@ -29,7 +29,7 @@ import {
   getIsNewPost,
   createParser,
   createSerializer,
-} from './postUtils'
+} from '../utils/postUtils'
 
 import 'prosemirror-view/style/prosemirror.css'
 

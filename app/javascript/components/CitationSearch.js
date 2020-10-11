@@ -24,11 +24,9 @@ export default function CitationSearch({ onCancel, onHandleSubmit, view }) {
     suggestionsList: 'citationSuggestionsList',
   }
 
-  function onSuggestionsFetchRequested(input) {
-    getSuggestions(input)
-  }
+  const onSuggestionsFetchRequested = (input) => getSuggestions(input)
 
-  function getSuggestions(input) {
+  const getSuggestions = (input) => {
     const inputValue = input.value.trim().toLowerCase()
     const inputLength = inputValue.inputLength
 
@@ -47,16 +45,11 @@ export default function CitationSearch({ onCancel, onHandleSubmit, view }) {
       })
   }
 
-  function onSuggestionsClearRequested() {
-    setSuggestions([])
-  }
+  const onSuggestionsClearRequested = () => setSuggestions([])
 
-  function getSuggestionValue(suggestion) {
-    // eslint-disable-next-line no-unused-expressions
-    suggestion.title || ''
-  }
+  const getSuggestionValue = (suggestion) => suggestion.title || ''
 
-  function renderSuggestion(suggestion) {
+  const renderSuggestion = (suggestion) => {
     const { data } = suggestion
     return (
       <div
@@ -75,13 +68,12 @@ export default function CitationSearch({ onCancel, onHandleSubmit, view }) {
     )
   }
 
-  function handleClick(data) {
-    console.log('data', data)
+  const handleClick = (data) => {
     setValue(data.attributes.title)
     setUrl(data.links.post_url)
   }
 
-  function truncateTitle(title) {
+  const truncateTitle = (title) => {
     if (title.length > 80) {
       return title.slice(0, 80) + '...'
     } else {
@@ -89,16 +81,16 @@ export default function CitationSearch({ onCancel, onHandleSubmit, view }) {
     }
   }
 
-  function onSuggestionSelected(event, { suggestion }) {
+  const onSuggestionSelected = (event, { suggestion }) => {
     setValue(suggestion.data.attributes.title.trim())
     setId(suggestion.data.id)
   }
 
-  function onChange(event, { newValue, method }) {
+  function onChange(event, { newValue }) {
     setValue(newValue)
   }
 
-  function onKeyDown(event) {
+  const onKeyDown = (event) => {
     if (event.keyCode === 13) {
       let suggestion
       if (suggestions.length > 0) {
@@ -116,13 +108,13 @@ export default function CitationSearch({ onCancel, onHandleSubmit, view }) {
     }
   }
 
-  function inputRef(autosuggest) {
+  const inputRef = (autosuggest) => {
     if (autosuggest != null) {
       return autosuggest.input.focus({ preventScroll: true })
     }
   }
 
-  function handleFormSubmit() {
+  const handleFormSubmit = () => {
     onHandleSubmit({ id, value, currentPostId, url })
   }
 
