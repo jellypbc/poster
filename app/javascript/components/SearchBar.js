@@ -36,7 +36,6 @@ export default function SearchBar() {
       .then((res) => {
         console.log(res.body)
         suggestions = res.body
-        console.log('thisdkfjldksjl', this)
         setSuggestions(suggestions)
       })
   }
