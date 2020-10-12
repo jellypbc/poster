@@ -20,7 +20,7 @@ import rules from './rules'
 
 // export a function here because some plugins need to be bound to a reference
 // to a state or view object
-export const setupPlugins = (getView) => [
+export const bodyPlugins = (getView) => [
   rules,
   bodyEditorKeys,
   placeholder(),
@@ -42,7 +42,7 @@ export const setupPlugins = (getView) => [
   math(),
 ]
 
-export const titleSetupPlugins = (getView) => [
+export const titlePlugins = (getView) => [
   titleEditorKeys,
   placeholder(),
   history(),

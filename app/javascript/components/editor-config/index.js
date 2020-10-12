@@ -1,16 +1,14 @@
 import { schema } from './schema'
-import { setupPlugins, titleSetupPlugins } from './plugins'
+import { bodyPlugins, titlePlugins } from './plugins'
 
-export const options = {
-  setupPlugins: setupPlugins,
+export const bodyOptions = {
+  setupPlugins: bodyPlugins,
   schema,
-  // comments: { comments: [] },
 }
 
 export const titleOptions = {
-  setupPlugins: titleSetupPlugins,
+  setupPlugins: titlePlugins,
   schema,
-  // comments: { comments: [] },
 }
 
 export { default as menu } from './menu'
