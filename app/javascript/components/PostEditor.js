@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { createConsumer } from '@rails/actioncable'
 import saRequest from '../utils/saRequest'
 import debounce from 'lodash/debounce'
@@ -31,92 +31,95 @@ import {
   createSerializer,
 } from '../utils/postUtils'
 
-import 'prosemirror-view/style/prosemirror.css'
+export default function PostEditor(props) {
+  console.log('POSTEDITOR PROPS', props)
 
-class PostEditor extends React.Component {
-  constructor(props) {
-    super(props)
+  // TODO: Whole thing needs to reinit if props.post changes identity,
+  //       which can be done with useEffect or componentDidUpdate
+  // TODO: should prevent closing tab while hasChanges state is true
+  // TODO: move post out of state once actioncable loading is moved into
+  //       a container component
 
-    console.log('POSTEDITOR PROPS', props)
+  const [post, setPost] = useState(props.post)
+  const user = props.currentUser
+  const title = post.data.attributes.title || 'Untitled'
+  const [isLoading, setIsLoading] = useState(false) // is sending request to server
+  const hasChanges = false //editor has changes (actual onChange may be debounced)
+  const [error, setError] = useState(null) // last server error, if any
+  const [errorAt, setErrorAt] = useState(null) // string or null
+  const lastSavedAt = getTimestamp('updated_at', post) //string or null
+  const [lastUnsavedChangeAt, setLastUnsavedChangeAt] = useState(null) // Date object or null, used to track dirty state
+  const [isProcessing, setIsProcessing] = useState(props.isProcessing || false) // TODO: move this into container
+  const isEditable = props.editable || false
 
-    // TODO: Whole thing needs to reinit if props.post changes identity,
-    //       which can be done with useEffect or componentDidUpdate
-    // TODO: should prevent closing tab while hasChanges state is true
-    // TODO: move post out of state once actioncable loading is moved into
-    //       a container component
-
-    this.state = {
-      post: this.props.post || null,
-      user: this.props.currentUser || null,
-      title: this.props.post.data.attributes.title || 'Give me a name',
-      isLoading: false, // is sending request to server
-      hasChanges: false, // editor has changes (actual onChange may be debounced)
-      error: null, // last server error, if any
-      errorAt: null, // string or null
-      lastSavedAt: getTimestamp('updated_at', props.post), // string or null
-      lastUnsavedChangeAt: null, // Date object or null, used to track dirty state
-      isProcessing: this.props.isProcessing || false, // TODO: move this into container
-      isEditable: this.props.editable || false,
-    }
-
-    const schema = options.schema
-    this.parse = createParser(schema)
-    this.serialize = createSerializer(schema)
+  const state = {
+    post,
+    user,
+    title,
+    isLoading,
+    hasChanges,
+    error,
+    errorAt,
+    lastSavedAt,
+    lastUnsavedChangeAt,
+    isProcessing,
+    isEditable,
   }
 
-  componentDidMount() {
-    var post = document.getElementById('post').getAttribute('data-post-id')
-    var cableHost = this.state.post.data.attributes.cable_url
-    var cable = createConsumer(cableHost)
+  const schema = options.schema
+  const parse = createParser(schema)
+  const serialize = createSerializer(schema)
+
+  useEffect(() => {
+    const postId = document.getElementById('post').getAttribute('data-post-id')
+    const cableHost = post.data.attributes.cable_url
+    const cable = createConsumer(cableHost)
 
     cable.subscriptions.create(
-      { channel: 'PostsChannel', post_id: post },
+      { channel: 'PostsChannel', post_id: postId },
       {
         connected() {},
 
         received: function (data) {
-          this.setState((state) => ({
-            post: data,
-            isProcessing: false,
-          }))
-          this.updateURL()
-        }.bind(this),
+          setPost(data)
+          setIsProcessing(false)
+          updateURL()
+        },
       }
     )
-
     store.dispatch({
       type: 'setCurrentPost',
-      payload: this.props.post,
+      payload: post,
     })
 
-    if (this.props.currentUser) {
+    if (user) {
       store.dispatch({
         type: 'setCurrentUser',
-        payload: this.props.currentUser,
+        payload: user,
       })
     }
 
-    this.removeStaticRenderPlaceholder()
-  }
+    removeStaticRenderPlaceholder()
+  })
 
-  removeStaticRenderPlaceholder = () => {
-    var placeholder = document.getElementsByClassName('placeholder-content')[0]
+  const removeStaticRenderPlaceholder = () => {
+    let placeholder = document.getElementsByClassName('placeholder-content')[0]
     if (placeholder) placeholder.remove()
   }
 
   // Debounces change handler so user has to stop typing to save,
   // but also adds maxWait so that if they type continuously, changes will
   // still be saved every so often.
-  debounceChanges = debounce(
+  const debounceChanges = debounce(
     (doc, docState, onChange, field) => {
-      onChange(this.serialize(doc), docState, field)
+      onChange(serialize(doc), docState, field)
     },
     350,
     { maxWait: 1000 }
   )
 
-  updateURL = () => {
-    var title = sanitizeHtml(this.state.post.data.attributes.title, {
+  const updateURL = () => {
+    let title = sanitizeHtml(post.data.attributes.title, {
       allowedTags: [],
       allowedAttributes: {},
     })
@@ -125,22 +128,18 @@ class PostEditor extends React.Component {
       // Accounts for when there is no title for document
       document.title = title == null ? title : 'Untitled | Jelly'
 
-      window.history.replaceState(
-        {},
-        title,
-        this.state.post.data.attributes.slug
-      )
+      window.history.replaceState({}, title, post.data.attributes.slug)
     }
   }
 
-  handleChange = (doc, docState, field) => {
-    this.setState({ lastUnsavedChangeAt: new Date() })
-    this.debounceChanges(doc, docState, this.updatePost, field)
+  const handleChange = (doc, docState, field) => {
+    setLastUnsavedChangeAt(new Date())
+    debounceChanges(doc, docState, updatePost, field)
   }
 
-  updatePost = (doc, docState, field) => {
-    this.setState({ isLoading: true })
-    const { post } = this.state
+  const updatePost = (doc, docState, field) => {
+    setIsLoading(true)
+    const { post } = state
     const isNewPost = getIsNewPost(post)
     const comments = JSON.stringify(
       commentPluginKey.getState(docState).allComments()
@@ -148,35 +147,25 @@ class PostEditor extends React.Component {
     const url = isNewPost ? '/posts' : post.data.attributes.form_url
     const method = isNewPost ? 'post' : 'put'
 
-    let data = {}
-    if (field === 'title') {
-      data = {
-        title: doc,
-        comments: comments,
-      }
-    } else if (field === 'body') {
-      data = {
-        body: doc,
-        comments: comments,
-      }
-    }
+    const data =
+      field === 'title'
+        ? { title: doc, comments: comments }
+        : { body: doc, comments: comments }
 
-    this.submit(data, method, url, this.onSuccess)
+    submit(data, method, url, onSuccess)
   }
 
-  onSuccess = (err, res) => {
+  const onSuccess = (err, res) => {
     console.log({ res, err })
     const now = new Date().toISOString()
-    this.setState((state) => ({
-      isLoading: false,
-      error: err ? err : null,
-      errorAt: err ? now : null,
-      lastSavedAt: err ? state.lastSavedAt : now,
-    }))
-    this.updateURL()
+    setIsLoading(false)
+    setError(err ? err : null)
+    setErrorAt(err ? err : null)
+    setLastUnsavedChangeAt(err ? lastSavedAt : now)
+    updateURL()
   }
 
-  submit(data, method, url, onSuccess) {
+  const submit = (data, method, url, onSuccess) => {
     saRequest[method](url)
       .send(data)
       .set('accept', 'application/json')
@@ -185,9 +174,8 @@ class PostEditor extends React.Component {
       })
   }
 
-  renderTitleEditor = ({ editor, view }) => {
-    const { isEditable } = this.state
-    var menubar = isEditable ? titleMenu : annotationMenu
+  const renderTitleEditor = ({ editor, view }) => {
+    let menubar = isEditable ? titleMenu : annotationMenu
     return (
       <div className="header">
         <div className="header-nav">
@@ -202,9 +190,8 @@ class PostEditor extends React.Component {
     )
   }
 
-  renderBodyEditor = ({ editor, view }) => {
-    const { isEditable } = this.state
-    var menubar = isEditable ? menu : annotationMenu
+  const renderBodyEditor = ({ editor, view }) => {
+    let menubar = isEditable ? menu : annotationMenu
     return (
       <div>
         <Floater view={view}>
@@ -215,7 +202,7 @@ class PostEditor extends React.Component {
     )
   }
 
-  citations = (included) => {
+  const citations = (included) => {
     const citationsList = included.filter((c) => c.type === 'citation')
 
     return [
@@ -228,7 +215,7 @@ class PostEditor extends React.Component {
     ]
   }
 
-  backlinks = (included) => {
+  const backlinks = (included) => {
     const backlinksList = included.filter((c) => c.type === 'backlink')
 
     return [
@@ -241,32 +228,22 @@ class PostEditor extends React.Component {
     ]
   }
 
-  renderPost() {
-    const {
-      post,
-      error,
-      errorAt,
-      isLoading,
-      isEditable,
-      lastSavedAt,
-      lastUnsavedChangeAt,
-    } = this.state
-    const { included } = post
-    const { body, title } = post.data.attributes
+  const renderPost = () => {
+    const included = post.included
+    const body = post.data.attributes.body
+    const title = post.data.attributes.title
     const isNewPost = getIsNewPost(post)
-    const lastSavedAtDate = new Date(lastSavedAt) // convert to date object
+    const lastSavedAtDate = new Date(lastSavedAt)
     const hasUnsavedChanges = lastSavedAtDate < lastUnsavedChangeAt
 
-    options.doc = this.parse(body) // TODO: don't mutate "options"
+    options.doc = parse(body) // TODO: don't mutate "options"
     options.doc.comments = { comments: post.data.attributes.body_comments }
     options.doc.citations = { citations: post.data.attributes.body_citations }
 
-    // var titleOptions = Object.assign({}, titleOptions)
-    titleOptions.doc = this.parse(title)
+    titleOptions.doc = parse(title)
     titleOptions.doc.comments = {
       comments: post.data.attributes.title_comments,
     }
-    // titleOptions.comments = { comments: post.data.attributes.comments }
 
     return (
       <div className="row">
@@ -276,7 +253,6 @@ class PostEditor extends React.Component {
               <strong>{errorAt}</strong>: {error}
             </p>
           ) : null}
-
           {post.data.attributes.upload_url && (
             <a
               className="upload d-flex justify-content-center"
@@ -289,10 +265,12 @@ class PostEditor extends React.Component {
           <Editor
             post={post}
             options={titleOptions}
-            onChange={this.handleChange}
+            onChange={handleChange}
             isEditable={isEditable}
-            render={this.renderTitleEditor}
+            render={renderTitleEditor}
             field="title"
+            // eslint-disable-next-line jsx-a11y/no-autofocus
+            autoFocus
           />
           <PostMasthead post={post} />
         </div>
@@ -307,9 +285,9 @@ class PostEditor extends React.Component {
           <Editor
             post={post}
             options={options}
-            onChange={this.handleChange}
+            onChange={handleChange}
             isEditable={isEditable}
-            render={this.renderBodyEditor}
+            render={renderBodyEditor}
             field="body"
             // eslint-disable-next-line jsx-a11y/no-autofocus
             autoFocus
@@ -317,8 +295,8 @@ class PostEditor extends React.Component {
 
           {included && (
             <div>
-              <Citations citations={this.citations(included)} />
-              <Backlinks backlinks={this.backlinks(included)} />
+              <Citations citations={citations(included)} />
+              <Backlinks backlinks={backlinks(included)} />
             </div>
           )}
         </div>
@@ -335,17 +313,7 @@ class PostEditor extends React.Component {
     )
   }
 
-  render() {
-    return (
-      <div>
-        {this.state.isProcessing ? (
-          <PostProcessingPlaceholder />
-        ) : (
-          this.renderPost()
-        )}
-      </div>
-    )
-  }
+  return (
+    <div>{isProcessing ? <PostProcessingPlaceholder /> : renderPost()}</div>
+  )
 }
-
-export default PostEditor
