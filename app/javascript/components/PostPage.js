@@ -14,7 +14,7 @@ Modal.setAppElement('#root')
 // Anything can dispatch to the reducer by importing `dispatch` from react-redux
 // and the component will rerender any subscribers on change.
 export default function PostPage(props) {
-  // props = post, currentUser, isProcessing, editable
+  // props = { post, currentUser, isProcessing, editable }
   return (
     <Provider store={store}>
       <PostEditor {...props} />

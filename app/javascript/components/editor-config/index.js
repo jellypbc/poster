@@ -11,7 +11,7 @@ export const options = {
 
 export const titleOptions = {
   setupPlugins,
-  titleSchema,
+  schema,
   // comments: { comments: [] },
 }
 

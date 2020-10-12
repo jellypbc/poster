@@ -1,10 +1,127 @@
-import React from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { EditorState } from 'prosemirror-state'
 import { EditorView } from 'prosemirror-view'
 import { commentPluginKey } from './editor-config/comments'
+import { schema } from './editor-config/schema'
 // import applyDevTools from 'prosemirror-dev-tools'
 
-class Editor extends React.Component {
+// function useForceUpdate() {
+//   const [, setValue] = useState(0)
+//   return () => setValue((value) => ++value)
+// }
+
+// export default function Editor(props) {
+//   const {
+//     post,
+//     options,
+//     onChange,
+//     isEditable,
+//     render,
+//     field,
+//     autoFocus,
+//   } = props
+
+//   console.log(field.toUpperCase() + ' EDITOR PROPS', props)
+
+//   const forceUpdate = useForceUpdate()
+//   console.log('forceUpdate', forceUpdate)
+
+//   const editorRef = useRef()
+//   console.log('editorRef', editorRef)
+
+//   console.log('render', render)
+
+//   // let view
+//   const getView = () => view
+
+//   const [view, setView] = useState(
+//     new EditorView(null, {
+//       // options = { schema, doc, setupPlugins() }
+//       state: EditorState.create({
+//         schema: options.schema,
+//         doc: options.doc,
+//         plugins: options.setupPlugins(getView),
+//         field: field,
+//       }),
+//       dispatchTransaction: (transaction) => {
+//         const oldComments = commentPluginKey.getState(view.state)
+//         const { state, transactions } = view.state.applyTransaction(transaction)
+//         view.updateState(state)
+//         const newComments = commentPluginKey.getState(state)
+//         if (
+//           transactions.some((tr) => tr.docChanged) ||
+//           newComments !== oldComments
+//         ) {
+//           onChange(state.doc, state, field)
+//         }
+//         forceUpdate()
+//       },
+//       editable: function (state) {
+//         return isEditable
+//       },
+//       handleDOMEvents: function (view, event) {
+//         return true
+//       },
+//     })
+//     // applyDevTools(view)
+//   )
+
+//   useEffect(() => {
+//     editorRef.current.appendChild(view.dom)
+//     if (autoFocus) view.focus()
+//   })
+
+//   // componentWillUnmount and componentDidUpdate in one useEffect
+//   // Hooks have no support for getSnapshotBeforeUpdate, so idk what to do
+//   useEffect(() => {
+//     view.state.doc = options.doc
+//     const newState = EditorState.create({
+//       schema: options.schema,
+//       doc: options.doc,
+//       plugins: view.state.plugins,
+//       field: field,
+//       selection: view.state.selection,
+//     })
+//     view.updateState(newState)
+//     view.focus()
+
+//     return () => {
+//       view.destroy()
+//     }
+//   })
+
+//   // componentWillUnmount() {
+//   //   view.destroy()
+//   // }
+
+//   // componentDidUpdate(prevProps, prevState, snapshot) {
+//   //   if (snapshot) {
+//   //     view.state.doc = options.doc
+//   //     const newState = EditorState.create({
+//   //       schema: options.schema,
+//   //       doc: options.doc,
+//   //       plugins: view.state.plugins,
+//   //       field: field,
+//   //       selection: view.state.selection
+//   //     })
+//   //     view.updateState(newState)
+//   //     view.focus()
+//   //   }
+//   // }
+
+//   // const getSnapshotBeforeUpdate(prevProps, prevState) {
+//   //   if (post !== prevProps.post) {
+//   //     return props
+//   //   }
+//   //   return null
+//   // }
+
+//   const editor = <div ref={editorRef} />
+
+//   return render ? render({ editor, view }) : editor
+// }
+
+export default class Editor extends React.Component {
   constructor(props) {
     super(props)
     const { field } = props
@@ -15,9 +132,10 @@ class Editor extends React.Component {
     const getView = () => this.view
 
     this.view = new EditorView(null, {
-      // prosemirror options = { plugins, schema, comments: { comments: [] } }
+      // options = { doc, schema, setupPlugins() }
       state: EditorState.create({
-        ...props.options,
+        doc: props.options.doc,
+        schema: props.options.schema,
         field: props.field,
         plugins: props.options.setupPlugins(getView),
       }),
@@ -67,7 +185,8 @@ class Editor extends React.Component {
     if (snapshot) {
       this.view.state.doc = this.props.options.doc
       const newState = EditorState.create({
-        ...this.props.options,
+        doc: this.props.doc,
+        schema: this.props.schema,
         field: this.props.field,
         plugins: this.view.state.plugins,
         selection: this.view.state.selection,
@@ -95,5 +214,3 @@ class Editor extends React.Component {
       : editor
   }
 }
-
-export default Editor
