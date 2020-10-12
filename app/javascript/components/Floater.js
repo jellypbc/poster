@@ -1,4 +1,61 @@
-import React from 'react'
+import React, { useRef, useEffect, useState } from 'react'
+
+// export default function Floater({ view }) {
+//   const [style, setStyle] = useState({ left: 0, right: 0 })
+
+//   const menuRef = useRef()
+
+//   const calculateStyle = () => {
+//     const selection = view.state
+
+//     let mathNodeIsSelected =
+//       selection.node &&
+//       selection.node.type &&
+//       selection.node.type.name &&
+//       (selection.node.type.name === 'math_block' ||
+//         selection.node.type.name === 'math_inline')
+
+//     if (!selection || selection.empty || mathNodeIsSelected) {
+//       return {
+//         left: -1000,
+//         top: 0,
+//       }
+//     }
+
+//     const { offsetWidth, offsetHeight } = menuRef.current
+//     const anchor = view.coordsAtPos(selection.$anchor.pos)
+//     const scrollY = window.scrollY
+
+//     let top =
+//       anchor.top - 10 > 0
+//         ? anchor.top - 110 + scrollY - offsetHeight
+//         : anchor.top + 20
+
+//     let left =
+//       window.innerWidth - offsetWidth < anchor.left
+//         ? anchor.left - offsetWidth - 120
+//         : anchor.left
+
+//     if (left < 5) {
+//       left = 5
+//     }
+
+//     return {
+//       left: left,
+//       top: top,
+//     }
+//   }
+
+//   useEffect(() => {
+//     setStyle(calculateStyle())
+//   })
+
+//   return (
+//     <div ref={menuRef} className="floater" style={style}>
+//     {view}
+//     </div>
+//   )
+// }
 
 class Floater extends React.Component {
   constructor(props) {
@@ -56,12 +113,12 @@ class Floater extends React.Component {
     const anchor = view.coordsAtPos(selection.$anchor.pos)
     const scrollY = window.scrollY
 
-    var top =
+    let top =
       anchor.top - 10 > 0
         ? anchor.top - 110 + scrollY - offsetHeight
         : anchor.top + 20
 
-    var left =
+    let left =
       window.innerWidth - offsetWidth < anchor.left
         ? anchor.left - offsetWidth - 120
         : anchor.left
