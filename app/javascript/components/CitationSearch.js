@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
-import Floater from './Floater'
 import Autosuggest from 'react-autosuggest'
+
+import Floater from './Floater'
 import saRequest from '../utils/saRequest'
 import { store } from '../store'
 
@@ -11,18 +12,6 @@ export default function CitationSearch({ onCancel, onHandleSubmit, view }) {
   const [url, setUrl] = useState('')
 
   const { currentPostId } = store.getState().currentPost.currentPost.id || ''
-
-  const inputProps = {
-    placeholder: 'Search',
-    value: value,
-    onChange: onChange,
-    onKeyDown: onKeyDown,
-  }
-
-  const theme = {
-    input: 'form-control',
-    suggestionsList: 'citationSuggestionsList',
-  }
 
   const onSuggestionsFetchRequested = (input) => getSuggestions(input)
 
@@ -86,7 +75,7 @@ export default function CitationSearch({ onCancel, onHandleSubmit, view }) {
     setId(suggestion.data.id)
   }
 
-  function onChange(event, { newValue }) {
+  const onChange = (event, { newValue }) => {
     setValue(newValue)
   }
 
@@ -116,6 +105,18 @@ export default function CitationSearch({ onCancel, onHandleSubmit, view }) {
 
   const handleFormSubmit = () => {
     onHandleSubmit({ id, value, currentPostId, url })
+  }
+
+  const theme = {
+    input: 'form-control',
+    suggestionsList: 'citationSuggestionsList',
+  }
+
+  const inputProps = {
+    placeholder: 'Search',
+    value: value,
+    onChange: onChange,
+    onKeyDown: onKeyDown,
   }
 
   return (

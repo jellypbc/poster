@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Autosuggest from 'react-autosuggest'
-import superagent from 'superagent'
+
+import saRequest from '../utils/saRequest'
 
 export default function SearchBar() {
   const [value, setValue] = useState('')
@@ -30,7 +31,7 @@ export default function SearchBar() {
     const url = '/search/bar?query=' + query
     let suggestions = []
 
-    superagent
+    saRequest
       .get(url)
       .set('accept', 'application/json')
       .then((res) => {
