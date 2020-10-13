@@ -3,6 +3,7 @@ import saRequest from '../utils/saRequest'
 import Modal from 'react-modal'
 
 // TODO: add debounce and rate limiter
+
 export default function FollowButton(props) {
   const { objectId, objectType, currentUser } = props
 
