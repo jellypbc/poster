@@ -34,8 +34,6 @@ import {
 export default function PostEditor(props) {
   console.log('POSTEDITOR PROPS', props)
 
-  // TODO: Whole thing needs to reinit if props.post changes identity,
-  //       which can be done with useEffect or componentDidUpdate
   // TODO: should prevent closing tab while hasChanges state is true
   // TODO: move post out of state once actioncable loading is moved into
   //       a container component
@@ -70,6 +68,20 @@ export default function PostEditor(props) {
   const parse = createParser(schema)
   const serialize = createSerializer(schema)
 
+  const updateURL = () => {
+    let title = sanitizeHtml(post.data.attributes.title, {
+      allowedTags: [],
+      allowedAttributes: {},
+    })
+
+    if (window.history.replaceState) {
+      // Accounts for when there is no title for document
+      document.title = title == null ? title : 'Untitled | Jelly'
+
+      window.history.replaceState({}, title, post.data.attributes.slug)
+    }
+  }
+
   useEffect(() => {
     const postId = document.getElementById('post').getAttribute('data-post-id')
     const cableHost = post.data.attributes.cable_url
@@ -100,7 +112,8 @@ export default function PostEditor(props) {
     }
 
     removeStaticRenderPlaceholder()
-  })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [post])
 
   const removeStaticRenderPlaceholder = () => {
     let placeholder = document.getElementsByClassName('placeholder-content')[0]
@@ -117,20 +130,6 @@ export default function PostEditor(props) {
     350,
     { maxWait: 1000 }
   )
-
-  const updateURL = () => {
-    let title = sanitizeHtml(post.data.attributes.title, {
-      allowedTags: [],
-      allowedAttributes: {},
-    })
-
-    if (window.history.replaceState) {
-      // Accounts for when there is no title for document
-      document.title = title == null ? title : 'Untitled | Jelly'
-
-      window.history.replaceState({}, title, post.data.attributes.slug)
-    }
-  }
 
   const handleChange = (doc, docState, field) => {
     setLastUnsavedChangeAt(new Date())
