@@ -9,7 +9,7 @@ export default function FollowButton(props) {
 
   const [following, setFollowing] = useState(props.following || false)
   const [showModal, setShowModal] = useState(false)
-  const [error, setError] = useState(null)
+  const [, setError] = useState(null)
 
   Modal.setAppElement('#root')
 

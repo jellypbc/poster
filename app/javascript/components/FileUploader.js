@@ -6,14 +6,32 @@ import { DragDrop } from '@uppy/react'
 import saRequest from '../utils/saRequest'
 
 export default function FileUploader({ url }) {
-  const [fileUrl, setFileUrl] = useState('')
-  const [id, setId] = useState('')
+  const [, setFileUrl] = useState('')
+  const [, setId] = useState('')
   const [error, setError] = useState(null)
 
   const token = document.head.querySelector('[name~=csrf-token][content]')
     .content
 
   const uppy = useMemo(() => {
+    const fireAway = (id) => {
+      const data = {
+        file_id: id,
+        upload: {},
+      }
+      saRequest
+        .post(url)
+        .send(data)
+        .set('accept', 'application/json')
+        .then((res) => {
+          console.log(res)
+          window.location = res.body.redirect_to
+        })
+        .catch((err) => {
+          console.log(err.message)
+          setError(err.message)
+        })
+    }
     return new Uppy({
       meta: { type: 'upload' },
       restrictions: { maxNumberOfFiles: 1 },
@@ -37,26 +55,7 @@ export default function FileUploader({ url }) {
           setError('Oops, we only accept PDFs for now.')
         }
       })
-  }, [fireAway, token])
-
-  const fireAway = (id) => {
-    const data = {
-      file_id: id,
-      upload: {},
-    }
-    saRequest
-      .post(url)
-      .send(data)
-      .set('accept', 'application/json')
-      .then((res) => {
-        console.log(res)
-        window.location = res.body.redirect_to
-      })
-      .catch((err) => {
-        console.log(err.message)
-        setError(err.message)
-      })
-  }
+  }, [token, url])
 
   useEffect(() => {
     return () => uppy.close()
