@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import Uppy from '@uppy/core'
 import XHRUpload from '@uppy/xhr-upload'
 import { DragDrop } from '@uppy/react'
@@ -11,31 +11,31 @@ import saRequest from '../utils/saRequest'
 //   const [error, setError] = useState(null)
 //   const token = document.head.querySelector('[name~=csrf-token][content]').content
 
-//   const uppy = Uppy({
-//     meta: { type: 'upload' },
-//     restrictions: { maxNumberOfFiles: 1 },
-//     autoProceed: true,
-//   }).use(XHRUpload, {
-//     endpoint: '/file/store',
-//     bundle: true,
-//     headers: {
-//       csrf: token,
-//     },
-//   })
+//   const uppy = useMemo(() => {
+//     return new Uppy({
+//       meta: { type: 'upload' },
+//       restrictions: { maxNumberOfFiles: 1 },
+//       autoProceed: true,
+//     })
+//       .use(XHRUpload, {
+//         endpoint: '/file/store',
+//         bundle: true,
+//         headers: { csrf: token },
+//       })
+//       .on('complete', (result) => {
+//         const fileUrl = result.successful[0].response.body.url
+//         const id = result.successful[0].response.body.data.id
+//         const mimeType =
+//           result.successful[0].response.body.data.metadata.mime_type
+//         setFileUrl(fileUrl)
+//         setId(id)
 
-//   uppy.on('complete', (result) => {
-//     const fileUrl = result.successful[0].response.body.url
-//     const id = result.successful[0].response.body.data.id
-//     const mimeType = result.successful[0].response.body.data.metadata.mime_type
-
-//     setFileUrl(fileUrl)
-//     setId(id)
-
-//     if (mimeType === 'application/pdf') {
-//       fireAway()
-//     } else {
-//       setError('Oops, we only accept PDFs for now.')
-//     }
+//         if (mimeType === 'application/pdf') {
+//           fireAway(id)
+//         } else {
+//           setError('Oops, we only accept PDFs for now.')
+//         }
+//       })
 //   })
 
 //   const fireAway = () => {
@@ -58,9 +58,7 @@ import saRequest from '../utils/saRequest'
 //   }
 
 //   useEffect(() => {
-//     return () => {
-//       uppy.close()
-//     }
+//     return () => uppy.close()
 //   })
 
 //   return (
@@ -100,31 +98,27 @@ class FileUploader extends React.Component {
       meta: { type: 'upload' },
       restrictions: { maxNumberOfFiles: 1 },
       autoProceed: true,
-    }).use(XHRUpload, {
-      endpoint: '/file/store',
-      bundle: true,
-      headers: {
-        csrf: token,
-      },
     })
-
-    this.uppy.on('complete', (result) => {
-      const fileUrl = result.successful[0].response.body.url
-      const id = result.successful[0].response.body.data.id
-      const mimeType =
-        result.successful[0].response.body.data.metadata.mime_type
-
-      this.setState({
-        fileUrl: fileUrl,
-        id: id,
+      .use(XHRUpload, {
+        endpoint: '/file/store',
+        bundle: true,
+        headers: { csrf: token },
       })
+      .on('complete', (result) => {
+        const id = result.successful[0].response.body.data.id
+        const mimeType =
+          result.successful[0].response.body.data.metadata.mime_type
+        this.setState({
+          fileUrl: result.successful[0].response.body.url,
+          id: id,
+        })
 
-      if (mimeType === 'application/pdf') {
-        this.fireAway(id)
-      } else {
-        this.setState({ error: 'Oops, we only accept PDFs for now.' })
-      }
-    })
+        if (mimeType === 'application/pdf') {
+          this.fireAway(id)
+        } else {
+          this.setState({ error: 'Oops, we only accept PDFs for now.' })
+        }
+      })
   }
 
   fireAway(id) {
