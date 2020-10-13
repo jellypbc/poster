@@ -32,7 +32,9 @@ import {
 } from '../utils/postUtils'
 
 export default function PostEditor(props) {
-  console.log('POSTEDITOR PROPS', props)
+  useEffect(() => {
+    console.log('POSTEDITOR PROPS', props)
+  }, [props])
 
   // TODO: should prevent closing tab while hasChanges state is true
   // TODO: move post out of state once actioncable loading is moved into
