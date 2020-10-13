@@ -21,7 +21,6 @@ import { commentPluginKey } from './editor-config/comments'
 //   } = props
 
 //   console.log(field.toUpperCase() + ' EDITOR PROPS', props)
-
 //   const forceUpdate = useForceUpdate()
 
 //   const editorRef = useRef()
@@ -61,11 +60,9 @@ import { commentPluginKey } from './editor-config/comments'
 //   useEffect(() => {
 //     editorRef.current.appendChild(view.dom)
 //     if (autoFocus) view.focus()
-//     // eslint-disable-next-line react-hooks/exhaustive-deps
 //   }, [])
 
 //   useEffect(() => {
-//     console.log('i am here')
 //     view.state.doc = options.doc
 //     const newState = EditorState.create({
 //       schema: options.schema,
@@ -76,15 +73,12 @@ import { commentPluginKey } from './editor-config/comments'
 //     })
 //     view.updateState(newState)
 //     view.focus()
-
-//     return () => {
-//       view.destroy()
-//     }
-//   }, [post]// <--idk what this is suppoed to be)
+//     return () => view.destroy
+//   }, [props]) // idk what goes here instead of props :(
 
 //   const editor = <div ref={editorRef} />
 
-//   return render ? render({ editor, view }) : editor
+//   return render ? render({ editor, view: view }) : editor
 // }
 
 class Editor extends React.Component {
