@@ -61,7 +61,8 @@ export default function Editor(props) {
   useEffect(() => {
     editorRef.current.appendChild(view.dom)
     if (autoFocus) view.focus()
-  }, [autoFocus, view])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   useEffect(() => {
     view.state.doc = options.doc
@@ -78,7 +79,8 @@ export default function Editor(props) {
     return () => {
       view.destroy()
     }
-  }, [field, options.doc, options.schema, post, view])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [post])
 
   const editor = <div ref={editorRef} />
 
