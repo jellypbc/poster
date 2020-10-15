@@ -15,7 +15,7 @@ import Backlinks from './Backlinks'
 import ChangesIndicator from './ChangesIndicator'
 import PostProcessingPlaceholder from './PostProcessingPlaceholder'
 import {
-  options,
+  bodyOptions as options,
   titleOptions,
   menu,
   titleMenu,

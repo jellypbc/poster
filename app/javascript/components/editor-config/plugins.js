@@ -15,14 +15,14 @@ import { footnotes } from '@aeaton/prosemirror-footnotes'
 import 'prosemirror-gapcursor/style/gapcursor.css'
 import '@aeaton/prosemirror-footnotes/style/footnotes.css'
 
-import keys from './keys'
+import { bodyEditorKeys, titleEditorKeys } from './keys'
 import rules from './rules'
 
 // export a function here because some plugins need to be bound to a reference
 // to a state or view object
-const setupPlugins = (getView) => [
+export const bodyPlugins = (getView) => [
   rules,
-  keys,
+  bodyEditorKeys,
   placeholder(),
   footnotes(),
   dropCursor(),
@@ -42,7 +42,15 @@ const setupPlugins = (getView) => [
   math(),
 ]
 
-export default setupPlugins
+export const titlePlugins = (getView) => [
+  titleEditorKeys,
+  placeholder(),
+  history(),
+  commentPlugin,
+  commentUI((transaction) => {
+    getView().dispatch(transaction)
+  }),
+]
 
 // for tables
 document.execCommand('enableObjectResizing', false, false)
