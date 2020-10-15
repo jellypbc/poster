@@ -18,8 +18,8 @@ class PostMasthead extends React.Component {
   // TODO: 1. update actions links below (Copy Share Link... etc) 2. put action links into dropdown
   render() {
     return (
-      <div>
-        <p className="authors">{this.state.authors}</p>
+      <div className="authors">
+        <p>{this.state.authors}</p>
       </div>
     )
   }

@@ -42,7 +42,6 @@
     text-align: center;
     margin: 14px auto;
     color: #a0aba5;
-    // background: #e8efed;
     background: $white;
     position: relative;
     width: 60px;
@@ -50,6 +49,9 @@
     border-radius: 4px;
     font-size: 10px;
     line-height: 17px;
+    a {
+      color: #a0aba5;
+    }
 
     &:hover {
       color: #56635c;

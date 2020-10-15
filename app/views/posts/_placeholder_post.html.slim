@@ -1,22 +1,27 @@
-.placeholder-content
-  .header
-    .header-nav
+.row
+  .col-md-12.placeholder-content.masthead
+    .header
+      .header-nav
+        - if post.uploads.any?
+          .upload.d-flex.justify-content-center
+            - if post.uploads.first.file
+              - if post.uploads.first.file.metadata["mime_type"].include?("image")
+                = image_tag post.uploads.first.file_url
+              - elsif post.uploads.first.file.metadata["mime_type"].include?("pdf")
+                = link_to 'View PDF', post.uploads.first.file_url, target: '_blank'
+        .title
+          h1 = post.title.html_safe if post.title
+        .authors
+          = "authors go here"
 
-      - if post.uploads.any?
-        .pdf-url
-          - if post.uploads.first.file
-            - if post.uploads.first.file.metadata["mime_type"].include?("image")
-              = image_tag post.uploads.first.file_url
-            - elsif post.uploads.first.file.metadata["mime_type"].include?("pdf")
-              = link_to 'View Original PDF', post.uploads.first.file_url, target: '_blank'
-    h1.title
-      = post.title.html_safe if post.title
+  .col-md-2#sidebar
+    #sidebarContainer
+      = "sidebar"
+  .col-md-8.center-column
+    .post-editor
+      = post.body.html_safe if post.body
 
-  br
-  .editor
-    = post.body.html_safe if post.body
-
-  - if post.citations.any?
-    = render 'citations', post: post
-  - if post.backlinks.any?
-    = render 'backlinks', post: post
+    - if post.citations.any?
+      = render 'citations', post: post
+    - if post.backlinks.any?
+      = render 'backlinks', post: post
