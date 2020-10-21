@@ -63,7 +63,7 @@
   .post-editor {
   	p,
   	a,
-		li, {
+		li {
   		font-size: 15px;
   		line-height: 1.55;
       font-weight: 400;
@@ -91,8 +91,12 @@
     }
 
   	.figure-caption {
-  		color: $shaleLight;
-  	}
+      color: $shaleLight;
+    }
+
+    .body-placeholder {
+      color: $grayLight;
+    }
   }
 
 	.authors {
@@ -184,4 +188,3 @@
     }
   }
 }
-
