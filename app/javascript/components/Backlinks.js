@@ -40,6 +40,7 @@ function Backlinks({ backlinks }) {
     rendered = (
       <div className="backlinks my-5">
         <h4 className="my-3">Backlinks</h4>
+        <hr />
         {renderBacklinks(backlinks)}
       </div>
     )

@@ -46,6 +46,7 @@ export default function Citations({ citations }) {
     rendered = (
       <div className="citations my-5">
         <h4 className="my-3">References</h4>
+        <hr />
         {renderCitations(citations)}
       </div>
     )

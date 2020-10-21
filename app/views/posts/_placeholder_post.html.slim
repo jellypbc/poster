@@ -1,5 +1,5 @@
-.row
-  .col-md-12.placeholder-content.masthead
+.row.placeholder-content
+  .col-md-12.masthead
     .header
       .header-nav
         - if post.uploads.any?
@@ -10,16 +10,25 @@
               - elsif post.uploads.first.file.metadata["mime_type"].include?("pdf")
                 = link_to 'View PDF', post.uploads.first.file_url, target: '_blank'
         .title
-          h1 = post.title.html_safe if post.title
+          - if post.title.present? && post.title != "<p></p>"
+            h1 = post.title.html_safe
+          - else 
+            h1.title-placeholder 
+              = "Untitled"
+
         .authors
-          = "authors go here"
+          = post.authors
 
   .col-md-2#sidebar
     #sidebarContainer
-      = "sidebar"
   .col-md-8.center-column
     .post-editor
-      = post.body.html_safe if post.body
+      - if post.body.present? && post.body != "<p></p>"
+        = post.body.html_safe
+      - else 
+        .body-placeholder
+          = "A blank post."
+
 
     - if post.citations.any?
       = render 'citations', post: post

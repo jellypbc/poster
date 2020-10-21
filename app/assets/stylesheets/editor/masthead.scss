@@ -22,6 +22,9 @@
         line-height: 22px;
         font-size: 14px;
       }
+      h1.title-placeholder {
+        color: $grayLight;
+      }
     }
   }
 
@@ -31,7 +34,7 @@
     }
     font-size: 16px;
     a, a:hover {
-      color: #bbb;
+      color: $grayLighter;
     }
     display: block;
     margin: 0 auto;
@@ -41,7 +44,7 @@
   .upload {
     text-align: center;
     margin: 14px auto;
-    color: #a0aba5;
+    color: $grayLight;
     background: $white;
     position: relative;
     width: 60px;
@@ -50,11 +53,11 @@
     font-size: 10px;
     line-height: 17px;
     a {
-      color: #a0aba5;
+      color: $grayLight;
     }
 
     &:hover {
-      color: #56635c;
+      background-color: $grayLighterer;
       transition-duration: 0.2s;
     }
   }
