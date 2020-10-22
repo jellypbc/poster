@@ -40,4 +40,3 @@ yarn-debug.log*
 
 # Test artifacts
 .artifacts
-.DS_Store
