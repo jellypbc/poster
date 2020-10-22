@@ -5,7 +5,7 @@ export default function PostMasthead({ post }) {
 
   return (
     <div>
-      <p className="authors">{authors}</p>
+      <div className="authors">{authors}</div>
     </div>
   )
 }

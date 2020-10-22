@@ -1,5 +1,5 @@
 .ProseMirror .empty-node::before {
-  color: #aaa;
+  color: $grayLight;
   pointer-events: none;
   height: 0;
 }
