@@ -2,8 +2,8 @@ import React from 'react'
 import { Provider } from 'react-redux'
 import { store } from '../store'
 
-import PostEditor from './PostEditor'
-import ImageModal from './ImageModal'
+import { PostEditor } from './PostEditor'
+import { ImageModal } from './ImageModal'
 
 import Modal from 'react-modal'
 

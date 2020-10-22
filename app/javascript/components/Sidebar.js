@@ -37,7 +37,7 @@ function useEventListener(eventName, handler, element = window) {
   )
 }
 
-function Sidebar(props) {
+export function Sidebar(props) {
   const OFFSET = '30'
   let pageHeight = document.getElementById('root').scrollHeight
   let citations = document.getElementsByClassName('citations')[0]
@@ -219,5 +219,3 @@ function Sidebar(props) {
     </div>
   )
 }
-
-export default Sidebar

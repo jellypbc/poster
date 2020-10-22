@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { WithContext as ReactTags } from 'react-tag-input'
-import saRequest from '../utils/saRequest'
+import { saRequest } from '../utils/saRequest'
 
 export default function TagForm({ post, suggestedTags, currentUser }) {
   const [tags, setTags] = useState(post.data.attributes.tags || [])

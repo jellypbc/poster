@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function PostProcessingPlaceholder() {
+export function PostProcessingPlaceholder() {
   return (
     <div className="post-placeholder animated fadeIn">
       <div className="post-placeholder-message">

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import saRequest from '../utils/saRequest'
+import { saRequest } from '../utils/saRequest'
 import Modal from 'react-modal'
 
 // TODO: add debounce and rate limiter

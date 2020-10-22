@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-const images = createSlice({
+export const images = createSlice({
   name: 'images',
   initialState: {
     isAddingimage: false,
@@ -20,5 +20,3 @@ const images = createSlice({
     },
   },
 })
-
-export default images

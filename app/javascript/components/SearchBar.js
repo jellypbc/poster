@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Autosuggest from 'react-autosuggest'
 
-import saRequest from '../utils/saRequest'
+import { saRequest } from '../utils/saRequest'
 
 export default function SearchBar() {
   const [value, setValue] = useState('')

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { store } from '../store'
-import saRequest from '../utils/saRequest'
-import autogrow from '../utils/autogrow'
+import { saRequest } from '../utils/saRequest'
+import { autogrow } from '../utils/autogrow'
 
 // import { useSelector, useDispatch } from 'react-redux'
 
@@ -10,7 +10,7 @@ function useForceUpdate() {
   return () => setValue((value) => ++value)
 }
 
-export default function CommentForm({
+export function CommentForm({
   thread,
   onSubmit,
   onCancel,

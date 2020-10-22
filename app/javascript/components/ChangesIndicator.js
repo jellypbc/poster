@@ -1,7 +1,7 @@
 import React from 'react'
 import { formatDistanceToNow } from 'date-fns'
 
-export default function ChangesIndicator({
+export function ChangesIndicator({
   isLoading,
   hasUnsavedChanges,
   isNewPost,

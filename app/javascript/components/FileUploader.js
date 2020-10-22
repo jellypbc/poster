@@ -3,7 +3,7 @@ import Uppy from '@uppy/core'
 import XHRUpload from '@uppy/xhr-upload'
 import { DragDrop } from '@uppy/react'
 
-import saRequest from '../utils/saRequest'
+import { saRequest } from '../utils/saRequest'
 
 export default function FileUploader({ url }) {
   const [, setFileUrl] = useState('')

@@ -1,19 +1,19 @@
 import React, { useState, useEffect } from 'react'
 import { createConsumer } from '@rails/actioncable'
-import saRequest from '../utils/saRequest'
+import { saRequest } from '../utils/saRequest'
 import debounce from 'lodash/debounce'
 import sanitizeHtml from 'sanitize-html'
 
 import { store } from '../store'
-import Editor from './Editor'
-import Floater from './Floater'
-import MenuBar from './MenuBar'
-import PostMasthead from './PostMasthead'
-import Sidebar from './Sidebar'
-import Citations from './Citations'
-import Backlinks from './Backlinks'
-import ChangesIndicator from './ChangesIndicator'
-import PostProcessingPlaceholder from './PostProcessingPlaceholder'
+import { Editor } from './Editor'
+import { Floater } from './Floater'
+import { MenuBar } from './MenuBar'
+import { PostMasthead } from './PostMasthead'
+import { Sidebar } from './Sidebar'
+import { Citations } from './Citations'
+import { Backlinks } from './Backlinks'
+import { ChangesIndicator } from './ChangesIndicator'
+import { PostProcessingPlaceholder } from './PostProcessingPlaceholder'
 import {
   bodyOptions as options,
   titleOptions,
@@ -31,7 +31,7 @@ import {
   createSerializer,
 } from '../utils/postUtils'
 
-export default function PostEditor(props) {
+export function PostEditor(props) {
   console.log('POSTEDITOR PROPS', props)
 
   const [post, setPost] = useState(props.post)

@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function Citations({ citations }) {
+export function Citations({ citations }) {
   const renderCitation = (citation, index) => {
     const c = citation.attributes
 

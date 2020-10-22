@@ -6,7 +6,7 @@ import { EditorState } from 'prosemirror-state'
 
 import katex from 'katex'
 
-class MathView {
+export class MathView {
   constructor(node, view, getPos, block) {
     this.node = node
     this.outerView = view
@@ -168,5 +168,3 @@ class MathView {
     return true
   }
 }
-
-export default MathView

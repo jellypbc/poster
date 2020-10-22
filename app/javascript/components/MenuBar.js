@@ -2,7 +2,7 @@ import React from 'react'
 import map from 'lodash/map'
 import classnames from 'classnames'
 
-export default function MenuBar({ menu, children, view }) {
+export function MenuBar({ menu, children, view }) {
   return (
     <div>
       <div className="bar">

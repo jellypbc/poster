@@ -6,7 +6,7 @@ import Uppy from '@uppy/core'
 import XHRUpload from '@uppy/xhr-upload'
 import { DragDrop } from '@uppy/react'
 
-export default function ImageModal() {
+export function ImageModal() {
   const dispatch = useDispatch()
   const imagesState = useSelector((state) => state.images)
 

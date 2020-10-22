@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function Backlinks({ backlinks }) {
+export function Backlinks({ backlinks }) {
   const renderBacklink = (backlink, index) => {
     const c = backlink.attributes
 

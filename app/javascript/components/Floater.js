@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react'
 
-export default function Floater(props) {
+export function Floater(props) {
   const { view, children } = props
   const [style, setStyle] = useState({ left: 0, top: 0 })
 
