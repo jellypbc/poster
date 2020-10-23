@@ -1,6 +1,6 @@
-h2 Variables
+h2.pt-0 Colors
 .row.colors
-	.col-md-3
+	.col-md-4
 		table
 			- %w(grayDarker grayDark gray grayLight grayLighter grayLighterer grayLightest).each do |color|
 				tr
@@ -9,7 +9,7 @@ h2 Variables
 						| $
 						= color
 
-	.col-md-3
+	.col-md-4
 		table
 			- %w(shaleDark shale shaleLight shaleLighter shaleLightest).each do |color|
 				tr
@@ -18,7 +18,7 @@ h2 Variables
 						| $
 						= color
 
-	.col-md-3
+	.col-md-4
 		table
 			- %w(brandGreen brandHighlight error warning).each do |color|
 				tr
@@ -27,13 +27,4 @@ h2 Variables
 						| $
 						= color
 
-	.col-md-3.table-of-contents
-		h2.pt-0 Table of Contents
-		a href="#type" Type
-		a href="#buttons" Buttons
-		a href="#layout" Layout
-		a href="#grid" Grid
-		a href="#alerts" Alerts
-		a href="#menus" Menus
-		a href="#pagination" Pagination
-		a href="#navs" Navs
+
