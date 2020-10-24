@@ -1,40 +1,27 @@
 import React, { useState } from 'react'
-import Floater from './Floater'
 import Autosuggest from 'react-autosuggest'
-import saRequest from '../utils/saRequest'
+
+import { Floater } from './Floater'
+import { saRequest } from '../utils/saRequest'
 import { store } from '../store'
 
-export default function CitationSearch({ onCancel, onHandleSubmit, view }) {
+export function CitationSearch({ onCancel, onHandleSubmit, view }) {
   const [suggestions, setSuggestions] = useState([])
   const [value, setValue] = useState('')
   const [id, setId] = useState('')
   const [url, setUrl] = useState('')
 
-  var { currentPostId } = store.getState().currentPost.currentPost.id || ''
+  const { currentPostId } = store.getState().currentPost.currentPost.id || ''
 
-  const inputProps = {
-    placeholder: 'Search',
-    value: value,
-    onChange: onChange,
-    onKeyDown: onKeyDown,
-  }
+  const onSuggestionsFetchRequested = (input) => getSuggestions(input)
 
-  const theme = {
-    input: 'form-control',
-    suggestionsList: 'citationSuggestionsList',
-  }
-
-  function onSuggestionsFetchRequested(input) {
-    getSuggestions(input)
-  }
-
-  function getSuggestions(input) {
+  const getSuggestions = (input) => {
     const inputValue = input.value.trim().toLowerCase()
     const inputLength = inputValue.inputLength
 
     if (inputLength === 0) return []
 
-    var query = input.value
+    let query = input.value
     const url = '/search/bar?query=' + query
     let suggestions
 
@@ -47,16 +34,11 @@ export default function CitationSearch({ onCancel, onHandleSubmit, view }) {
       })
   }
 
-  function onSuggestionsClearRequested() {
-    setSuggestions([])
-  }
+  const onSuggestionsClearRequested = () => setSuggestions([])
 
-  function getSuggestionValue(suggestion) {
-    // eslint-disable-next-line no-unused-expressions
-    suggestion.title || ''
-  }
+  const getSuggestionValue = (suggestion) => suggestion.title || ''
 
-  function renderSuggestion(suggestion) {
+  const renderSuggestion = (suggestion) => {
     const { data } = suggestion
     return (
       <div
@@ -75,13 +57,12 @@ export default function CitationSearch({ onCancel, onHandleSubmit, view }) {
     )
   }
 
-  function handleClick(data) {
-    console.log('data', data)
+  const handleClick = (data) => {
     setValue(data.attributes.title)
     setUrl(data.links.post_url)
   }
 
-  function truncateTitle(title) {
+  const truncateTitle = (title) => {
     if (title.length > 80) {
       return title.slice(0, 80) + '...'
     } else {
@@ -89,16 +70,16 @@ export default function CitationSearch({ onCancel, onHandleSubmit, view }) {
     }
   }
 
-  function onSuggestionSelected(event, { suggestion }) {
+  const onSuggestionSelected = (event, { suggestion }) => {
     setValue(suggestion.data.attributes.title.trim())
     setId(suggestion.data.id)
   }
 
-  function onChange(event, { newValue, method }) {
+  const onChange = (event, { newValue }) => {
     setValue(newValue)
   }
 
-  function onKeyDown(event) {
+  const onKeyDown = (event) => {
     if (event.keyCode === 13) {
       let suggestion
       if (suggestions.length > 0) {
@@ -116,14 +97,26 @@ export default function CitationSearch({ onCancel, onHandleSubmit, view }) {
     }
   }
 
-  function inputRef(autosuggest) {
+  const inputRef = (autosuggest) => {
     if (autosuggest != null) {
       return autosuggest.input.focus({ preventScroll: true })
     }
   }
 
-  function handleFormSubmit() {
+  const handleFormSubmit = () => {
     onHandleSubmit({ id, value, currentPostId, url })
+  }
+
+  const theme = {
+    input: 'form-control',
+    suggestionsList: 'citationSuggestionsList',
+  }
+
+  const inputProps = {
+    placeholder: 'Search',
+    value: value,
+    onChange: onChange,
+    onKeyDown: onKeyDown,
   }
 
   return (

@@ -1,68 +1,59 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Autosuggest from 'react-autosuggest'
-import superagent from 'superagent'
 
-class SearchBar extends React.Component {
-  constructor() {
-    super()
-    this.state = {
-      value: '',
-      suggestions: [],
-      // isActive: false
-    }
-  }
+import { saRequest } from '../utils/saRequest'
 
-  componentDidMount() {
-    var placeholder = document.getElementById('search-fallback')[0]
+export default function SearchBar() {
+  const [value, setValue] = useState('')
+  const [suggestions, setSuggestions] = useState([])
+
+  useEffect(() => {
+    let placeholder = document.getElementById('search-fallback')[0]
     if (placeholder) placeholder.remove()
 
-    var searchbar = document.getElementsByClassName('search-bar')[0]
+    let searchbar = document.getElementsByClassName('search-bar')[0]
     searchbar.addEventListener('keyup', (event) => {
       if (event.keyCode === 13) {
-        window.location = '/search/results?query=' + this.state.value
+        window.location = '/search/results?query=' + value
       }
     })
-  }
+  })
 
-  getSuggestionValue = (suggestion) => suggestion.title || ''
+  const getSuggestionValue = (suggestion) => suggestion.title || ''
 
-  fetchSearchResults = (value) => {
+  const fetchSearchResults = (value) => {
     const inputValue = value.trim().toLowerCase()
     const inputLength = inputValue.length
 
     if (inputLength === 0) return []
 
-    var query = value
+    let query = value
     const url = '/search/bar?query=' + query
     let suggestions = []
 
-    superagent
+    saRequest
       .get(url)
       .set('accept', 'application/json')
       .then((res) => {
         console.log(res.body)
         suggestions = res.body
-        this.setState({ suggestions: suggestions })
+        setSuggestions(suggestions)
       })
   }
 
-  onChange = (event, { newValue, method }) => {
-    this.setState({
-      value: newValue,
-    })
+  const onChange = (event, { newValue, method }) => {
+    setValue(newValue)
   }
 
-  onSuggestionsFetchRequested = ({ value }) => {
-    this.fetchSearchResults(value)
+  const onSuggestionsFetchRequested = ({ value }) => {
+    fetchSearchResults(value)
   }
 
-  onSuggestionsClearRequested = () => {
-    this.setState({
-      suggestions: [],
-    })
+  const onSuggestionsClearRequested = () => {
+    setSuggestions([])
   }
 
-  renderSuggestion = (suggestion) => {
+  const renderSuggestion = (suggestion) => {
     const { data } = suggestion
     return (
       <div className="suggestion-row">
@@ -78,39 +69,31 @@ class SearchBar extends React.Component {
     )
   }
 
-  render() {
-    const { value, suggestions } = this.state
-
-    const inputProps = {
-      placeholder: 'Search',
-      value,
-      onChange: this.onChange,
-    }
-
-    const theme = {
-      input: 'form-control',
-      suggestionsList: 'suggestionsList',
-    }
-
-    // var style = this.state.isActive ? {width: '400px'} : {width: '193px'}
-
-    return (
-      <div className="search-bar">
-        <Autosuggest
-          className="searchthing"
-          suggestions={suggestions}
-          onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
-          onSuggestionsClearRequested={this.onSuggestionsClearRequested}
-          getSuggestionValue={this.getSuggestionValue}
-          renderSuggestion={this.renderSuggestion}
-          renderSectionTitle={() => null}
-          getSectionSuggestions={() => null}
-          inputProps={inputProps}
-          theme={theme}
-        />
-      </div>
-    )
+  const inputProps = {
+    placeholder: 'Search',
+    value,
+    onChange: onChange,
   }
-}
 
-export default SearchBar
+  const theme = {
+    input: 'form-control',
+    suggestionsList: 'suggestionsList',
+  }
+
+  return (
+    <div className="search-bar">
+      <Autosuggest
+        className="searchthing"
+        suggestions={suggestions}
+        onSuggestionsFetchRequested={onSuggestionsFetchRequested}
+        onSuggestionsClearRequested={onSuggestionsClearRequested}
+        getSuggestionValue={getSuggestionValue}
+        renderSuggestion={renderSuggestion}
+        renderSectionTitle={() => null}
+        getSectionSuggestions={() => null}
+        inputProps={inputProps}
+        theme={theme}
+      />
+    </div>
+  )
+}

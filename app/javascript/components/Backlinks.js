@@ -1,8 +1,8 @@
 import React from 'react'
 
-function Backlinks({ backlinks }) {
+export function Backlinks({ backlinks }) {
   const renderBacklink = (backlink, index) => {
-    var c = backlink.attributes
+    const c = backlink.attributes
 
     let { authors, title, publisher, imprint_date } = c
 
@@ -48,5 +48,3 @@ function Backlinks({ backlinks }) {
 
   return <div>{rendered}</div>
 }
-
-export default Backlinks
