@@ -12,7 +12,7 @@ export default function PostsList({ posts }) {
         authors={post.authors}
         abstract={post.abstract}
         createdAt={post.created_at}
-        updatedAtInWords={post.updated_at}
+        updatedAt={post.updated_at}
       />
     )
   })
