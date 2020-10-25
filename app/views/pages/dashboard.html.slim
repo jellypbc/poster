@@ -23,7 +23,9 @@
               - if @posts.empty?
                 p.muted.my-3 You haven't added any posts yet!
               - else
-                = react_component "PostsList", posts: @posts
+                = react_component "PostsList",
+                  posts: @posts,
+                  postPath: @posts.first.user_id? ? short_user_post_path(@posts.first.user, @posts.first) : post_path(@posts.first)
 
               / - @posts.each do |post|
               /   = react_component "PostCard",

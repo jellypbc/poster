@@ -8,28 +8,29 @@
         p.muted Created #{@tag.created_at.strftime("%b %d, %Y")}
       .row.mt-4
       .col-md-9
-        ul#tab.nav.nav-tabs role="tablist"
-          li.nav-item
-            a#posts-tab.nav-link.active data-toggle="tab" href="#posts" role="tab" aria-controls="posts" aria-selected="true"
-              | Posts
-              span.pill.tab-count.ml-2 = @posts.count
+        = react_component "PostsContainer", posts: @posts, citations: @generated_posts
+        / ul#tab.nav.nav-tabs role="tablist"
+        /   li.nav-item
+        /     a#posts-tab.nav-link.active data-toggle="tab" href="#posts" role="tab" aria-controls="posts" aria-selected="true"
+        /       | Posts
+        /       span.pill.tab-count.ml-2 = @posts.count
 
-          li.nav-item
-            a#citations-tab.nav-link data-toggle="tab" href="#citations" role="tab" aria-controls="citations" aria-selected="false"
-              | Citations
-              span.pill.tab-count.ml-2 = @generated_posts.count
+        /   li.nav-item
+        /     a#citations-tab.nav-link data-toggle="tab" href="#citations" role="tab" aria-controls="citations" aria-selected="false"
+        /       | Citations
+        /       span.pill.tab-count.ml-2 = @generated_posts.count
 
-        .tab-content#tabContent.my-5
-          #posts.tab-pane.fade.show.active role="tabpanel" aria-labelledby="posts-tab"
-            - if @posts.empty?
-              p.muted.my-5 No posts have been added to this collection yet.
-            - else 
-              = react_component "PostsList", posts: @posts
+        / .tab-content#tabContent.my-5
+        /   #posts.tab-pane.fade.show.active role="tabpanel" aria-labelledby="posts-tab"
+        /     - if @posts.empty?
+        /       p.muted.my-5 No posts have been added to this collection yet.
+        /     - else 
+        /       = react_component "PostsList", posts: @posts
 
-            = will_paginate @posts, param_name: :posts_page, anchor: "posts"
+        /     = will_paginate @posts, param_name: :posts_page, anchor: "posts"
 
-          #citations.tab-pane.fade role="tabpanel" aria-labelledby="citations-tab"
-            = react_component "PostsList", posts: @generated_posts
+        /   #citations.tab-pane.fade role="tabpanel" aria-labelledby="citations-tab"
+        /     = react_component "PostsList", posts: @generated_posts
 
-            = will_paginate @generated_posts, param_name: :citations_page, anchor: "citations"
+        /     = will_paginate @generated_posts, param_name: :citations_page, anchor: "citations"
 
