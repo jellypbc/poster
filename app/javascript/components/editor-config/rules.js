@@ -37,9 +37,9 @@ export default inputRules({
     // ``` code block
     textblockTypeInputRule(/^```$/, schema.nodes.code_block),
 
-    // # heading
+    // ## h2 ### h3 ### h4
     textblockTypeInputRule(
-      new RegExp('^(#{1,6})\\s$'),
+      new RegExp('^(#{2,4})\\s$'),
       schema.nodes.heading,
       (match) => ({ level: match[1].length })
     ),

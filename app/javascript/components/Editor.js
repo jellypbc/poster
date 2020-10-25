@@ -4,7 +4,7 @@ import { EditorView } from 'prosemirror-view'
 import { commentPluginKey } from './editor-config/comments'
 // import applyDevTools from 'prosemirror-dev-tools'
 
-class Editor extends React.Component {
+export class Editor extends React.Component {
   constructor(props) {
     super(props)
     const { field } = props
@@ -95,5 +95,3 @@ class Editor extends React.Component {
       : editor
   }
 }
-
-export default Editor

@@ -1,12 +1,12 @@
 // https://github.com/ProseMirror/website/blob/master/src/collab/client/comment.js
 import { Plugin, PluginKey } from 'prosemirror-state'
 import { Decoration, DecorationSet } from 'prosemirror-view'
-import CommentForm from '../CommentForm'
+import { CommentForm } from '../CommentForm'
 import { store } from '../../store'
 
 import ReactDOM from 'react-dom'
 import React from 'react'
-import saRequest from '../../utils/saRequest'
+import { saRequest } from '../../utils/saRequest'
 import classnames from 'classnames'
 
 export const commentPluginKey = new PluginKey('comments')

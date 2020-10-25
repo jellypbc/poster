@@ -71,25 +71,6 @@ const defaultMarks = {
   },
 }
 
-const title = {
-  // :: MarkSpec An emphasis mark. Rendered as an `<em>` element.
-  // Has parse rules that also match `<i>` and `font-style: italic`.
-  em: {
-    parseDOM: [{ tag: 'i' }, { tag: 'em' }, { style: 'font-style=italic' }],
-    toDOM() {
-      return emDOM
-    },
-  },
-
-  // :: MarkSpec Code font mark. Represented as a `<code>` element.
-  code: {
-    parseDOM: [{ tag: 'code' }],
-    toDOM() {
-      return codeDOM
-    },
-  },
-}
-
 const subscript = {
   excludes: 'superscript',
   parseDOM: [{ tag: 'sub' }, { style: 'vertical-align=sub' }],
@@ -126,13 +107,7 @@ const underline = {
   ],
 }
 
-export const titleMarks = {
-  ...title,
-  subscript,
-  superscript,
-}
-
-export const marks = {
+export default {
   ...defaultMarks,
   subscript,
   superscript,

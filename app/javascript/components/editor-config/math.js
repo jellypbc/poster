@@ -1,5 +1,5 @@
 import { Plugin } from 'prosemirror-state'
-import MathView from '../MathView'
+import { MathView } from '../MathView'
 
 export function math(options) {
   return new Plugin({
