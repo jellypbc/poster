@@ -22,8 +22,17 @@
             .col-md-12
               - if @posts.empty?
                 p.muted.my-3 You haven't added any posts yet!
+              - else
+                = react_component "PostsList", posts: @posts
 
-              - @posts.each do |post|
-                = render 'posts/post', post: post
-
+              / - @posts.each do |post|
+              /   = react_component "PostCard",
+              /     key: post.id,
+              /     postPath: post.user_id? ? short_user_post_path(post.user, post) : post_path(post),
+              /     title: post.title.present? ? sanitize_title(post.title).html_safe : post.title,
+              /     authors: post.authors,
+              /     abstract: post.abstract.present? ? post.abstract.truncate(200, seperator: "...") : post.abstract,
+              /     createdAt: post.created_at.present? ? post.created_at.strftime("%b %d, %Y") : post.created_at,
+              /     updatedAtInWords: post.updated_at.present? ? time_ago_in_words(post.updated_at) : post.updated_at,
+              /     post: post  
               = will_paginate(@posts)

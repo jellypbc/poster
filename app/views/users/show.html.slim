@@ -41,13 +41,11 @@
 
         .tab-content#tabContent.my-5
           #posts.tab-pane.fade.show.active role="tabpanel" aria-labelledby="posts-tab"
-            - @primary_posts.each do |post|
-              = render 'posts/post', post: post
+            = react_component "PostsList", posts: @primary_posts
 
             = will_paginate @primary_posts, param_name: :posts_page, anchor: "posts"
 
           #citations.tab-pane.fade role="tabpanel" aria-labelledby="citations-tab"
-            - @generated_posts.each do |post|
-              = render 'posts/post', post: post
+            = react_component "PostsList", posts: @generated_posts
 
             = will_paginate @generated_posts, param_name: :citations_page, anchor: "citations"
