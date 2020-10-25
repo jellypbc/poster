@@ -21,11 +21,10 @@
           = render 'placeholder_follow_button', user: @user, current_user: current_user
 
           = react_component 'FollowButton',
-            object_id: @user.id,
-            object_type: 'User',
+            objectId: @user.id,
+            objectType: 'User',
             following: (current_user && current_user.follows && current_user.follows.pluck(:following_id).include?(@user.id)),
-            buttonClass: "btn btn-secondary",
-            current_user: current_user.present? ? current_user.username : false
+            currentUser: current_user.present? ? current_user.username : false
 
     .row.mt-4
       .col-md-12

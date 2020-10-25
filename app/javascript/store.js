@@ -1,5 +1,5 @@
 import { configureStore, createReducer } from '@reduxjs/toolkit'
-import images from './reducers/imagesReducer'
+import { images } from './reducers/imagesReducer'
 
 // unsafe side-effects for comment actions
 const commentsEffects = {

@@ -1,11 +1,11 @@
 /* eslint-disable no-unused-expressions */
 import { Plugin, PluginKey } from 'prosemirror-state'
 import { Decoration, DecorationSet } from 'prosemirror-view'
-import CitationSearch from '../CitationSearch'
+import { CitationSearch } from '../CitationSearch'
 
 import ReactDOM from 'react-dom'
 import React from 'react'
-import saRequest from '../../utils/saRequest'
+import { saRequest } from '../../utils/saRequest'
 import parse from 'html-react-parser'
 import classnames from 'classnames'
 import { store } from '../../store'
@@ -297,7 +297,7 @@ function ThreadedCitation(props) {
 
   const sanitizedTitle = parse(
     `${
-      citation.title.replace(/(<p[^>]+?>|<p>|<\/p>)/gim, '') || '[ No Title ]'
+      citation.title.replace(/(<p[^>]+?>|<p>|<\/p>)/gim, '') || '[ Untitled ]'
     }`
   )
 

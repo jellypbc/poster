@@ -1,8 +1,8 @@
 import React from 'react'
 
-export default function Citations({ citations }) {
+export function Citations({ citations }) {
   const renderCitation = (citation, index) => {
-    var c = citation.attributes
+    const c = citation.attributes
 
     let { authors, title, publisher, imprint_date } = c
 
@@ -22,7 +22,7 @@ export default function Citations({ citations }) {
                     <span>{title}.&nbsp;</span>
                   ) : (
                     <span>
-                      <em>[ No Title ].</em>
+                      <em>[ Untitled ].</em>
                     </span>
                   )}
                   {publisher && <span>{publisher},&nbsp;</span>}
@@ -46,6 +46,7 @@ export default function Citations({ citations }) {
     rendered = (
       <div className="citations my-5">
         <h4 className="my-3">References</h4>
+        <hr />
         {renderCitations(citations)}
       </div>
     )

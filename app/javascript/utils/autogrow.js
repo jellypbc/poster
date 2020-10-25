@@ -1,4 +1,4 @@
-export default function autogrow() {
+export function autogrow() {
   document.querySelectorAll('[data-autogrow]').forEach(function (element) {
     element.style.boxSizing = 'border-box'
     var offset = element.offsetHeight - element.clientHeight
