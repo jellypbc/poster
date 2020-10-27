@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { store } from '../store'
 import { saRequest } from '../utils/saRequest'
 import { autogrow } from '../utils/autogrow'
@@ -19,14 +19,16 @@ export function CommentForm({
 }) {
   // const dispatch = useDispatch()
   // const comments = useSelector(state => state.comments)
-  const textareaRef = React.useRef()
+  const textareaRef = useRef()
 
   useEffect(() => {
     autogrow()
   }, [])
 
   const getSavePayload = () => {
-    return { text: textareaRef.current.value }
+    return {
+      text: textareaRef.current.value,
+    }
   }
 
   const forceUpdate = useForceUpdate()

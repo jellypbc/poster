@@ -5,7 +5,7 @@ import { CommentForm } from '../CommentForm'
 import { store } from '../../store'
 
 import ReactDOM from 'react-dom'
-import React from 'react'
+import React, { useState } from 'react'
 import { saRequest } from '../../utils/saRequest'
 import classnames from 'classnames'
 
@@ -297,13 +297,13 @@ function buildUser() {
   return {
     id: currentUser.currentUser.id || '',
     avatar: currentUser.currentUser.attributes.avatar_url,
-    name: currentUser.currentUser.attributes.full_name,
+    username: currentUser.currentUser.attributes.username,
   }
 }
 
 function ThreadedComment(props) {
   const { comment, dispatch, state, className, showActions } = props
-  const [isShowingReply, setIsShowingReply] = React.useState(false)
+  const [isShowingReply, setIsShowingReply] = useState(false)
 
   const handleDelete = () => {
     dispatch(
@@ -342,17 +342,17 @@ function ThreadedComment(props) {
     >
       {comment.user && (
         <div className="j-commentUser">
-          <img
-            className="avatar"
-            src={comment.user.avatar}
-            alt={comment.user.name}
-          />
           <a
-            className="name"
+            className="name-card"
             href={comment.user.username ? '/@' + comment.user.username : '#'}
             target="blank"
           >
-            {comment.user.name}
+            <img
+              className="avatar"
+              src={comment.user.avatar}
+              alt={comment.user.username}
+            />
+            {comment.user.username}
           </a>
         </div>
       )}
