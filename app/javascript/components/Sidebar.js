@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState, useCallback } from 'react'
 import { EditorView } from 'prosemirror-view'
 import { EditorState } from 'prosemirror-state'
 import { math } from './editor-config/math'
+import { v4 as uuidv4 } from 'uuid'
 
 function useEventListener(eventName, handler, element = window) {
   // Create a ref that stores handler
@@ -51,7 +52,7 @@ export function Sidebar(props) {
   const vpHeight = window.innerHeight
 
   const viewHost = useRef()
-  const view = useRef(null)
+  // const view = useRef(null)
 
   const [portalTop, setPortalTop] = useState('0px')
   const [editorContainerHeight, setEditorContainerHeight] = useState(0)
@@ -60,6 +61,18 @@ export function Sidebar(props) {
   const [visible, setVisible] = useState(true)
   const [sticky, setSticky] = useState(false)
   const [mastheadHeight, setMastheadHeight] = useState(0)
+
+  const [view] = useState(
+    new EditorView(viewHost.current, {
+      state: EditorState.create({
+        plugins: [math()],
+        ...props.options,
+      }),
+      editable: function (state) {
+        return false
+      },
+    })
+  )
 
   const calculateEditorPosition = useCallback(
     (sticky, vp, ech) => {
@@ -91,18 +104,38 @@ export function Sidebar(props) {
     [mastheadHeight, calculateEditorPosition, sticky, pageHeight]
   )
 
+  const getHeadings = () => {
+    let headings = []
+
+    view.state.doc.forEach((node) => {
+      if (node.type.name === 'heading') {
+        const id = uuidv4()
+        let name = id
+
+        headings.push({
+          title: node.textContent,
+          level: node.attrs.level,
+          id: name,
+        })
+      }
+    })
+    console.log('headings', headings)
+    return (
+      <div style={outlineStyle}>
+        <h4>Contents</h4>
+        <div>
+          {headings.map((heading) => (
+            <div className="ml-1" key={heading.id}>
+              {heading.title}
+            </div>
+          ))}
+        </div>
+      </div>
+    )
+  }
+
   // initial render
   useEffect(() => {
-    view.current = new EditorView(viewHost.current, {
-      state: EditorState.create({
-        plugins: [math()],
-        ...props.options,
-      }),
-      editable: function (state) {
-        return false
-      },
-    })
-
     if (viewHost.current) {
       let editorHeight = viewHost.current.clientHeight
       let pHeight = (vpHeight / pageHeight) * editorHeight
@@ -111,8 +144,8 @@ export function Sidebar(props) {
       const mh = document.getElementsByClassName('masthead')[0]
       setMastheadHeight(mh.offsetHeight + mh.offsetTop)
     }
-    return () => view.current.destroy()
-  }, [pageHeight, props, visible, vpHeight])
+    return () => view.destroy()
+  }, [pageHeight, props, view, visible, vpHeight])
 
   // every render
   useEffect(() => {
@@ -192,6 +225,10 @@ export function Sidebar(props) {
     pointerEvents: 'none',
   }
 
+  let outlineStyle = {
+    fontSize: '.2rem',
+  }
+
   return (
     <div id="sidebarContainer" style={container}>
       <i
@@ -216,6 +253,7 @@ export function Sidebar(props) {
           <div className="sidebarPortal" style={sidebarPortalStyle} />
         </div>
       )}
+      <div>{getHeadings()}</div>
     </div>
   )
 }
