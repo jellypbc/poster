@@ -19,7 +19,7 @@ export function Floater(props) {
 
       if (!selection || selection.empty || mathNodeIsSelected) {
         return {
-          left: -1000,
+          left: -2000,
           top: 0,
         }
       }
