@@ -79,6 +79,8 @@ Rails.application.routes.draw do
 
   get 'blog', to: 'pages#blog'
 
+  get '/@:username/posts_paginated/:page', to: 'users#paginated_posts'
+
   namespace :admin, module: 'admin' do
     resources :users
     resources :posts

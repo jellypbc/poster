@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :fetch_user, only: [:show, :edit, :update, :destroy, :remove_avatar, :follow, :unfollow]
+  before_action :fetch_user, only: [:show, :edit, :update, :destroy, :remove_avatar, :follow, :unfollow, :paginated_posts]
   before_action :authenticate_user!, only: [:index, :edit, :destroy, :update, :remove_avatar, :follow, :unfollow]
   before_action :admin_only, only: [:index]
 
@@ -16,11 +16,36 @@ class UsersController < ApplicationController
         .primary
         .order(created_at: :desc)
         .paginate(page: params[:posts_page], per_page: 10)
+      
+      @primary_posts_page_count = @primary_posts.total_pages
 
       @generated_posts = @user.posts
         .generated
         .order(created_at: :desc)
         .paginate(page: params[:citations_page], per_page: 10)
+      @generated_posts_page_count = @generated_posts.total_pages
+    end
+  end
+
+  def paginated_posts
+    if @user.posts
+      @primary_posts = @user.posts
+        .primary
+        .order(created_at: :desc)
+        # .paginate(page: params[:posts_page], per_page: 10)
+        .paginate(page: params[:posts_page], per_page: 10)
+      
+      @primary_posts_page_count = @primary_posts.total_pages
+
+      @generated_posts = @user.posts
+        .generated
+        .order(created_at: :desc)
+        .paginate(page: params[:citations_page], per_page: 10)
+      @generated_posts_page_count = @generated_posts.total_pages
+      render json: {
+        posts: @primary_posts,
+        page_count: @primary_posts.total_pages
+      }
     end
   end
 
