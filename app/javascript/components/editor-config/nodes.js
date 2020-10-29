@@ -59,7 +59,7 @@ const defaultNodes = {
       { tag: 'h4', attrs: { level: 4 } },
     ],
     toDOM(node) {
-      return ['h' + node.attrs.level, 0]
+      return ['h' + node.attrs.level, { id: 'dinosaur' }, 0]
     },
   },
 

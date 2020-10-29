@@ -122,13 +122,19 @@ export function Sidebar(props) {
     console.log('headings', headings)
     return (
       <div style={outlineStyle}>
-        <h4>Contents</h4>
+        <div className="pt-4">Beyond being there</div>
         <div>
-          {headings.map((heading) => (
-            <div className="ml-1" key={heading.id}>
-              {heading.title}
-            </div>
-          ))}
+          {headings.map((heading) =>
+            heading.level === 2 ? (
+              <div className="ml-2" key={heading.id}>
+                {heading.title}
+              </div>
+            ) : (
+              <div className="ml-4" key={heading.id}>
+                {heading.title}
+              </div>
+            )
+          )}
         </div>
       </div>
     )
@@ -242,7 +248,7 @@ export function Sidebar(props) {
         tabIndex={0}
       />
 
-      {visible && (
+      {/* {visible && (
         <div className="sidebarEditorContainer" style={editorContainerStyle}>
           <div
             id="sidebarEditor"
@@ -252,7 +258,7 @@ export function Sidebar(props) {
           />
           <div className="sidebarPortal" style={sidebarPortalStyle} />
         </div>
-      )}
+      )} */}
       <div>{getHeadings()}</div>
     </div>
   )
