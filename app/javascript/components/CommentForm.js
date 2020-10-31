@@ -15,6 +15,7 @@ export function CommentForm({
   onSubmit,
   onCancel,
   className,
+  comment,
   ...rest
 }) {
   // const dispatch = useDispatch()
@@ -56,8 +57,10 @@ export function CommentForm({
     //   }
     // })
 
+    console.log('comment', comment)
+
     textareaRef.current.value = '' // clear (could change this to controlled value too)
-    if (onSubmit) onSubmit(payload)
+    if (onSubmit) onSubmit(payload, comment)
   }
 
   const onGuestClick = (e) => {
@@ -148,20 +151,20 @@ export function CommentForm({
               data-autogrow
               className="j-commentForm__input"
               defaultValue=""
-              placeholder="Add a comment..."
+              placeholder="What's on your mind..."
               onKeyDown={handleKeyDown}
               ref={textareaRef}
               /* eslint-disable-next-line jsx-a11y/no-autofocus */
               autoFocus
               id="comment-form-input"
             ></textarea>
-            <div className="j-commentForm__actions px-2 pt-1 pb-2 d-flex flex-row-reverse">
+            <div className="j-commentForm__actions pt-1 pb-2 d-flex flex-row-reverse">
               <button
                 type="button"
                 className="btn btn-primary btn-sm"
                 onClick={handleSubmit}
               >
-                Post
+                Comment
               </button>{' '}
               <button
                 type="button"

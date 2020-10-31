@@ -91,7 +91,7 @@
   bottom: 10px;
   right: 10px;
   border: 1px solid $grayLight;
-  border-radius: $borderRadius-base;
+  // border-radius: $borderRadius-base;
   background-color: $white;
   transform: translate(0px, 0px);
 
@@ -105,25 +105,33 @@
 
 .j-commentForm__input {
   width: 100%;
-  border: none;
-  min-height: 150px;
+  // border: none;
+  // min-height: .2rem;
+  min-height: 2rem;
   max-height: 80vh; // it's resizable vertically
-  border-bottom: 1px solid $grayLighter;
-  border-top-left-radius: $borderRadius-base;
-  border-top-right-radius: $borderRadius-base;
+  // border-bottom: 1px solid $grayLighter;
+  // border-top-left-radius: $borderRadius-base;
+  // border-top-right-radius: $borderRadius-base;
+  border-radius: 0px;
+  resize: none;
   outline: none;
   padding: $spacer * 3;
+  
 }
 
-.j-commentForm__actions {}
-
+.j-commentForm__actions {
+  button {
+    border-radius: 0px !important;
+    font-size: .8rem !important;
+  }
+}
 // inline comment box
 .j-commentReplyForm {
   .j-commentForm__input  {
-    min-height: 50px;
-    padding: 0;
+    // min-height: 50px;
+    padding: $spacer * 2;
     padding-top: $spacer * 2;
-    font-size: $fontsize-md;
+    // font-size: $fontsize-md;
   }
   &.fadeIn {
     animation-duration: 0.1s;
@@ -149,8 +157,8 @@
   color: black;
   background: white;
   font-weight: normal;
-  border: 1px solid #888;
-  border-radius: 5px;
+  border: 1px solid hsl(0,0,0);
+  // border-radius: 5px;
   z-index: 10;
   overflow-y: scroll;
   overflow-x: hidden;
@@ -191,7 +199,7 @@
   background-color: $white;
 }
 .ProseMirror ul.commentList::-webkit-scrollbar-thumb {
-  border-radius: 2px;
+  // border-radius: 2px;
   height: 4px;
   -webkit-box-shadow: inset 0 0 2px rgba(0,0,0,0.1);
   background-color: $grayLighter;
@@ -219,3 +227,41 @@
     color: $success;
   }
 }
+
+.j-replyContainer{
+  background-color: $grayLightest;
+  .j-openReplyForm {
+    padding-top: 1rem;
+
+    img.avatar {
+      margin-top: 8px !important;
+    }
+    textarea {
+      -webkit-box-shadow: none;
+      -moz-box-shadow: none;
+      box-shadow: none;
+      resize: none;
+      background-color: white;
+      padding: .5rem;
+      height: 2.2rem;
+      font-weight: 400;
+      font-size: 1rem;
+      width: 87%;
+      border-color: black;
+    }
+  }
+}
+
+.reply-box {
+  background-color: $grayLightest;
+}
+
+.commentList {
+  // border-color: black !important;
+  // border: 2px !important;
+  box-shadow: 0px 4px 4px hsla(0,0,0, .25);
+  // filter: drop-shadow(0px 4px 4px hsla(0,0,0, 25%));
+}
+
+
+

@@ -2,12 +2,13 @@
 import { Plugin, PluginKey } from 'prosemirror-state'
 import { Decoration, DecorationSet } from 'prosemirror-view'
 import { CommentForm } from '../CommentForm'
+import { CommentContainer } from '../CommentContainer'
 import { store } from '../../store'
 
 import ReactDOM from 'react-dom'
-import React, { useState } from 'react'
+import React from 'react'
 import { saRequest } from '../../utils/saRequest'
-import classnames from 'classnames'
+// import { v4 as uuidv4 } from 'uuid'
 
 export const commentPluginKey = new PluginKey('comments')
 
@@ -124,10 +125,6 @@ export const commentPlugin = new Plugin({
   },
 })
 
-function randomID() {
-  return Math.floor(Math.random() * 0xffffffff)
-}
-
 function submitDeleteComment(comment) {
   var data = {
     comment: {
@@ -180,6 +177,10 @@ function submitRequest(data, url) {
     })
 }
 
+function randomID() {
+  return Math.floor(Math.random() * 0xffffffff)
+}
+
 // Command for adding an annotation; it can be connected to the menu option for comments
 export const addAnnotation = function (state, dispatch) {
   let sel = state.selection
@@ -193,7 +194,8 @@ export const addAnnotation = function (state, dispatch) {
 
     const handleClose = () => ReactDOM.unmountComponentAtNode(root)
 
-    const handleNewComment = ({ text }) => {
+    const handleNewComment = (payload, comment) => {
+      const text = payload.text
       const user = buildUser()
       const newComment = new Comment(text, randomID(), user)
 
@@ -216,12 +218,19 @@ export const addAnnotation = function (state, dispatch) {
     if (!comments.length) thread = true
 
     ReactDOM.render(
-      <CommentForm
-        thread={thread}
-        onSubmit={handleNewComment}
-        onCancel={handleClose}
-        className="j-commentForm shadow rounded"
-      />,
+      <div>
+        {/* <CommentContainer
+          key={randomID()}
+          comments={comments}
+          onSubmit={handleNewComment}
+        /> */}
+        <CommentForm
+          thread={thread}
+          onSubmit={handleNewComment}
+          onCancel={handleClose}
+          className="j-commentForm shadow rounded"
+        />
+      </div>,
       root
     )
   }
@@ -267,31 +276,6 @@ function commentTooltip(state, dispatch) {
   ])
 }
 
-function renderComments(comments, dispatch, state) {
-  const node = document.createElement('div')
-  // const node = document.getElementById('comment-container')
-  node.className = 'tooltip-wrapper animated fadeIn'
-  ReactDOM.render(
-    <ul className="commentList">
-      {comments.map((c, index) => {
-        const isLast = index === comments.length - 1
-        return (
-          <ThreadedComment
-            key={index}
-            comment={c.spec.comment}
-            dispatch={dispatch}
-            state={state}
-            className={classnames('px-3 ', { 'border-bottom': !isLast })}
-            showActions={{ reply: isLast, delete: true }}
-          />
-        )
-      })}
-    </ul>,
-    node
-  )
-  return node
-}
-
 function buildUser() {
   const { currentUser } = store.getState()
   return {
@@ -301,21 +285,13 @@ function buildUser() {
   }
 }
 
-function ThreadedComment(props) {
-  const { comment, dispatch, state, className, showActions } = props
-  const [isShowingReply, setIsShowingReply] = useState(false)
+function renderComments(comments, dispatch, state) {
+  const node = document.createElement('div')
+  // const node = document.getElementById('comment-container')
+  node.className = 'tooltip-wrapper animated fadeIn'
 
-  const handleDelete = () => {
-    dispatch(
-      state.tr.setMeta(commentPlugin, { type: 'deleteComment', comment })
-    )
-  }
-
-  const handleReply = () => {
-    setIsShowingReply(true)
-  }
-
-  const handleReplySubmit = ({ text = 'Comment...' }) => {
+  const handleReplySubmit = (payload, comment) => {
+    const text = payload.text
     const replyTo = commentPluginKey.getState(state).findComment(comment.id)
     const user = buildUser()
 
@@ -329,67 +305,9 @@ function ThreadedComment(props) {
     )
   }
 
-  const handleReplyCancel = () => {
-    setIsShowingReply(false)
-  }
-
-  const { currentUser } = store.getState()
-
-  return (
-    <div
-      className={classnames('commentShow', className)}
-      id={'comment-' + comment.id}
-    >
-      {comment.user && (
-        <div className="j-commentUser">
-          <a
-            className="name-card"
-            href={comment.user.username ? '/@' + comment.user.username : '#'}
-            target="blank"
-          >
-            <img
-              className="avatar"
-              src={comment.user.avatar}
-              alt={comment.user.username}
-            />
-            {comment.user.username}
-          </a>
-        </div>
-      )}
-
-      <p className="j-commentText">{comment.text}</p>
-      {!isShowingReply && (
-        <div>
-          {showActions.reply && (
-            <button
-              className="btn btn-plain btn-sm j-commentReply px-0 mr-2"
-              onClick={handleReply}
-            >
-              Reply
-            </button>
-          )}
-          {showActions.delete &&
-            currentUser &&
-            currentUser.currentUser &&
-            currentUser.currentUser.id == comment.user.id && (
-              <button
-                className="btn btn-plain btn-sm j-commentDelete px-0 mr-2"
-                onClick={handleDelete}
-              >
-                Delete
-              </button>
-            )}
-        </div>
-      )}
-      {isShowingReply && (
-        <div>
-          <CommentForm
-            onSubmit={handleReplySubmit}
-            onCancel={handleReplyCancel}
-            className="j-commentReplyForm border-top mt-3 pt-1 animated fadeIn"
-          />
-        </div>
-      )}
-    </div>
+  ReactDOM.render(
+    <CommentContainer comments={comments} onSubmit={handleReplySubmit} />,
+    node
   )
+  return node
 }
