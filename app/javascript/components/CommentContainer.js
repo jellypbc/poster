@@ -6,7 +6,12 @@ import { v4 as uuidv4 } from 'uuid'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faComment } from '@fortawesome/fontawesome-free-solid'
 
-export function CommentContainer({ comments, onSubmit, currentUser }) {
+export function CommentContainer({
+  comments,
+  onSubmit,
+  onDelete,
+  currentUser,
+}) {
   const [isShowingReply, setIsShowingReply] = useState(false)
 
   const handleReply = () => {
@@ -39,6 +44,8 @@ export function CommentContainer({ comments, onSubmit, currentUser }) {
                   key={index}
                   comment={comment}
                   className={classnames('px-3 ', { 'border-bottom': !isLast })}
+                  onDelete={onDelete}
+                  currentUser={currentUser}
                 />
                 <div>
                   {!isShowingReply && (

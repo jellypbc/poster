@@ -1,13 +1,12 @@
 import React from 'react'
 import classnames from 'classnames'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faEllipsisH } from '@fortawesome/fontawesome-free-solid'
 
-export function Comment({ comment, className }) {
-  // TODO: put delete back in
-  // const handleDelete = () => {
-  //   dispatch(
-  //     state.tr.setMeta(commentPlugin, { type: 'deleteComment', comment })
-  //   )
-  // }
+export function Comment({ comment, className, onDelete, currentUser }) {
+  const handleClick = () => {
+    if (onDelete) onDelete(comment)
+  }
 
   return (
     <div
@@ -28,6 +27,14 @@ export function Comment({ comment, className }) {
             />
             {comment.user.username}
           </a>
+          {comment.user.username === currentUser.username && (
+            <button
+              className="btn btn-plain btn-sm j-commentDelete px-2 mr-2"
+              onClick={handleClick}
+            >
+              <FontAwesomeIcon icon={faEllipsisH} />
+            </button>
+          )}
         </div>
       )}
       <p className="j-commentText">{comment.text}</p>

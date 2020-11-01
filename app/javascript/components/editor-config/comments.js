@@ -290,6 +290,12 @@ function renderComments(comments, dispatch, state) {
   // const node = document.getElementById('comment-container')
   node.className = 'tooltip-wrapper animated fadeIn'
 
+  const handleDelete = (comment) => {
+    dispatch(
+      state.tr.setMeta(commentPlugin, { type: 'deleteComment', comment })
+    )
+  }
+
   const handleReplySubmit = (payload, comment) => {
     const text = payload.text
     const replyTo = commentPluginKey.getState(state).findComment(comment.id)
@@ -309,6 +315,7 @@ function renderComments(comments, dispatch, state) {
     <CommentContainer
       comments={comments}
       onSubmit={handleReplySubmit}
+      onDelete={handleDelete}
       currentUser={buildUser()}
     />,
     node
