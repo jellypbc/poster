@@ -306,7 +306,11 @@ function renderComments(comments, dispatch, state) {
   }
 
   ReactDOM.render(
-    <CommentContainer comments={comments} onSubmit={handleReplySubmit} />,
+    <CommentContainer
+      comments={comments}
+      onSubmit={handleReplySubmit}
+      currentUser={buildUser()}
+    />,
     node
   )
   return node

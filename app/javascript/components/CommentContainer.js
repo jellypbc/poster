@@ -6,7 +6,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faComment } from '@fortawesome/fontawesome-free-solid'
 
-export function CommentContainer({ comments, onSubmit }) {
+export function CommentContainer({ comments, onSubmit, currentUser }) {
   const [isShowingReply, setIsShowingReply] = useState(false)
 
   const handleReply = () => {
@@ -49,8 +49,8 @@ export function CommentContainer({ comments, onSubmit }) {
                             <button className="name-card" onClick={handleReply}>
                               <img
                                 className="avatar"
-                                src={comment.user.avatar} // TODO: show current usre or guest avatar
-                                alt={comment.user.username}
+                                src={currentUser.avatar}
+                                alt={currentUser.username}
                               />
                               <textarea
                                 className="reply-button"
