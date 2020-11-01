@@ -10,17 +10,12 @@ function useForceUpdate() {
   return () => setValue((value) => ++value)
 }
 
-export function CommentForm({
-  thread,
-  onSubmit,
-  onCancel,
-  className,
-  comment,
-  ...rest
-}) {
+export function CommentForm(props) {
+  const { thread, onSubmit, onCancel, className, comment } = props
   // const dispatch = useDispatch()
   // const comments = useSelector(state => state.comments)
   const textareaRef = useRef()
+  let { currentUser } = store.getState()
 
   useEffect(() => {
     autogrow()
@@ -43,21 +38,6 @@ export function CommentForm({
 
   const handleSubmit = () => {
     const payload = getSavePayload()
-    // dispatch({ type: 'addCommentSave', payload })
-
-    // maybe this dispatch happens here instead? but cant get access to props
-    // dispatch({
-    //   type: 'addCommentSave',
-    //   payload: {
-    //     type: 'newComment',
-    //     comment: payload,
-    //     // from: sel.from,
-    //     // to: sel.to,
-    //     // key: comment.id,
-    //   }
-    // })
-
-    console.log('comment', comment)
 
     textareaRef.current.value = '' // clear (could change this to controlled value too)
     if (onSubmit) onSubmit(payload, comment)
@@ -67,6 +47,7 @@ export function CommentForm({
     // send a request to create a user
     let data = { user: { guest: true } }
     let url = '/guestcreate'
+    const payload = getSavePayload()
     saRequest
       .post(url)
       .send(data)
@@ -76,8 +57,13 @@ export function CommentForm({
 
         if (res.status === 200) {
           store.dispatch({ type: 'setCurrentUser', payload: res.body })
+          // TODO: i don't think forceUpdate() is working... maybe use useEffect?
           forceUpdate()
+          textareaRef.current.value = ''
 
+          if (onSubmit) onSubmit(payload, comment)
+
+          // TODO: this is not working
           let link = document.getElementById('login-link')
           let username = res.body.data.attributes.full_name
           link.innerHTML =
@@ -92,6 +78,8 @@ export function CommentForm({
   const onLoginClick = (e) => {
     let oldLocation = window.location.pathname
     window.location = '/login?redirect_to=' + oldLocation
+
+    // TODO: make sure the comment posts after login
   }
 
   const handleCancel = () => {
@@ -108,8 +96,6 @@ export function CommentForm({
     }
   }
 
-  let { currentUser } = store.getState()
-
   let classes = thread ? 'j-commentLoginForm floater' : 'j-commentLoginForm'
 
   return (
@@ -118,24 +104,46 @@ export function CommentForm({
         currentUser.currentUser &&
         currentUser.currentUser.attributes &&
         !currentUser.currentUser.attributes.id && (
-          <div className={classes + ' border-top'}>
-            <p className="label">Please login or continue as guest.</p>
+          <form
+            className={`${className} ${modifierClasses}`}
+            onSubmit={handleSubmit}
+          >
+            <textarea
+              data-autogrow
+              className="j-commentForm__input"
+              defaultValue=""
+              placeholder="What's on your mind..."
+              onKeyDown={handleKeyDown}
+              ref={textareaRef}
+              /* eslint-disable-next-line jsx-a11y/no-autofocus */
+              autoFocus
+              id="comment-form-input"
+            ></textarea>
 
-            <div className="button-row">
+            <div
+              className="pt-1 pb-2"
+              style={{ fontSize: '.8rem', textAlign: 'right' }}
+            >
+              You are posting as a guest.
+            </div>
+
+            <div className="j-commentForm__actions pt-1 pb-3 d-flex flex-row-reverse">
               <button
-                onClick={onLoginClick}
-                className="btn btn-secondary btn-sm mr-2"
-              >
-                Login
-              </button>
-              <button
+                type="button"
+                className="btn btn-primary btn-sm"
                 onClick={onGuestClick}
-                className="btn btn-secondary btn-sm"
               >
-                Continue as guest
+                Post as guest
+              </button>{' '}
+              <button
+                type="button"
+                className="btn btn-sm o"
+                onClick={onLoginClick}
+              >
+                Log In
               </button>
             </div>
-          </div>
+          </form>
         )}
 
       {currentUser &&
@@ -144,7 +152,6 @@ export function CommentForm({
         currentUser.currentUser.attributes.id && (
           <form
             className={`${className} ${modifierClasses}`}
-            {...rest}
             onSubmit={handleSubmit}
           >
             <textarea

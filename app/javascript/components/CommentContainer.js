@@ -46,7 +46,7 @@ export function CommentContainer({ comments, onSubmit, currentUser }) {
                       {isLast && (
                         <div className="j-openReplyForm p-3">
                           <div className="j-commentUser">
-                            <button className="name-card" onClick={handleReply}>
+                            <div className="name-card">
                               <img
                                 className="avatar"
                                 src={currentUser.avatar}
@@ -56,8 +56,9 @@ export function CommentContainer({ comments, onSubmit, currentUser }) {
                                 className="reply-button"
                                 placeholder="What's on your mind..."
                                 diabled="true"
+                                onClick={handleReply}
                               ></textarea>
-                            </button>
+                            </div>
                           </div>
                         </div>
                       )}
@@ -72,6 +73,7 @@ export function CommentContainer({ comments, onSubmit, currentUser }) {
                             onCancel={handleReplyCancel}
                             className="j-commentReplyForm mt-3 pt-1 animated fadeIn"
                             comment={comment}
+                            currentUser={currentUser}
                           />
                         </div>
                       )}
