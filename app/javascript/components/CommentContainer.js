@@ -3,11 +3,10 @@ import { Comment } from './Comment'
 import classnames from 'classnames'
 import { CommentForm } from './CommentForm'
 import { v4 as uuidv4 } from 'uuid'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faComment } from '@fortawesome/fontawesome-free-solid'
 
 export function CommentContainer({ comments, onSubmit }) {
-  console.log('comments', comments)
-  console.log('comments.length', comments.length)
-
   const [isShowingReply, setIsShowingReply] = useState(false)
 
   const handleReply = () => {
@@ -24,7 +23,11 @@ export function CommentContainer({ comments, onSubmit }) {
 
   return (
     <div>
-      <div>{comments.length} comments</div>
+      {comments.length !== 0 && (
+        <div>
+          <FontAwesomeIcon icon={faComment} /> {comments.length}
+        </div>
+      )}
       {comments.length !== 0 && (
         <ul className="commentList">
           {comments.map((c, index) => {
