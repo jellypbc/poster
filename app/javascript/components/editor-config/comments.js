@@ -13,10 +13,11 @@ import { saRequest } from '../../utils/saRequest'
 export const commentPluginKey = new PluginKey('comments')
 
 class Comment {
-  constructor(text, id, user) {
+  constructor(text, id, user, highlightedText) {
     this.id = id
     this.text = text
     this.user = user
+    this.highlightedText = highlightedText
   }
 }
 
@@ -184,6 +185,8 @@ function randomID() {
 // Command for adding an annotation; it can be connected to the menu option for comments
 export const addAnnotation = function (state, dispatch) {
   let sel = state.selection
+  let highlightedText = state.doc.textBetween(sel.from, sel.to)
+
   if (sel.empty) return false
   console.log('dispatch', dispatch)
   if (dispatch) {
@@ -211,6 +214,10 @@ export const addAnnotation = function (state, dispatch) {
       handleClose()
     }
 
+    const text = () => {
+      return highlightedText
+    }
+
     var thread = false
     let sel = state.selection
     let comments = commentPlugin.getState(state).commentsAt(sel.from)
@@ -219,17 +226,19 @@ export const addAnnotation = function (state, dispatch) {
 
     ReactDOM.render(
       <div>
-        {/* <CommentContainer
-          key={randomID()}
-          comments={comments}
-          onSubmit={handleNewComment}
-        /> */}
-        <CommentForm
-          thread={thread}
-          onSubmit={handleNewComment}
-          onCancel={handleClose}
-          className="j-commentForm shadow rounded"
-        />
+        <ul className="commentList">
+          <div className="j-replyContainer">
+            <div className="reply-box pt-2 pl-3 pr-3">
+              <CommentForm
+                text={text()}
+                thread={thread}
+                onSubmit={handleNewComment}
+                onCancel={handleClose}
+                className="j-commentForm j-commentReplyForm mt-3 px-3 pt-3 animated"
+              />
+            </div>
+          </div>
+        </ul>
       </div>,
       root
     )
@@ -306,9 +315,14 @@ function renderComments(comments, dispatch, state) {
         type: 'newComment',
         from: replyTo.from,
         to: replyTo.to,
-        comment: new Comment(text, randomID(), user),
+        comment: new Comment(text, randomID(), user, highlightedText),
       })
     )
+  }
+
+  const highlightedText = () => {
+    let sel = comments[0]
+    return state.doc.textBetween(sel.from, sel.to)
   }
 
   ReactDOM.render(
@@ -317,6 +331,7 @@ function renderComments(comments, dispatch, state) {
       onSubmit={handleReplySubmit}
       onDelete={handleDelete}
       currentUser={buildUser()}
+      highlightedText={highlightedText()}
     />,
     node
   )

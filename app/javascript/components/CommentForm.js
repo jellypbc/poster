@@ -11,7 +11,7 @@ function useForceUpdate() {
 }
 
 export function CommentForm(props) {
-  const { thread, onSubmit, onCancel, className, comment } = props
+  const { thread, onSubmit, onCancel, className, comment, text } = props
   // const dispatch = useDispatch()
   // const comments = useSelector(state => state.comments)
   const textareaRef = useRef()
@@ -38,6 +38,7 @@ export function CommentForm(props) {
 
   const handleSubmit = () => {
     const payload = getSavePayload()
+    console.log('comment', comment)
 
     textareaRef.current.value = '' // clear (could change this to controlled value too)
     if (onSubmit) onSubmit(payload, comment)
@@ -108,6 +109,11 @@ export function CommentForm(props) {
             className={`${className} ${modifierClasses}`}
             onSubmit={handleSubmit}
           >
+            {text && (
+              <div className="mb-2" style={{ backgroundColor: '#B8E986' }}>
+                {text}
+              </div>
+            )}
             <textarea
               data-autogrow
               className="j-commentForm__input"
@@ -154,6 +160,14 @@ export function CommentForm(props) {
             className={`${className} ${modifierClasses}`}
             onSubmit={handleSubmit}
           >
+            {text && (
+              <div
+                className="mb-3"
+                style={{ backgroundColor: '#B8E986', fontSize: '.8rem' }}
+              >
+                {text}
+              </div>
+            )}
             <textarea
               data-autogrow
               className="j-commentForm__input"
