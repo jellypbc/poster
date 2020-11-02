@@ -119,19 +119,33 @@ export function Sidebar(props) {
         })
       }
     })
-    console.log('headings', headings)
     return (
-      <div style={outlineStyle}>
-        <div className="pt-4">Beyond being there</div>
-        <div>
+      <div className="pt-4" style={outlineStyle}>
+        <div id="outline">
           {headings.map((heading) =>
             heading.level === 2 ? (
-              <div className="ml-2" key={heading.id}>
-                {heading.title}
+              <div className="px-0 py-2" key={heading.id}>
+                <p
+                  style={{
+                    fontSize: '.8rem',
+                    fontWeight: '700',
+                    lineHeight: 'normal',
+                  }}
+                >
+                  {heading.title}
+                </p>
               </div>
             ) : (
-              <div className="ml-4" key={heading.id}>
-                {heading.title}
+              <div className="px-3 py-2" key={heading.id}>
+                <p
+                  style={{
+                    fontSize: '.8rem',
+                    fontWeight: '700',
+                    lineHeight: 'normal',
+                  }}
+                >
+                  {heading.title}
+                </p>
               </div>
             )
           )}
@@ -233,33 +247,61 @@ export function Sidebar(props) {
 
   let outlineStyle = {
     fontSize: '.2rem',
+    position: sticky ? 'sticky' : 'relative',
+    width: '100%',
   }
 
   return (
-    <div id="sidebarContainer" style={container}>
-      <i
-        id="sidebarToggle"
-        style={toggleIconStyle}
-        className={visible ? 'fa fa-caret-down' : 'fa fa-caret-down rotate'}
-        onClick={() => setVisible(!visible)}
-        onKeyDown={() => setVisible(!visible)}
-        aria-checked={visible}
-        role="switch"
-        tabIndex={0}
-      />
-
-      {/* {visible && (
-        <div className="sidebarEditorContainer" style={editorContainerStyle}>
-          <div
-            id="sidebarEditor"
-            ref={viewHost}
-            style={sidebarEditorStyle}
-            className="animated fadeIn"
-          />
-          <div className="sidebarPortal" style={sidebarPortalStyle} />
-        </div>
-      )} */}
-      <div>{getHeadings()}</div>
+    <div>
+      <div id="sidebarContainer" style={container}>
+        {visible && (
+          <div>
+            <i
+              id="sidebarToggle"
+              style={toggleIconStyle}
+              className={
+                visible ? 'fa fa-caret-down' : 'fa fa-caret-down rotate'
+              }
+              onClick={() => setVisible(!visible)}
+              onKeyDown={() => setVisible(!visible)}
+              aria-checked={visible}
+              role="switch"
+              tabIndex={0}
+            />
+            <div
+              className="sidebarEditorContainer"
+              style={editorContainerStyle}
+            >
+              <div
+                id="sidebarEditor"
+                ref={viewHost}
+                style={sidebarEditorStyle}
+                className="animated fadeIn"
+              />
+              <div className="sidebarPortal" style={sidebarPortalStyle} />
+            </div>
+          </div>
+        )}
+      </div>
+      <div id="sidebarContainer">
+        {!visible && (
+          <div>
+            <i
+              id="sidebarToggle"
+              style={toggleIconStyle}
+              className={
+                visible ? 'fa fa-caret-down' : 'fa fa-caret-down rotate'
+              }
+              onClick={() => setVisible(!visible)}
+              onKeyDown={() => setVisible(!visible)}
+              aria-checked={visible}
+              role="switch"
+              tabIndex={0}
+            />
+            <div>{getHeadings()}</div>
+          </div>
+        )}
+      </div>
     </div>
   )
 }
