@@ -83,18 +83,18 @@ export function PostEditor(props) {
     const cableHost = post.data.attributes.cable_url
     const cable = createConsumer(cableHost)
 
-    cable.subscriptions.create(
-      { channel: 'PostsChannel', post_id: postId },
-      {
-        connected() {},
+    // cable.subscriptions.create(
+    //   { channel: 'PostsChannel', post_id: postId },
+    //   {
+    //     connected() {},
 
-        received: function (data) {
-          setPost(data)
-          setIsProcessing(false)
-          updateURL()
-        },
-      }
-    )
+    //     received: function (data) {
+    //       setPost(data)
+    //       setIsProcessing(false)
+    //       updateURL()
+    //     },
+    //   }
+    // )
     store.dispatch({
       type: 'setCurrentPost',
       payload: post,
@@ -123,12 +123,11 @@ export function PostEditor(props) {
     (doc, docState, onChange, field) => {
       onChange(serialize(doc), docState, field)
     },
-    350,
-    { maxWait: 1000 }
+    550,
+    { maxWait: 4000 }
   )
 
   const handleChange = (doc, docState, field) => {
-    setLastUnsavedChangeAt(new Date())
     debounceChanges(doc, docState, updatePost, field)
   }
 
@@ -157,7 +156,7 @@ export function PostEditor(props) {
     setError(err ? err : null)
     setErrorAt(err ? err : null)
     setLastUnsavedChangeAt(err ? lastSavedAt : now)
-    updateURL()
+    // updateURL()
   }
 
   const submit = (data, method, url, onSuccess) => {
