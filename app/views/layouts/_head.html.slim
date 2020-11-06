@@ -7,7 +7,7 @@ ruby:
     meta_image_width = content_for?(:meta_project_image_width) ? yield(:meta_project_image_width) : nil
     meta_image_height = content_for?(:meta_project_image_height) ? yield(:meta_project_image_height) : nil
   else
-    meta_image_url = image_url('social.png')
+    meta_image_url = image_url('social_twitter.png')
     meta_image_width = "600"
     meta_image_height = "300"
   end
@@ -46,7 +46,6 @@ head
   = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
   = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
 
-  / = stylesheet_link_tag 'https://fonts.googleapis.com/css?family=Noto+Serif:400,400i,700|PT+Mono|Roboto:400,500,700,700i&display=swap&subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext'
   = stylesheet_link_tag 'https://fonts.googleapis.com/css?family=Noto+Serif:400,400i,700'
 
   = favicon_link_tag asset_path(favicon)
