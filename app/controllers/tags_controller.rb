@@ -80,6 +80,38 @@ class TagsController < ApplicationController
     end
   end
 
+  def paginated_citations
+    @tag = Tag.find params[:id]
+    if @tag.posts
+      @posts = @tag.posts
+        .order(created_at: :desc)
+        .paginate(page: params[:posts_page], per_page: 10)
+
+
+      @post_ids = @posts.map{ |p| p.id}
+
+      @citations = Citation.where(:post_id => @post_ids)
+
+      @citation_array = @citations
+        .map{ |c| c.generated_post_id}
+        .uniq
+
+      @generated_posts = Post.where(:id => @citation_array)
+        .order(created_at: :desc)
+        .paginate(page: params[:citations_page], per_page: 10)
+
+      respond_to do |format|
+        format.json {
+          render json: {
+            posts: @generated_posts,
+            page: @generated_posts.current_page,
+            page_count: @generated_posts.total_pages
+          }
+        }
+      end
+    end
+  end
+
   private
     def set_tag
       id_or_slug = params[:id] || params[:slug]
