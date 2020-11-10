@@ -48,7 +48,7 @@ export default function PostsContainer(props) {
       .catch((err) => {
         console.log(err.message)
       })
-  }, [data, page, props.tag, props.user.id, tabState])
+  })
 
   useEffect(() => {
     getPostsFromPage(page)
