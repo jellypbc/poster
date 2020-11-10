@@ -41,12 +41,10 @@
 
         .tab-content#tabContent.my-5
           #posts.tab-pane.fade.show.active role="tabpanel" aria-labelledby="posts-tab"
-            - @primary_posts.each do |post|
-              = render 'posts/post', post: post
-
-            = will_paginate @primary_posts, param_name: :posts_page, anchor: "posts"
-
+            = react_component "PostsContainer"
+          
           #citations.tab-pane.fade role="tabpanel" aria-labelledby="citations-tab"
+            / CINDY TODO: turn this into react component
             - @generated_posts.each do |post|
               = render 'posts/post', post: post
 

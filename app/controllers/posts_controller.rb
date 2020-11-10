@@ -94,6 +94,16 @@ class PostsController < ApplicationController
     end
   end
 
+  def paginated_posts
+    @posts = Post.all.primary.order(created_at: :desc)
+    @paginated_posts = @posts.paginate(page: params[:page], per_page: 10)
+    render json: {
+      posts: @paginated_posts,
+      page: @paginated_posts.current_page,
+      page_count: @paginated_posts.total_pages
+    }
+  end
+
   private
 
     def set_post
