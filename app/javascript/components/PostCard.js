@@ -42,7 +42,7 @@ export function PostCard({ post }) {
 
   return (
     <>
-      <a href={postPath}>
+      <a href={postPath()}>
         <div className="post-row">
           <h4 className="title">{sanitizedTitle()}</h4>
           <p className="authors">{post.authors}</p>

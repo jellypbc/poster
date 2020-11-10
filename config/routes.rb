@@ -79,7 +79,8 @@ Rails.application.routes.draw do
 
   get '/blog', to: redirect('tags/jelly-blog')
 
-  get 'paginated_posts/:page', to: 'posts#paginated_posts', as: :paginated_posts
+  get 'users/:id/paginated_posts/:page', to: 'users#paginated_posts'
+  get 'tags/:id/paginated_posts/:page', to: 'tags#paginated_posts'
 
   namespace :admin, module: 'admin' do
     resources :users

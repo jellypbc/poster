@@ -22,8 +22,4 @@
             .col-md-12
               - if @posts.empty?
                 p.muted.my-3 You haven't added any posts yet!
-
-              - @posts.each do |post|
-                = render 'posts/post', post: post
-
-              = will_paginate(@posts)
+              = react_component "PostsContainer", user: @user
