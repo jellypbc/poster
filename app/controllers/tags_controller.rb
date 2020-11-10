@@ -63,6 +63,23 @@ class TagsController < ApplicationController
     end
   end
 
+  def paginated_posts
+    @tag = Tag.find params[:id]
+    if @tag.posts
+      @posts = @tag.posts.order(created_at: :desc)
+      @paginated_posts = @posts.paginate(page: params[:page], per_page: 10)
+      respond_to do |format|
+        format.json {
+          render json: {
+            posts: @paginated_posts,
+            page: @paginated_posts.current_page,
+            page_count: @paginated_posts.total_pages
+          }
+        }
+      end
+    end
+  end
+
   private
     def set_tag
       id_or_slug = params[:id] || params[:slug]

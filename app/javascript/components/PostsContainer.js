@@ -1,37 +1,42 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import PostsList from './PostsList'
 import ReactPaginate from 'react-paginate'
 import { saRequest } from '../utils/saRequest'
 
-export default function PostsContainer() {
+export default function PostsContainer(props) {
   // CINDY TODO: add isLoading
   const [data, setData] = useState([])
   const [pageCount, setPageCount] = useState()
   const [page] = useState(1)
 
+  const getPostsFromPage = useCallback((page) => {
+    let url =
+      props.tag !== undefined
+        ? 'http://localhost:3000/tags/' +
+          props.tag.id +
+          '/paginated_posts/' +
+          page
+        : 'http://localhost:3000/users/' +
+          props.user.id +
+          '/paginated_posts/' +
+          page
+    saRequest
+      .get(url)
+      .set('accept', 'application/json')
+      .send(data)
+      .then((res) => {
+        console.log('res', res)
+        setData(res.body.posts)
+        setPageCount(res.body.page_count)
+      })
+      .catch((err) => {
+        console.log(err.message)
+      })
+  })
+
   useEffect(() => {
     getPostsFromPage(page)
-  }, [page])
-
-  const getPostsFromPage = (page) => {
-    let p = new Promise(function (resolve, reject) {
-      saRequest
-        // CINDY TODO: fix this URL
-        .get('http://localhost:3000/paginated_posts/' + page)
-        .set('accept', 'application/json')
-        .then((res) => {
-          console.log('res', res)
-          resolve(res)
-        })
-        .catch((err) => {
-          console.log(err.message)
-        })
-    })
-    p.then((result) => {
-      setData(result.body.posts)
-      setPageCount(result.body.page_count)
-    })
-  }
+  }, [getPostsFromPage, page])
 
   const handlePageClick = (e) => {
     let page = e.selected + 1

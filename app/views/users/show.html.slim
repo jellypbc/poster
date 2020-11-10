@@ -41,7 +41,7 @@
 
         .tab-content#tabContent.my-5
           #posts.tab-pane.fade.show.active role="tabpanel" aria-labelledby="posts-tab"
-            = react_component "PostsContainer"
+            = react_component "PostsContainer", user: @user
           
           #citations.tab-pane.fade role="tabpanel" aria-labelledby="citations-tab"
             / CINDY TODO: turn this into react component
