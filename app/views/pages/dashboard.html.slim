@@ -9,7 +9,7 @@
             - @tags.each do |tag|
               = link_to short_user_tag_path(current_user, tag) do
                 p.tag.my-3
-                  = tag.text.titleize
+                  = tag.text
                   span.pill.ml-2 = tag.posts_count
 
           = link_to "Create new collection", new_tag_path, class: 'new-tag'
