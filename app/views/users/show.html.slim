@@ -28,24 +28,10 @@
 
     .row.mt-4
       .col-md-12
-        ul#tab.nav.nav-tabs role="tablist"
-          li.nav-item
-            a#posts-tab.nav-link.active data-toggle="tab" href="#posts" role="tab" aria-controls="posts" aria-selected="true"
-              | Posts
-              span.pill.tab-count.ml-2 = @primary_posts.count
-
-          li.nav-item
-            a#citations-tab.nav-link data-toggle="tab" href="#citations" role="tab" aria-controls="citations" aria-selected="false"
-              | Citations
-              span.pill.tab-count.ml-2 = @generated_posts.count
-
         .tab-content#tabContent.my-5
           #posts.tab-pane.fade.show.active role="tabpanel" aria-labelledby="posts-tab"
-            = react_component "PostsContainer", user: @user
-          
-          #citations.tab-pane.fade role="tabpanel" aria-labelledby="citations-tab"
-            / CINDY TODO: turn this into react component
-            - @generated_posts.each do |post|
-              = render 'posts/post', post: post
+            = react_component "PostsContainer",
+              user: @user,
+              postsCount: @primary_posts.count,
+              citationsCount: @generated_posts.count
 
-            = will_paginate @generated_posts, param_name: :citations_page, anchor: "citations"

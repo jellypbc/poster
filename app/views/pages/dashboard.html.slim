@@ -22,4 +22,9 @@
             .col-md-12
               - if @posts.empty?
                 p.muted.my-3 You haven't added any posts yet!
-              = react_component "PostsContainer", user: @user
+              - else 
+                = react_component "PostsContainer",
+                  user: @user,
+                  postsCount: @posts.count,
+                  citationsCount: @citations.count,
+                  isLibrary: true

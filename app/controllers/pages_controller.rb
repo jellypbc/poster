@@ -8,8 +8,8 @@ class PagesController < ApplicationController
       @posts = current_user.posts
         .primary
         .includes(:tags)
-        .order(created_at: :desc)
-        .paginate(page: params[:page], per_page: 10)
+
+      @citations = current_user.posts.generated
 
       @tags = current_user.tags
 
