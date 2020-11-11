@@ -20,11 +20,8 @@
           hr
           .row
             .col-md-12
-              - if @posts.empty?
-                p.muted.my-3 No posts added to your library yet.
-              - else 
-                = react_component "PostsContainer",
-                  user: @user,
-                  postsCount: @posts.count,
-                  citationsCount: @citations.count,
-                  isLibrary: true
+              = react_component "PostsContainer",
+                user: @user,
+                postsCount: @posts.count,
+                citationsCount: @citations.count,
+                isLibrary: true
