@@ -14,6 +14,7 @@ export default function PostsContainer(props) {
   const [data, setData] = useState([])
   const [pageCount, setPageCount] = useState()
   const [page, setPage] = useState(1)
+  const [showPagination, setShowPagination] = useState(false)
 
   const getPostsFromPage = useCallback(() => {
     let url =
@@ -44,6 +45,7 @@ export default function PostsContainer(props) {
         console.log('res', res)
         setData(res.body.posts)
         setPageCount(res.body.page_count)
+        res.body.page_count > 1 && setShowPagination(true)
       })
       .catch((err) => {
         console.log(err.message)
@@ -83,19 +85,21 @@ export default function PostsContainer(props) {
     <div>
       {tabGroup()}
       <PostsList posts={data} />
-      <ReactPaginate
-        previousLabel={'←'}
-        nextLabel={'→'}
-        breakLabel={'...'}
-        breakClassName={'break-me'}
-        pageCount={pageCount}
-        marginPagesDisplayed={2}
-        pageRangeDisplayed={5}
-        onPageChange={(e) => handlePageClick(e)}
-        containerClassName={'pagination'}
-        subContainerClassName={'pages pagination'}
-        activeClassName={'active'}
-      />
+      {showPagination && (
+        <ReactPaginate
+          previousLabel={'←'}
+          nextLabel={'→'}
+          breakLabel={'...'}
+          breakClassName={'break-me'}
+          pageCount={pageCount}
+          marginPagesDisplayed={2}
+          pageRangeDisplayed={5}
+          onPageChange={(e) => handlePageClick(e)}
+          containerClassName={'pagination'}
+          subContainerClassName={'pages pagination'}
+          activeClassName={'active'}
+        />
+      )}
     </div>
   )
 }
