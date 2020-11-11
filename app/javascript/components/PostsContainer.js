@@ -15,6 +15,7 @@ export default function PostsContainer(props) {
   const [pageCount, setPageCount] = useState()
   const [page, setPage] = useState(1)
   const [showPagination, setShowPagination] = useState(false)
+  const [hasPosts, setHasPosts] = useState(false)
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const getPostsFromPage = useCallback(() => {
@@ -47,6 +48,7 @@ export default function PostsContainer(props) {
         setData(res.body.posts)
         setPageCount(res.body.page_count)
         res.body.page_count > 1 && setShowPagination(true)
+        res.body.posts.length !== 0 && setHasPosts(true)
       })
       .catch((err) => {
         console.log(err.message)
@@ -82,10 +84,14 @@ export default function PostsContainer(props) {
     return tab
   }
 
+  const noPosts = () => {
+    return <p className="muted my-5">No posts added yet.</p>
+  }
+
   return (
     <div>
       {tabGroup()}
-      <PostsList posts={data} />
+      {hasPosts ? <PostsList posts={data} /> : noPosts()}
       {showPagination && (
         <ReactPaginate
           previousLabel={'←'}
