@@ -45,13 +45,13 @@ export default function PostsContainer(props) {
         console.log('res', res)
         setData(res.body.posts)
         setPageCount(res.body.page_count)
-        res.body.page_count > 1 && setShowPagination(true)
-        res.body.posts.length !== 0 && setHasPosts(true)
+        setShowPagination(res.body.page_count > 1 ? true : false)
+        setHasPosts(res.body.posts.length !== 0 ? true : false)
       })
       .catch((err) => {
         console.log(err.message)
       })
-  })
+  }, [data, page, props.tag, props.user.id, tabState])
 
   useEffect(() => {
     getPostsFromPage()
