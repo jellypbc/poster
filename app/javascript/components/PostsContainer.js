@@ -51,11 +51,13 @@ export default function PostsContainer(props) {
       .catch((err) => {
         console.log(err.message)
       })
-  }, [data, page, props.tag, props.user.id, tabState])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page, tabState])
 
   useEffect(() => {
     getPostsFromPage()
-  }, [getPostsFromPage, page, tabState])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page, tabState])
 
   const handlePageClick = (e) => {
     setPage(e.selected + 1)
