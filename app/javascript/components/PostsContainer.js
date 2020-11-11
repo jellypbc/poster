@@ -5,6 +5,7 @@ import ReactPaginate from 'react-paginate'
 import { saRequest } from '../utils/saRequest'
 
 export default function PostsContainer(props) {
+  console.log('props', props)
   // CINDY TODO: add isLoading
   const TAB_GROUP = [
     { value: '1', label: 'posts' },
@@ -19,26 +20,23 @@ export default function PostsContainer(props) {
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const getPostsFromPage = useCallback(() => {
-    let url =
-      props.tag !== undefined
-        ? tabState === '1'
-          ? 'http://localhost:3000/tags/' +
-            props.tag.id +
-            '/paginated_posts/' +
-            page
-          : 'http://localhost:3000/tags/' +
-            props.tag.id +
-            '/paginated_citations/' +
-            page
-        : tabState === '1'
-        ? 'http://localhost:3000/users/' +
-          props.user.id +
-          '/paginated_posts/' +
-          page
-        : 'http://localhost:3000/users/' +
-          props.user.id +
-          '/paginated_citations/' +
-          page
+    const generateUrl = () => {
+      const type = props.tag ? 'tags' : 'users'
+      const id = props.tag ? props.tag.id : props.user.id
+      const tab = tabState === '1' ? 'posts' : 'citations'
+      return (
+        'http://localhost:3000/' +
+        type +
+        '/' +
+        id +
+        '/paginated_' +
+        tab +
+        '/' +
+        page
+      )
+    }
+
+    let url = generateUrl()
     saRequest
       .get(url)
       .set('accept', 'application/json')
@@ -73,7 +71,7 @@ export default function PostsContainer(props) {
     let tab =
       props.isLibrary === true ? null : (
         <TabGroup
-          name="exampleOne"
+          name="postTabGroup"
           value={tabState}
           option={TAB_GROUP}
           onChange={(e) => handleChange(e)}
