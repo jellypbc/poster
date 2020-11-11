@@ -54,17 +54,16 @@ export default function PostsContainer(props) {
   })
 
   useEffect(() => {
-    getPostsFromPage(page)
-  }, [getPostsFromPage, page])
+    getPostsFromPage()
+  }, [getPostsFromPage, page, tabState])
 
   const handlePageClick = (e) => {
     setPage(e.selected + 1)
-    getPostsFromPage(page)
   }
 
   const handleChange = (e) => {
-    setTabState(e.value)
     setPage(1)
+    setTabState(e.value)
   }
 
   const tabGroup = () => {
