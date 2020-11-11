@@ -63,7 +63,7 @@ export default function PostsContainer(props) {
     setPage(e.selected + 1)
   }
 
-  const handleChange = (e) => {
+  const handleTabChange = (e) => {
     setPage(1)
     setTabState(e.value)
   }
@@ -75,7 +75,7 @@ export default function PostsContainer(props) {
           name="postTabGroup"
           value={tabState}
           option={TAB_GROUP}
-          onChange={(e) => handleChange(e)}
+          onChange={(e) => handleTabChange(e)}
           postsCount={props.postsCount}
           citationsCount={props.citationsCount}
         />
@@ -104,6 +104,7 @@ export default function PostsContainer(props) {
           containerClassName={'pagination'}
           subContainerClassName={'pages pagination'}
           activeClassName={'active'}
+          forcePage={page - 1}
         />
       )}
     </div>
