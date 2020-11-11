@@ -16,6 +16,7 @@ export default function PostsContainer(props) {
   const [page, setPage] = useState(1)
   const [showPagination, setShowPagination] = useState(false)
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const getPostsFromPage = useCallback(() => {
     let url =
       props.tag !== undefined
