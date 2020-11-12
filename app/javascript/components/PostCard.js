@@ -4,12 +4,14 @@ import sanitizeHtml from 'sanitize-html'
 
 export function PostCard({ post }) {
   const sanitizedTitle = () => {
-    return post.title !== null
-      ? sanitizeHtml(post.title, {
-          allowedTags: ['b', 'sup', 'sub', 'em', 'code'],
-          allowedAttributes: {},
-        })
-      : ``
+    let title =
+      post.title !== null
+        ? sanitizeHtml(post.title, {
+            allowedTags: ['b', 'sup', 'sub', 'em', 'code'],
+            allowedAttributes: {},
+          })
+        : ``
+    return { __html: title }
   }
 
   const updatedAtTimeAgoInWords = () => {
@@ -44,7 +46,7 @@ export function PostCard({ post }) {
     <>
       <a href={postPath()}>
         <div className="post-row">
-          <h4 className="title">{sanitizedTitle()}</h4>
+          <h4 className="title" dangerouslySetInnerHTML={sanitizedTitle()}></h4>
           <p className="authors">{post.authors}</p>
           <p className="preview">{truncatedAbstract()}</p>
           <p className="date">
