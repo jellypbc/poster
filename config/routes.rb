@@ -85,6 +85,12 @@ Rails.application.routes.draw do
   get 'tags/:id/paginated_posts/:page', to: 'tags#paginated_posts'
   get 'tags/:id/paginated_citations/:page', to: 'tags#paginated_citations'
 
+  get 'users/:id/paginated_posts/:page', to: 'users#paginated_posts'
+  get 'users/:id/paginated_citations/:page', to: 'users#paginated_citations'
+
+  get 'tags/:id/paginated_posts/:page', to: 'tags#paginated_posts'
+  get 'tags/:id/paginated_citations/:page', to: 'tags#paginated_citations'
+
   namespace :admin, module: 'admin' do
     resources :users
     resources :posts
