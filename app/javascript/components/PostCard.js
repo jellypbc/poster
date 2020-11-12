@@ -39,7 +39,7 @@ export function PostCard({ post }) {
   }
 
   const postPath = () => {
-    return `posts/` + post.slug
+    return `../../posts/` + post.slug
   }
 
   return (
