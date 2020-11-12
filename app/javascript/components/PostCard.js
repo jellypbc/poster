@@ -31,7 +31,6 @@ export function PostCard({ post }) {
     return format(new Date(post.created_at), 'MMM dd, yyyy')
   }
 
-  // CINDY TODO: replace post.abstract with post.body (only p tag content)
   const truncatedAbstract = () => {
     return post.abstract !== null && post.abstract !== ''
       ? post.abstract.slice(0, 200) + `...`
