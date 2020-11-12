@@ -24,16 +24,7 @@ export default function PostsContainer(props) {
       const type = props.tag ? 'tags' : 'users'
       const id = props.tag ? props.tag.id : props.user.id
       const tab = tabState === '1' ? 'posts' : 'citations'
-      return (
-        'http://localhost:3000/' +
-        type +
-        '/' +
-        id +
-        '/paginated_' +
-        tab +
-        '/' +
-        page
-      )
+      return '/' + type + '/' + id + '/paginated_' + tab + '/' + page
     }
 
     let url = generateUrl()
