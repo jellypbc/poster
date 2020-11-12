@@ -5,8 +5,6 @@ import ReactPaginate from 'react-paginate'
 import { saRequest } from '../utils/saRequest'
 
 export default function PostsContainer(props) {
-  console.log('props', props)
-  // CINDY TODO: add isLoading
   const TAB_GROUP = [
     { value: '1', label: 'posts' },
     { value: '2', label: 'citations' },
