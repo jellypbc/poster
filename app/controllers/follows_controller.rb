@@ -6,7 +6,6 @@ class FollowsController < ApplicationController
     # auth / fetch user
     # create follow
     # respond with following data
-    # binding.pry
 
     follow = @user.follows.new(follow_params)
 
@@ -26,7 +25,6 @@ class FollowsController < ApplicationController
     # auth / fetch user
     # create follow
     # respond with following data
-    binding.pry
     follow = @user.follows.pluck(follow_params)
 
     respond_to do |format|

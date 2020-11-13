@@ -13,8 +13,6 @@ class PagesController < ApplicationController
 
       @tags = current_user.tags
 
-      @user = current_user
-
       render 'dashboard'
     end
 

@@ -39,6 +39,8 @@ export default function PostsContainer(props) {
       })
       .catch((err) => {
         console.log(err.message)
+        // if res.status != OK
+        // <ErrorMessage>
       })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page, tabState])
