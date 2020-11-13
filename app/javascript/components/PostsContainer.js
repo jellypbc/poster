@@ -15,6 +15,7 @@ export default function PostsContainer(props) {
   const [page, setPage] = useState(1)
   const [showPagination, setShowPagination] = useState(false)
   const [hasPosts, setHasPosts] = useState(false)
+  const [, setError] = useState()
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const getPostsFromPage = useCallback(() => {
@@ -38,9 +39,8 @@ export default function PostsContainer(props) {
         setHasPosts(res.body.posts.length !== 0 ? true : false)
       })
       .catch((err) => {
-        console.log(err.message)
-        // if res.status != OK
-        // <ErrorMessage>
+        console.log('err.message', err.message)
+        setError(err.message)
       })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page, tabState])
