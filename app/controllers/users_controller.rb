@@ -141,8 +141,8 @@ class UsersController < ApplicationController
   def paginated_posts
     @user = User.find params[:id]
     if @user.posts
-      @posts = @user.posts.primary.order(created_at: :desc)
-      @paginated_posts = @posts.paginate(page: params[:page], per_page: 10)
+      posts = @user.posts.primary.order(created_at: :desc)
+      @paginated_posts = posts.paginate(page: params[:page], per_page: 10)
       respond_to do |format|
         format.json {
           render json: {
@@ -158,8 +158,8 @@ class UsersController < ApplicationController
   def paginated_citations
     @user = User.find params[:id]
     if @user.posts
-      @posts = @user.posts.generated.order(created_at: :desc)
-      @paginated_posts = @posts.paginate(page: params[:page], per_page: 10)
+      posts = @user.posts.generated.order(created_at: :desc)
+      @paginated_posts = posts.paginate(page: params[:page], per_page: 10)
       respond_to do |format|
         format.json {
           render json: {
