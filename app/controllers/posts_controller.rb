@@ -105,6 +105,7 @@ class PostsController < ApplicationController
           page_count: @paginated_posts.total_pages
         }
       }
+    end
   end
 
   private
