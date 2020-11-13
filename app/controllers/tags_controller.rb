@@ -92,11 +92,11 @@ class TagsController < ApplicationController
 
       @citations = Citation.where(post_id: post_ids)
 
-      @citation_array = @citations
+      citation_array = @citations
         .map{ |c| c.generated_post_id}
         .uniq
 
-      @generated_posts = Post.where(:id => @citation_array)
+      @generated_posts = Post.where(id: @citation_array)
         .order(created_at: :desc)
         .paginate(page: params[:citations_page], per_page: 10)
 
