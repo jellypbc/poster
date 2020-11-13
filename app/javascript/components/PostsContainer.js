@@ -59,7 +59,7 @@ export default function PostsContainer(props) {
 
   const tabGroup = () => {
     let tab =
-      props.isLibrary === true ? null : (
+      props.isDashboard === true ? null : (
         <TabGroup
           name="postTabGroup"
           value={tabState}
