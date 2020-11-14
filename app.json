@@ -1,15 +1,30 @@
 {
   "name": "jellyposter",
   "stack": "heroku-18",
+  "description": "A notebook",
+  "repository": "https://github.com/jellypbc/poster",
   "scripts": {
     "postdeploy": "bundle exec rails db:migrate"
   },
   "env": {
+    "HOSTNAME": {
+      "description": "The domain that your instance will run on (this can be appname.herokuapp.com or a custom domain)",
+      "required": true
+    },
+    "GROBID_URL": {
+      "description": "The host of your grobid instance",
+      "required": false
+    },
+    "FIGURE_URL": {
+      "description": "The host of your figure processing instance",
+      "required": false
+    },
   },
   "formation": {
   },
   "addons": [
     "heroku-postgresql",
+    "heroku-redis"
   ],
   "buildpacks": [
     {

@@ -42,8 +42,8 @@ Rails.application.configure do
   # config.action_cable.mount_path = nil
   # config.action_cable.url = 'wss://example.com/cable'
   # config.action_cable.allowed_request_origins = [ 'jellypbc.com', /http:\/\/jellypbc.*/ ]
-  config.action_cable.url = "wss://#{ENV["HOST"]}/cable"
-  config.action_cable.allowed_request_origins = ["https://#{ENV["HOST"]}"]
+  config.action_cable.url = "wss://#{ENV["HOSTNAME"]}/cable"
+  config.action_cable.allowed_request_origins = ["https://#{ENV["HOSTNAME"]}"]
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
   config.force_ssl = true
