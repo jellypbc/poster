@@ -2,7 +2,7 @@ class UploadParsePipelineWorker
   include Sidekiq::Worker
 
   def perform(upload_id)
-    if Rails.config.x.grobid_host && Rails.config.x.figure_host
+    if Rails.configuration.x.grobid_host && Rails.configuration.x.figure_host
       overall = Sidekiq::Batch.new
       overall.description = "Parse #{upload_id}"
       overall.jobs do

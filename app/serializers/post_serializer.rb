@@ -51,7 +51,7 @@ class PostSerializer
 
   attribute :cable_url do |object|
     # Rails.env.development? ? "ws://localhost:3000/cable" : "wss://#{ENV["HOSTNAME"]}/cable"
-    Rails.config.x.streaming_api_base_url + "/cable"
+    Rails.configuration.x.streaming_api_base_url + "/cable"
   end
 
   attribute :upload_url do |object|
