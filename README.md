@@ -63,7 +63,9 @@ docker-compose pull
 
 ### Deploying
 
-This app depends on Grobid running as a separate service, which you'll want to set a production env variable `GROBID_URL`.
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/jellypbc/poster/tree/master)
+
+This app depends on Grobid running as a separate service, which you'll want to set a production env variable `GROBID_HOST`.
 
 To do so, you'll want to pull the docker image and start it on port 80.
 
@@ -73,6 +75,8 @@ docker pull lfoppiano/grobid:{version}
 docker run -t --rm --init -p 80:8070 -p 8080:8080 lfoppiano/grobid:{version}
 
 ```
+
+This app also depends on a [Figures](https://github.com/jellypbc/figures) instance which you can set as `FIGURE_HOST`.
 
 ### Tests
 

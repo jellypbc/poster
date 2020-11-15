@@ -1,23 +1,29 @@
 default: &default
   adapter: postgresql
   encoding: unicode
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  host: <%= ENV['DB_HOST'] %>
-  username: <%= ENV['DB_USER'] %>
-  password: <%= ENV['DB_PASSWORD'] %>
+  pool: <%= ENV["DB_POOL"] || ENV["RAILS_MAX_THREADS"] || 5 %>
   timeout: 30000
 
 development:
   <<: *default
-  database: jellyposter_development
-  port: 5432
+  database: <%= ENV['DB_NAME'] || 'poster_development' %>
+  username: <%= ENV['DB_USER'] %>
+  password: <%= ENV['DB_PASSWORD'] %>
+  host: <%= ENV['DB_HOST'] %>
+  port: <%= ENV['DB_PORT'] || '5432' %>
 
 test:
   <<: *default
-  database: jellyposter_test
+  database: <%= ENV['DB_NAME'] || 'poster' %>_test
+  username: <%= ENV['DB_USER'] %>
+  password: <%= ENV['DB_PASSWORD'] %>
+  host: <%= ENV['DB_HOST'] %>
+  port: <%= ENV['DB_PORT'] %>
 
 production:
   <<: *default
-  url: <%= ENV['DATABASE_URL'] %>
-  pool: <%= ENV['DB_POOL'] || ENV['PUMA_MAX_THREADS'] || 5 %>
-  database: "jellyposter-prod"
+  database: <%= ENV['DB_NAME'] || 'poster-prod' %>
+  username: <%= ENV['DB_USER'] || 'poster' %>
+  password: <%= ENV['DB_PASSWORD'] || '' %>
+  host: <%= ENV['DATABASE_URL'] || ENV['DB_HOST'] || 'localhost' %>
+  port: <%= ENV['DB_PORT'] || 5432 %>

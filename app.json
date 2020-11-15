@@ -1,19 +1,51 @@
 {
   "name": "jellyposter",
   "stack": "heroku-18",
+  "logo": "https://github.com/jellypbc.png",
+  "description": "A notebook platform",
+  "repository": "https://github.com/jellypbc/poster",
   "scripts": {
-    "postdeploy": "bundle exec rails db:migrate"
+    "postdeploy": "bundle exec rails db:migrate && bundle exec rails db:seed"
   },
   "env": {
-  },
-  "formation": {
+    "HOSTNAME": {
+      "description": "The domain that your instance will run on (this can be appname.herokuapp.com or a custom domain)",
+      "required": false
+    },
+    "GCS_BUCKET": {
+      "description": "Your google cloud storage for assets",
+      "required": false
+    },
+    "GOOGLE_CLOUD_PROJECT": {
+      "description": "Your google cloud project name",
+      "required": false
+    },
+    "GOOGLE_CLOUD_KEYFILE": {
+      "description": "Full JSON object of GCS credentials or path to keyfile",
+      "required": false
+    },
+    "GROBID_HOST": {
+      "description": "The host of your grobid instance",
+      "required": false
+    },
+    "FIGURE_HOST": {
+      "description": "The host of your figure processing instance",
+      "required": false
+    }
   },
   "addons": [
     "heroku-postgresql",
+    "heroku-redis",
+    {
+      "plan": "bonsai:sandbox-6"
+    }
   ],
   "buildpacks": [
     {
-      "url": "https://github.com/heroku/heroku-buildpack-multi.git"
+      "url": "https://github.com/heroku/heroku-buildpack-apt"
+    },
+    {
+      "url": "heroku/ruby"
     }
   ]
 }
