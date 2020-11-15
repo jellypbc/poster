@@ -31,13 +31,13 @@
     "FIGURE_HOST": {
       "description": "The host of your figure processing instance",
       "required": false
-    },
+    }
   },
   "addons": [
     "heroku-postgresql",
     "heroku-redis",
     {
-      "plan": "bonsai:sandbox-6",
+      "plan": "bonsai:sandbox-6"
     }
   ],
   "buildpacks": [
