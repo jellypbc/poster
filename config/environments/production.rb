@@ -65,18 +65,19 @@ Rails.application.configure do
   config.action_mailer.perform_caching = false
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-    user_name: 'apikey',
-    password: ENV['SENDGRID_API_KEY'],
-    domain: 'jellypbc.com',
-    address: 'smtp.sendgrid.net',
-    port: '587',
-    authentication: 'plain',
-    enable_starttls_auto: true
+    port: ENV['SMTP_PORT'],
+    address: ENV['SMTP_SERVER'],
+    domain: ENV['SMTP_DOMAIN'] || ENV['HOSTNAME'],
+    user_name: ENV['SMTP_LOGIN'].presence,
+    password: ENV['SMTP_PASSWORD'].presence,
+    authentication: ENV['SMTP_AUTH_METHOD'] == 'none' ? nil : ENV['SMTP_AUTH_METHOD'] || :plain,
+    ca_file: ENV['SMTP_CA_FILE'].presence
+    # openssl_verify_mode: ENV['SMTP_OPENSSL_VERIFY_MODE'], uncomment if want to use without authentication
+    enable_starttls_auto: ENV['SMTP_ENABLE_STARTTLS_AUTO'] || true,
+    tls: ENV['SMTP_TLS'].presence,
+    ssl: ENV['SMTP_SSL'].presence,
   }
-  config.action_mailer.default_url_options = {
-    host: 'jellypbc.com',
-    protocol: 'https'
-  }
+
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
   # config.action_mailer.raise_delivery_errors = false

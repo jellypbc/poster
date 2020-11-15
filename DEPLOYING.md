@@ -13,28 +13,37 @@ HOSTNAME=
 ```
 
 2. Shrine storage
-Defaults to using Google Cloud Storage, so set:
+Defaults to using Google Cloud Storage, assuming you have buckets created with your hostname, e.g. jellyposter-cache, jellyposter-store.  Set in your environment variables:
 ```
 GCS_BUCKET=
 GOOGLE_CLOUD_PROJECT=
-STORAGE_CRENDENTIALS=
+GOOGLE_CLOUD_KEYFILE=
 ```
 
 3. Redis
+Make sure you have redis available on port 6379, or a url set by:
 ```
 REDIS_URL=
 ```
 
 4. Mail Server
+Mailer configuration can be changed in `production.rb`.
+```
+SMTP_PORT=
+SMTP_SERVER=
+SMTP_DOMAIN=
+SMTP_LOGIN=
+SMTP_PASSWORD=
+```
 
-5. Grobid Service (optional)
+5. Grobid Service
 ```
-GROBID_URL
+GROBID_HOST=
 ```
 
-6. Figure Extraction Service (optional)
+6. Figure Extraction Service
 ```
-FIGURE_URL
+FIGURE_HOST=
 ```
 
 7. ElasticSearch (optional)

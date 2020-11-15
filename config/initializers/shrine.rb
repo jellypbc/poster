@@ -8,16 +8,17 @@ if Rails.env.development? || Rails.env.test?
 	  store: Shrine::Storage::FileSystem.new("public", prefix: "uploads"),
 	}
 elsif Rails.env.production?
+  hostname = ENV['HOSTNAME'].presence || 'poster'
 	Shrine.storages = {
 	  cache: Shrine::Storage::GoogleCloudStorage.new(
-	  	bucket: "jellyposter-cache",
+	  	bucket: "{hostname}-cache",
 		  default_acl: 'publicRead',
 		  object_options: {
 	 	   cache_control: 'public, max-age: 7200'
   		}
   	),
 	  store: Shrine::Storage::GoogleCloudStorage.new(
-	  	bucket: "jellyposter-store",
+	  	bucket: "{hostname}-store",
 		  default_acl: 'publicRead',
 		  object_options: {
 	 	   cache_control: 'public, max-age: 7200'
