@@ -11,14 +11,14 @@ elsif Rails.env.production?
   bucket = ENV['GCS_BUCKET'].presence || ENV['HOSTNAME'].presence || 'poster'
 	Shrine.storages = {
 	  cache: Shrine::Storage::GoogleCloudStorage.new(
-	  	bucket: "{bucket}-cache",
+	  	bucket: "#{bucket}-cache",
 		  default_acl: 'publicRead',
 		  object_options: {
 	 	   cache_control: 'public, max-age: 7200'
   		}
   	),
 	  store: Shrine::Storage::GoogleCloudStorage.new(
-	  	bucket: "{bucket}-store",
+	  	bucket: "#{bucket}-store",
 		  default_acl: 'publicRead',
 		  object_options: {
 	 	   cache_control: 'public, max-age: 7200'
