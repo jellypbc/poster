@@ -71,7 +71,7 @@ Rails.application.configure do
     user_name: ENV['SMTP_LOGIN'].presence,
     password: ENV['SMTP_PASSWORD'].presence,
     authentication: ENV['SMTP_AUTH_METHOD'] == 'none' ? nil : ENV['SMTP_AUTH_METHOD'] || :plain,
-    ca_file: ENV['SMTP_CA_FILE'].presence
+    ca_file: ENV['SMTP_CA_FILE'].presence,
     # openssl_verify_mode: ENV['SMTP_OPENSSL_VERIFY_MODE'], uncomment if want to use without authentication
     enable_starttls_auto: ENV['SMTP_ENABLE_STARTTLS_AUTO'] || true,
     tls: ENV['SMTP_TLS'].presence,
