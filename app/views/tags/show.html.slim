@@ -11,5 +11,5 @@
           #posts.tab-pane.fade.show.active role="tabpanel" aria-labelledby="posts-tab"
             = react_component "PostsContainer",
               tag: @tag,
-              postsCount: @posts.count,
-              citationsCount: @generated_posts.count
+              postsCount: @posts.size,
+              citationsCount: @generated_posts.size
