@@ -36,6 +36,25 @@ class CitationState {
       if (current[i].type.spec.id == id) return current[i]
   }
 
+  citationsAt(pos) {
+    return this.decos.find(pos, pos)
+  }
+
+  allCitations() {
+    let { decos } = this
+    const citations = decos.find().map((citation) => {
+      console.log('citation', citation.type.spec.id)
+      return {
+        to: citation.to,
+        from: citation.from,
+        id: citation.type.spec.id,
+        text: citation.type.spec.title,
+        highlightedText: citation.type.spec.highlightedText,
+      }
+    })
+    return citations
+  }
+
   apply(tr) {
     let action = tr.getMeta(citationPlugin),
       actionType = action && action.type
@@ -43,7 +62,7 @@ class CitationState {
     let base = this
     let { decos } = base
     decos = decos.map(tr.mapping, tr.doc)
-    console.log('action', action)
+
     if (actionType == 'newCitation') {
       decos = decos.add(tr.doc, [deco(action.from, action.to, action.citation)])
       submitCitationCreate(action)
@@ -55,25 +74,13 @@ class CitationState {
   }
 
   static init(config) {
-    const citations = config.doc.citations
+    const existingCitations = config.doc.citations.citations || []
 
-    if (citations) {
-      let decos = citations.citations.map((p) =>
-        deco(
-          p.from,
-          p.to,
-          new Citation(p.id, p.title, p.highlightedText, p.url)
-        )
-      )
-      const d = DecorationSet.create(config.doc, decos)
-      return new CitationState(d)
-    } else {
-      return new CitationState(DecorationSet.create(config.doc, []))
-    }
-  }
+    let decos = existingCitations.map((c) =>
+      deco(c.from, c.to, new Citation(c.id, c.title, c.highlightedText, c.url))
+    )
 
-  citationsAt(pos) {
-    return this.decos.find(pos, pos)
+    return new CitationState(DecorationSet.create(config.doc, decos))
   }
 }
 

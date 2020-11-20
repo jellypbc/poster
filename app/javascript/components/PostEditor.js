@@ -23,6 +23,7 @@ import {
 } from './editor-config/index'
 
 import { commentPluginKey } from './editor-config/comments'
+import { citationPluginKey } from './editor-config/citations'
 
 import {
   getTimestamp,
@@ -138,13 +139,16 @@ export function PostEditor(props) {
     const comments = JSON.stringify(
       commentPluginKey.getState(docState).allComments()
     )
+    const citations = JSON.stringify(
+      citationPluginKey.getState(docState).allCitations()
+    )
     const url = isNewPost ? '/posts' : post.data.attributes.form_url
     const method = isNewPost ? 'post' : 'put'
 
     const data =
       field === 'title'
         ? { title: doc, comments: comments }
-        : { body: doc, comments: comments }
+        : { body: doc, comments: comments, citations: citations }
 
     submit(data, method, url, onSuccess)
   }

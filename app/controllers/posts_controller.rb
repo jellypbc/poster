@@ -45,6 +45,7 @@ class PostsController < ApplicationController
     respond_to do |format|
       if @post.update!(post_params)
         update_comments(@post) if params[:comments]
+        update_citations(@post) if params[:citations]
 
         serialized_post = PostSerializer.new(@post).as_json
 
@@ -149,6 +150,24 @@ class PostsController < ApplicationController
             text: comment_data["text"],
             data_from: comment_data["from"],
             data_to: comment_data["to"]
+          )
+        end
+      end
+    end
+
+    def update_citations(post)
+      if citations_data = JSON.parse(params['citations'])
+        citations_data.each do |citation_data|
+          citation = Citation.find_or_create_by(
+            data_key: citation_data["id"].to_s,
+            post_id: post.id
+          )
+
+          citation.update(
+            title: citation_data["text"],
+            data_from: citation_data["from"],
+            data_to: citation_data["to"],
+            highlighted_text: citation_data["highlightedText"]
           )
         end
       end
