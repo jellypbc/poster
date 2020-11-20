@@ -139,9 +139,12 @@ export function PostEditor(props) {
     const comments = JSON.stringify(
       commentPluginKey.getState(docState).allComments()
     )
-    const citations = JSON.stringify(
-      citationPluginKey.getState(docState).allCitations()
-    )
+
+    const citations =
+      field !== 'title'
+        ? JSON.stringify(citationPluginKey.getState(docState).allCitations())
+        : ''
+
     const url = isNewPost ? '/posts' : post.data.attributes.form_url
     const method = isNewPost ? 'post' : 'put'
 
