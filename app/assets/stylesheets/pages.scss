@@ -112,3 +112,34 @@
     line-height: 30px;
   }
 }
+
+ul.pagination{
+  li {
+    margin-right: .5rem;
+    color: $brandGreen;
+    padding: .1rem .6rem;
+    outline: 1px solid $grayLighter;
+    :hover {
+      color: $brandGreen;
+    }
+    :focus {
+      outline: none;
+    }
+  }
+
+  li.active {
+    background-color: $brandGreen;
+    color: white;
+    outline-color: $brandGreen;
+    :hover {
+      color: white;
+    }
+  }
+
+  li.disabled {
+    color: $grayLighter;
+    :hover {
+      color: $grayLighter;
+    }
+  }
+}

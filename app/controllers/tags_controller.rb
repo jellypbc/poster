@@ -10,13 +10,13 @@ class TagsController < ApplicationController
 
     @post_ids = @posts.map{ |p| p.id}
 
-    @citations = Citation.where(:post_id => @post_ids)
+    @citations = Citation.where(post_id: @post_ids)
 
-    @citation_array = @citations
+    citation_array = @citations
       .map{ |c| c.generated_post_id}
       .uniq
 
-    @generated_posts = Post.where(:id => @citation_array)
+    @generated_posts = Post.where(id: citation_array)
       .order(created_at: :desc)
       .paginate(page: params[:citations_page], per_page: 10)
 
@@ -61,6 +61,64 @@ class TagsController < ApplicationController
       format.html { head :ok }
       format.json { head :ok }
     end
+  end
+
+  def paginated_posts
+    @tag = Tag.find params[:id]
+    
+    respond_to do |format|
+      if @tag.posts
+        @posts = @tag.posts.order(created_at: :desc)
+        @paginated_posts = @posts.paginate(page: params[:page], per_page: 10)
+        format.json {
+          render json: {
+            posts: @paginated_posts,
+            page: @paginated_posts.current_page,
+            page_count: @paginated_posts.total_pages
+          }
+        }
+      else
+        format.json {
+          render json: {
+            status: 400,
+            error: "No posts found"
+          }
+        }
+      end
+    end
+  end
+
+  def paginated_citations
+    @tag = Tag.find params[:id]
+    respond_to do |format|
+      if @tag.posts
+        @posts = @tag.posts
+          .order(created_at: :desc)
+          .paginate(page: params[:posts_page], per_page: 10)
+
+        post_ids = @posts.map{ |p| p.id}
+
+        @citations = Citation.where(post_id: post_ids)
+
+        citation_array = @citations
+          .map{ |c| c.generated_post_id}
+          .uniq
+
+        @generated_posts = Post.where(id: @citation_array)
+          .order(created_at: :desc)
+          .paginate(page: params[:citations_page], per_page: 10)
+
+        format.json {
+          render json: {
+            posts: @generated_posts,
+            page: @generated_posts.current_page,
+            page_count: @generated_posts.total_pages
+          }
+        }
+      else 
+        format.json { render json: @tag.errors, status: :unprocessable_entity }
+      end
+    end 
   end
 
   private

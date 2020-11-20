@@ -28,26 +28,10 @@
 
     .row.mt-4
       .col-md-12
-        ul#tab.nav.nav-tabs role="tablist"
-          li.nav-item
-            a#posts-tab.nav-link.active data-toggle="tab" href="#posts" role="tab" aria-controls="posts" aria-selected="true"
-              | Posts
-              span.pill.tab-count.ml-2 = @primary_posts.count
-
-          li.nav-item
-            a#citations-tab.nav-link data-toggle="tab" href="#citations" role="tab" aria-controls="citations" aria-selected="false"
-              | Citations
-              span.pill.tab-count.ml-2 = @generated_posts.count
-
         .tab-content#tabContent.my-5
           #posts.tab-pane.fade.show.active role="tabpanel" aria-labelledby="posts-tab"
-            - @primary_posts.each do |post|
-              = render 'posts/post', post: post
+            = react_component "PostsContainer",
+              user: @user,
+              postsCount: @primary_posts.size,
+              citationsCount: @generated_posts.size
 
-            = will_paginate @primary_posts, param_name: :posts_page, anchor: "posts"
-
-          #citations.tab-pane.fade role="tabpanel" aria-labelledby="citations-tab"
-            - @generated_posts.each do |post|
-              = render 'posts/post', post: post
-
-            = will_paginate @generated_posts, param_name: :citations_page, anchor: "citations"

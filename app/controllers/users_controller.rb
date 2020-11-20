@@ -105,35 +105,70 @@ class UsersController < ApplicationController
     # auth / fetch user
     # create follow
     # respond with following data
-    # binding.pry
 
     follow = current_user.follows.new(follow_params)
 
-    if follow.save
-      respond_to do |format|
-        format.json { render json: {status: 'success'}.to_json }
-      end
-    else
-      respond_to do |format|
-        format.json { render json: follow.errors, status: :unprocessable_entity }
+    respond_to do |format|
+      if follow.save
+        format.json { render json: {status: 'success'}.to_json}
+      else
+        format.json { render json: follow.errors, status: :unprocessable_entity}
       end
     end
-
   end
 
   def unfollow
     # auth / fetch user
     # create follow
     # respond with following data
-    # binding.pry
     follow = current_user.follows.find_by_following_id follow_params[:following_id]
-    if follow && follow.destroy
-      respond_to do |format|
-        format.json { render json: {status: 'success'}.to_json }
+    
+    respond_to do |format|
+      if follow && follow.destroy
+        format.json { render json: {status: 'success'}.to_json}
+      else 
+        format.json {render json: follow.errors, status: :unprocessable_entity}
       end
-    else
-      respond_to do |format|
-        format.json { render json: follow.errors, status: :unprocessable_entity }
+    end
+  end
+
+  def paginated_posts
+    @user = User.find params[:id]
+
+    respond_to do |format|
+      if @user.posts
+        posts = @user.posts.primary.order(created_at: :desc)
+        @paginated_posts = posts.paginate(page: params[:page], per_page: 10)
+        
+        format.json {
+          render json: {
+            posts: @paginated_posts,
+            page: @paginated_posts.current_page,
+            page_count: @paginated_posts.total_pages
+          }
+        }
+      else 
+        format.json { render json: @user.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def paginated_citations
+    @user = User.find params[:id]
+    respond_to do |format|
+      if @user.posts
+        posts = @user.posts.generated.order(created_at: :desc)
+        @paginated_posts = posts.paginate(page: params[:page], per_page: 10)
+
+        format.json {
+          render json: {
+            posts: @paginated_posts,
+            page: @paginated_posts.current_page,
+            page_count: @paginated_posts.total_pages
+          }
+        }
+      else 
+        format.json { render json: @user.errors, status: :unprocessable_entity}
       end
     end
   end

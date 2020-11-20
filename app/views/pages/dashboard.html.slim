@@ -9,7 +9,7 @@
             - @tags.each do |tag|
               = link_to short_user_tag_path(current_user, tag) do
                 p.tag.my-3
-                  = tag.text.titleize
+                  = tag.text
                   span.pill.ml-2 = tag.posts_count
 
           = link_to "Create new collection", new_tag_path, class: 'new-tag'
@@ -20,10 +20,7 @@
           hr
           .row
             .col-md-12
-              - if @posts.empty?
-                p.muted.my-3 You haven't added any posts yet!
-
-              - @posts.each do |post|
-                = render 'posts/post', post: post
-
-              = will_paginate(@posts)
+              = react_component "PostsContainer",
+                user: current_user,
+                postsCount: @posts.size,
+                isDashboard: true
