@@ -43,7 +43,6 @@ class CitationState {
   allCitations() {
     let { decos } = this
     const citations = decos.find().map((citation) => {
-      console.log('citation', citation.type.spec.id)
       return {
         to: citation.to,
         from: citation.from,
