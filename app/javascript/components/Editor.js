@@ -2,6 +2,7 @@ import React from 'react'
 import { EditorState } from 'prosemirror-state'
 import { EditorView } from 'prosemirror-view'
 import { commentPluginKey } from './editor-config/comments'
+import { citationPluginKey } from './editor-config/citations'
 // import applyDevTools from 'prosemirror-dev-tools'
 
 export class Editor extends React.Component {
@@ -23,6 +24,7 @@ export class Editor extends React.Component {
       }),
       dispatchTransaction: (transaction) => {
         const oldComments = commentPluginKey.getState(this.view.state)
+        const oldCitations = citationPluginKey.getState(this.view.state)
 
         const { state, transactions } = this.view.state.applyTransaction(
           transaction
@@ -31,10 +33,12 @@ export class Editor extends React.Component {
         this.view.updateState(state)
 
         const newComments = commentPluginKey.getState(state)
+        const newCitations = citationPluginKey.getState(state)
 
         if (
           transactions.some((tr) => tr.docChanged) ||
-          newComments !== oldComments
+          newComments !== oldComments ||
+          newCitations !== oldCitations
         ) {
           this.props.onChange(state.doc, state, props.field)
         }

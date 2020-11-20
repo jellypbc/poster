@@ -23,6 +23,7 @@ import {
 
 import { schema } from './schema'
 import { addAnnotation } from './comments'
+import { addCitation } from './citations'
 import menu from './menu'
 
 const insertBreak = (state, dispatch) => {
@@ -69,6 +70,7 @@ const keys = {
   Tab: goToNextCell(1),
   'Shift-Tab': goToNextCell(-1),
   'Mod-Shift-m': addAnnotation,
+  'Mod-Shift-l': addCitation,
 }
 
 Object.keys(baseKeymap).forEach((key) => {

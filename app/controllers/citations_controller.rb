@@ -1,7 +1,7 @@
 class CitationsController < ApplicationController
   before_action :set_citation, only: [:show, :edit, :update, :delete]
 
-  def add_citation
+  def create
     citation = Citation.new(citation_params)
 
     respond_to do |format|
@@ -13,8 +13,21 @@ class CitationsController < ApplicationController
     end
   end
 
+  def update 
+    respond_to do |format|
+      if @citation.update(citation_params)
+        format.html { redirect_to @citation, notice: 'Citation was successfully updated.'}
+        format.json { render :show, status: :ok, location: @citation }
+      else 
+        format.html { render :edit}
+        format.json { render json: @citation.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
   def delete
     @citation.delete_now if citation_params["deleted_at"]
+
     respond_to do |format|
       if @citation.save
         format.html { head :ok }
