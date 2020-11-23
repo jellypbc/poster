@@ -5,7 +5,6 @@
     "node": "14.x"
   },
   "dependencies": {
-    "@aeaton/prosemirror-footnotes": "^0.1.0",
     "@aeaton/prosemirror-placeholder": "^0.1.0",
     "@babel/core": "^7.7.2",
     "@babel/plugin-proposal-class-properties": "^7.8.3",

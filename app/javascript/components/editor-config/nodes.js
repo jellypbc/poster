@@ -1,6 +1,5 @@
 import { orderedList, bulletList, listItem } from './schema-list'
 import { tableNodes } from 'prosemirror-tables'
-import { footnoteNodes } from '@aeaton/prosemirror-footnotes'
 
 const pDOM = ['p', 0],
   blockquoteDOM = ['blockquote', 0],
@@ -171,5 +170,4 @@ export default {
     tableGroup: 'block',
     cellContent: 'block+',
   }),
-  ...footnoteNodes,
 }

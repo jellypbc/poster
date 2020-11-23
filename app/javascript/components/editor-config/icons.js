@@ -1,7 +1,6 @@
 import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
-  faAsterisk,
   faBold,
   faItalic,
   faCode,
@@ -43,7 +42,6 @@ export default {
   bullet_list: <FontAwesomeIcon icon={faListUl} />,
   image: <FontAwesomeIcon icon={faImage} />,
   table: <FontAwesomeIcon icon={faTable} />,
-  footnote: <FontAwesomeIcon icon={faAsterisk} />,
   undo: <FontAwesomeIcon icon={faUndo} />,
   redo: <FontAwesomeIcon icon={faRedo} />,
   lift: <FontAwesomeIcon icon={faOutdent} />,

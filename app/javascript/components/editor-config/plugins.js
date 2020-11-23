@@ -8,12 +8,8 @@ import { citationPlugin, citationUI } from './citations'
 import { math } from './math'
 import { placeholder } from './placeholder'
 
-// TODO: move directly into components
-import { footnotes } from '@aeaton/prosemirror-footnotes'
-
 // import 'prosemirror-tables/style/tables.css'
 import 'prosemirror-gapcursor/style/gapcursor.css'
-import '@aeaton/prosemirror-footnotes/style/footnotes.css'
 
 import { bodyEditorKeys, titleEditorKeys } from './keys'
 import rules from './rules'
@@ -24,7 +20,6 @@ export const bodyPlugins = (getView) => [
   rules,
   bodyEditorKeys,
   placeholder(),
-  footnotes(),
   dropCursor(),
   gapCursor(),
   history(),
