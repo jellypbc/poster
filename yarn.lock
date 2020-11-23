@@ -2,17 +2,6 @@
 # yarn lockfile v1
 
 
-"@aeaton/prosemirror-footnotes@^0.1.0":
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/@aeaton/prosemirror-footnotes/-/prosemirror-footnotes-0.1.0.tgz#fa96079dd4b8a3218769aaa0ad6826e1d0380653"
-  integrity sha1-+pYHndS4oyGHaaqgrWgm4dA4BlM=
-  dependencies:
-    prosemirror-history "^1.0.0"
-    prosemirror-keymap "^1.0.0"
-    prosemirror-state "^1.1.0"
-    prosemirror-transform "^1.0.0"
-    prosemirror-view "^1.1.1"
-
 "@aeaton/prosemirror-placeholder@^0.1.0":
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/@aeaton/prosemirror-placeholder/-/prosemirror-placeholder-0.1.0.tgz#1c4a56d6edba5ecff519d7abfdaca06be4c88290"
@@ -3412,12 +3401,7 @@ caniuse-api@^3.0.0:
     lodash.memoize "^4.1.2"
     lodash.uniq "^4.5.0"
 
-caniuse-lite@^1.0.0, caniuse-lite@^1.0.30000981, caniuse-lite@^1.0.30001038, caniuse-lite@^1.0.30001039:
-  version "1.0.30001151"
-  resolved "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001151.tgz"
-  integrity sha512-Zh3sHqskX6mHNrqUerh+fkf0N72cMxrmflzje/JyVImfpknscMnkeJrlFGJcqTmaa0iszdYptGpWMJCRQDkBVw==
-
-caniuse-lite@^1.0.30001111:
+caniuse-lite@^1.0.0, caniuse-lite@^1.0.30000981, caniuse-lite@^1.0.30001038, caniuse-lite@^1.0.30001039, caniuse-lite@^1.0.30001111:
   version "1.0.30001151"
   resolved "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001151.tgz"
   integrity sha512-Zh3sHqskX6mHNrqUerh+fkf0N72cMxrmflzje/JyVImfpknscMnkeJrlFGJcqTmaa0iszdYptGpWMJCRQDkBVw==
