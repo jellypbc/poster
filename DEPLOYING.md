@@ -11,6 +11,7 @@ Just the hostname, e.g. jellypbc.com
 ```
 HOSTNAME=
 ```
+If you want to force redirects to root domain, then you can set `CANONICAL_HOST=` as well.
 
 2. Shrine storage
 Defaults to using Google Cloud Storage, assuming you have buckets created with your hostname, e.g. jellyposter-cache, jellyposter-store.  Set in your environment variables:
