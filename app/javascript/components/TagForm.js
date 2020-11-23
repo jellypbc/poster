@@ -20,6 +20,7 @@ export default function TagForm({ post, suggestedTags, currentUser }) {
         }
       })
   }
+
   const handleDelete = (i) => {
     const tagToDelete = tags.find((tag, index) => index === i)
     sendRequest(tagToDelete, 'delete').then((res) => {
@@ -42,7 +43,7 @@ export default function TagForm({ post, suggestedTags, currentUser }) {
   }
 
   async function sendRequest(tag, action) {
-    var data = {
+    let data = {
       tag: {
         user_id: currentUser.id,
         text: tag.text,
@@ -51,18 +52,18 @@ export default function TagForm({ post, suggestedTags, currentUser }) {
       },
     }
 
-    let url, method
+    let url
     if (action === 'add') {
-      url = post.data.attributes.form_url + '/tags'
-      method = 'post'
+      url = '/add_tag'
     } else {
       data.tag.id = tag.id
-      url = post.data.attributes.form_url + '/tags/' + tag.id
-      method = 'delete'
+      data.tag.deleted_at = true
+      url = '/remove_tag'
     }
 
     return new Promise((resolve, reject) => {
-      saRequest[method](url)
+      saRequest
+        .post(url)
         .send(data)
         .set('accept', 'application/json')
         .then((res) => {
