@@ -68,10 +68,10 @@ class TagsController < ApplicationController
       @tag = Tag.find_by_id(tag_params[:id])
       @post = Post.find_by_id(tag_params[:post_id])
 
-      @post.tags.delete(@tag)
+      
 
       respond_to do |format|
-        if @post.save
+        if @post.tags.delete(@tag) && @post.save
           format.html { head :ok }
           format.json { render json: {post: @post }, status: :ok }
         else 
