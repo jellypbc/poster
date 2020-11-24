@@ -53,6 +53,7 @@ class User < ApplicationRecord
   before_create :set_username
 
   validates :username, presence: true, uniqueness: { case_sensitive: false }, length: { maximum: 50 }, format: {with: VALID_USERNAME_REGEX, message: 'no special characters, only letters and numbers' }
+  validates_format_of :username, with: /^[a-zA-Z0-9_\-\.]*$/, :multiline => true
 
   has_many :tags
   has_many :posts
@@ -60,8 +61,27 @@ class User < ApplicationRecord
   has_many :uploads
   has_many :follows, as: :follower
 
+  attr_writer :login
+
   def to_param
     username
+  end
+
+  def login
+    @login || self.username || self.email
+  end
+
+  def self.find_first_by_auth_conditions(warden_conditions)
+    conditions = warden_conditions.dup
+    if login = conditions.delete(:login)
+      where(conditions).where(["lower(username) = :value OR lower(email) = :value", { :value => login.downcase }]).first
+    else
+      if conditions[:username].nil?
+        where(conditions).first
+      else
+        where(username: conditions[:username]).first
+      end
+    end
   end
 
 	def send_devise_notification(notification, *args)

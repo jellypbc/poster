@@ -51,7 +51,7 @@ class UserSerializer
   end
 
   attribute :posts do |object|
-    object.posts.pluck([:id, :title, :slug])
+    object.posts.pluck(:id, :title, :slug)
   end
 
 end
