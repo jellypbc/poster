@@ -50,6 +50,8 @@ Rails.application.routes.draw do
   end
 
   resources :tags
+  post '/add_tag', to: 'tags#create', as: :add_tag
+  post '/remove_tag', to: 'tags#delete', as: :remove_tag
 
   resources :comments
   post '/add_comment', to: 'comments#create', as: :add_comment
@@ -78,12 +80,6 @@ Rails.application.routes.draw do
   get '/internship', to: 'pages#jobs'
 
   get '/blog', to: redirect('tags/jelly-blog')
-
-  get 'users/:id/paginated_posts/:page', to: 'users#paginated_posts'
-  get 'users/:id/paginated_citations/:page', to: 'users#paginated_citations'
-
-  get 'tags/:id/paginated_posts/:page', to: 'tags#paginated_posts'
-  get 'tags/:id/paginated_citations/:page', to: 'tags#paginated_citations'
 
   get 'users/:id/paginated_posts/:page', to: 'users#paginated_posts'
   get 'users/:id/paginated_citations/:page', to: 'users#paginated_citations'

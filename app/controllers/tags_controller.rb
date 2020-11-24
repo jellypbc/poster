@@ -63,6 +63,25 @@ class TagsController < ApplicationController
     end
   end
 
+  def delete
+    if tag_params["deleted_at"]
+      @tag = Tag.find_by_id(tag_params[:id])
+      @post = Post.find_by_id(tag_params[:post_id])
+
+      
+
+      respond_to do |format|
+        if @post.tags.delete(@tag) && @post.save
+          format.html { head :ok }
+          format.json { render json: {post: @post }, status: :ok }
+        else 
+          format.html { head :ok }
+          format.json { render json: @post.errors, status: :unprocessable_entity}
+        end
+      end
+    end
+  end
+
   def paginated_posts
     @tag = Tag.find params[:id]
     
@@ -144,7 +163,7 @@ class TagsController < ApplicationController
 
     def tag_params
       params.require(:tag).permit(
-        :id, :text, :slug, :post_id, :user_id
+        :id, :text, :slug, :post_id, :user_id, :deleted_at
       )
     end
 
