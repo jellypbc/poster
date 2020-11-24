@@ -47,13 +47,13 @@
 }
 
 .ProseMirror ul, .ProseMirror ol {
-  padding-left: 30px;
+  padding-left: 2em;
 }
 
 .ProseMirror blockquote {
   padding-left: 1em;
   border-left: 3px solid #eee;
-  margin-left: 0;
+  margin-left: 1em;
   margin-right: 0;
 }
 
@@ -72,7 +72,17 @@
   line-height: 0;
 }
 
+.post-editor .ProseMirror > p {
+  padding-bottom: 1em;
+}
 
+.ProseMirror p.empty-node {
+  padding-bottom: 0;
+}
+
+.ProseMirror h2, h3, h4 {
+  padding-bottom: 1em;
+}
 
 // prosemirror-view/style/prosemirror
 // https://github.com/ProseMirror/prosemirror-view/blob/master/style/prosemirror.css
@@ -92,6 +102,8 @@
 
 .ProseMirror pre {
   white-space: pre-wrap;
+  margin-left: 1em;
+  border-radius: 0px;
 }
 
 .ProseMirror li {
