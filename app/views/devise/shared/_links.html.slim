@@ -1,6 +1,6 @@
 p.devise__sharedLinks
   - if devise_mapping.confirmable? && controller_name != 'confirmations' && controller_name != 'registrations' && controller_name != 'passwords'
-    = link_to "Resend Confirmation", new_confirmation_path(resource_name)
+    = link_to "Resend Confirmation", new_user_confirmation_path(resource_name)
 
   - if devise_mapping.lockable? && resource_class.unlock_strategy_enabled?(:email) && controller_name != 'unlocks' && controller_name != 'registrations' && controller_name != 'passwords'
     = link_to "Resend Unlock", new_unlock_path(resource_name)
