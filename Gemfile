@@ -39,6 +39,7 @@ gem "bootsnap", ">= 1.4.2", require: false
 gem "searchkick"
 gem "typhoeus"
 gem "oj"
+gem "rack-canonical-host"
 
 group :development, :test do
   gem "rspec-rails", '~> 4.0'
@@ -54,7 +55,6 @@ group :development, :test do
   gem "pry"
   gem "pry-rails"
   gem "docker-sync", require: false
-  gem "cypress-rails"
 end
 
 group :development do
