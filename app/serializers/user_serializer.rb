@@ -40,7 +40,7 @@ class UserSerializer
   include UsersHelper
 
   # From model
-  attributes :id, :email, :username, :admin
+  attributes :id, :email, :username, :admin, :guest
 
   attribute :avatar_url do |object|
     object.avatar_url

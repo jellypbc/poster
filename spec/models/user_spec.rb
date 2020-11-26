@@ -77,8 +77,4 @@ RSpec.describe User, type: :model do
     end
   end
 
-  describe "#confirm!" do
-
-  end
-
 end

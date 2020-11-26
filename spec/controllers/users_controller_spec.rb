@@ -10,48 +10,64 @@ RSpec.describe UsersController, type: :controller do
     }
   }
 
-  # describe "GET #index" do
-  #   context "when logged in as admin" do
-  #     let(:admin) { create :admin }
+  context "as HTML" do
+    let(:format) { 'html' }
 
-  #     before { sign_in admin }
+    shared_examples 'common response characteristics' do
+      it 'returns http success' do
+        expect(response).to have_http_status(200)
+      end
 
-  #     it "renders the :show template" do
-  #       process :index, method: :get
-  #       expect(response).to render_template(:index)
-  #     end
-  #   end
-  #   context "when logged out" do
-  #     it "redirects" do
-  #       process :index, method: :get
-  #       expect(response).to have_http_status(:found)
-  #     end
-  #   end
-  # end
+      it 'renders show template' do
+        expect(response).to render_template(:show)
+      end
+    end
 
-  describe "GET #show" do
-    let(:user) { create :user }
-    it "renders the :show template" do
-      process :show, method: :get, params: { id: user.to_param }
-      expect(response).to render_template(:show)
+    describe "GET #show" do
+      let(:user) { create :user }
+
+      it_behaves_like 'common response characteristics'
+
+      before do
+        process :show, method: :get, params: { id: user.to_param, format: format }
+      end
+
+      context do
+        it "renders the :show template" do
+          expect(response).to render_template(:show)
+        end
+      end
     end
   end
 
-  describe "POST #create" do
-    context "when logged out" do
-      context "with valid params" do
-        it "returns a successful response" do
-          process :create, method: :post, params: {user: valid_attributes, format: 'json' }
-          expect(response.content_type).to eq("application/json; charset=utf-8")
-          expect(response).to have_http_status(:success)
-        end
-      end
+  context "as JSON" do
+    let(:format) { 'json' }
 
-      context "with guest params" do
-        it "returns a successful response" do
-          process :create, method: :post, params: { user: { guest: true }, format: 'json' }
-          expect(response.content_type).to eq("application/json; charset=utf-8")
-          expect(response).to have_http_status(:success)
+    describe "POST #create" do
+      context "when logged out" do
+        context "with valid params" do
+          it "returns a successful response" do
+            process :create, method: :post, params: {user: valid_attributes, format: format }
+            expect(response.content_type).to eq("application/json; charset=utf-8")
+            expect(response).to have_http_status(:success)
+          end
+        end
+
+        context "with guest params" do
+          subject {
+            process :create, method: :post, params: { user: { guest: true }, format: format }
+          }
+
+          it "returns a successful response" do
+            expect(subject.content_type).to eq("application/json; charset=utf-8")
+            expect(subject).to have_http_status(:success)
+          end
+
+          it "returns a guest user" do
+            parsed = JSON.parse subject.body
+            expect(parsed).to have_key("data")
+            expect(parsed.dig("data", "attributes", "guest")).to eq(true)
+          end
         end
       end
     end
