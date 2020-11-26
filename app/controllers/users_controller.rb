@@ -1,4 +1,6 @@
 class UsersController < ApplicationController
+  include DeviseGuestsConcern
+
   before_action :fetch_user, only: [:show, :edit, :update, :destroy, :remove_avatar, :follow, :unfollow]
   before_action :authenticate_user!, only: [:index, :edit, :destroy, :update, :remove_avatar, :follow, :unfollow]
   before_action :admin_only, only: [:index]
@@ -122,11 +124,11 @@ class UsersController < ApplicationController
     # create follow
     # respond with following data
     follow = current_user.follows.find_by_following_id follow_params[:following_id]
-    
+
     respond_to do |format|
       if follow && follow.destroy
         format.json { render json: {status: 'success'}.to_json}
-      else 
+      else
         format.json {render json: follow.errors, status: :unprocessable_entity}
       end
     end
@@ -139,7 +141,7 @@ class UsersController < ApplicationController
       if @user.posts
         posts = @user.posts.primary.order(created_at: :desc)
         @paginated_posts = posts.paginate(page: params[:page], per_page: 10)
-        
+
         format.json {
           render json: {
             posts: @paginated_posts,
@@ -147,7 +149,7 @@ class UsersController < ApplicationController
             page_count: @paginated_posts.total_pages
           }
         }
-      else 
+      else
         format.json { render json: @user.errors, status: :unprocessable_entity }
       end
     end
@@ -167,7 +169,7 @@ class UsersController < ApplicationController
             page_count: @paginated_posts.total_pages
           }
         }
-      else 
+      else
         format.json { render json: @user.errors, status: :unprocessable_entity}
       end
     end

@@ -27,6 +27,7 @@ export default function PostsContainer(props) {
     }
 
     let url = generateUrl()
+    console.log('url', url)
     saRequest
       .get(url)
       .set('accept', 'application/json')

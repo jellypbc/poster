@@ -4,7 +4,7 @@
   <%= render "devise/shared/error_messages", resource: resource %>
 
   <div class="field">
-    <%= f.email_field :email, autofocus: true, autocomplete: "email", value: (resource.pending_reconfirmation? ? resource.unconfirmed_email : resource.email), placeholder: true, "aria-label": :email %>
+    <%= f.text_field :username, autofocus: true, autocomplete: "username", value: resource.username, placeholder: true, "aria-label": :username %>
   </div>
 
   <%= render "devise/shared/links" %>
