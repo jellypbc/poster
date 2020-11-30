@@ -16,8 +16,8 @@ nav.navbar.navbar-expand-lg id="#{opts[:id] if opts}" class="#{'white-nav' if wh
     #menu.collapse.navbar-collapse
       = react_component 'SearchBar'
 
-      = form_tag(search_results_path, method: :get, id: 'search-fallback', class: "form-inline my-2 my-lg-0")
-        = text_field_tag :query, nil, placeholder: "Search", type: "search", 'aria-label'=>'Search'
+      = form_tag(search_results_path, method: :get, id: 'search-fallback', class: "my-2 my-lg-0")
+        = text_field_tag :query, nil, placeholder: "Search", type: "search", 'aria-label'=>'Search', class: "form-control"
 
       ul.subnav.ml-auto
         - if current_user
