@@ -76,12 +76,24 @@
   padding-bottom: 1em;
 }
 
-.ProseMirror p.empty-node {
+.post-editor > p {
+  padding-bottom: 1em;
+}
+
+.post-editor .ProseMirror p.empty-node {
   padding-bottom: 0;
 }
 
-.ProseMirror h2, h3, h4 {
+.post-editor .ProseMirror h2, h3, h4 {
   padding-bottom: 1em;
+}
+
+.post-editor h2, h3, h4 {
+  padding-bottom: 1em;
+}
+
+.post-editor .ProseMirror blockquote {
+  margin-bottom: 1em
 }
 
 // prosemirror-view/style/prosemirror
