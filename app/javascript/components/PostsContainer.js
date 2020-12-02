@@ -47,7 +47,13 @@ export default function PostsContainer(props) {
   }, [page, tabState])
 
   useEffect(() => {
-    getPostsFromPage()
+    console.log('props.posts', props.posts)
+    if (props.posts) {
+      setHasPosts(true)
+      setData(props.posts)
+    } else {
+      getPostsFromPage()
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page, tabState])
 

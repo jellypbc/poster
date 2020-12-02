@@ -11,6 +11,13 @@ class PagesController < ApplicationController
         .order(created_at: :desc)
         .paginate(page: params[:page], per_page: 10)
 
+      @initial_posts = current_user.posts
+        # .primary
+        .includes(:tags)
+        .order(created_at: :desc)
+        .paginate(page: params[:page], per_page: 10)
+
+
       @tags = current_user.tags.sort_by { |tag| tag.slug}
 
       render 'dashboard'

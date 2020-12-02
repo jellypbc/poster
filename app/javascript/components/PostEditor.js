@@ -150,9 +150,15 @@ export function PostEditor(props) {
 
     const data =
       field === 'title'
-        ? { title: doc, comments: comments }
-        : { body: doc, comments: comments, citations: citations }
+        ? { title: doc, comments: comments, author_id: user.data.id }
+        : {
+            body: doc,
+            comments: comments,
+            citations: citations,
+            author_id: user.data.id,
+          }
 
+    console.log('data', data)
     submit(data, method, url, onSuccess)
   }
 
