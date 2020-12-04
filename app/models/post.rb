@@ -37,6 +37,10 @@ class Post < ApplicationRecord
   enum visibility: [:public, :draft, :private], _suffix: :visibility
 
   belongs_to :user, optional: true
+
+  has_many :post_ownerships
+  has_many :owners, through: :post_ownerships, source: :user
+
 	has_many :uploads
 	has_many :citations
   has_many :backlinks, class_name: 'Citation', foreign_key: 'generated_post_id'

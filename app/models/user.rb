@@ -56,7 +56,11 @@ class User < ApplicationRecord
   validates_format_of :username, with: /^[a-zA-Z0-9_\-\.]*$/, :multiline => true
 
   has_many :tags
+
   has_many :posts
+  has_many :post_ownerships
+  has_many :authored_posts, through: :post_ownerships
+
   has_many :comments
   has_many :uploads
   has_many :follows, as: :follower

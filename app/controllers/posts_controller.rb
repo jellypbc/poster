@@ -46,6 +46,7 @@ class PostsController < ApplicationController
       if @post.update!(post_params)
         update_comments(@post) if params[:comments]
         update_citations(@post) if params[:citations]
+        update_authors(@post) if params[:author_id]
 
         serialized_post = PostSerializer.new(@post).as_json
 
@@ -183,6 +184,14 @@ class PostsController < ApplicationController
             data_to: citation_data["to"],
             highlighted_text: citation_data["highlightedText"]
           )
+        end
+      end
+    end
+
+    def update_authors(post)
+      if author_id = JSON.parse(params['author_id']) && author = User.find_by_id(author_id)
+        if (post.user != author)
+          post.owners << author
         end
       end
     end
