@@ -10,7 +10,7 @@ export function PostCard({ post }) {
             allowedTags: ['b', 'sup', 'sub', 'em', 'code'],
             allowedAttributes: {},
           })
-        : ``
+        : 'Untitled'
     return { __html: title }
   }
 

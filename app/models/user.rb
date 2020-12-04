@@ -57,8 +57,9 @@ class User < ApplicationRecord
 
   has_many :tags
 
+  has_many :posts
   has_many :post_ownerships
-  has_many :posts, through: :post_ownerships
+  has_many :authored_posts, through: :post_ownerships
 
   has_many :comments
   has_many :uploads

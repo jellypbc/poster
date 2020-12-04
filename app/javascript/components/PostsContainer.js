@@ -47,7 +47,6 @@ export default function PostsContainer(props) {
   }, [page, tabState])
 
   useEffect(() => {
-    console.log('props.posts', props.posts)
     if (props.posts) {
       setHasPosts(true)
       setData(props.posts)

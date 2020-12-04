@@ -21,7 +21,7 @@
           .row
             .col-md-12
               = react_component "PostsContainer",
-                posts: @initial_posts,
+                posts: @posts,
                 user: current_user,
-                postsCount: @posts.size,
+                postsCount: @posts.total_entries,
                 isDashboard: true
