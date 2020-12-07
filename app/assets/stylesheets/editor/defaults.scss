@@ -55,6 +55,7 @@
   border-left: 3px solid #eee;
   margin-left: 1em;
   margin-right: 0;
+  margin-bottom: 1em;
 }
 
 .ProseMirror img {
@@ -72,27 +73,29 @@
   line-height: 0;
 }
 
-.post-editor .ProseMirror > p {
+.ProseMirror > p {
   padding-bottom: 1em;
 }
 
-.post-editor .ProseMirror p.empty-node {
+.ProseMirror p.empty-node {
   padding-bottom: 0;
 }
 
-.post-editor .ProseMirror h2, h3, h4 {
+.ProseMirror h2, h3, h4 {
   padding-bottom: 1em;
 }
-
-.post-editor h2, h3, h4 {
-  padding-bottom: 1em;
+.ProseMirror pre {
+  margin-left: 1em;
+  border-radius: 0px;
 }
 
-.post-editor .ProseMirror blockquote {
-  margin-bottom: 1em
+.selection-marker {
+  font-family: inherit;
+  font-size: inherit;
 }
 
-// prosemirror-view/style/prosemirror
+// do not edit css below
+// prosemirror-view/blob/style/prosemirror
 // https://github.com/ProseMirror/prosemirror-view/blob/master/style/prosemirror.css
 
 .ProseMirror {
@@ -110,8 +113,6 @@
 
 .ProseMirror pre {
   white-space: pre-wrap;
-  margin-left: 1em;
-  border-radius: 0px;
 }
 
 .ProseMirror li {
@@ -127,10 +128,6 @@
 }
 
 /* Make sure li selections wrap around markers */
-.selection-marker {
-  font-family: inherit;
-  font-size: inherit;
-}
 
 li.ProseMirror-selectednode {
   outline: none;
