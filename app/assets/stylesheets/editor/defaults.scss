@@ -4,7 +4,6 @@
     min-width: 640px;
     margin: 0;
     padding: 0;
-
   }
 }
 
@@ -26,6 +25,27 @@
 .ProseMirror {
   font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   background: #fff;
+}
+
+.ProseMirror h2, h3, h4 {
+  padding-bottom: 1em;
+}
+
+.ProseMirror > p {
+  padding-bottom: 1em;
+}
+
+.ProseMirror p.empty-node {
+  padding-bottom: 0;
+}
+
+.ProseMirror img {
+  cursor: default;
+}
+
+.ProseMirror pre {
+  margin-left: 1em;
+  border-radius: 0px;
 }
 
 .ProseMirror:focus {
@@ -58,9 +78,6 @@
   margin-bottom: 1em;
 }
 
-.ProseMirror img {
-  cursor: default;
-}
 
 .ProseMirror th,
 .ProseMirror td {
@@ -73,21 +90,7 @@
   line-height: 0;
 }
 
-.ProseMirror > p {
-  padding-bottom: 1em;
-}
 
-.ProseMirror p.empty-node {
-  padding-bottom: 0;
-}
-
-.ProseMirror h2, h3, h4 {
-  padding-bottom: 1em;
-}
-.ProseMirror pre {
-  margin-left: 1em;
-  border-radius: 0px;
-}
 
 .selection-marker {
   font-family: inherit;
@@ -113,6 +116,7 @@
 
 .ProseMirror pre {
   white-space: pre-wrap;
+  margin-bottom: 1em;
 }
 
 .ProseMirror li {
