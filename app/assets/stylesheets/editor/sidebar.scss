@@ -107,6 +107,14 @@
     .ProseMirror-selectednode {
       outline: none;
     }
+
+    .ProseMirror span.underline {
+      text-decoration: none;
+    }
+
+    .ProseMirror span.strikethrough {
+      text-decoration-line: none;
+    }
   }
 }
 

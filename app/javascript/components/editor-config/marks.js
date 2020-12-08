@@ -84,25 +84,21 @@ const superscript = {
 }
 
 const strikethrough = {
-  parseDOM: [
-    { tag: 'strike' },
-    { style: 'text-decoration=line-through' },
-    { style: 'text-decoration-line=line-through' },
-  ],
+  parseDOM: [{ tag: 'span.strikethrough' }],
   toDOM: () => [
     'span',
     {
-      style: 'text-decoration-line:line-through',
+      class: 'strikethrough',
     },
   ],
 }
 
 const underline = {
-  parseDOM: [{ tag: 'u' }, { style: 'text-decoration=underline' }],
+  parseDOM: [{ tag: 'span.underline' }],
   toDOM: () => [
     'span',
     {
-      style: 'text-decoration:underline',
+      class: 'underline',
     },
   ],
 }

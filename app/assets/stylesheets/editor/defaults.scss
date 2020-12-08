@@ -90,7 +90,13 @@
   line-height: 0;
 }
 
+.ProseMirror span.underline {
+  text-decoration: underline;
+}
 
+.ProseMirror span.strikethrough {
+  text-decoration-line: line-through;
+}
 
 .selection-marker {
   font-family: inherit;
