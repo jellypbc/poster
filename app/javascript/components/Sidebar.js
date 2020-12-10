@@ -58,7 +58,7 @@ export function Sidebar(props) {
   const [editorContainerHeight, setEditorContainerHeight] = useState(0)
   const [sidebarEditorTop, setSidebarEditorTop] = useState(0)
   const [portalHeight, setPortalHeight] = useState(0)
-  const [visible, setVisible] = useState(true)
+  const [visible, setVisible] = useState('none')
   const [sticky, setSticky] = useState(false)
   const [mastheadHeight, setMastheadHeight] = useState(0)
 
@@ -73,6 +73,16 @@ export function Sidebar(props) {
       },
     })
   )
+
+  const switchVisible = () => {
+    if (visible === 'none') {
+      setVisible('minimap')
+    } else if (visible === 'minimap') {
+      setVisible('outline')
+    } else {
+      setVisible('none')
+    }
+  }
 
   const calculateEditorPosition = useCallback(
     (sticky, vp, ech) => {
@@ -230,16 +240,16 @@ export function Sidebar(props) {
           id="sidebarToggle"
           style={toggleIconStyle}
           className={'fas fa-layer-group'}
-          onClick={() => setVisible(!visible)}
-          onKeyDown={() => setVisible(!visible)}
+          onClick={() => switchVisible()}
+          onKeyDown={() => switchVisible()}
           aria-checked={visible}
           role="switch"
           tabIndex={0}
         />
-        <bold>{visible ? `Minimap` : `Outline`}</bold>
+        {/* <bold>{visible ? `Minimap` : `Outline`}</bold> */}
       </div>
 
-      {visible && (
+      {visible === 'minimap' && (
         <div className="sidebarEditorContainer" style={editorContainerStyle}>
           <div
             id="sidebarEditor"
@@ -250,7 +260,7 @@ export function Sidebar(props) {
           <div className="sidebarPortal" style={sidebarPortalStyle} />
         </div>
       )}
-      {!visible && <div>{getHeadings()}</div>}
+      {visible === 'outline' && <div>{getHeadings()}</div>}
     </div>
   )
 }
