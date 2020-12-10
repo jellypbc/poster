@@ -225,16 +225,19 @@ export function Sidebar(props) {
 
   return (
     <div id="sidebarContainer" style={container}>
-      <i
-        id="sidebarToggle"
-        style={toggleIconStyle}
-        className={visible ? 'fa fa-caret-down' : 'fa fa-caret-down rotate'}
-        onClick={() => setVisible(!visible)}
-        onKeyDown={() => setVisible(!visible)}
-        aria-checked={visible}
-        role="switch"
-        tabIndex={0}
-      />
+      <div>
+        <i
+          id="sidebarToggle"
+          style={toggleIconStyle}
+          className={'fas fa-layer-group'}
+          onClick={() => setVisible(!visible)}
+          onKeyDown={() => setVisible(!visible)}
+          aria-checked={visible}
+          role="switch"
+          tabIndex={0}
+        />
+        <bold>{visible ? `Minimap` : `Outline`}</bold>
+      </div>
 
       {visible && (
         <div className="sidebarEditorContainer" style={editorContainerStyle}>
