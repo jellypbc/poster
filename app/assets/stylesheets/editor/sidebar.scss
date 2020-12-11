@@ -106,6 +106,14 @@
     .ProseMirror .math-block {
       font-size: 2px;
     }
+
+    .ProseMirror span.underline {
+      text-decoration: none;
+    }
+
+    .ProseMirror span.strikethrough {
+      text-decoration-line: none;
+    }
     
     .ProseMirror-selectednode {
       outline: none;
