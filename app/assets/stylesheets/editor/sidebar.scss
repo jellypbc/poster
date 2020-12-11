@@ -52,17 +52,28 @@
       padding-top: 2px;
     }
 
-    .ProseMirror h2, h3, h4 {
+    .ProseMirror h2 {
       font-size: 4px;
       line-height: 3px;
       letter-spacing: -0.1em;
-      padding-bottom: 1em;
+    }
+
+    .ProseMirror h3 {
+      font-size: 3px;
+      line-height: 3px;
+      letter-spacing: -0.1em;
+    }
+
+    .ProseMirror h4 {
+      font-size: 2px;
+      line-height: 3px;
+      letter-spacing: -0.1em;
     }
 
     .ProseMirror p, strong, li, a {
       font-size: 2px;
       line-height: 3px;
-      letter-spacing: .05 em;
+      letter-spacing: -0.1 em;
     }
 
     .ProseMirror a {
@@ -114,7 +125,7 @@
     .ProseMirror span.strikethrough {
       text-decoration-line: none;
     }
-    
+
     .ProseMirror-selectednode {
       outline: none;
     }
