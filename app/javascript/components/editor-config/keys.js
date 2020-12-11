@@ -7,7 +7,6 @@ import {
   liftListItem,
   sinkListItem,
 } from './schema-list'
-import { goToNextCell } from 'prosemirror-tables'
 import {
   baseKeymap,
   toggleMark,
@@ -67,8 +66,6 @@ const keys = {
   'Shift-Ctrl-3': setBlockType(schema.nodes.heading, { level: 3 }),
   'Shift-Ctrl-4': setBlockType(schema.nodes.heading, { level: 4 }),
   'Mod-_': insertRule,
-  Tab: goToNextCell(1),
-  'Shift-Tab': goToNextCell(-1),
   'Mod-Shift-m': addAnnotation,
   'Mod-Shift-l': addCitation,
 }

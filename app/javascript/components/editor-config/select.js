@@ -33,5 +33,3 @@ export const selectPlugin = new Plugin({
     },
   },
 })
-
-// export default selectPlugin;
