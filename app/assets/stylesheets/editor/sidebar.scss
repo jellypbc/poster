@@ -128,29 +128,24 @@
   }
 
   #sidebarOutline {
-    margin-top: 1em;
-    color: blue;
-    h2 {
-      font-size: 8px;
-      line-height: 8px;
-      padding-bottom: 2em;
-      letter-spacing: -0.1em;
-    }
+    margin-top: 2em;
+    font-size: .5em;
+    line-height: 2em;
+    width: 190px;
+    cursor: pointer;
 
-    h3 {
-      font-size: 8px;
-      line-height: 9px;
+    .lv-1, .lv-2 {
+      padding-left: none;
       padding-bottom: 2em;
+    }
+    .lv-3 {
       padding-left: 2em;
-      letter-spacing: -0.1em;
+      padding-bottom: 2em;
     }
 
-    h4 {
-      font-size: 8px;
-      line-height: 8px;
+    .lv-4 {
       padding-bottom: 2em;
-      padding-left: 4em;
-      letter-spacing: -0.1em;
+      padding-bottom: 2em;
     }
 
   }

@@ -3,7 +3,7 @@ import { EditorState } from 'prosemirror-state'
 import { EditorView } from 'prosemirror-view'
 import { commentPluginKey } from './editor-config/comments'
 import { citationPluginKey } from './editor-config/citations'
-// import applyDevTools from 'prosemirror-dev-tools'
+import applyDevTools from 'prosemirror-dev-tools'
 
 export class Editor extends React.Component {
   constructor(props) {
@@ -55,7 +55,7 @@ export class Editor extends React.Component {
       },
     })
 
-    // applyDevTools(this.view)
+    applyDevTools(this.view)
   }
 
   componentDidMount() {

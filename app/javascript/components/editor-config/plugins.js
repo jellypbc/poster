@@ -6,6 +6,7 @@ import { commentPlugin, commentUI } from './comments'
 import { selectPlugin } from './select'
 import { citationPlugin, citationUI } from './citations'
 import { math } from './math'
+import { headingId } from './heading-id'
 import { placeholder } from './placeholder'
 
 // import 'prosemirror-tables/style/tables.css'
@@ -35,6 +36,7 @@ export const bodyPlugins = (getView) => [
     getView().dispatch(transaction)
   }),
   math(),
+  headingId(),
 ]
 
 export const titlePlugins = (getView) => [

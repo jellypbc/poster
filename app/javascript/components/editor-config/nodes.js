@@ -53,11 +53,13 @@ const defaultNodes = {
     group: 'block',
     defining: true,
     parseDOM: [
+      // { tag: 'h2.magic', attrs: { level: 2 } },
       { tag: 'h2', attrs: { level: 2 } },
       { tag: 'h3', attrs: { level: 3 } },
       { tag: 'h4', attrs: { level: 4 } },
     ],
     toDOM(node) {
+      // return ['h' + node.attrs.level, { id: 'magic' }]
       return ['h' + node.attrs.level, 0]
     },
   },

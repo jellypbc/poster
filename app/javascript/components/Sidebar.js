@@ -3,6 +3,8 @@ import { EditorView } from 'prosemirror-view'
 import { EditorState } from 'prosemirror-state'
 import { math } from './editor-config/math'
 import { v4 as uuidv4 } from 'uuid'
+import { Outline } from './Outline'
+import { Minimap } from './Minimap'
 
 function useEventListener(eventName, handler, element = window) {
   // Create a ref that stores handler
@@ -52,7 +54,6 @@ export function Sidebar(props) {
   const vpHeight = window.innerHeight
 
   const viewHost = useRef()
-  // const view = useRef(null)
 
   const [portalTop, setPortalTop] = useState('0px')
   const [editorContainerHeight, setEditorContainerHeight] = useState(0)
@@ -114,7 +115,7 @@ export function Sidebar(props) {
     [mastheadHeight, calculateEditorPosition, sticky, pageHeight]
   )
 
-  const getHeadings = () => {
+  const getHeadings = useCallback(() => {
     let headings = []
 
     view.state.doc.forEach((node) => {
@@ -129,21 +130,12 @@ export function Sidebar(props) {
         })
       }
     })
-    return (
-      <div id="sidebarOutline">
-        {headings.map((heading) =>
-          heading.level === 2 ? (
-            <h2 key={heading.id}>{heading.title}</h2>
-          ) : (
-            <h3 key={heading.id}>{heading.title}</h3>
-          )
-        )}
-      </div>
-    )
-  }
+    return headings
+  })
 
   // initial render
   useEffect(() => {
+    console.log('getHeadings', getHeadings())
     if (viewHost.current) {
       let editorHeight = viewHost.current.clientHeight
       let pHeight = (vpHeight / pageHeight) * editorHeight
@@ -153,7 +145,7 @@ export function Sidebar(props) {
       setMastheadHeight(mh.offsetHeight + mh.offsetTop)
     }
     return () => view.destroy()
-  }, [pageHeight, props, view, visible, vpHeight])
+  }, [getHeadings, pageHeight, view, vpHeight])
 
   // every render
   useEffect(() => {
@@ -200,10 +192,19 @@ export function Sidebar(props) {
   let toggleIconStyle = {
     position: sticky ? 'sticky' : 'relative',
     top: sticky ? '4px' : '24px',
+    paddingTop: '2em', // this needs to be 0 when user has not scrolled past icon
     outline: 'none',
   }
 
   let editorContainerStyle = {
+    position: sticky ? 'sticky' : 'relative',
+    top: '30px',
+    height: editorContainerHeight + 'px',
+    width: '120px',
+    overflow: 'hidden',
+  }
+
+  let outlineContainerStyle = {
     position: sticky ? 'sticky' : 'relative',
     top: '30px',
     height: editorContainerHeight + 'px',
@@ -235,32 +236,26 @@ export function Sidebar(props) {
 
   return (
     <div id="sidebarContainer" style={container}>
-      <div>
-        <i
-          id="sidebarToggle"
-          style={toggleIconStyle}
-          className={'fas fa-layer-group'}
-          onClick={() => switchVisible()}
-          onKeyDown={() => switchVisible()}
-          aria-checked={visible}
-          role="switch"
-          tabIndex={0}
-        />
-        {/* <bold>{visible ? `Minimap` : `Outline`}</bold> */}
-      </div>
+      <i
+        id="sidebarToggle"
+        style={toggleIconStyle}
+        className={'fas fa-layer-group'}
+        onClick={() => switchVisible()}
+        onKeyDown={() => switchVisible()}
+        aria-checked={visible}
+        role="switch"
+        tabIndex={0}
+      />
 
-      {visible === 'minimap' && (
-        <div className="sidebarEditorContainer" style={editorContainerStyle}>
-          <div
-            id="sidebarEditor"
-            ref={viewHost}
-            style={sidebarEditorStyle}
-            className="animated fadeIn"
-          />
-          <div className="sidebarPortal" style={sidebarPortalStyle} />
+      {visible === 'minimap' && <Minimap />}
+      {visible === 'outline' && (
+        <Outline headings={getHeadings()} title={props.titleOptions} />
+      )}
+      {visible === 'none' && (
+        <div className="sidebarOutlineContainer" style={outlineContainerStyle}>
+          none
         </div>
       )}
-      {visible === 'outline' && <div>{getHeadings()}</div>}
     </div>
   )
 }

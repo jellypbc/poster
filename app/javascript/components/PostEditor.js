@@ -284,7 +284,7 @@ export function PostEditor(props) {
 
         <div className="col-md-2" id="sidebar">
           {post.data.attributes.body && (
-            <Sidebar post={post} options={options} />
+            <Sidebar post={post} options={options} titleOptions={title} />
           )}
         </div>
 
