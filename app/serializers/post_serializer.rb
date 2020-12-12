@@ -69,19 +69,19 @@ class PostSerializer
   end
 
   attribute :title_comments do |object|
-    object.comments.title.map{ |comment|
+    object.comments.includes(:user).title.map{ |comment|
 
       if comment.user
         user = {
           id: comment.user.id,
           avatar: comment.user.avatar_url,
-          name: comment.user.full_name || comment.user.username,
+          username: comment.user.username
         }
       else
         user = {
           id: "",
           avatar: User.default_avatar_url,
-          name: "Anonymous",
+          username: "Anonymous",
         }
       end
 
@@ -102,15 +102,13 @@ class PostSerializer
         user = {
           id: comment.user.id,
           avatar: comment.user.avatar_url,
-          name: comment.user.full_name || comment.user.username,
-          username: comment.user.username
+          username: comment.user.username,
         }
       else
         user = {
           id: "",
           avatar: User.default_avatar_url,
-          name: "Anonymous",
-          username: nil
+          username: "Anonymous",
         }
       end
 
