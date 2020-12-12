@@ -1,14 +1,12 @@
 import { history } from 'prosemirror-history'
 import { dropCursor } from 'prosemirror-dropcursor'
 import { gapCursor } from 'prosemirror-gapcursor'
-import { columnResizing, tableEditing } from 'prosemirror-tables'
 import { commentPlugin, commentUI } from './comments'
 import { selectPlugin } from './select'
 import { citationPlugin, citationUI } from './citations'
 import { math } from './math'
 import { placeholder } from './placeholder'
 
-// import 'prosemirror-tables/style/tables.css'
 import 'prosemirror-gapcursor/style/gapcursor.css'
 
 import { bodyEditorKeys, titleEditorKeys } from './keys'
@@ -23,8 +21,6 @@ export const bodyPlugins = (getView) => [
   dropCursor(),
   gapCursor(),
   history(),
-  columnResizing(),
-  tableEditing(),
   selectPlugin,
   commentPlugin,
   commentUI((transaction) => {
@@ -46,7 +42,3 @@ export const titlePlugins = (getView) => [
     getView().dispatch(transaction)
   }),
 ]
-
-// for tables
-document.execCommand('enableObjectResizing', false, false)
-document.execCommand('enableInlineTableEditing', false, false)

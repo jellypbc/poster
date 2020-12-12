@@ -1,5 +1,4 @@
 import { orderedList, bulletList, listItem } from './schema-list'
-import { tableNodes } from 'prosemirror-tables'
 
 const pDOM = ['p', 0],
   blockquoteDOM = ['blockquote', 0],
@@ -166,8 +165,4 @@ const listNodes = {
 export default {
   ...defaultNodes,
   ...listNodes,
-  ...tableNodes({
-    tableGroup: 'block',
-    cellContent: 'block+',
-  }),
 }

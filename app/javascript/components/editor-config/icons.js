@@ -15,11 +15,6 @@ import {
   faListOl,
   faListUl,
   faImage,
-  faTable,
-  faUndo,
-  faRedo,
-  faOutdent,
-  faAngleUp,
   faComment,
 } from '@fortawesome/fontawesome-free-solid'
 
@@ -41,10 +36,5 @@ export default {
   ordered_list: <FontAwesomeIcon icon={faListOl} />,
   bullet_list: <FontAwesomeIcon icon={faListUl} />,
   image: <FontAwesomeIcon icon={faImage} />,
-  table: <FontAwesomeIcon icon={faTable} />,
-  undo: <FontAwesomeIcon icon={faUndo} />,
-  redo: <FontAwesomeIcon icon={faRedo} />,
-  lift: <FontAwesomeIcon icon={faOutdent} />,
-  join_up: <FontAwesomeIcon icon={faAngleUp} />,
   comment: <FontAwesomeIcon icon={faComment} />,
 }
