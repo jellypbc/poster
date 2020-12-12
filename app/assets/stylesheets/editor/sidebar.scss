@@ -1,5 +1,27 @@
+
+@include media-breakpoint-down(xl) {
+  #sidebarContainer {
+    display: block;
+  }
+}
+
+@include media-breakpoint-down(lg) {
+  #sidebarContainer {
+    display: block;
+  }
+}
+
 @include media-breakpoint-down(md) {
+  #sidebarContainer {
+    display: none;
+  }
   #sidebar {
+    display: none;
+  }
+}
+
+@include media-breakpoint-down(sm) {
+  #sidebarContainer {
     display: none;
   }
 }
@@ -9,10 +31,6 @@
     display: block;
   }
   display: none;
-
-  a {
-    pointer-events: none;
-  }
 
   #sidebarToggle {
     color: $shaleLight;
@@ -25,84 +43,92 @@
     }
   }
 
-  .ProseMirror {
-    padding-left: 1px;
-    counter-reset: math-block;
-    user-select: none;
-    h1 {
-      font-size: 3px;
-      line-height: 4px;
+  #sidebarEditor {
+    .ProseMirror {
+      padding-left: 1px;
+      padding-right: 1px;
+      counter-reset: math-block;
+      user-select: none;
+      padding-top: 2px;
     }
-    h2, h3, h4 {
-      font-size: 3px;
-      line-height: 4px;
+
+    .ProseMirror h2 {
+      font-size: 4px;
+      line-height: 3px;
       letter-spacing: -0.1em;
     }
-    p, strong, li, a {
+
+    .ProseMirror h3 {
+      font-size: 3px;
+      line-height: 3px;
+      letter-spacing: -0.1em;
+    }
+
+    .ProseMirror h4 {
       font-size: 2px;
       line-height: 3px;
+      letter-spacing: -0.1em;
     }
-    img {
+
+    .ProseMirror p, strong, li, a {
+      font-size: 2px;
+      line-height: 3px;
+      letter-spacing: -0.1 em;
+    }
+
+    .ProseMirror a {
+      pointer-events: none;
+    }
+
+    .ProseMirror img {
       max-height: 30px;
       text-align: center;
       margin: auto;
     }
-    pre {
-      padding-left: 1px;
-      margin: 0;
-      border-radius: 1px;
-      line-height: 0;
-    }
-    code {
+
+    .ProseMirror pre {
       font-size: 2px;
-      line-height: 0;
+      padding: .5em 1em;
     }
-    li {
-      margin: 2px 0px;
+
+    .ProseMirror ul {
+      font-size: 2px;
+      padding-left: 4em;
+      margin-bottom: 1em;
     }
-    ol {
-      padding-left: 4px;
-      margin-bottom: 4px;
+    
+    .ProseMirror ol {
+      font-size: 2px;
+      padding-left: 2em;
+      margin-bottom: 1em;
     }
-    ul {
-      padding-left: 4px;
-      margin-bottom: 4px;
+    
+    .ProseMirror li {
+      margin: 1em 0;
+      margin-left: 1em;
     }
-    blockquote {
-      padding-left: .2em;
+
+    .ProseMirror blockquote {
+      font-size: 2px;
+      padding-left: 1em;
       border-left: 1px solid #eee;
     }
-    .math-block {
+
+    .ProseMirror .math-block {
       font-size: 2px;
     }
-    .math-block .katex-render::after {
-      counter-increment: math-block;
-      content: counter(math-block)
+
+    .ProseMirror span.underline {
+      text-decoration: none;
     }
-  }
-  
-  .ProseMirror-selectednode {
-    outline: none;
+
+    .ProseMirror span.strikethrough {
+      text-decoration-line: none;
+    }
+
+    .ProseMirror-selectednode {
+      outline: none;
+    }
   }
 }
 
-@include media-breakpoint-down(xl) {
-  #sidebarContainer {
-    display: block;
-  }
-}
-@include media-breakpoint-down(lg) {
-  #sidebarContainer {
-    display: block;
-  }
-}
-@include media-breakpoint-down(md) {
-  #sidebarContainer {
-    display: none;
-  }
-}
-@include media-breakpoint-down(sm) {
-  #sidebarContainer {
-    display: none;
-  }
-}

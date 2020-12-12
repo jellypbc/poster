@@ -4,7 +4,6 @@
     min-width: 640px;
     margin: 0;
     padding: 0;
-
   }
 }
 
@@ -26,6 +25,28 @@
 .ProseMirror {
   font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   background: #fff;
+}
+
+.ProseMirror h2, h3, h4 {
+  padding-bottom: 1em;
+}
+
+.ProseMirror > p {
+  padding-bottom: 1em;
+}
+
+.ProseMirror p.empty-node {
+  padding-bottom: 0;
+}
+
+.ProseMirror img {
+  cursor: default;
+}
+
+.ProseMirror pre {
+  margin-left: 1em;
+  border-radius: 0px;
+  margin-bottom: 1em;
 }
 
 .ProseMirror:focus {
@@ -55,10 +76,7 @@
   border-left: 3px solid #eee;
   margin-left: 1em;
   margin-right: 0;
-}
-
-.ProseMirror img {
-  cursor: default;
+  margin-bottom: 1em;
 }
 
 .ProseMirror th,
@@ -72,31 +90,19 @@
   line-height: 0;
 }
 
-.post-editor .ProseMirror > p {
-  padding-bottom: 1em;
+.ProseMirror span.underline {
+  text-decoration: underline;
 }
 
-.post-editor > p {
-  padding-bottom: 1em;
+.ProseMirror span.strikethrough {
+  text-decoration-line: line-through;
 }
 
-.post-editor .ProseMirror p.empty-node {
-  padding-bottom: 0;
+.selection-marker {
+  font-family: inherit;
+  font-size: inherit;
 }
 
-.post-editor .ProseMirror h2, h3, h4 {
-  padding-bottom: 1em;
-}
-
-.post-editor h2, h3, h4 {
-  padding-bottom: 1em;
-}
-
-.post-editor .ProseMirror blockquote {
-  margin-bottom: 1em
-}
-
-// prosemirror-view/style/prosemirror
 // https://github.com/ProseMirror/prosemirror-view/blob/master/style/prosemirror.css
 
 .ProseMirror {
@@ -114,8 +120,6 @@
 
 .ProseMirror pre {
   white-space: pre-wrap;
-  margin-left: 1em;
-  border-radius: 0px;
 }
 
 .ProseMirror li {
@@ -131,10 +135,6 @@
 }
 
 /* Make sure li selections wrap around markers */
-.selection-marker {
-  font-family: inherit;
-  font-size: inherit;
-}
 
 li.ProseMirror-selectednode {
   outline: none;
