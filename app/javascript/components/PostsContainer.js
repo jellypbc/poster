@@ -14,7 +14,7 @@ export default function PostsContainer(props) {
   const [pageCount, setPageCount] = useState()
   const [page, setPage] = useState(1)
   const [showPagination, setShowPagination] = useState(false)
-  const [hasPosts, setHasPosts] = useState(false)
+  const [hasPosts, setHasPosts] = useState(true)
   const [, setError] = useState()
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -27,7 +27,7 @@ export default function PostsContainer(props) {
     }
 
     let url = generateUrl()
-    console.log('url', url)
+
     saRequest
       .get(url)
       .set('accept', 'application/json')
