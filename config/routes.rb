@@ -62,6 +62,11 @@ Rails.application.routes.draw do
   post '/remove_citation', to: 'citations#delete', as: :remove_citation
 
   namespace :search do
+    get :paginated_results
+  end
+  get 'search/paginated_results/:page', to: 'search#paginated_results', defaults: {format: 'json'} 
+
+  namespace :search do
     get :results
     get :bar
   end
