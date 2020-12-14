@@ -1,27 +1,20 @@
 - query = params[:query]
 
 .container
-  h1.mb-4 Search Results
-
-  h2.mb-4
-    - if @results.count > 0
+  h2.mb-4.mt-5
+    - if @results.total_count > 0 
       = @results.total_count
-      | &nbsp;results found for&nbsp;
-      strong = query
+      | &nbsp;results for&nbsp;
+      em = query
+    - elsif @results.total_count == 1
+      | 1 result for 
+      em = query
     - else
-      | 0 results found
+      | No results for 
+      em = query
 
-
+  hr
   .row
     .col-md-12
       = react_component "SearchResultsContainer",
-        results: @results
-  /     - @results.each do |result|
-  /       = link_to result do
-  /         .search-result
-  /           h4
-  /             = sanitize_title(result.title)
-  /           p
-  /             = result.created_at.strftime("%D")
-
-  / = will_paginate(@results)
+        query: query
