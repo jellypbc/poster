@@ -8,10 +8,6 @@
     animation-duration: 0.34s;
   }
 
-  #jelly:hover {
-    animation-name: jello;
-  }
-
   .block {
     padding-bottom: 16px;
     .btn.btn-secondary {
@@ -50,7 +46,7 @@
         color: $grayLight;
       }
       a:hover{
-        color: $brandGreen;
+        color: $brandLink;
       }
       margin: 20px;
       .fab {
@@ -116,11 +112,11 @@
 ul.pagination{
   li {
     margin-right: .5rem;
-    color: $brandGreen;
+    color: $brandLink;
     padding: .1rem .6rem;
     outline: 1px solid $grayLighter;
     :hover {
-      color: $brandGreen;
+      color: $linkHover;
     }
     :focus {
       outline: none;
@@ -128,9 +124,9 @@ ul.pagination{
   }
 
   li.active {
-    background-color: $brandGreen;
+    background-color: $brandLink;
+    outline-color: $brandLink;
     color: white;
-    outline-color: $brandGreen;
     :hover {
       color: white;
     }

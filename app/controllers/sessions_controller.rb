@@ -5,6 +5,7 @@ class SessionsController < ApplicationController
     super
   end
 
+  # This isnt currently in use
   def create
     user = User.find_by_email(session_params[:email])
 

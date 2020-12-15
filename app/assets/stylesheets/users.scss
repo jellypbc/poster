@@ -107,7 +107,7 @@
   .nav-link.active {
     color: $shale;
     border: none;
-    border-bottom: 2px solid $brandGreen;
+    border-bottom: 2px solid $brandLink;
     a:hover {
       color: $black;
     }
@@ -115,7 +115,7 @@
   .nav-link:hover {
     &.active {
       border: none;
-      border-bottom: 2px solid $brandGreen;
+      border-bottom: 2px solid $brandLink;
     }
     border: 1px solid transparent;
     margin-bottom: -1px;
