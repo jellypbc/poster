@@ -103,7 +103,7 @@ a:not([href]):not([tabindex]).btn,
   // button-variant($color, $bg-color, $border-color: null)
 
   &.btn-primary {
-    @include button-variant($white, $brandGreen);
+    @include button-variant($white, $brandLink);
   }
 
   &.btn-secondary {
@@ -174,7 +174,7 @@ a:not([href]):not([tabindex]).btn,
     padding-left: 0;
     background: transparent;
     color: $grayDark;
-    
+
     &:hover {
       color: $grayDark;
     }

@@ -3,15 +3,15 @@
 .page-item {
   &.active {
     .page-link {
-      background: $brandGreen;
-      border-color: $brandGreen;
+      background: $brandLink;
+      border-color: $brandLink;
     }
   }
 }
 
 .page-link {
   font-size: 12px;
-  color: $brandGreen;
+  color: $brandLink;
   background-color: $white;
   border-color: $grayLighter;
   &:hover {

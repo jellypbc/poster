@@ -58,14 +58,10 @@ label {
 
 
 .footer {
-  position: absolute;
-  left: 0;
-  bottom: -160px;
+  margin-top: 120px;
   height: 120px;
   width: 100%;
-
   border-top: 1px solid $grayLightest;
-  // background: #F5F5F5;
   text-align: center;
 
   img {
