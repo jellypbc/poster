@@ -4,7 +4,8 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby "2.7.2"
 
 gem "bundler", "~> 2.1.4"
-gem "rails", "~> 6.0.3"
+gem "rails", "~> 6.1"
+# gem "rails", "~> 6.0.3"
 gem "pg", "~> 1.1"
 gem "puma", "~> 5.0"
 gem "sassc-rails", "~> 2.1"
@@ -45,7 +46,7 @@ group :development, :test do
   gem "guard", "~> 2.16"
   gem "guard-rspec", "~> 4.7", require: false
   gem "guard-livereload", "~> 2.5", require: false
-  gem "dotenv-rails"
+  gem "dotenv-rails", "~> 2.7.6"
   gem "rails-controller-testing"
   gem "factory_bot"
   gem "factory_bot_rails"
@@ -53,7 +54,6 @@ group :development, :test do
   gem "shoulda-matchers"
   gem "pry"
   gem "pry-rails"
-  gem "docker-sync", require: false
 end
 
 group :development do
@@ -63,7 +63,7 @@ group :development do
   gem "listen", ">= 3.0.5", "< 3.2"
   gem "spring"
   gem "spring-watcher-listen", "~> 2.0.0"
-  gem "bullet"
+  gem "bullet", "~> 6.1.2"
   gem "ngrok-tunnel", require: false
   gem "letter_opener", "~> 1.7"
   gem "letter_opener_web", "~> 1.3"

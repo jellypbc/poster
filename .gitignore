@@ -35,8 +35,5 @@
 yarn-debug.log*
 .yarn-integrity
 
-.docker-sync/*
-.docker-sync
-
 # Test artifacts
 .artifacts
