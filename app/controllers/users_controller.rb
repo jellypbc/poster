@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   include DeviseGuestsConcern
+  include NoIndex
 
   before_action :fetch_user, only: [:show, :edit, :update, :destroy, :remove_avatar, :follow, :unfollow]
   before_action :authenticate_user!, only: [:index, :edit, :destroy, :update, :remove_avatar, :follow, :unfollow]
@@ -13,6 +14,7 @@ class UsersController < ApplicationController
   end
 
   def show
+    do_not_index!
     if @user.posts
       @primary_posts = @user.posts
         .primary

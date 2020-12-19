@@ -1,14 +1,17 @@
 class PostsController < ApplicationController
+  include NoIndex
+
   before_action :set_post, only: [:show, :edit, :update, :destroy, :set_post, :suggested_tags]
-  before_action :authenticate_user!, only: [:destroy, :set_post, :suggested_tags]
+  before_action :authenticate_user!, only: [:destroy, :set_post, :suggested_tags, :edit]
   before_action :set_suggested_tags, only: [:edit]
+  before_action :only_index_if_public, only: [:show]
 
   def show
   	@no_footer = true
   end
 
   def write
-    @post = Post.new(body: "")
+    @post = Post.new(body: "", visibility: "private")
     @post.user_id = current_user.id if current_user
     @post.save!
 
@@ -195,5 +198,10 @@ class PostsController < ApplicationController
         end
       end
     end
+
+    def only_index_if_public
+      do_not_index! if !@post.public_visibility?
+    end
+
 
 end
