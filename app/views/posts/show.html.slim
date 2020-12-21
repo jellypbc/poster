@@ -1,5 +1,6 @@
-- content_for(:title) { "#{meta_tag_sanitize_and_truncate(@post.title)}" } if @post.title
 - content_for(:meta_description) { meta_description(@post) }
+- content_for(:title) { meta_title(@post) }
+- content_for(:meta_twitter_description) { meta_authors(@post) }
 - guest_user = { data: { attributes: {name: "Anonymous", avatar_url: User.default_avatar_url } } }
 
 #post.container data-post-id=@post.id
