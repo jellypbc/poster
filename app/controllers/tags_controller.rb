@@ -20,6 +20,7 @@ class TagsController < ApplicationController
       .order(created_at: :desc)
       .paginate(page: params[:citations_page], per_page: 10)
 
+    @username = User.find_by_id(@tag.user_id).username
   end
 
   def new

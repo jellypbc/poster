@@ -1,10 +1,6 @@
 module TagsHelper
-  def tag_description(tag)
-    if tag.posts.present?
-      tag.posts.count > 1 ? "A collection of #{tag.posts.count} posts" : "A collection of one post"
-    else
-      "An empty collection"
-    end
+  def tag_description(username)
+    "A collection created by @#{@username}"
   end
 
   def tag_text(tag)
