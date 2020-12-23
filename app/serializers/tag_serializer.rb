@@ -9,7 +9,6 @@
 #  text        :string
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
-#  post_id     :integer
 #  user_id     :integer
 #
 # Indexes
@@ -21,7 +20,14 @@
 class TagSerializer
   include FastJsonapi::ObjectSerializer
 
-  attributes :id, :text, :slug, :color,
-    :post_id
+  attributes :id, :text, :slug, :color
+
+  attribute :username do |object|
+    object.user.username if object.user
+  end
+
+  attribute :posts_count do |object|
+    object.posts.any? ? object.posts.count : 0
+  end
 
 end

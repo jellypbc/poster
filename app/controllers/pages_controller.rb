@@ -10,7 +10,7 @@ class PagesController < ApplicationController
         .order(created_at: :desc)
         .paginate(page: params[:page], per_page: 10)
 
-      @tags = current_user.tags.sort_by { |tag| tag.slug}
+      @tags = TagSerializer.new(current_user.tags.sort_by { |tag| tag.slug}).as_json
 
       render 'dashboard'
     end

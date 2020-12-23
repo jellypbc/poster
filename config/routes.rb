@@ -41,7 +41,7 @@ Rails.application.routes.draw do
 	end
 
   resources :posts do
-    resources :tags
+    resources :tags, only: [:create, :update, :edit, :destroy, :new]
     get :suggested_tags
   end
 
@@ -64,7 +64,7 @@ Rails.application.routes.draw do
   namespace :search do
     get :paginated_results
   end
-  get 'search/paginated_results/:page', to: 'search#paginated_results', defaults: {format: 'json'} 
+  get 'search/paginated_results/:page', to: 'search#paginated_results', defaults: {format: 'json'}
 
   namespace :search do
     get :results

@@ -11,7 +11,25 @@ users = [
     full_name: "richard feynman",
     description: "PhD",
     confirmed_at: Time.now,
+  },
+  {
+    password: "admin",
+    email: "admin@admin.com",
+    username: "admin",
+    full_name: "admin account",
+    description: "local",
+    confirmed_at: Time.now,
   }
 ]
 
 users.each {|user| User.create(user) }
+
+tags = [
+  {
+    slug: "biology",
+    text: "Biology",
+    user_id: User.first.id
+  }
+]
+
+tags.each {|tag| Tag.create(tag)}

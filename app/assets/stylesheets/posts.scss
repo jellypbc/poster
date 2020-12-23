@@ -16,7 +16,16 @@
 
 .post-row {
   text-align: left;
-  margin: 40px 0;
+  margin: 40px 0 40px -10px;
+  padding: 8px 8px 1px 8px;
+  background: $white;
+  border: 2px solid transparent;
+  border-radius: 4px;
+  &:hover {
+    border: 2px solid $grayLighterer;
+    transition-duration: 0.3s;
+    cursor: pointer;
+  }
   p {
     margin: 10px 0;
   }
@@ -31,6 +40,24 @@
     font-size: 12px;
     color: $grayLight;
   }
+}
+
+.post-row.placeholder {
+  background: $grayLightest;
+  height: 100px;
+  width: 100%;
+
+  animation: flash 4s infinite;
+  -webkit-animation-name: flash 4s infinite;
+  -moz-animation-name: flash 4s infinite;
+
+  animation-timing-function: ease-in-out;
+  -webkit-animation-timing-function: ease-in-out;
+}
+
+@-webkit-keyframes flash {
+  0% { opacity:1; }
+  100% { opacity:0.5; }
 }
 
 .post {

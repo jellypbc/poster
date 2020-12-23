@@ -9,7 +9,6 @@
 #  text        :string
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
-#  post_id     :integer
 #  user_id     :integer
 #
 # Indexes
@@ -23,6 +22,8 @@ class Tag < ApplicationRecord
   has_many :posts, through: :tag_ownerships
 
   validates :slug, presence: true, uniqueness: { case_sensitive: false }
+
+  belongs_to :user
 
   before_validation :check_and_set_slug
 
