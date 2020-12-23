@@ -7,13 +7,12 @@ class TagsController < ApplicationController
       .order(created_at: :desc)
       .paginate(page: params[:posts_page], per_page: 10)
 
+    post_ids = @posts.map{ |p| p.id } if @posts.any?
 
-    @post_ids = @posts.map{ |p| p.id}
+    citations = Citation.where(post_id: post_ids)
 
-    @citations = Citation.where(post_id: @post_ids)
-
-    citation_array = @citations
-      .map{ |c| c.generated_post_id}
+    citation_array = citations
+      .map{ |c| c.generated_post_id }
       .uniq
 
     @generated_posts = Post.where(id: citation_array)
@@ -46,11 +45,19 @@ class TagsController < ApplicationController
   end
 
   def update
-    respond_to do |format|
-      if @post && @post.tags << @tag
-        format.json { render json: TagSerializer.new(@tag).serializable_hash, status: :ok }
-      else
+    if @post.tags.include?(@tag)
+      respond_to do |format|
         head :bad_request
+      end
+    else
+      respond_to do |format|
+        if @post.tags << @tag
+          format.json {
+            render json: TagSerializer.new(@tag).serializable_hash, status: :ok
+          }
+        else
+          head :bad_request
+        end
       end
     end
   end
@@ -68,13 +75,11 @@ class TagsController < ApplicationController
       @tag = Tag.find_by_id(tag_params[:id])
       @post = Post.find_by_id(tag_params[:post_id])
 
-      
-
       respond_to do |format|
         if @post.tags.delete(@tag) && @post.save
           format.html { head :ok }
           format.json { render json: {post: @post }, status: :ok }
-        else 
+        else
           format.html { head :ok }
           format.json { render json: @post.errors, status: :unprocessable_entity}
         end
@@ -84,7 +89,7 @@ class TagsController < ApplicationController
 
   def paginated_posts
     @tag = Tag.find params[:id]
-    
+
     respond_to do |format|
       if @tag.posts
         @posts = @tag.posts.order(created_at: :desc)
@@ -134,10 +139,10 @@ class TagsController < ApplicationController
             page_count: @generated_posts.total_pages
           }
         }
-      else 
+      else
         format.json { render json: @tag.errors, status: :unprocessable_entity }
       end
-    end 
+    end
   end
 
   private

@@ -41,10 +41,32 @@ export function PostCard({ post }) {
     return `../../posts/` + post.slug
   }
 
+  const dragStart = (event) => {
+    event.dataTransfer.setData('postID', post.id)
+    event.dataTransfer.setData('postSlug', post.slug)
+    event.dataTransfer.effectAllowed = 'effect'
+    event.target.style.backgroundColor = 'white'
+    event.target.style.opacity = '0.6'
+    event.target.style.borderColor = '#bbb'
+  }
+
+  const dragEnd = (event) => {
+    event.target.style.backgroundColor = ''
+    event.target.style.cursor = 'default'
+    event.target.style.opacity = '1'
+    event.target.style.borderColor = 'transparent'
+  }
+
   return (
     <>
       <a href={postPath()}>
-        <div className="post-row">
+        <div
+          id={'post-' + post.id}
+          className="post-row"
+          draggable="true"
+          onDragStart={(e) => dragStart(e)}
+          onDragEnd={(e) => dragEnd(e)}
+        >
           <h4 className="title" dangerouslySetInnerHTML={sanitizedTitle()}></h4>
           <p className="authors">{post.authors}</p>
           <p className="preview">{truncatedAbstract()}</p>

@@ -1,27 +1,32 @@
 #dashboard
   .container
-    .row
-      .col-md-3
-        .my-5
-          h2 Collections
+    .placeholder-content
+      .row
+        .col-md-3
+          .my-5
+            h2 Collections
+            - if @tags
+              - @tags["data"].each do |tag|
+                = link_to short_user_tag_path(current_user, tag["attributes"]["slug"]) do
+                  p.tag.my-3
+                    = tag["attributes"]["text"]
+                    span.pill.ml-2 = tag["attributes"]["posts_count"]
 
-          - if @tags
-            - @tags.each do |tag|
-              = link_to short_user_tag_path(current_user, tag) do
-                p.tag.my-3
-                  = tag.text
-                  span.pill.ml-2 = tag.posts_count
+            = link_to "Create new collection", new_tag_path, class: 'new-tag'
 
-          = link_to "Create new collection", new_tag_path, class: 'new-tag'
+        .col-md-9
+          .my-5
+            h1 Library
+            hr
+            .row
+              .col-md-12
+                - if @posts
+                  - @posts.size.times do |post|
+                    .post-row.placeholder
 
-      .col-md-9
-        .my-5
-          h1 Library
-          hr
-          .row
-            .col-md-12
-              = react_component "PostsContainer",
-                posts: @posts,
-                user: current_user,
-                postsCount: @posts.total_entries,
-                isDashboard: true
+    = react_component "Dashboard",
+      posts: @posts,
+      user: current_user,
+      postsCount: @posts.total_entries,
+      tags: @tags.as_json,
+      isDashboard: true

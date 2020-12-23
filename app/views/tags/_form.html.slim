@@ -10,7 +10,7 @@
 
     .field.my-3
       = form.label :text
-      = form.text_field :text
+      = form.text_field :text, required: true
 
       = form.hidden_field :user_id, value: current_user.id
 

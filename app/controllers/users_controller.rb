@@ -23,6 +23,8 @@ class UsersController < ApplicationController
         .generated
         .order(created_at: :desc)
         .paginate(page: params[:citations_page], per_page: 10)
+
+      @tags = TagSerializer.new(@user.tags.sort_by { |tag| tag.slug}).as_json
     end
   end
 
