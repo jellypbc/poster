@@ -146,7 +146,6 @@ class PostsController < ApplicationController
         .map(&:tags)
         .flatten
         .uniq
-        .select{|tag| tag.post_id != @post.id }
         .map{ |tag| {
           id: tag.id.to_s,
           text: tag.text,
