@@ -5,12 +5,12 @@ services:
       context: .
       dockerfile: ./Dockerfile
       args:
-        RUBY_VERSION: '2.7.2'
+        RUBY_VERSION: '3.0.0'
         PG_MAJOR: '12'
         NODE_MAJOR: '14'
         YARN_VERSION: '1.22.5'
-        BUNDLER_VERSION: '2.1.0'
-    image: jelly:1.0.0
+        BUNDLER_VERSION: '2.2.3'
+    image: jelly:1.0.1
     tmpfs:
       - /tmp
     volumes:

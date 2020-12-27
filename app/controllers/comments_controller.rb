@@ -1,6 +1,6 @@
 class CommentsController < ApplicationController
   before_action :set_comment, only: [:show, :edit, :update, :delete]
-  before_action :set_post, only: [:show, :create, :edit, :update, :delete]
+  before_action :set_post, only: [:show, :create, :edit, :update]
   before_action :authenticate_user!, only: [:create, :update, :delete]
   skip_before_action :verify_authenticity_token
 
