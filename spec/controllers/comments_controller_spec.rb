@@ -16,7 +16,7 @@ RSpec.describe CommentsController, type: :controller do
   describe "GET #edit" do
     it "returns a success response" do
       comment = Comment.create! valid_attributes
-      get :edit, params: {id: comment.to_param}
+      process :edit, method: :get, params: {id: comment.to_param}
       expect(response).to be_successful
     end
   end
@@ -66,7 +66,7 @@ RSpec.describe CommentsController, type: :controller do
 
       it "updates the requested comment" do
         comment = Comment.create! valid_attributes
-        put :update, params: {id: comment.to_param, comment: new_attributes}
+        process :update, method: :put, params: {id: comment.to_param, comment: new_attributes}
         comment.reload
         expect(comment.text).to eq("edited comment")
       end
@@ -80,7 +80,8 @@ RSpec.describe CommentsController, type: :controller do
 
     it "sets deleted_at on the requested comment" do
       comment = Comment.create! valid_attributes
-      delete :delete, params: {id: comment.to_param, comment: { data_key: comment.data_key, deleted_at: true }}
+      params = {id: comment.to_param, comment: { id: comment.id, data_key: comment.data_key, deleted_at: true }}
+      process :delete, method: :post, params: params
       comment.reload
       expect(comment.deleted_at).not_to be_nil
     end

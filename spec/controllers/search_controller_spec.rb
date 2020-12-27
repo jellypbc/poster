@@ -12,7 +12,7 @@ RSpec.describe SearchController, type: :controller do
   describe "GET #results with valid search query params" do
     before { Post.create(title: "biology") }
     it "returns http success" do
-      get :results, params: { query: "biology" }
+      process :results, method: :get, params: { query: "biology" }
       expect(response).to have_http_status(:success)
     end
   end

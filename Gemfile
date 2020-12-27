@@ -41,7 +41,6 @@ gem "oj"
 gem "rack-canonical-host"
 
 group :development, :test do
-  gem "rspec-rails", '~> 4.0'
   gem "guard", "~> 2.16"
   gem "guard-rspec", "~> 4.7", require: false
   gem "guard-livereload", "~> 2.5", require: false
@@ -53,11 +52,11 @@ group :development, :test do
   gem "shoulda-matchers"
   gem "pry"
   gem "pry-rails"
+  gem "rspec-rails", ">= 4.0"
 end
 
 group :development do
   gem "rubocop"
-  gem "byebug", platforms: :mri
   gem "web-console", ">= 3.3.0"
   gem "listen"
   gem "spring"
