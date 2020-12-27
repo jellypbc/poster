@@ -68,7 +68,7 @@ jobs:
 
   deploy:
     docker:
-      - image: circleci/ruby:docker pull circleci/ruby:3.0.0-rc1-node-browsers
+      - image: circleci/ruby:3.0.0-rc1-node-browsers
     working_directory: ~/repo
     steps:
       - checkout
