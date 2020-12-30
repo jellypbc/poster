@@ -6,12 +6,13 @@ RSpec.describe "Comments", :type => :request do
   describe "guest user commenting" do
     let(:post1) { create :post }
 
-    xit 'creates a comment' do
+    it 'creates a comment' do
 
       # 1. create a guest account
       expect {
         params = { user: { guest: true }, format: 'json' }
-        post '/guestcreate', params: { user: { guest: true }, format: 'json' }
+        # post '/guestcreate', params: { user: { guest: true }, format: 'json' }
+        post guestcreate_path, params: { user: { guest: true }, format: 'json' }
       }.to change{User.count}.by(1)
 
       guest_user = User.last
