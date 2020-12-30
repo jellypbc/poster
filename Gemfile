@@ -39,6 +39,7 @@ gem "searchkick"
 gem "typhoeus"
 gem "oj"
 gem "rack-canonical-host"
+gem "rexml"
 
 group :development, :test do
   gem "guard", "~> 2.16"
