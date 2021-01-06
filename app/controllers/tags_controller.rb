@@ -153,7 +153,7 @@ class TagsController < ApplicationController
         id_or_slug = tag_params[:id] || tag_params[:slug]
       end
       @tag ||= begin
-        Tag.find_by! slug: id_or_slug.parameterize
+        Tag.find_by!(slug: id_or_slug.parameterize)
       rescue ActiveRecord::RecordNotFound => e
         Tag.find id_or_slug
       end

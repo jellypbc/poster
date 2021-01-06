@@ -13,12 +13,12 @@ class CitationsController < ApplicationController
     end
   end
 
-  def update 
+  def update
     respond_to do |format|
       if @citation.update(citation_params)
         format.html { redirect_to @citation, notice: 'Citation was successfully updated.'}
         format.json { render :show, status: :ok, location: @citation }
-      else 
+      else
         format.html { render :edit}
         format.json { render json: @citation.errors, status: :unprocessable_entity }
       end
@@ -45,9 +45,9 @@ class CitationsController < ApplicationController
       id_or_data_key = params[:citation].present? ?
         citation_params[:data_key].to_s :
         params[:id].to_s
-      
+
       @citation ||= begin
-        Citation.find_by! data_key: id_or_data_key
+        Citation.find_by!(data_key: id_or_data_key)
 
       rescue ActiveRecord::RecordNotFound => e
         Citation.find id_or_data_key

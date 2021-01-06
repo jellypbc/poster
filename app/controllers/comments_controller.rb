@@ -61,7 +61,7 @@ class CommentsController < ApplicationController
         params[:id].to_s
 
       @comment ||= begin
-        Comment.find_by! data_key: id_or_data_key
+        Comment.find_by!(data_key: id_or_data_key)
       rescue ActiveRecord::RecordNotFound => e
         Comment.find id_or_data_key
       end

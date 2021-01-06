@@ -49,7 +49,7 @@ class ProjectsController < ApplicationController
     def set_project
       id_or_munged_title = params[:munged_title] || params[:id] || params[:project_id]
       @project ||= begin
-        Project.find_by! munged_title: id_or_munged_title
+        Project.find_by!(munged_title: id_or_munged_title)
       rescue ActiveRecord::RecordNotFound => e
         Project.find id_or_munged_title
       end

@@ -127,7 +127,7 @@ class UsersController < ApplicationController
     # auth / fetch user
     # create follow
     # respond with following data
-    follow = current_user.follows.find_by_following_id follow_params[:following_id]
+    follow = current_user.follows.find_by_following_id(follow_params[:following_id])
 
     respond_to do |format|
       if follow && follow.destroy

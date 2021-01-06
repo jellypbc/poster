@@ -118,7 +118,7 @@ class PostsController < ApplicationController
     def set_post
       id_or_slug = params[:slug] || params[:id] || params[:post_id]
       @post ||= begin
-        Post.find_by! slug: id_or_slug
+        Post.find_by(slug: id_or_slug)
       rescue ActiveRecord::RecordNotFound => e
         # Lookup by old slug
         if (post = Post.lookup_by_slug(id_or_slug))
