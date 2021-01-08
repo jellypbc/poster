@@ -23,7 +23,7 @@
     .field.my-4
       = form.label :publisher
       = form.text_field :publisher, class: 'form-control'
-    
+
     .field.my-4
       = form.label :abstract
       = form.text_area :abstract, class: 'form-control', rows: "4"
@@ -42,3 +42,9 @@
 
     .actions
       = form.submit "Update Post", class: "btn btn-primary my-3"
+
+
+    hr.my-3
+    .my-4
+      h2 Delete Post
+      = link_to "Delete Post", post_path(post), method: :delete, data: {confirm: "Are you sure?"}, class: 'btn btn-danger my-3'
