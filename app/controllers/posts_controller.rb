@@ -2,7 +2,7 @@ class PostsController < ApplicationController
   include NoIndex
 
   before_action :set_post, only: [:show, :edit, :update, :destroy, :set_post, :suggested_tags]
-  before_action :authenticate_user!, only: [:destroy, :set_post, :suggested_tags, :edit]
+  before_action :authenticate_user!, only: [:edit, :update, :destroy]
   before_action :set_suggested_tags, only: [:edit]
   before_action :only_index_if_public, only: [:show]
 
@@ -65,11 +65,22 @@ class PostsController < ApplicationController
   end
 
   def destroy
-    @post.destroy
-    respond_to do |format|
-      format.html { redirect_to posts_url, notice: 'Post was successfully destroyed.' }
-      format.json { head :no_content }
+    if (@post.user == current_user) || (user_is_admin?)
+      @post.deleted_at = Time.now
     end
+
+    if @post.save!
+      respond_to do |format|
+        format.html { redirect_to dashboard_url, notice: 'Post was successfully destroyed.' }
+        format.json { head :no_content }
+      end
+    else
+      respond_to do |format|
+        format.html { redirect_to dashboard_url, notice: 'Something went wrong.' }
+        format.json { head :no_content }
+      end
+    end
+
   end
 
   def add_figure

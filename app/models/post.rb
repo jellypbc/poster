@@ -55,6 +55,8 @@ class Post < ApplicationRecord
 
   validates :title, length: { maximum: 1000 }
 
+  default_scope { where(deleted_at: nil) }
+
 	scope :primary, -> { joins(:uploads) }
   scope :generated, -> { includes(:uploads).where(uploads: { id: nil }) }
 
