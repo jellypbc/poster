@@ -17,25 +17,9 @@
 #  index_tags_on_slug     (slug) UNIQUE
 #  index_tags_on_user_id  (user_id)
 #
-
-class Tag < ApplicationRecord
-  has_many :tag_ownerships
-  has_many :posts, through: :tag_ownerships
-
-  validates :slug, presence: true, uniqueness: { case_sensitive: false }
-
-  belongs_to :user
-
-  before_validation :check_and_set_slug
-
-  def to_param
-    slug
+FactoryBot.define do
+  factory :tag do
+    sequence(:text) {|n| "Tag #{n}" }
+    description { "This is a category" }
   end
-
-  private
-
-    def check_and_set_slug
-      self.slug = text.parameterize if self.slug.blank?
-    end
-
 end

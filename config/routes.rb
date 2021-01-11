@@ -24,6 +24,7 @@ Rails.application.routes.draw do
   get '/@:username/:id', to: 'posts#show', as: :short_user_post
   get '/@:username/:id/edit', to: 'posts#edit'
   get '/@:username/tags/:id', to: 'tags#show', as: :short_user_tag
+  get '/@:username/tags/:id/edit', to: 'tags#edit', as: :edit_short_user_tag
 
   resources :users do
     resources :tags do
@@ -43,6 +44,8 @@ Rails.application.routes.draw do
   resources :posts do
     resources :tags, only: [:create, :update, :edit, :destroy, :new]
     get :suggested_tags
+    post '/add_tag', to: 'tags#add_tag', as: :add_tag
+    post '/remove_tag', to: 'tags#remove_tag', as: :remove_tag
   end
 
   resources :projects do
@@ -50,8 +53,6 @@ Rails.application.routes.draw do
   end
 
   resources :tags
-  post '/add_tag', to: 'tags#create', as: :add_tag
-  post '/remove_tag', to: 'tags#delete', as: :remove_tag
 
   resources :comments
   post '/add_comment', to: 'comments#create', as: :add_comment

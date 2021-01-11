@@ -52,18 +52,19 @@ export default function TagForm({ post, suggestedTags, currentUser }) {
       },
     }
 
-    let url
+    let url, method
     if (action === 'add') {
-      url = '/add_tag'
+      url = '/posts/' + post.data.attributes.slug + '/tags'
+      method = 'post'
     } else {
       data.tag.id = tag.id
       data.tag.deleted_at = true
-      url = '/remove_tag'
+      url = '/posts/' + post.data.attributes.slug + '/remove_tag'
+      method = 'post'
     }
 
     return new Promise((resolve, reject) => {
-      saRequest
-        .post(url)
+      saRequest[method](url)
         .send(data)
         .set('accept', 'application/json')
         .then((res) => {
@@ -84,6 +85,7 @@ export default function TagForm({ post, suggestedTags, currentUser }) {
   return (
     <div className="form-group">
       {error && <div className="error">{error}</div>}
+      <br />
       <ReactTags
         tags={tags}
         suggestions={suggestions}
