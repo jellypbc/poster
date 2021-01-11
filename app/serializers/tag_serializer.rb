@@ -4,6 +4,7 @@
 #
 #  id          :bigint           not null, primary key
 #  color       :string
+#  description :text
 #  posts_count :integer          default(0)
 #  slug        :string
 #  text        :string

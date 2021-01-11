@@ -1,6 +1,7 @@
 class TagsController < ApplicationController
-  before_action :set_tag, only: [:show, :edit, :update, :destroy]
-  before_action :set_post, only: [:show, :create, :edit, :update, :destroy]
+  before_action :authenticate_user!, only: [:edit, :create, :update, :destroy, :add_tag, :remove_tag]
+  before_action :set_tag, only: [:show, :edit, :update, :destroy, :add_tag, :remove_tag]
+  before_action :set_target_post, only: [:add_tag, :remove_tag, :create]
 
   def show
     @posts = @tag.posts
@@ -46,18 +47,47 @@ class TagsController < ApplicationController
   end
 
   def update
-    if @post.tags.include?(@tag)
+    if @tag.update(tag_params)
       respond_to do |format|
-        head :bad_request
+        format.html { redirect_to @tag }
+        format.json { render json: TagSerializer.new(@tag).serializable_hash, status: :ok }
       end
     else
       respond_to do |format|
-        if @post.tags << @tag
-          format.json {
-            render json: TagSerializer.new(@tag).serializable_hash, status: :ok
-          }
-        else
+        format.html { redirect_to edit_tag_path(@tag) }
+        format.json { render json: @tag.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def add_tag
+    if @post && @post.tags.include?(@tag)
+      respond_to do |format|
+        format.json { head :bad_request }
+      end
+    else
+      if @post && (@post.tags << @tag) && @tag.save
+        respond_to do |format|
+          format.html { redirect_to @tag }
+          format.json { render json: TagSerializer.new(@tag).serializable_hash, status: :ok }
+        end
+      else
+        respond_to do |format|
           head :bad_request
+        end
+      end
+    end
+  end
+
+  def remove_tag
+    if tag_params["deleted_at"]
+      respond_to do |format|
+        if @post.tags.delete(@tag) && @post.save
+          format.html { head :ok }
+          format.json { render json: { post: @post }, status: :ok }
+        else
+          format.html { head :ok }
+          format.json { render json: @post.errors, status: :unprocessable_entity}
         end
       end
     end
@@ -66,27 +96,11 @@ class TagsController < ApplicationController
   def destroy
     @tag.destroy
     respond_to do |format|
-      format.html { head :ok }
+      format.html { redirect_to root_path, status: :ok }
       format.json { head :ok }
     end
   end
 
-  def delete
-    if tag_params["deleted_at"]
-      @tag = Tag.find_by_id(tag_params[:id])
-      @post = Post.find_by_id(tag_params[:post_id])
-
-      respond_to do |format|
-        if @post.tags.delete(@tag) && @post.save
-          format.html { head :ok }
-          format.json { render json: {post: @post }, status: :ok }
-        else
-          format.html { head :ok }
-          format.json { render json: @post.errors, status: :unprocessable_entity}
-        end
-      end
-    end
-  end
 
   def paginated_posts
     @tag = Tag.find params[:id]
@@ -148,28 +162,18 @@ class TagsController < ApplicationController
 
   private
     def set_tag
-      id_or_slug = params[:id] || params[:slug]
-      if params[:tag]
-        id_or_slug = tag_params[:id] || tag_params[:slug]
-      end
-      @tag ||= begin
-        Tag.find_by! slug: id_or_slug.parameterize
-      rescue ActiveRecord::RecordNotFound => e
-        Tag.find id_or_slug
-      end
+      id_or_slug = ( params[:id] || params[:slug] || params[:tag_id] || tag_params[:id] )
+      @tag = Tag.find_by(slug: id_or_slug) || Tag.find_by(id: id_or_slug)
     end
 
-    def set_post
-      if params[:tag]
-        if tag_params[:post_id]
-          @post = Post.find tag_params[:post_id]
-        end
-      end
+    def set_target_post
+      @post = Post.find_by(slug: params[:post_id]) if params[:post_id]
     end
 
     def tag_params
       params.require(:tag).permit(
-        :id, :text, :slug, :post_id, :user_id, :deleted_at
+        :id, :text, :slug, :post_id, :user_id, :deleted_at,
+        :description
       )
     end
 

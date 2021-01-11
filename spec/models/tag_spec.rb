@@ -4,6 +4,7 @@
 #
 #  id          :bigint           not null, primary key
 #  color       :string
+#  description :text
 #  posts_count :integer          default(0)
 #  slug        :string
 #  text        :string
@@ -20,5 +21,4 @@
 require 'rails_helper'
 
 RSpec.describe Tag, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_22_020451) do
+ActiveRecord::Schema.define(version: 2021_01_08_004257) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -122,6 +122,7 @@ ActiveRecord::Schema.define(version: 2020_12_22_020451) do
     t.string "color"
     t.integer "user_id"
     t.integer "posts_count", default: 0
+    t.text "description"
     t.index ["slug"], name: "index_tags_on_slug", unique: true
     t.index ["user_id"], name: "index_tags_on_user_id"
   end

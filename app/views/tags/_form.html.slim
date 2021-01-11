@@ -12,8 +12,13 @@
       = form.label :text
       = form.text_field :text, required: true
 
+      = form.label :description
+      = form.text_area :description
+
       = form.hidden_field :user_id, value: current_user.id
 
     .actions
       = form.submit "Submit", class: "btn btn-primary"
 
+      = link_to tag, method: :delete, data: { confirm: 'Are you sure?' } do
+        .btn.btn-danger.ml-2 Delete Tag

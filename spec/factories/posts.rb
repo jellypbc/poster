@@ -28,6 +28,6 @@
 
 FactoryBot.define do
   factory :post do
-    sequence(:title) {|n| "Awesome Post #{n}" }
+    sequence(:title) {|n| "Awesome Tag #{n}" }
   end
 end

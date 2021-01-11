@@ -98,17 +98,20 @@ export default function Dashboard(props) {
     return <p className="muted my-5">No posts added yet.</p>
   }
 
-  const addTagRequest = (postID, tagID) => {
-    let url = '/posts/' + postID + '/tags/' + tagID
+  const addTagRequest = (postSlug, postID, tagSlug) => {
+    let url = '/posts/' + postSlug + '/add_tag/'
     let data = {
+      post_id: postSlug,
+      tag_id: tagSlug,
       tag: {
-        post_id: postID,
-        id: tagID,
+        post_id: postSlug,
+        id: tagSlug,
       },
     }
 
     saRequest
-      .put(url)
+      .post(url)
+      .set('accept', 'application/json')
       .send(data)
       .then((res) => {
         var updatedTag = res.body.data
@@ -146,11 +149,12 @@ export default function Dashboard(props) {
 
   const handleDrop = (event, tagID) => {
     event.preventDefault()
+    var postSlug = event.dataTransfer.getData('postSlug')
     var postID = event.dataTransfer.getData('postID')
     if (event.target.parentNode.className == 'dropzone') {
       event.target.style.background = 'white'
     }
-    addTagRequest(postID, tagID)
+    addTagRequest(postSlug, postID, tagID)
   }
 
   const dragEnter = (event) => {
