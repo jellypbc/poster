@@ -4,6 +4,7 @@ import TabGroup from './TabGroup'
 import ReactPaginate from 'react-paginate'
 import { saRequest } from '../utils/saRequest'
 import { useEventListener } from '../utils/eventListener'
+import { store } from '../store'
 
 import filter from 'lodash/filter'
 import map from 'lodash/map'
@@ -68,7 +69,10 @@ export default function Dashboard(props) {
 
     let sidebar = document.getElementsByClassName('sidebar')[0]
     setMastheadHeight(sidebar.getBoundingClientRect().top)
-  }, [])
+    window.CommandBar.boot({
+      id: props.user.id,
+    })
+  }, [props.user.id])
 
   const handlePageClick = (e) => {
     setPage(e.selected + 1)
