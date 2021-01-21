@@ -51,3 +51,8 @@ head
   = stylesheet_link_tag 'https://fonts.googleapis.com/css?family=Noto+Serif:400,400i,700'
 
   = favicon_link_tag asset_path(favicon)
+
+  javascript: 
+    var org='5e808dac';
+    var w=window;var d=document;var cb=window.CommandBar=window.CommandBar||[];cb.methods=["config","boot","shutdown","setContext","addContext","addCallback","addCallbacks","addRouter","report","log","error","setTestMode","loadEditor","isOpen", "addSearch", "addCommand", "removeCommand", "showGuide", "execute"];cb.q=[];cb.f=function(t){return function(){var a=Array.prototype.slice.call(arguments);a.unshift(t);cb.q.push(a)}};for(var t=0;t<cb.methods.length;t++){var e=cb.methods[t];cb[e]=cb.f(e)}var load=function(){var a="h";var t="s";var r=localStorage.getItem("commandbar.lc");var e="https://api.commandbar.com";var o="o";var c="l";var n="t";var l="c";if(r&&r.includes("local")){var v="a";var s=":8";var i="p:/";e="htt"+i+"/"+c+o+l+v+c+a+o+t+n+s+"000"}var m=d.createElement("script");var h=e+"/latest/5e808dac";h=r?h+"?lc="+r:h;m.type="text/javascript";m.async=true;m.src=h;d.head.appendChild(m)};if(w.attachEvent){w.attachEvent("onload",load)}else{w.addEventListener("load",load,false)}
+
