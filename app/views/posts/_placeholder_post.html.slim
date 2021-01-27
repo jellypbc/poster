@@ -11,9 +11,9 @@
                 = link_to 'View PDF', post.uploads.first.file_url, target: '_blank'
         .title
           - if post.title.present? && post.title != "<p></p>"
-            h1 = post.title.html_safe
+            h1.ProseMirror = post.title.html_safe
           - else 
-            h1.title-placeholder 
+            h1.title-placeholder.ProseMirror
               = "Untitled"
 
         .authors
@@ -23,11 +23,12 @@
     #sidebarContainer
   .col-md-8.center-column
     .post-editor
-      - if post.body.present? && post.body != "<p></p>"
-        = post.body.html_safe
-      - else 
-        .body-placeholder
-          = "A blank post."
+      .ProseMirror
+        - if post.body.present? && post.body != "<p></p>"
+          = post.body.html_safe
+        - else 
+          .body-placeholder
+            = "A blank post."
 
 
     - if post.citations.any?
