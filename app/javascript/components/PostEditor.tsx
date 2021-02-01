@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import { createConsumer } from '@rails/actioncable'
+// import { createConsumer } from '@rails/actioncable'
 import { saRequest } from '../utils/saRequest'
 import debounce from 'lodash/debounce'
-import sanitizeHtml from 'sanitize-html'
+// import sanitizeHtml from 'sanitize-html'
 
 import { store } from '../store'
 import { Editor } from './Editor'
@@ -32,20 +32,32 @@ import {
   createSerializer,
 } from '../utils/postUtils'
 
-export function PostEditor(props) {
+import type { Post, CurrentUser } from './types'
+
+interface Props {
+  post: Post
+  currentUser: CurrentUser
+  editable: boolean
+  isProcessing: boolean
+}
+
+export function PostEditor(props: Props): React.ReactNode {
   console.log('POSTEDITOR PROPS', props)
 
-  const [post, setPost] = useState(props.post)
-  const user = props.currentUser
+  const {
+    post,
+    currentUser: user,
+    isProcessing = false,
+    editable: isEditable = false
+  } = props
+
   const title = post.data.attributes.title || 'Untitled'
-  const [isLoading, setIsLoading] = useState(false) // is sending request to server
   const hasChanges = false //editor has changes (actual onChange may be debounced)
-  const [error, setError] = useState(null) // last server error, if any
-  const [errorAt, setErrorAt] = useState(null) // string or null
-  const lastSavedAt = getTimestamp('updated_at', post) //string or null
-  const [lastUnsavedChangeAt, setLastUnsavedChangeAt] = useState(null) // Date object or null, used to track dirty state
-  const [isProcessing, setIsProcessing] = useState(props.isProcessing || false) // TODO: move this into container
-  const isEditable = props.editable || false
+  const [isLoading, setIsLoading] = useState<boolean>(false) // is sending request to server
+  const [error, setError] = useState<Error | null>(null) 
+  const [errorAt, setErrorAt] = useState<string | null>(null)
+  const lastSavedAt: string | null = getTimestamp('updated_at', post)
+  const [lastUnsavedChangeAt, setLastUnsavedChangeAt] = useState<string | null>(null) // Date string or null, used to track dirty state
 
   const state = {
     post,
@@ -65,24 +77,24 @@ export function PostEditor(props) {
   const parse = createParser(schema)
   const serialize = createSerializer(schema)
 
-  const updateURL = () => {
-    let title = sanitizeHtml(post.data.attributes.title, {
-      allowedTags: [],
-      allowedAttributes: {},
-    })
+  // const updateURL = () => {
+  //   let title = sanitizeHtml(post.data.attributes.title, {
+  //     allowedTags: [],
+  //     allowedAttributes: {},
+  //   })
 
-    if (window.history.replaceState) {
-      // Accounts for when there is no title for document
-      document.title = title == null ? title : 'Untitled | Jelly'
+  //   if (window.history.replaceState) {
+  //     // Accounts for when there is no title for document
+  //     document.title = title == null ? title : 'Untitled | Jelly'
 
-      window.history.replaceState({}, title, post.data.attributes.slug)
-    }
-  }
+  //     window.history.replaceState({}, title, post.data.attributes.slug)
+  //   }
+  // }
 
   useEffect(() => {
-    const postId = document.getElementById('post').getAttribute('data-post-id')
-    const cableHost = post.data.attributes.cable_url
-    const cable = createConsumer(cableHost)
+    // const postId = document.getElementById('post').getAttribute('data-post-id')
+    // const cableHost = post.data.attributes.cable_url
+    // const cable = createConsumer(cableHost)
 
     // cable.subscriptions.create(
     //   { channel: 'PostsChannel', post_id: postId },
@@ -113,7 +125,7 @@ export function PostEditor(props) {
   }, [])
 
   const removeStaticRenderPlaceholder = () => {
-    let placeholder = document.getElementsByClassName('placeholder-content')[0]
+    const placeholder = document.getElementsByClassName('placeholder-content')[0]
     if (placeholder) placeholder.remove()
   }
 
@@ -182,7 +194,7 @@ export function PostEditor(props) {
   }
 
   const renderTitleEditor = ({ editor, view }) => {
-    let menubar = isEditable ? titleMenu : annotationMenu
+    const menubar = isEditable ? titleMenu : annotationMenu
     return (
       <div className="header">
         <div className="header-nav">
@@ -198,7 +210,7 @@ export function PostEditor(props) {
   }
 
   const renderBodyEditor = ({ editor, view }) => {
-    let menubar = isEditable ? menu : annotationMenu
+    const menubar = isEditable ? menu : annotationMenu
     return (
       <div>
         <Floater view={view}>
@@ -240,8 +252,8 @@ export function PostEditor(props) {
     const body = post.data.attributes.body
     const title = post.data.attributes.title
     const isNewPost = getIsNewPost(post)
-    const lastSavedAtDate = new Date(lastSavedAt)
-    const hasUnsavedChanges = lastSavedAtDate < lastUnsavedChangeAt
+    const lastSavedAtDate = new Date(lastSavedAt || '')
+    const hasUnsavedChanges = lastUnsavedChangeAt != null ? lastSavedAtDate.toISOString() < lastUnsavedChangeAt : false
 
     options.doc = parse(body) // TODO: don't mutate "options"
     options.doc.comments = { comments: post.data.attributes.body_comments }
