@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 module.exports = function (api) {
   var validEnv = ['development', 'test', 'production']
   var currentEnv = api.env()
@@ -42,6 +43,7 @@ module.exports = function (api) {
           useBuiltIns: true,
         },
       ],
+      ['@babel/preset-typescript', { 'allExtensions': true, 'isTSX': true }],
     ].filter(Boolean),
     plugins: [
       require('babel-plugin-macros'),
