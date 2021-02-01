@@ -1,10 +1,15 @@
 import React from 'react'
+import type { IBacklink } from './types'
 
-export function Backlinks({ backlinks }) {
+interface Props {
+  backlinks: Array<IBacklink>
+}
+
+export const Backlinks: React.FC<Props> = ({ backlinks }) => {
   const renderBacklink = (backlink, index) => {
     const c = backlink.attributes
 
-    let { authors, title, publisher, imprint_date } = c
+    const { authors, title, publisher, imprint_date } = c
 
     return (
       <div key={index}>

@@ -32,13 +32,14 @@ import {
   createSerializer,
 } from '../utils/postUtils'
 
-import type { IPost, ICurrentUser } from './types'
+import type { IPost, ICurrentUser, IBacklink } from './types'
 
 interface Props {
   post: IPost
   currentUser: ICurrentUser
   editable: boolean
   isProcessing: boolean
+  backlinks: Array<IBacklink>
 }
 
 export const PostEditor: React.FC<Props> = (props) => {
@@ -234,7 +235,7 @@ export const PostEditor: React.FC<Props> = (props) => {
     ]
   }
 
-  const backlinks = (included) => {
+  const backlinks = (included: typeof backlinks) => {
     const backlinksList = included.filter((c) => c.type === 'backlink')
 
     return [
@@ -315,7 +316,7 @@ export const PostEditor: React.FC<Props> = (props) => {
           {included && (
             <div>
               <Citations citations={citations(included)} />
-              <Backlinks backlinks={backlinks(included)} />
+              <Backlinks backlinks ={backlinks(included)} />
             </div>
           )}
         </div>

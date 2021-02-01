@@ -68,3 +68,19 @@ export interface IPostCard {
   user_id: number
   visibility: string
 }
+
+export interface IBacklink {
+  attributes: {
+    authors: string
+    generated_post_id: number
+    id: number
+    imprint_date: string
+    imprint_type: string
+    post_id: number
+    publisher: string
+    source_post_path: string
+    title: string
+  }
+  id: string
+  type: string
+}
