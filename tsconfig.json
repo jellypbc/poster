@@ -1,24 +1,27 @@
 {
   "compilerOptions": {
-    "allowJs": true,
     "allowSyntheticDefaultImports": true,
-    "composite": true,
-    "declaration": true,
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "jsx": "react",
+    "declaration": false,
     "lib": ["es6", "dom"],
     "module": "es6",
     "moduleResolution": "node",
+    "baseUrl": ".",
+    "paths": {
+      "*": ["node_modules/*", "app/packs/*"]
+    },
     "sourceMap": true,
-    "strict": false,
     "target": "es6",
+    "noEmit": true,
+    // "strict": true,
+    "noImplicitAny": false,
+    "noImplicitThis": true,
+    "alwaysStrict": true,
+    "strictBindCallApply": true,
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
+    "strictPropertyInitialization": true,
+    "jsx": "react",
   },
-  "exclude": [
-    "**/*.spec.ts",
-    "node_modules",
-    "vendor",
-    "public"
-  ],
+  "exclude": ["**/*.spec.ts", "node_modules", "vendor", "public"],
   "compileOnSave": false
 }
