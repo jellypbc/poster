@@ -1,4 +1,4 @@
-export interface Post {
+export interface IPost {
   data: {
     attributes: PostAttributes
     id: string
@@ -27,7 +27,7 @@ export interface PostAttributes {
   upload_url: string
 }
 
-export interface CurrentUser {
+export interface ICurrentUser {
   data: {
     attributes: {
       admin: any
@@ -42,4 +42,29 @@ export interface CurrentUser {
     id: string
     type: string
   }
+}
+
+export interface IMenu {
+  comments: any
+  marks: any
+}
+
+export interface IPostCard {
+  abstract: string
+  authors: string
+  body: string
+  created_at: string
+  deleted_at: string
+  id: number
+  imprint_date: string
+  imprint_type: string
+  plugins: string
+  publish_date: string
+  published_at: string
+  publisher: string
+  slug: string
+  title: string
+  updated_at: string
+  user_id: number
+  visibility: string
 }

@@ -1,10 +1,16 @@
 import React from 'react'
 import { format, formatDistance } from 'date-fns'
 import sanitizeHtml from 'sanitize-html'
+import type { IPostCard } from './types'
 
-export function PostCard({ post }) {
+interface Props {
+  post: IPostCard
+}
+
+export const PostCard: React.FC<Props> = ({ post }) => {
+  console.log('postcar', post)
   const sanitizedTitle = () => {
-    let title =
+    const title =
       post.title !== null
         ? sanitizeHtml(post.title, {
             allowedTags: ['b', 'sup', 'sub', 'em', 'code'],
@@ -17,11 +23,9 @@ export function PostCard({ post }) {
   const updatedAtTimeAgoInWords = () => {
     return post.updated_at !== null
       ? `Last updated ` +
-          // eslint-disable-next-line prettier/prettier
           formatDistance(
             new Date(post.updated_at),
             new Date(Date.now()),
-            // eslint-disable-next-line prettier/prettier
             { addSuffix: true }
           )
       : ``

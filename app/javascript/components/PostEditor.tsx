@@ -32,16 +32,16 @@ import {
   createSerializer,
 } from '../utils/postUtils'
 
-import type { Post, CurrentUser } from './types'
+import type { IPost, ICurrentUser } from './types'
 
 interface Props {
-  post: Post
-  currentUser: CurrentUser
+  post: IPost
+  currentUser: ICurrentUser
   editable: boolean
   isProcessing: boolean
 }
 
-export function PostEditor(props: Props): React.ReactNode {
+export const PostEditor: React.FC<Props> = (props) => {
   console.log('POSTEDITOR PROPS', props)
 
   const {

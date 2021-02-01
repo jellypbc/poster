@@ -1,8 +1,15 @@
-import React from 'react'
+import * as React from 'react'
 import map from 'lodash/map'
 import classnames from 'classnames'
+import type { IMenu } from './types'
 
-export function MenuBar({ menu, children, view }) {
+interface Props {
+  menu: IMenu
+  children?: any
+  view: any
+}
+
+export const MenuBar: React.FC<Props> = ({ menu, children, view }) => {
   return (
     <div>
       <div className="bar">
@@ -20,7 +27,7 @@ export function MenuBar({ menu, children, view }) {
 
 // const Button = ({ state, view, dispatch }) => (item, key) => (
 const Button = (view) => (item, key) => {
-  let { state, dispatch } = view
+  const { state, dispatch } = view
   return (
     <button
       key={key}
