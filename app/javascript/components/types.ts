@@ -84,3 +84,21 @@ export interface IBacklink {
   id: string
   type: string
 }
+
+export interface ICitation {
+  attributes: {
+    authors: string
+    body: string
+    generated_post_id: number
+    generated_post_path: string
+    id: number
+    imprint_date: string
+    imprint_type: string
+    post_id: number
+    publisher: string
+    target: string
+    title: string
+  }
+  id: string
+  type: string
+}

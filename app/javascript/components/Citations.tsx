@@ -1,10 +1,16 @@
 import React from 'react'
+import type { ICitation } from './types'
 
-export function Citations({ citations }) {
+
+interface Props {
+  citations: Array<ICitation>
+}
+
+export const Citations: React.FC<Props> = ({ citations }) => {
   const renderCitation = (citation, index) => {
     const c = citation.attributes
 
-    let { authors, title, publisher, imprint_date } = c
+    const { authors, title, publisher, imprint_date } = c
 
     return (
       <div key={index}>

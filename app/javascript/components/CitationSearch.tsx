@@ -5,7 +5,13 @@ import { Floater } from './Floater'
 import { saRequest } from '../utils/saRequest'
 import { store } from '../store'
 
-export function CitationSearch({ onCancel, onHandleSubmit, view }) {
+interface Props {
+  onCancel: () => void
+  onHandleSubmit: (any) => void
+  view: any
+}
+
+export const CitationSearch: React.FC<Props> = ({ onCancel, onHandleSubmit, view }) => {
   const [suggestions, setSuggestions] = useState([])
   const [value, setValue] = useState('')
   const [id, setId] = useState('')
@@ -21,7 +27,7 @@ export function CitationSearch({ onCancel, onHandleSubmit, view }) {
 
     if (inputLength === 0) return []
 
-    let query = input.value
+    const query = input.value
     const url = '/search/bar?query=' + query
     let suggestions
 

@@ -1,12 +1,19 @@
 import React from 'react'
 import { formatDistanceToNow } from 'date-fns'
 
-export function ChangesIndicator({
+interface Props {
+  isLoading: boolean
+  hasUnsavedChanges: boolean
+  isNewPost: boolean
+  lastSavedAtDate: Date
+}
+
+export const ChangesIndicator: React.FC<Props> = ({
   isLoading,
   hasUnsavedChanges,
   isNewPost,
   lastSavedAtDate,
-}) {
+}) => {
   return (
     <div className={'py-1 px-2 loading-indicator ' + (isLoading && 'active')}>
       <i className="fa fa-circle" />

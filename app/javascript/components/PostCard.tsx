@@ -8,7 +8,6 @@ interface Props {
 }
 
 export const PostCard: React.FC<Props> = ({ post }) => {
-  console.log('postcar', post)
   const sanitizedTitle = () => {
     const title =
       post.title !== null
