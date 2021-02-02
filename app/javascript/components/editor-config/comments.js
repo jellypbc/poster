@@ -58,7 +58,8 @@ class CommentState {
     let action = tr.getMeta(commentPlugin),
       actionType = action && action.type
     if (!action && !tr.docChanged) return this
-    let base = this
+    let base
+    base = this
     let { decos, unsent, field } = base
     decos = decos.map(tr.mapping, tr.doc)
 

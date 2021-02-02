@@ -58,7 +58,8 @@ class CitationState {
     let action = tr.getMeta(citationPlugin),
       actionType = action && action.type
     if (!action && !tr.docChanged) return this
-    let base = this
+    let base
+    base = this
     let { decos } = base
     decos = decos.map(tr.mapping, tr.doc)
 
