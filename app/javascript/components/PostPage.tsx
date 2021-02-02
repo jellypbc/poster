@@ -6,6 +6,12 @@ import { PostEditor } from './PostEditor'
 import { ImageModal } from './ImageModal'
 
 import Modal from 'react-modal'
+import type { 
+  IPost, 
+  ICurrentUser, 
+  IBacklink, 
+  ICitation
+} from './types'
 
 Modal.setAppElement('#root')
 
@@ -13,8 +19,17 @@ Modal.setAppElement('#root')
 // reference the reducer state in the editor.
 // Anything can dispatch to the reducer by importing `dispatch` from react-redux
 // and the component will rerender any subscribers on change.
-export default function PostPage(props) {
-  // props = { post, currentUser, isProcessing, editable }
+
+interface Props {
+  post: IPost
+  currentUser: ICurrentUser
+  editable: boolean
+  isProcessing: boolean
+  backlinks: Array<IBacklink>
+  citations: Array<ICitation>
+}
+
+export const PostPage: React.FC<Props> = (props) => {
   return (
     <Provider store={store}>
       <PostEditor {...props} />

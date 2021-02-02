@@ -1,7 +1,12 @@
 import React from 'react'
 import { PostCard } from './PostCard'
+import type { IPostCard } from './types'
 
-export default function PostsList({ posts }) {
+interface Props {
+  posts: Array<IPostCard>
+}
+
+export const PostsList: React.FC<Props> = ({ posts }) => {
   const postElements = posts.map((post) => {
     return <PostCard key={post.id} post={post} />
   })
