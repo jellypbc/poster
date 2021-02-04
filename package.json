@@ -21,6 +21,8 @@
     "@rails/ujs": "^6.0.0",
     "@rails/webpacker": "^5.2.1",
     "@reduxjs/toolkit": "^1.2.3",
+    "@types/prosemirror-commands": "^1.0.4",
+    "@types/prosemirror-model": "^1.11.2",
     "@types/react": "^16.9.11",
     "@types/react-dom": "^16.9.3",
     "@uppy/core": "^1.7.1",
