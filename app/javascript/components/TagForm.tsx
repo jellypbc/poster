@@ -2,13 +2,19 @@ import React, { useState } from 'react'
 import { WithContext as ReactTags } from 'react-tag-input'
 import { saRequest } from '../utils/saRequest'
 
-export default function TagForm({ post, suggestedTags, currentUser }) {
+interface Props {
+  post: any
+  suggestedTags: any
+  currentUser: any
+}
+
+export const TagForm: React.FC<Props> = ({ post, suggestedTags, currentUser }) => {
   const [tags, setTags] = useState(post.data.attributes.tags || [])
-  const [suggestions, setSuggestions] = useState(suggestedTags || [])
-  const [error, setError] = useState(null)
+  const [suggestions, setSuggestions] = useState<Array<any>>(suggestedTags || [])
+  const [error, setError] = useState<string| null>(null)
 
   const handleFocus = () => {
-    let url = post.data.attributes.form_url + '/suggested_tags'
+    const url = post.data.attributes.form_url + '/suggested_tags'
     saRequest
       .get(url)
       .set('accept', 'application/json')
@@ -23,8 +29,9 @@ export default function TagForm({ post, suggestedTags, currentUser }) {
 
   const handleDelete = (i) => {
     const tagToDelete = tags.find((tag, index) => index === i)
-    sendRequest(tagToDelete, 'delete').then((res) => {
+    sendRequest(tagToDelete, 'delete').then((res: any) => {
       if (res.status === 200) {
+        console.log('res', res)
         setTags(tags.filter((tag, index) => index !== i))
       } else {
         setError('Oops, something went wrong.')
@@ -33,7 +40,7 @@ export default function TagForm({ post, suggestedTags, currentUser }) {
   }
 
   const handleAddition = (tag) => {
-    sendRequest(tag, 'add').then((res) => {
+    sendRequest(tag, 'add').then((res: any) => {
       if (res.status === 200) {
         setTags([...tags, tag])
       } else {
@@ -43,12 +50,14 @@ export default function TagForm({ post, suggestedTags, currentUser }) {
   }
 
   async function sendRequest(tag, action) {
-    let data = {
+    const data = {
       tag: {
         user_id: currentUser.id,
         text: tag.text,
         slug: tag.slug,
         post_id: post.data.id,
+        id: tag.id,
+        deleted_at: tag.deletedAt
       },
     }
 
@@ -57,6 +66,7 @@ export default function TagForm({ post, suggestedTags, currentUser }) {
       url = '/posts/' + post.data.attributes.slug + '/tags'
       method = 'post'
     } else {
+      // console.log('tag.id', data.tag)
       data.tag.id = tag.id
       data.tag.deleted_at = true
       url = '/posts/' + post.data.attributes.slug + '/remove_tag'
@@ -75,9 +85,7 @@ export default function TagForm({ post, suggestedTags, currentUser }) {
           resolve(result)
         })
         .catch((err) => {
-          this.setState({
-            error: err.message,
-          })
+          setError(err.message)
         })
     })
   }
@@ -103,3 +111,5 @@ export default function TagForm({ post, suggestedTags, currentUser }) {
     </div>
   )
 }
+
+export default TagForm
