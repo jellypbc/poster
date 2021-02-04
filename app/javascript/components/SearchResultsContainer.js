@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react'
-import PostsList from './PostsList'
+import { PostsList } from './PostsList'
 import ReactPaginate from 'react-paginate'
 import { saRequest } from '../utils/saRequest'
 
