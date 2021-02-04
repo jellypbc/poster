@@ -3,12 +3,22 @@ import { EditorView } from 'prosemirror-view'
 import { EditorState } from 'prosemirror-state'
 import { math } from './editor-config/math'
 import { useEventListener } from '../utils/eventListener'
+import type { IPost } from './types'
 
-export function Sidebar(props) {
+interface Props {
+  options: {
+    doc: any
+    schema: any
+    setupPlugins: any
+  }
+  post: IPost
+}
+export const Sidebar: React.FC<Props> = (props) => {
   const OFFSET = '30'
-  let pageHeight = document.getElementById('root').scrollHeight
-  let citations = document.getElementsByClassName('citations')[0]
-  let backlinks = document.getElementsByClassName('backlinks')[0]
+  const docu = document.getElementById('root')
+  let pageHeight = docu != null ? docu.scrollHeight : 0
+  const citations: any = document.getElementsByClassName('citations')[0]
+  const backlinks: any = document.getElementsByClassName('backlinks')[0]
   if (citations) {
     pageHeight = pageHeight - citations.offsetHeight
   }
@@ -17,16 +27,16 @@ export function Sidebar(props) {
   }
   const vpHeight = window.innerHeight
 
-  const viewHost = useRef()
-  const view = useRef(null)
+  const viewHost: any = useRef()
+  const view: any = useRef(null)
 
-  const [portalTop, setPortalTop] = useState('0px')
-  const [editorContainerHeight, setEditorContainerHeight] = useState(0)
-  const [sidebarEditorTop, setSidebarEditorTop] = useState(0)
-  const [portalHeight, setPortalHeight] = useState(0)
-  const [visible, setVisible] = useState(true)
-  const [sticky, setSticky] = useState(false)
-  const [mastheadHeight, setMastheadHeight] = useState(0)
+  const [portalTop, setPortalTop] = useState<string>('0px')
+  const [editorContainerHeight, setEditorContainerHeight] = useState<number>(0)
+  const [sidebarEditorTop, setSidebarEditorTop] = useState<number>(0)
+  const [portalHeight, setPortalHeight] = useState<number>(0)
+  const [visible, setVisible] = useState<boolean>(true)
+  const [sticky, setSticky] = useState<boolean>(false)
+  const [mastheadHeight, setMastheadHeight] = useState<number>(0)
 
   const calculateEditorPosition = useCallback(
     (sticky, vp, ech) => {
@@ -52,7 +62,7 @@ export function Sidebar(props) {
       setEditorContainerHeight(vpHeight > ech ? ech : vpHeight * 0.8)
       setSidebarEditorTop(calculateEditorPosition(sticky, vpHeight, ech))
 
-      let pHeight = (vpHeight / pageHeight) * ech
+      const pHeight = (vpHeight / pageHeight) * ech
       setPortalHeight(pHeight)
     },
     [mastheadHeight, calculateEditorPosition, sticky, pageHeight]
@@ -71,11 +81,11 @@ export function Sidebar(props) {
     })
 
     if (viewHost.current) {
-      let editorHeight = viewHost.current.clientHeight
-      let pHeight = (vpHeight / pageHeight) * editorHeight
+      const editorHeight = viewHost.current.clientHeight
+      const pHeight = (vpHeight / pageHeight) * editorHeight
       setPortalHeight(pHeight)
 
-      const mh = document.getElementsByClassName('masthead')[0]
+      const mh: any = document.getElementsByClassName('masthead')[0]
       setMastheadHeight(mh.offsetHeight + mh.offsetTop)
     }
     return () => view.current.destroy()
@@ -95,8 +105,8 @@ export function Sidebar(props) {
   useEventListener('resize', scrollHandler)
   useEventListener('scroll', scrollHandler)
 
-  const clickHandler = (e) => {
-    const coord = (eventCoord) => {
+  const clickHandler = (e: any ) => {
+    const coord = (eventCoord: any) => {
       return (
         ((eventCoord - Math.floor(portalHeight * 0.5)) /
           editorContainerHeight) *
@@ -116,37 +126,40 @@ export function Sidebar(props) {
   }
   useEventListener('mousedown', clickHandler, viewHost.current)
 
-  let container = {
+  const container = {
     position: 'sticky',
     top: sticky ? OFFSET + 'px' : 'auto',
     height: '100%',
     width: '110px',
-  }
+  } as React.CSSProperties
 
-  let toggleIconStyle = {
+  const toggleIconStyle = {
     position: sticky ? 'sticky' : 'relative',
     top: sticky ? '4px' : '24px',
     outline: 'none',
-  }
+  } as React.CSSProperties
 
-  let editorContainerStyle = {
+
+  const editorContainerStyle = {
     position: sticky ? 'sticky' : 'relative',
     top: '30px',
     height: editorContainerHeight + 'px',
     width: '120px',
     overflow: 'hidden',
-  }
+  } as React.CSSProperties
 
-  let sidebarEditorStyle = {
+
+  const sidebarEditorStyle = {
     position: 'relative',
     top: sticky ? sidebarEditorTop + 'px' : 'auto',
     display: visible ? 'block' : 'none',
     width: '110px',
     background: 'white',
     transition: 'all 0.15s linear',
-  }
+  } as React.CSSProperties
 
-  let sidebarPortalStyle = {
+
+  const sidebarPortalStyle = {
     position: 'absolute',
     top: portalTop,
     height: portalHeight + 'px',
@@ -157,7 +170,8 @@ export function Sidebar(props) {
     cursor: 'move !important',
     transition: 'all 0.2s linear',
     pointerEvents: 'none',
-  }
+  } as React.CSSProperties
+
 
   return (
     <div id="sidebarContainer" style={container}>

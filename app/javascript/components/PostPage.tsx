@@ -37,3 +37,5 @@ export const PostPage: React.FC<Props> = (props) => {
     </Provider>
   )
 }
+
+export default PostPage
