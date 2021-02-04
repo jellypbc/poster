@@ -105,3 +105,15 @@ export interface ICitation {
   id: string
   type: string
 }
+
+export interface ITag {
+  color: string
+  created_at: string
+  description: string
+  id: number
+  posts_count: number
+  slug: string
+  text: string
+  updated_at: string
+  user_id: number
+}

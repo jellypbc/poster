@@ -3,18 +3,29 @@ import { PostsList } from './PostsList'
 import { TabGroup } from './TabGroup'
 import ReactPaginate from 'react-paginate'
 import { saRequest } from '../utils/saRequest'
+import type { ICurrentUserAttributes, ITag, IPost } from './types'
 
-export default function PostsContainer(props) {
+interface Props {
+  citationsCount: number
+  postsCount: number
+  user: ICurrentUserAttributes
+  posts: Array<IPost>
+  isDashboard: boolean
+  tag?: ITag
+}
+
+export const PostsContainer: React.FC<Props> = (props) => {
+  console.log('propsy', props)
   const TAB_GROUP = [
     { value: '1', label: 'posts' },
     { value: '2', label: 'citations' },
   ]
-  const [tabState, setTabState] = useState('1')
-  const [data, setData] = useState([])
-  const [pageCount, setPageCount] = useState()
-  const [page, setPage] = useState(1)
-  const [showPagination, setShowPagination] = useState(false)
-  const [hasPosts, setHasPosts] = useState(true)
+  const [tabState, setTabState] = useState<string>('1')
+  const [data, setData] = useState<Array<IPost>>([])
+  const [pageCount, setPageCount] = useState<number>()
+  const [page, setPage] = useState<number>(1)
+  const [showPagination, setShowPagination] = useState<boolean>(false)
+  const [hasPosts, setHasPosts] = useState<boolean>(true)
   const [, setError] = useState()
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -26,7 +37,7 @@ export default function PostsContainer(props) {
       return '/' + type + '/' + id + '/paginated_' + tab + '/' + page
     }
 
-    let url = generateUrl()
+    const url = generateUrl()
 
     saRequest
       .get(url)
@@ -56,17 +67,17 @@ export default function PostsContainer(props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page, tabState])
 
-  const handlePageClick = (e) => {
+  const handlePageClick = (e: any) => {
     setPage(e.selected + 1)
   }
 
-  const handleTabChange = (e) => {
+  const handleTabChange = (e: any) => {
     setPage(1)
     setTabState(e.value)
   }
 
   const tabGroup = () => {
-    let tab =
+    const tab =
       props.isDashboard === true ? null : (
         <TabGroup
           name="postTabGroup"
@@ -107,3 +118,5 @@ export default function PostsContainer(props) {
     </div>
   )
 }
+
+export default PostsContainer
