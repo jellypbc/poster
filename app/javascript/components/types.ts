@@ -106,7 +106,7 @@ export interface ICitation {
   type: string
 }
 
-export interface ITag {
+export interface ITagAttributes {
   color: string
   created_at: string
   description: string
@@ -116,4 +116,12 @@ export interface ITag {
   text: string
   updated_at: string
   user_id: number
+}
+
+export interface ITag {
+  data: {
+    attributes: ITagAttributes
+    id: string
+    type: string
+  }
 }

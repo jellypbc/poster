@@ -3,7 +3,7 @@ import { PostsList } from './PostsList'
 import { TabGroup } from './TabGroup'
 import ReactPaginate from 'react-paginate'
 import { saRequest } from '../utils/saRequest'
-import type { ICurrentUserAttributes, ITag, IPost } from './types'
+import type { ICurrentUserAttributes, ITagAttributes, IPost } from './types'
 
 interface Props {
   citationsCount: number
@@ -11,11 +11,10 @@ interface Props {
   user: ICurrentUserAttributes
   posts: Array<IPost>
   isDashboard: boolean
-  tag?: ITag
+  tag?: ITagAttributes
 }
 
 export const PostsContainer: React.FC<Props> = (props) => {
-  console.log('propsy', props)
   const TAB_GROUP = [
     { value: '1', label: 'posts' },
     { value: '2', label: 'citations' },

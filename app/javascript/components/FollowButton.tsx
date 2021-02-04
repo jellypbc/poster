@@ -4,7 +4,14 @@ import Modal from 'react-modal'
 
 // TODO: add debounce and rate limiter
 
-export default function FollowButton(props) {
+interface Props {
+  currentUser: string
+  following: boolean
+  objectId: number
+  objectType: string
+}
+
+export const FollowButton: React.FC<Props> = (props) => {
   const { objectId, objectType, currentUser } = props
 
   const [following, setFollowing] = useState(props.following || false)
@@ -14,8 +21,10 @@ export default function FollowButton(props) {
   Modal.setAppElement('#root')
 
   useEffect(() => {
-    let el = document.querySelector('.hide-follow-button')
-    el.parentNode.removeChild(el)
+    const el = document.querySelector('.hide-follow-button')
+    if (el != null && el.parentNode != null) {
+      el.parentNode.removeChild(el)
+    }
   }, [])
 
   const followData = () => {
@@ -30,14 +39,14 @@ export default function FollowButton(props) {
 
   const setFollow = () => {
     if (currentUser) {
-      let data = followData()
-      let url = '/users/' + objectId + '/follow'
+      const data = followData()
+      const url = '/users/' + objectId + '/follow'
 
       saRequest
         .post(url)
         .send(data)
         .set('accept', 'application/json')
-        .then((res) => {
+        .then((res: any) => {
           setFollowing(true)
         })
         .catch((err) => {
@@ -49,14 +58,14 @@ export default function FollowButton(props) {
 
   const setUnfollow = () => {
     if (currentUser) {
-      let data = followData()
-      let url = '/users/' + objectId + '/unfollow'
+      const data = followData()
+      const url = '/users/' + objectId + '/unfollow'
 
       saRequest
         .post(url)
         .send(data)
         .set('accept', 'application/json')
-        .then((res) => {
+        .then((res: any) => {
           setFollowing(false)
         })
         .catch((err) => {
@@ -66,7 +75,7 @@ export default function FollowButton(props) {
     }
   }
 
-  const handleClick = (e) => {
+  const handleClick = (e: any) => {
     if (!currentUser) {
       setShowModal(true)
     } else {
@@ -112,3 +121,5 @@ export default function FollowButton(props) {
     </div>
   )
 }
+
+export default FollowButton
