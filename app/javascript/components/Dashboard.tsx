@@ -5,10 +5,24 @@ import ReactPaginate from 'react-paginate'
 import { saRequest } from '../utils/saRequest'
 import { useEventListener } from '../utils/eventListener'
 
-import filter from 'lodash/filter'
+// import filter from 'lodash/filter'
 import map from 'lodash/map'
 
-export default function Dashboard(props) {
+import type { IPostCard, ITag, ICurrentUserAttributes, ITagAttributes } from './types'
+
+interface Props {
+  isDashboard: boolean
+  posts: Array<IPostCard>
+  postsCount: number
+  tags: {
+    data: Array<ITag>
+  }
+  user: ICurrentUserAttributes
+  tag: ITagAttributes
+  citationsCount: number
+}
+
+export const Dashboard: React.FC<Props> = (props) => {
   const TAB_GROUP = [
     { value: '1', label: 'posts' },
     { value: '2', label: 'citations' },
@@ -20,7 +34,7 @@ export default function Dashboard(props) {
   const [showPagination, setShowPagination] = useState(false)
   const [hasPosts, setHasPosts] = useState(true)
   const [, setError] = useState()
-  const [tagState, setTagState] = useState([])
+  // const [tagState, setTagState] = useState([])
   const [tags, setTags] = useState(props.tags.data || [])
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -32,7 +46,7 @@ export default function Dashboard(props) {
       return '/' + type + '/' + id + '/paginated_' + tab + '/' + page
     }
 
-    let url = generateUrl()
+    const url = generateUrl()
 
     saRequest
       .get(url)
@@ -61,12 +75,12 @@ export default function Dashboard(props) {
   }, [page, tabState])
 
   useEffect(() => {
-    let placeholder = document.getElementsByClassName('placeholder-content')[0]
+    const placeholder = document.getElementsByClassName('placeholder-content')[0]
     if (placeholder) {
       placeholder.remove()
     }
 
-    let sidebar = document.getElementsByClassName('sidebar')[0]
+    const sidebar = document.getElementsByClassName('sidebar')[0]
     setMastheadHeight(sidebar.getBoundingClientRect().top)
   }, [])
 
@@ -80,7 +94,7 @@ export default function Dashboard(props) {
   }
 
   const tabGroup = () => {
-    let tab =
+    const tab =
       props.isDashboard === true ? null : (
         <TabGroup
           name="postTabGroup"
@@ -99,8 +113,8 @@ export default function Dashboard(props) {
   }
 
   const addTagRequest = (postSlug, postID, tagSlug) => {
-    let url = '/posts/' + postSlug + '/add_tag/'
-    let data = {
+    const url = '/posts/' + postSlug + '/add_tag/'
+    const data = {
       post_id: postSlug,
       tag_id: tagSlug,
       tag: {
@@ -114,9 +128,9 @@ export default function Dashboard(props) {
       .set('accept', 'application/json')
       .send(data)
       .then((res) => {
-        var updatedTag = res.body.data
+        const updatedTag = res.body.data
         const newTags = [...tags]
-        const tagsMap = map(newTags, function (t, i) {
+        const tagsMap = map(newTags, function (t: ITagAttributes, i) {
           if (t.id === updatedTag.id) {
             newTags[i] = updatedTag
             return false
@@ -124,7 +138,7 @@ export default function Dashboard(props) {
         })
         setTags(newTags)
 
-        var postRow = document.getElementById('post-' + postID)
+        const postRow = document.getElementById('post-' + postID)
         postRow.style.borderColor = '#d5e8d7'
         postRow.style.transitionDuration = '0s'
 
@@ -135,7 +149,7 @@ export default function Dashboard(props) {
         }, 500)
       })
       .catch((err) => {
-        var postRow = document.getElementById('post-' + postID)
+        const postRow = document.getElementById('post-' + postID)
         postRow.style.borderColor = '#e3bdba'
         postRow.style.transitionDuration = '0s'
 
@@ -149,8 +163,8 @@ export default function Dashboard(props) {
 
   const handleDrop = (event, tagID) => {
     event.preventDefault()
-    var postSlug = event.dataTransfer.getData('postSlug')
-    var postID = event.dataTransfer.getData('postID')
+    const postSlug = event.dataTransfer.getData('postSlug')
+    const postID = event.dataTransfer.getData('postID')
     if (event.target.parentNode.className == 'dropzone') {
       event.target.style.background = 'white'
     }
@@ -181,9 +195,9 @@ export default function Dashboard(props) {
   }
 
   // begin sidebar sticky
-  let pageHeight = document.getElementById('root').scrollHeight
-  let sidebar = document.getElementsByClassName('sidebar')[0]
-  const vpHeight = window.innerHeight
+  // const pageHeight = document.getElementById('root').scrollHeight
+  // const sidebar = document.getElementsByClassName('sidebar')[0]
+  // const vpHeight = window.innerHeight
 
   const [sticky, setSticky] = useState(false)
   const [mastheadHeight, setMastheadHeight] = useState(0)
@@ -196,12 +210,12 @@ export default function Dashboard(props) {
   useEventListener('scroll', scrollHandler)
 
   const renderTags = (tags) => {
-    var rendered = tags.map(function (tag) {
+    const rendered = tags.map(function (tag) {
       return (
         <a
           key={tag.id}
           className="dropzone"
-          onDrop={(e, tagID) => handleDrop(e, tag.id)}
+          onDrop={(e) => handleDrop(e, tag.id)}
           onDragEnter={(e) => dragEnter(e)}
           onDragLeave={(e) => dragLeave(e)}
           onDragOver={(e) => dragOver(e)}
@@ -219,10 +233,10 @@ export default function Dashboard(props) {
     return <div>{rendered}</div>
   }
 
-  let sidebarStyle = {
+  const sidebarStyle = {
     position: sticky ? 'sticky' : 'relative',
     top: sticky ? '20px' : '0',
-  }
+  } as React.CSSProperties
 
   return (
     <div className="row my-5">
@@ -266,3 +280,5 @@ export default function Dashboard(props) {
     </div>
   )
 }
+
+export default Dashboard
