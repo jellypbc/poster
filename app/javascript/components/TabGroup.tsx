@@ -1,25 +1,45 @@
 import React from 'react'
 
-export default function TabGroup(props) {
-  const { value, option, onChange, postsCount, citationsCount } = props
+interface Tab {
+  label: string
+  value: string
+}
 
-  const areaSelected = (tab) => {
+interface Props {
+  citationsCount: number
+  name: string
+  onChange: (any) => void
+  option: Array<Tab>
+  postsCount: number
+  value: string
+}
+
+export const TabGroup: React.FC< Props> = (props) => {
+  const { 
+    value, 
+    option, 
+    onChange, 
+    postsCount, 
+    citationsCount
+  } = props
+
+  const areaSelected = (tab: Tab) => {
     return value === tab.value ? 'true' : 'false'
   }
 
-  const active = (tab) => {
+  const active = (tab: Tab) => {
     return value === tab.value ? 'active' : ''
   }
 
-  const handleClick = (tab) => {
+  const handleClick = (tab: Tab) => {
     onChange(tab)
   }
 
-  const postCount = (tab) => {
+  const postCount = (tab: Tab) => {
     return tab.value === '1' ? postsCount : citationsCount
   }
 
-  const tabElements = option.map((tab) => {
+  const tabElements = option.map((tab: Tab) => {
     return (
       <div key={tab.value}>
         <li className="nav-item">

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { PostsList }  from './PostsList'
-import TabGroup from './TabGroup'
+import { TabGroup } from './TabGroup'
 import ReactPaginate from 'react-paginate'
 import { saRequest } from '../utils/saRequest'
 import { useEventListener } from '../utils/eventListener'

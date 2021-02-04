@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
 import { WithContext as ReactTags } from 'react-tag-input'
 import { saRequest } from '../utils/saRequest'
+import type { IPost, ICurrentUserAttributes } from './types'
 
 interface Props {
-  post: any
+  post: IPost
   suggestedTags: any
-  currentUser: any
+  currentUser: ICurrentUserAttributes
 }
 
 export const TagForm: React.FC<Props> = ({ post, suggestedTags, currentUser }) => {
@@ -66,7 +67,6 @@ export const TagForm: React.FC<Props> = ({ post, suggestedTags, currentUser }) =
       url = '/posts/' + post.data.attributes.slug + '/tags'
       method = 'post'
     } else {
-      // console.log('tag.id', data.tag)
       data.tag.id = tag.id
       data.tag.deleted_at = true
       url = '/posts/' + post.data.attributes.slug + '/remove_tag'

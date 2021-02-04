@@ -1,6 +1,6 @@
 export interface IPost {
   data: {
-    attributes: PostAttributes
+    attributes: IPostAttributes
     id: string
     relationships: any
     type: string
@@ -8,7 +8,7 @@ export interface IPost {
   included: Array<any>
 }
 
-export interface PostAttributes {
+export interface IPostAttributes {
   authors: string
   body: string
   body_citations: Array<any>
@@ -21,6 +21,7 @@ export interface PostAttributes {
   plugins: string
   publisher: string
   slug: string
+  tags: any
   title: string
   title_comments: Array<any>
   updated_at: string
@@ -29,19 +30,21 @@ export interface PostAttributes {
 
 export interface ICurrentUser {
   data: {
-    attributes: {
-      admin: any
-      avatar_url: string
-      email: string
-      full_name: string
-      guest: boolean
-      id: string
-      posts: any
-      username: string
-    }
+    attributes: ICurrentUserAttributes
     id: string
     type: string
   }
+}
+
+export interface ICurrentUserAttributes {
+  admin: any
+  avatar_url: string
+  email: string
+  full_name: string
+  guest: boolean
+  id: string
+  posts: any
+  username: string
 }
 
 export interface IMenu {
