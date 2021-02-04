@@ -6,12 +6,11 @@ import Uppy from '@uppy/core'
 import XHRUpload from '@uppy/xhr-upload'
 import { DragDrop } from '@uppy/react'
 
-export function ImageModal() {
+export const ImageModal: React.FC = () => {
   const dispatch = useDispatch()
   const imagesState = useSelector((state) => state.images)
 
   const token = document.head.querySelector('[name~=csrf-token][content]')
-    .content
   const handleUpload = useCallback(
     (fileUrl) => {
       dispatch(images.actions.addImageSuccess({ fileUrl: fileUrl }))
@@ -58,10 +57,10 @@ function useUppy(token, onUpload) {
       endpoint: '/images/store',
       bundle: true,
       headers: {
-        csrf: token,
+        csrf: token.content,
       },
     })
-    _uppy.on('complete', (result) => {
+    _uppy.on('complete', (result: any) => {
       const fileUrl = result.successful[0].response.body.url
       onUpload(fileUrl)
       // build a new Uppy instance for the next upload
