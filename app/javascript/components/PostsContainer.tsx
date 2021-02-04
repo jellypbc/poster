@@ -3,13 +3,13 @@ import { PostsList } from './PostsList'
 import { TabGroup } from './TabGroup'
 import ReactPaginate from 'react-paginate'
 import { saRequest } from '../utils/saRequest'
-import type { ICurrentUserAttributes, ITagAttributes, IPost } from './types'
+import type { ICurrentUserAttributes, ITagAttributes, IPostCard } from './types'
 
 interface Props {
   citationsCount: number
   postsCount: number
   user: ICurrentUserAttributes
-  posts: Array<IPost>
+  posts: Array<IPostCard>
   isDashboard: boolean
   tag?: ITagAttributes
 }
@@ -20,7 +20,7 @@ export const PostsContainer: React.FC<Props> = (props) => {
     { value: '2', label: 'citations' },
   ]
   const [tabState, setTabState] = useState<string>('1')
-  const [data, setData] = useState<Array<IPost>>([])
+  const [data, setData] = useState<Array<IPostCard>>([])
   const [pageCount, setPageCount] = useState<number>()
   const [page, setPage] = useState<number>(1)
   const [showPagination, setShowPagination] = useState<boolean>(false)
