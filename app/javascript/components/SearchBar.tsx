@@ -3,18 +3,19 @@ import Autosuggest from 'react-autosuggest'
 
 import { saRequest } from '../utils/saRequest'
 
-export default function SearchBar() {
+export const SearchBar: React.FC = () => {
   const [value, setValue] = useState('')
   const [suggestions, setSuggestions] = useState([])
 
   useEffect(() => {
-    let placeholder = document.getElementById('search-fallback')[0]
+    const docu = document.getElementById('search-fallback')
+    const placeholder = docu != null ? docu[0] : null
     if (placeholder) placeholder.remove()
 
-    let searchbar = document.getElementsByClassName('search-bar')[0]
-    searchbar.addEventListener('keyup', (event) => {
+    const searchbar = document.getElementsByClassName('search-bar')[0]
+    searchbar.addEventListener('keyup', (event: any) => {
       if (event.keyCode === 13) {
-        window.location = '/search/results?query=' + value
+        window.location.href = '/search/results?query=' + value
       }
     })
   })
@@ -27,7 +28,7 @@ export default function SearchBar() {
 
     if (inputLength === 0) return []
 
-    let query = value
+    const query = value
     const url = '/search/bar?query=' + query
     let suggestions = []
 
@@ -97,3 +98,5 @@ export default function SearchBar() {
     </div>
   )
 }
+
+export default SearchBar

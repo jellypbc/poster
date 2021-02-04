@@ -3,32 +3,36 @@ import { PostsList } from './PostsList'
 import ReactPaginate from 'react-paginate'
 import { saRequest } from '../utils/saRequest'
 
-export default function SearchResultsContainer({ query }) {
-  const [hasPosts, setHasPosts] = useState(true)
-  const [showPagination, setShowPagination] = useState(false)
-  const [pageCount, setPageCount] = useState()
-  const [page, setPage] = useState(1)
-  const [data, setData] = useState([])
-  const [, setError] = useState()
+interface Props {
+  query: string
+}
+
+export const SearchResultsContainer: React.FC<Props> = ({ query }) => {
+  const [hasPosts, setHasPosts] = useState<boolean>(true)
+  const [showPagination, setShowPagination] = useState<boolean>(false)
+  const [pageCount, setPageCount] = useState<number>()
+  const [page, setPage] = useState<number>(1)
+  const [data, setData] = useState<Array<any>>([])
+  const [, setError] = useState<any>()
 
   const getSearchResults = useCallback(() => {
     const generateUrl = () => {
       return '/search/paginated_results/' + page + '?query=' + query
     }
 
-    let url = generateUrl()
+    const url = generateUrl()
 
     saRequest
       .get(url)
       .set('accept', 'application/json')
-      .then((res) => {
+      .then((res: any) => {
         console.log('res', res)
         setData(res.body.posts)
         setPageCount(res.body.page_count)
         setShowPagination(res.body.page_count > 1 ? true : false)
         setHasPosts(res.body.posts.length !== 0 ? true : false)
       })
-      .catch((err) => {
+      .catch((err: any) => {
         console.log('err.message', err.message)
         setError(err.message)
       })
@@ -38,7 +42,7 @@ export default function SearchResultsContainer({ query }) {
     getSearchResults()
   }, [getSearchResults, page])
 
-  const handlePageClick = (e) => {
+  const handlePageClick = (e: any) => {
     setPage(e.selected + 1)
   }
 
@@ -54,7 +58,7 @@ export default function SearchResultsContainer({ query }) {
           pageCount={pageCount}
           marginPagesDisplayed={2}
           pageRangeDisplayed={5}
-          onPageChange={(e) => handlePageClick(e)}
+          onPageChange={(e: any) => handlePageClick(e)}
           containerClassName={'pagination'}
           subContainerClassName={'pages pagination'}
           activeClassName={'active'}
@@ -64,3 +68,5 @@ export default function SearchResultsContainer({ query }) {
     </div>
   )
 }
+
+export default SearchResultsContainer
