@@ -5,13 +5,16 @@ import { DragDrop } from '@uppy/react'
 
 import { saRequest } from '../utils/saRequest'
 
-export default function FileUploader({ url }) {
+interface Props {
+  url: any
+}
+
+export const FileUploader: React.FC<Props> = ({ url }) => {
   const [, setFileUrl] = useState('')
   const [, setId] = useState('')
   const [error, setError] = useState(null)
 
-  const token = document.head.querySelector('[name~=csrf-token][content]')
-    .content
+  const token: any = document.head.querySelector('[name~=csrf-token][content]')
 
   const uppy = useMemo(() => {
     const fireAway = (id) => {
@@ -32,7 +35,7 @@ export default function FileUploader({ url }) {
           setError(err.message)
         })
     }
-    return new Uppy({
+    return Uppy({
       meta: { type: 'upload' },
       restrictions: { maxNumberOfFiles: 1 },
       autoProceed: true,
@@ -40,9 +43,9 @@ export default function FileUploader({ url }) {
       .use(XHRUpload, {
         endpoint: '/file/store',
         bundle: true,
-        headers: { csrf: token },
+        headers: { csrf: token.content },
       })
-      .on('complete', (result) => {
+      .on('complete', (result: any) => {
         const id = result.successful[0].response.body.data.id
         const mimeType =
           result.successful[0].response.body.data.metadata.mime_type
@@ -82,3 +85,5 @@ export default function FileUploader({ url }) {
     </div>
   )
 }
+
+export default FileUploader
