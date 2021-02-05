@@ -1,16 +1,27 @@
 import React, { useRef, useEffect, useState } from 'react'
 
-export function Floater(props) {
+interface Props {
+  children: any
+  view: any
+  menuRef: {
+    current: any
+  }
+}
+
+export const Floater: React.FC<Props> = (props) => {
+  console.log('props floater', props)
   const { view, children } = props
   const [style, setStyle] = useState({ left: 0, top: 0 })
 
-  const menuRef = useRef()
+  const menuRef = useRef<any>()
+
+  console.log('menuRef', menuRef)
 
   useEffect(() => {
     const calculateStyle = (view) => {
       const { selection } = view.state
 
-      let mathNodeIsSelected =
+      const mathNodeIsSelected =
         selection.node &&
         selection.node.type &&
         selection.node.type.name &&
@@ -27,7 +38,7 @@ export function Floater(props) {
       const anchor = view.coordsAtPos(selection.$anchor.pos)
       const scrollY = window.scrollY
 
-      let top =
+      const top =
         anchor.top - 10 > 0
           ? anchor.top - 110 + scrollY - offsetHeight
           : anchor.top + 20
