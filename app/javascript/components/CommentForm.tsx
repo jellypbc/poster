@@ -10,16 +10,24 @@ function useForceUpdate() {
   return () => setValue((value) => ++value)
 }
 
-export function CommentForm({
+interface Props {
+  thread: any
+  onSubmit: (any) => void
+  onCancel: () => void
+  className: any
+}
+
+export const CommentForm: React.FC<Props> =({
   thread,
   onSubmit,
   onCancel,
   className,
   ...rest
-}) {
+}) => {
+
   // const dispatch = useDispatch()
   // const comments = useSelector(state => state.comments)
-  const textareaRef = useRef()
+  const textareaRef = useRef<any>()
 
   useEffect(() => {
     autogrow()
@@ -62,8 +70,8 @@ export function CommentForm({
 
   const onGuestClick = (e) => {
     // send a request to create a user
-    let data = { user: { guest: true } }
-    let url = '/guestcreate'
+    const data = { user: { guest: true } }
+    const url = '/guestcreate'
     saRequest
       .post(url)
       .send(data)
@@ -75,8 +83,8 @@ export function CommentForm({
           store.dispatch({ type: 'setCurrentUser', payload: res.body })
           forceUpdate()
 
-          let link = document.getElementById('login-link')
-          let username = res.body.data.attributes.full_name
+          const link = document.getElementById('login-link')
+          const username = res.body.data.attributes.full_name
           link.innerHTML =
             'You are viewing as guest, <b>' +
             username +
@@ -87,8 +95,8 @@ export function CommentForm({
   }
 
   const onLoginClick = (e) => {
-    let oldLocation = window.location.pathname
-    window.location = '/login?redirect_to=' + oldLocation
+    const oldLocation = window.location.pathname
+    window.location.href = '/login?redirect_to=' + oldLocation
   }
 
   const handleCancel = () => {
@@ -105,9 +113,9 @@ export function CommentForm({
     }
   }
 
-  let { currentUser } = store.getState()
+  const { currentUser } = store.getState()
 
-  let classes = thread ? 'j-commentLoginForm floater' : 'j-commentLoginForm'
+  const classes = thread ? 'j-commentLoginForm floater' : 'j-commentLoginForm'
 
   return (
     <div>

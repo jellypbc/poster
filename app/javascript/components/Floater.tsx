@@ -9,7 +9,6 @@ interface Props {
 }
 
 export const Floater: React.FC<Props> = (props) => {
-  console.log('props floater', props)
   const { view, children } = props
   const [style, setStyle] = useState({ left: 0, top: 0 })
 
