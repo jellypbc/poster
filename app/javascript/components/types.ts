@@ -65,6 +65,14 @@ export interface ICurrentUser {
   }
 }
 
+export interface ICurrentUserCurrentUser {
+  currentUser: {
+    attributes: ICurrentUserAttributes
+    id: string
+    type: string
+  }
+}
+
 export interface ICurrentUserAttributes {
   admin: boolean | null
   avatar_url: string

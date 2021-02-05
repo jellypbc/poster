@@ -23,7 +23,7 @@ export const ImageModal: React.FC = () => {
     <div>
       <Modal
         onRequestClose={() => {
-          dispatch(images.actions.closeImageModal())
+          dispatch(images.actions.closeImageModal(null))
         }}
         className="image-modal-container"
         shouldCloseOnOverlayClick={true}

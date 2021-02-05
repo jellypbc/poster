@@ -5,6 +5,8 @@ import { autogrow } from '../utils/autogrow'
 
 // import { useSelector, useDispatch } from 'react-redux'
 
+import type { ICurrentUserCurrentUser } from './types'
+
 function useForceUpdate() {
   const [, setValue] = useState(0)
   return () => setValue((value) => ++value)
@@ -15,6 +17,9 @@ interface Props {
   onSubmit: (any) => void
   onCancel: () => void
   className: any
+  currentUser: {
+    currentUser: ICurrentUserCurrentUser
+  }
 }
 
 export const CommentForm: React.FC<Props> =({
