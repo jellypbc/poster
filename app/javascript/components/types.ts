@@ -57,6 +57,13 @@ export interface SimpleTag {
   text: string
 }
 
+export interface SimpleTag2 {
+  color: string | null
+  id: string
+  slug: string
+  text: string
+}
+
 export interface ICurrentUser {
   data: {
     attributes: ICurrentUserAttributes
@@ -170,3 +177,4 @@ export interface ITag {
     type: string
   }
 }
+

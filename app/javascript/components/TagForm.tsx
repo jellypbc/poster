@@ -1,21 +1,21 @@
 import React, { useState } from 'react'
 import { WithContext as ReactTags } from 'react-tag-input'
 import { saRequest } from '../utils/saRequest'
-import type { IPost, ICurrentUserAttributes } from './types'
+import type { IPost, ICurrentUserAttributes, SimpleTag2 } from './types'
 
 interface Props {
   post: IPost
-  suggestedTags: any
+  suggestedTags: Array<SimpleTag2>
   currentUser: ICurrentUserAttributes
 }
 
 export const TagForm: React.FC<Props> = ({ post, suggestedTags, currentUser }) => {
   const [tags, setTags] = useState(post.data.attributes.tags || [])
-  const [suggestions, setSuggestions] = useState<Array<any>>(suggestedTags || [])
+  const [suggestions, setSuggestions] = useState<Array<SimpleTag2>>(suggestedTags || [])
   const [error, setError] = useState<string| null>(null)
 
   const handleFocus = () => {
-    const url = post.data.attributes.form_url + '/suggested_tags'
+    const url: string = post.data.attributes.form_url + '/suggested_tags'
     saRequest
       .get(url)
       .set('accept', 'application/json')

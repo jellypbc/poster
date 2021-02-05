@@ -17,9 +17,7 @@ interface Props {
   onSubmit: (any) => void
   onCancel: () => void
   className: any
-  currentUser: {
-    currentUser: ICurrentUserCurrentUser
-  }
+  currentUser: ICurrentUserCurrentUser
 }
 
 export const CommentForm: React.FC<Props> =({
