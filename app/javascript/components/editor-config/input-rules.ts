@@ -4,7 +4,7 @@ import { findWrapping, canJoin } from 'prosemirror-transform'
 
 export function inlineMathInputRule(regexp, nodeType, getAttrs) {
   return new InputRule(regexp, (state, match, start, end) => {
-    let attrs = getAttrs instanceof Function ? getAttrs(match) : getAttrs
+    const attrs = getAttrs instanceof Function ? getAttrs(match) : getAttrs
     const [matchedText, content] = match
     const { tr, schema } = state
     if (matchedText) {
@@ -21,15 +21,15 @@ export function inlineMathInputRule(regexp, nodeType, getAttrs) {
 
 export function blockMathInputRule(regexp, nodeType, getAttrs) {
   return new InputRule(regexp, (state, match, start, end) => {
-    let $start = state.doc.resolve(start)
-    let attrs = getAttrs instanceof Function ? getAttrs(match) : getAttrs
+    const $start = state.doc.resolve(start)
+    const attrs = getAttrs instanceof Function ? getAttrs(match) : getAttrs
     if (
       !$start
         .node(-1)
         .canReplaceWith($start.index(-1), $start.indexAfter(-1), nodeType)
     )
       return null
-    let tr = state.tr
+    const tr = state.tr
       .delete(start, end)
       .setBlockType(start, start, nodeType, attrs)
 
@@ -42,8 +42,8 @@ export function blockMathInputRule(regexp, nodeType, getAttrs) {
 
 export function textblockTypeInputRule(regexp, nodeType, getAttrs) {
   return new InputRule(regexp, (state, match, start, end) => {
-    let $start = state.doc.resolve(start)
-    let attrs = getAttrs instanceof Function ? getAttrs(match) : getAttrs
+    const $start = state.doc.resolve(start)
+    const attrs = getAttrs instanceof Function ? getAttrs(match) : getAttrs
     if (
       !$start
         .node(-1)
@@ -58,14 +58,14 @@ export function textblockTypeInputRule(regexp, nodeType, getAttrs) {
 
 export function wrappingInputRule(regexp, nodeType, getAttrs, joinPredicate) {
   return new InputRule(regexp, (state, match, start, end) => {
-    let attrs = getAttrs instanceof Function ? getAttrs(match) : getAttrs
-    let tr = state.tr.delete(start, end)
-    let $start = tr.doc.resolve(start),
+    const attrs = getAttrs instanceof Function ? getAttrs(match) : getAttrs
+    const tr = state.tr.delete(start, end)
+    const $start = tr.doc.resolve(start),
       range = $start.blockRange(),
       wrapping = range && findWrapping(range, nodeType, attrs)
     if (!wrapping) return null
     tr.wrap(range, wrapping)
-    let before = tr.doc.resolve(start - 1).nodeBefore
+    const before = tr.doc.resolve(start - 1).nodeBefore
     if (
       before &&
       before.type == nodeType &&

@@ -21,7 +21,7 @@ export default inputRules({
     emDash,
 
     // > blockquote
-    wrappingInputRule(/^\s*>\s$/, schema.nodes.blockquote),
+    wrappingInputRule(/^\s*>\s$/, schema.nodes.blockquote, null, null),
 
     // 1. ordered list
     wrappingInputRule(
@@ -32,10 +32,10 @@ export default inputRules({
     ),
 
     // * bullet list
-    wrappingInputRule(/^\s*([-+*])\s$/, schema.nodes.bullet_list),
+    wrappingInputRule(/^\s*([-+*])\s$/, schema.nodes.bullet_list, null, null),
 
     // ``` code block
-    textblockTypeInputRule(/^```$/, schema.nodes.code_block),
+    textblockTypeInputRule(/^```$/, schema.nodes.code_block, null),
 
     // ## h2 ### h3 ### h4
     textblockTypeInputRule(
@@ -45,9 +45,9 @@ export default inputRules({
     ),
 
     // $...$ math inline
-    inlineMathInputRule(/(?:\$)([^$]+)(?:\$)$/, schema.nodes.math_inline),
+    inlineMathInputRule(/(?:\$)([^$]+)(?:\$)$/, schema.nodes.math_inline, null),
 
     // $$ math block
-    blockMathInputRule(/^\$\$$/, schema.nodes.math_block),
+    blockMathInputRule(/^\$\$$/, schema.nodes.math_block, null),
   ],
 })
