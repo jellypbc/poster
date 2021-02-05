@@ -1,7 +1,7 @@
 export function autogrow() {
-  document.querySelectorAll('[data-autogrow]').forEach(function (element) {
+  document.querySelectorAll('[data-autogrow]').forEach(function (element: any) {
     element.style.boxSizing = 'border-box'
-    var offset = element.offsetHeight - element.clientHeight
+    const offset = element.offsetHeight - element.clientHeight
     console.log('offset', offset)
     element.addEventListener('input', function (event) {
       event.target.style.height = 'auto'

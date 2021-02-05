@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState, useCallback } from 'react'
 
 export function useEventListener(eventName, handler, element = window) {
   // Create a ref that stores handler
-  const savedHandler = useRef()
+  const savedHandler = useRef<any>()
 
   // Update ref.current value if handler changes.
   // This allows our effect below to always get latest handler ...

@@ -1,6 +1,6 @@
 import { DOMParser, DOMSerializer } from 'prosemirror-model'
 
-export const getTimestamp = (timestampName, post) =>
+export const getTimestamp = (timestampName: any, post: any) =>
   (post &&
     post.data &&
     post.data.attributes &&
@@ -9,9 +9,9 @@ export const getTimestamp = (timestampName, post) =>
 
 // determine if post has been saved to the server
 // returns `false` if the post was already saved (created)
-export const getIsNewPost = (post) => !getTimestamp('created_at', post)
+export const getIsNewPost = (post: any) => !getTimestamp('created_at', post)
 
-export const createParser = (schema) => {
+export const createParser = (schema: any) => {
   const parser = DOMParser.fromSchema(schema)
 
   return (content) => {
@@ -23,7 +23,7 @@ export const createParser = (schema) => {
 }
 
 // TODO: fix me so im not just making weird empty DOM things
-export const createSerializer = (schema) => {
+export const createSerializer = (schema: any) => {
   const serializer = DOMSerializer.fromSchema(schema)
 
   return (doc) => {
