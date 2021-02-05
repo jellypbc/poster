@@ -1,19 +1,28 @@
 import { StepMap } from 'prosemirror-transform'
 import { keymap } from 'prosemirror-keymap'
 import { undo, redo } from 'prosemirror-history'
-import { EditorView } from 'prosemirror-view'
+import { NodeView, EditorView } from 'prosemirror-view'
 import { EditorState } from 'prosemirror-state'
+import { Node as ProseNode } from "prosemirror-model";
 
 import katex from 'katex'
 
-export class MathView {
-  constructor(node, view, getPos, block) {
+export class MathView implements NodeView {
+  private node: ProseNode
+  private outerView: EditorView
+  private getPos: (() => number)
+  private block: any
+
+  dom: any
+  innerView: any
+
+  constructor(node: ProseNode, view: EditorView, getPos: (() => number), block: any) {
     this.node = node
     this.outerView = view
     this.getPos = getPos
     this.block = block
 
-    let temp = document.createElement('div')
+    const temp = document.createElement('div')
 
     if (this.block) {
       temp.innerHTML = `
@@ -73,25 +82,27 @@ export class MathView {
         mousedown: () => {
           if (this.outerView.hasFocus()) {
             this.innerView.focus()
+            return true
           }
+          return false
         },
       },
     })
 
-    var editor = this.innerView
-    var dom = this.dom
+    const editor = this.innerView
+    const dom = this.dom
 
     this.dom
       .querySelector('.katex-editor')
       .addEventListener('input', function (event) {
-        let value = editor.dom.textContent
+        const value = editor.dom.textContent
         katex.render(value, dom.querySelector('.katex-render'), {
           throwOnError: false,
           displayMod: false,
         })
       })
     this.innerView.focus()
-    let value = editor.dom.textContent
+    const value = editor.dom.textContent
     katex.render(value, dom.querySelector('.katex-render'), {
       throwOnError: false,
       displayMode: false,
@@ -110,10 +121,10 @@ export class MathView {
     this.innerView.updateState(state)
 
     if (!tr.getMeta('fromOutside')) {
-      let outerTr = this.outerView.state.tr,
+      const outerTr = this.outerView.state.tr,
         offsetMap = StepMap.offset(this.getPos() + 1)
       for (let i = 0; i < transactions.length; i++) {
-        let steps = transactions[i].steps
+        const steps = transactions[i].steps
         for (let j = 0; j < steps.length; j++)
           outerTr.step(steps[j].map(offsetMap))
       }
