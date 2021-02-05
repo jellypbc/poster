@@ -10,13 +10,13 @@ import katex from 'katex'
 export class MathView implements NodeView {
   private node: ProseNode
   private outerView: EditorView
-  private getPos: (() => number)
+  private getPos: any
   private block: any
 
   dom: any
   innerView: any
 
-  constructor(node: ProseNode, view: EditorView, getPos: (() => number), block: any) {
+  constructor(node: ProseNode, view: EditorView, getPos: any, block: any) {
     this.node = node
     this.outerView = view
     this.getPos = getPos

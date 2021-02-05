@@ -6,7 +6,7 @@ export const selectPlugin = new Plugin({
     init(config, instance) {
       return { deco: DecorationSet.empty }
     },
-    apply(transaction, state, prevEditorState, editorState) {
+    apply(transaction: any, state, prevEditorState, editorState) {
       const sel = transaction.curSelection
       if (sel) {
         const decos = [

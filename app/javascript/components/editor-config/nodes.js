@@ -106,7 +106,7 @@ const defaultNodes = {
       },
     ],
     toDOM(node) {
-      let { src, alt, title } = node.attrs
+      const { src, alt, title } = node.attrs
       return ['img', { src, alt, title }]
     },
   },

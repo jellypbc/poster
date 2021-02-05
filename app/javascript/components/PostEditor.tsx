@@ -177,7 +177,6 @@ export const PostEditor: React.FC<Props> = (props) => {
             author_id: user.data.id,
           }
 
-    console.log('data', data)
     submit(data, method, url, onSuccess)
   }
 
