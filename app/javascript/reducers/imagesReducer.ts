@@ -7,15 +7,15 @@ export const images = createSlice({
     lastImage: null,
   },
   reducers: {
-    addImageStart: (state, action) => {
+    addImageStart: (state: any, action) => {
       state.lastImage = null
       state.isAddingImage = true
     },
-    addImageSuccess: (state, action) => {
+    addImageSuccess: (state: any, action) => {
       state.lastImage = action.payload
       state.isAddingImage = false
     },
-    closeImageModal: (state, action) => {
+    closeImageModal: (state: any, action) => {
       state.isAddingImage = false
     },
   },
