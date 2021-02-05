@@ -3,7 +3,7 @@ import React, { useRef, useEffect, useState } from 'react'
 interface Props {
   children: any
   view: any
-  menuRef: {
+  menuRef?: {
     current: any
   }
 }
