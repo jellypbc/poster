@@ -14,8 +14,6 @@ export const Floater: React.FC<Props> = (props) => {
 
   const menuRef = useRef<any>()
 
-  console.log('menuRef', menuRef)
-
   useEffect(() => {
     const calculateStyle = (view) => {
       const { selection } = view.state
