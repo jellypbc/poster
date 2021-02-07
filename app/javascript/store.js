@@ -78,7 +78,7 @@ window._store = store
  * @param {(State) => SelectorResult} [options.selector] - optional function to transform the store state
  * @returns {{ unsubscribe: () => void }} object with an unsubscribe method
  */
-function observeStore(onChange, { selector = (state) => state } = {}) {
+const observeStore = (onChange, { selector = (state) => state } = {}) => {
   let currentState
   function handleChange() {
     // Using a selector function lets us subscribe to changes in just a slice of
@@ -104,14 +104,14 @@ const TIMEOUT_ERROR = 'condition_timed_out'
  * @param {(State) => SelectorResult} [options.selector] - optional function to transform the store state
  * @param {number} [options.timeout] how long to wait before rejecting automatically
  */
-function waitForStore({
+const waitForStore = ({
   succeed = () => false,
   fail = () => false,
   timeout = 5000,
   selector = (state) => state,
-} = {}) {
+} = {}) => {
   return new Promise((resolvePromise, rejectPromise) => {
-    let observerRef = { current: { unsubscribe: () => {} } }
+    let observerRef = { current: { unsubscribe: () => undefined } }
     const timer = setTimeout(() => {
       observerRef.current.unsubscribe()
       rejectPromise(new Error(TIMEOUT_ERROR))

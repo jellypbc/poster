@@ -1,0 +1,55 @@
+import React from 'react'
+import type { IBacklink } from './types'
+
+interface Props {
+  backlinks: Array<IBacklink>
+}
+
+export const Backlinks: React.FC<Props> = ({ backlinks }) => {
+  const renderBacklink = (backlink, index) => {
+    const c = backlink.attributes
+
+    const { authors, title, publisher, imprint_date } = c
+
+    return (
+      <div key={index}>
+        {c.post_id && (
+          <a href={c.source_post_path}>
+            <div className="reference">
+              <div className="list-index">
+                <p>{index + 1}.</p>
+              </div>
+
+              <div className="citation-info">
+                <p>
+                  {authors && <span>{authors}.&nbsp;</span>}
+                  {title && <span>{title}.&nbsp;</span>}
+                  {publisher && <span>{publisher},&nbsp;</span>}
+                  {imprint_date && <span>{imprint_date}.</span>}
+                </p>
+              </div>
+            </div>
+          </a>
+        )}
+      </div>
+    )
+  }
+
+  const renderBacklinks = (backlinks) => {
+    const backlinkList = backlinks.map((c, i) => renderBacklink(c, i))
+    return <div>{backlinkList}</div>
+  }
+
+  let rendered
+  if (backlinks.length >= 1) {
+    rendered = (
+      <div className="backlinks my-5">
+        <h4 className="my-3">Backlinks</h4>
+        <hr />
+        {renderBacklinks(backlinks)}
+      </div>
+    )
+  }
+
+  return <div>{rendered}</div>
+}

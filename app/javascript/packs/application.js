@@ -3,6 +3,7 @@
 // a relevant structure within app/javascript and only use these pack files to reference
 // that code so it'll be compiled.
 
+/* eslint @typescript-eslint/no-var-requires: "off" */
 import 'bootstrap/dist/js/bootstrap'
 
 require('@rails/ujs').start()

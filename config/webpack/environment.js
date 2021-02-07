@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 const { environment } = require('@rails/webpacker')
 
 const webpack = require('webpack');
