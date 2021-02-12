@@ -79,5 +79,6 @@ end
 group :production do
   gem "bugsnag"
   gem "scout_apm"
+  gem "newrelic_rpm"
 end
 
