@@ -86,7 +86,9 @@ export const Sidebar: React.FC<Props> = (props) => {
       setPortalHeight(pHeight)
 
       const mh: any = document.getElementsByClassName('masthead')[0]
-      setMastheadHeight(mh.offsetHeight + mh.offsetTop)
+      if (mh) {
+        setMastheadHeight(mh.offsetHeight + mh.offsetTop)
+      }
     }
     return () => view.current.destroy()
   }, [pageHeight, props, visible, vpHeight])

@@ -45,9 +45,10 @@ class Upload < ApplicationRecord
 		url = file.url
 		if Rails.env.development?
 			if ENV['FIGURE_HOST']
-				"http://rails:3000" + url
-			else
 				"http://host.docker.internal:3000" + url
+			else
+				"http://rails:3000" + url
+				# "http://host.docker.internal: 	3000" + url
 			end
 		else
 			url
