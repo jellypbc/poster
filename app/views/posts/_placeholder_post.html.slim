@@ -25,7 +25,7 @@
     .post-editor
       .ProseMirror
         - if post.body.present? && post.body != "<p></p>"
-          = post.body.html_safe
+          / = post.body.html_safe
         - else 
           .body-placeholder
             = "A blank post."
