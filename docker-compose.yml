@@ -5,7 +5,7 @@ services:
       context: .
       dockerfile: ./Dockerfile
       args:
-        RUBY_VERSION: '3.0.0'
+        RUBY_VERSION: '2.7.2'
         PG_MAJOR: '12'
         NODE_MAJOR: '14'
         YARN_VERSION: '1.22.5'
@@ -16,7 +16,7 @@ services:
     volumes:
       - app-sync:/app:nocopy
       - rails_cache:/app/tmp/cache
-      # - bundle:/usr/local/bundle
+      - bundle:/usr/local/bundle
       - node_modules:/app/node_modules
       - packs:/app/public/packs
     environment:
@@ -46,7 +46,8 @@ services:
   rails:
     <<: *app
     # command: .docker/web-startup.sh
-    command: .docker/startup.sh
+    # command: .docker/startup.sh
+    command: bash -c "bundle exec rails server -b 0.0.0.0"
     ports:
       - '3000:3000'
 
@@ -61,7 +62,7 @@ services:
       - '3035:3035'
     volumes:
       - app-sync:/app:nocopy
-      # - bundle:/usr/local/bundle
+      - bundle:/usr/local/bundle
       - node_modules:/app/node_modules
       - packs:/app/public/packs
     environment:

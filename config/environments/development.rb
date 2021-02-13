@@ -1,4 +1,5 @@
 Rails.application.configure do
+
   config.cache_classes = false
   config.eager_load = true
   config.consider_all_requests_local = true
@@ -48,7 +49,6 @@ Rails.application.configure do
 
   config.after_initialize do
     Bullet.enable                       = true
-    Bullet.bullet_logger                = true
     Bullet.rails_logger                 = true
     Bullet.n_plus_one_query_enable      = true
     Bullet.unused_eager_loading_enable  = true
