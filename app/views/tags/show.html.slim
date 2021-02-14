@@ -1,5 +1,5 @@
 - content_for(:title) { tag_text(@tag.text) }
-- content_for(:meta_twitter_description) { tag_description(@tag.user.username) }
+- content_for(:meta_twitter_description) { @tag.user.present? ? tag_description(@tag.user.username) : "A collection of articles" }
 
 .users
   .container.my-5
