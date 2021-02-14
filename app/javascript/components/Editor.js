@@ -5,6 +5,27 @@ import { commentPluginKey } from './editor-config/comments'
 import { citationPluginKey } from './editor-config/citations'
 // import applyDevTools from 'prosemirror-dev-tools'
 
+
+
+
+import {
+  bodyOptions as options,
+  titleOptions,
+  menu,
+  titleMenu,
+  annotationMenu,
+} from './editor-config/index'
+
+
+import {
+  createParser,
+  createSerializer,
+} from '../utils/postUtils'
+
+const schema = options.schema
+const serialize = createSerializer(schema)
+
+
 export class Editor extends React.Component {
   constructor(props) {
     super(props)
@@ -59,6 +80,11 @@ export class Editor extends React.Component {
   }
 
   componentDidMount() {
+    console.log("this.editorRef.current", this.editorRef.current)
+    console.log("this.view.dom", this.view.dom)
+    console.log("this.view", this.view)
+    console.log("serialized>>>>", serialize(this.view.state.doc))
+
     this.editorRef.current.appendChild(this.view.dom)
     if (this.props.autoFocus) this.view.focus()
   }
@@ -92,10 +118,7 @@ export class Editor extends React.Component {
     const editor = <div ref={this.editorRef} />
 
     return this.props.render
-      ? this.props.render({
-          editor,
-          view: this.view,
-        })
+      ? this.props.render({ editor, view: this.view })
       : editor
   }
 }

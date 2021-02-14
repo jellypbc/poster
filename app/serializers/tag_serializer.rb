@@ -21,14 +21,10 @@
 class TagSerializer
   include FastJsonapi::ObjectSerializer
 
-  attributes :id, :text, :slug, :color
+  attributes :id, :text, :slug, :color, :posts_count
 
   attribute :username do |object|
     object.user.username if object.user
-  end
-
-  attribute :posts_count do |object|
-    object.posts.any? ? object.posts.count : 0
   end
 
 end

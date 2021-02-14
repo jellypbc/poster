@@ -68,6 +68,9 @@ group :development do
   gem "letter_opener_web", "~> 1.3"
   gem "annotate"
   gem "foreman"
+  gem "rack-mini-profiler"
+  gem "memory_profiler"
+  gem "stackprof"
 end
 
 group :test do

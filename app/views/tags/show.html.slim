@@ -1,5 +1,5 @@
-- content_for(:title) { tag_text(@tag) }
-- content_for(:meta_twitter_description) { tag_description(@username) }
+- content_for(:title) { tag_text(@tag.text) }
+- content_for(:meta_twitter_description) { tag_description(@tag.user.username) }
 
 .users
   .container.my-5
@@ -14,5 +14,5 @@
           #posts.tab-pane.fade.show.active role="tabpanel" aria-labelledby="posts-tab"
             = react_component "PostsContainer",
               tag: @tag,
-              postsCount: @posts.count,
-              citationsCount: @generated_posts.count
+              postsCount: @tag.posts_count,
+              citationsCount: @cited_posts_count

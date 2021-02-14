@@ -48,7 +48,8 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
          :lockable, :timeoutable, :confirmable
-
+         # :lockable, :timeoutable
+         
   before_create :downcase_email
   before_create :set_username
 
