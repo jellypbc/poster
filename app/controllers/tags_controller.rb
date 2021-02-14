@@ -1,26 +1,18 @@
 class TagsController < ApplicationController
   before_action :authenticate_user!, only: [:edit, :create, :update, :destroy, :add_tag, :remove_tag]
-  before_action :set_tag, only: [:show, :edit, :update, :destroy, :add_tag, :remove_tag]
+  before_action :set_tag, only: [:show, :edit, :update, :destroy, :add_tag, :remove_tag, :paginated_posts, :paginated_citations]
   before_action :set_target_post, only: [:add_tag, :remove_tag, :create]
 
   def show
     @posts = @tag.posts
       .order(created_at: :desc)
-      .paginate(page: params[:posts_page], per_page: 10)
+      .limit(10)
 
-    post_ids = @posts.map{ |p| p.id } if @posts.any?
-
+    post_ids = @tag.posts.map{ |p| p.id } if @posts.any?
     citations = Citation.where(post_id: post_ids)
+    citation_array = citations.map{ |c| c.generated_post_id }.uniq
 
-    citation_array = citations
-      .map{ |c| c.generated_post_id }
-      .uniq
-
-    @generated_posts = Post.where(id: citation_array)
-      .order(created_at: :desc)
-      .paginate(page: params[:citations_page], per_page: 10)
-
-    @username = User.find_by_id(@tag.user_id).username
+    @cited_posts_count = Post.where(id: citation_array).size
   end
 
   def new
@@ -101,10 +93,7 @@ class TagsController < ApplicationController
     end
   end
 
-
   def paginated_posts
-    @tag = Tag.find params[:id]
-
     respond_to do |format|
       if @tag.posts
         @posts = @tag.posts.order(created_at: :desc)
@@ -128,25 +117,17 @@ class TagsController < ApplicationController
   end
 
   def paginated_citations
-    @tag = Tag.find params[:id]
+    posts = @tag.posts.order(created_at: :desc)
+    post_ids = posts.map{ |p| p.id }
+    citations = Citation.where(post_id: post_ids)
+    citation_array = citations.map{ |c| c.generated_post_id}.uniq
+
+    @generated_posts = Post.where(id: citation_array)
+      .order(created_at: :desc)
+      .paginate(page: params[:page], per_page: 10)
+
     respond_to do |format|
-      if @tag.posts
-        @posts = @tag.posts
-          .order(created_at: :desc)
-          .paginate(page: params[:posts_page], per_page: 10)
-
-        post_ids = @posts.map{ |p| p.id}
-
-        @citations = Citation.where(post_id: post_ids)
-
-        citation_array = @citations
-          .map{ |c| c.generated_post_id}
-          .uniq
-
-        @generated_posts = Post.where(id: citation_array)
-          .order(created_at: :desc)
-          .paginate(page: params[:citations_page], per_page: 10)
-
+      if @generated_posts
         format.json {
           render json: {
             posts: @generated_posts,

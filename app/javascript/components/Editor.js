@@ -92,10 +92,7 @@ export class Editor extends React.Component {
     const editor = <div ref={this.editorRef} />
 
     return this.props.render
-      ? this.props.render({
-          editor,
-          view: this.view,
-        })
+      ? this.props.render({ editor, view: this.view })
       : editor
   }
 }

@@ -34,7 +34,6 @@ export const Dashboard: React.FC<Props> = (props) => {
   const [showPagination, setShowPagination] = useState(false)
   const [hasPosts, setHasPosts] = useState(true)
   const [, setError] = useState()
-  // const [tagState, setTagState] = useState([])
   const [tags, setTags] = useState(props.tags.data || [])
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -209,8 +208,8 @@ export const Dashboard: React.FC<Props> = (props) => {
   useEventListener('resize', scrollHandler)
   useEventListener('scroll', scrollHandler)
 
-  const renderTags = (tags) => {
-    const rendered = tags.map(function (tag) {
+  const renderTags = (tgs) => {
+    const rendered = tgs.map(function (tag) {
       return (
         <a
           key={tag.id}
