@@ -50,8 +50,4 @@ class UserSerializer
     object.full_name.present? ? object.full_name : object.username
   end
 
-  attribute :posts do |object|
-    object.posts.pluck(:id, :title, :slug)
-  end
-
 end
