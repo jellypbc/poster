@@ -32,10 +32,10 @@ import {
   createSerializer,
 } from '../utils/postUtils'
 
-import type { 
-  IPost, 
-  ICurrentUser, 
-  IBacklink, 
+import type {
+  IPost,
+  ICurrentUser,
+  IBacklink,
   ICitation
 } from './types'
 
@@ -61,7 +61,7 @@ export const PostEditor: React.FC<Props> = (props) => {
   const title = post.data.attributes.title || 'Untitled'
   const hasChanges = false //editor has changes (actual onChange may be debounced)
   const [isLoading, setIsLoading] = useState<boolean>(false) // is sending request to server
-  const [error, setError] = useState<Error | null>(null) 
+  const [error, setError] = useState<Error | null>(null)
   const [errorAt, setErrorAt] = useState<string | null>(null)
   const lastSavedAt: string | null = getTimestamp('updated_at', post)
   const [lastUnsavedChangeAt, setLastUnsavedChangeAt] = useState<string | null>(null) // Date string or null, used to track dirty state
