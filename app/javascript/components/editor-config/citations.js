@@ -9,6 +9,7 @@ import { saRequest } from '../../utils/saRequest'
 import parse from 'html-react-parser'
 import classnames from 'classnames'
 import { store } from '../../store'
+import { v4 as uuidv4 } from 'uuid'
 
 export const citationPluginKey = new PluginKey('citations')
 
@@ -102,7 +103,7 @@ export const addCitation = function (state, dispatch, view) {
       var { currentUser, currentPost } = store.getState()
 
       const newCitation = new Citation(
-        randomID(),
+        uuidv4(),
         payload.value,
         highlightedText,
         payload.url
@@ -150,7 +151,7 @@ export const addCitation = function (state, dispatch, view) {
         })
         p.then((result) => {
           const newCitation = new Citation(
-            randomID(),
+            uuidv4(),
             payload.value,
             highlightedText,
             result.body.post.slug
@@ -243,10 +244,6 @@ export const citationPlugin = new Plugin({
     },
   },
 })
-
-function randomID() {
-  return Math.floor(Math.random() * 0xffffffff)
-}
 
 export const citationUI = function (transaction) {
   return new Plugin({

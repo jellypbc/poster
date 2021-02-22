@@ -8,6 +8,7 @@ import ReactDOM from 'react-dom'
 import React, { useState } from 'react'
 import { saRequest } from '../../utils/saRequest'
 import classnames from 'classnames'
+import {v4 as uuidv4} from 'uuid'
 
 export const commentPluginKey = new PluginKey('comments')
 
@@ -125,10 +126,6 @@ export const commentPlugin = new Plugin({
   },
 })
 
-function randomID() {
-  return Math.floor(Math.random() * 0xffffffff)
-}
-
 function submitDeleteComment(comment) {
   var data = {
     comment: {
@@ -195,7 +192,7 @@ export const addComment = function (state, dispatch) {
 
     const handleNewComment = ({ text }) => {
       const user = buildUser()
-      const newComment = new Comment(text, randomID(), user)
+      const newComment = new Comment(text, uuidv4(), user)
 
       dispatch(
         state.tr.setMeta(commentPlugin, {
@@ -324,7 +321,7 @@ function ThreadedComment(props) {
         type: 'newComment',
         from: replyTo.from,
         to: replyTo.to,
-        comment: new Comment(text, randomID(), user),
+        comment: new Comment(text, uuidv4(), user),
       })
     )
   }
