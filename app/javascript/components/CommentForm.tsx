@@ -3,8 +3,6 @@ import { store } from '../store'
 import { saRequest } from '../utils/saRequest'
 import { autogrow } from '../utils/autogrow'
 
-// import { useSelector, useDispatch } from 'react-redux'
-
 import type { ICurrentUserCurrentUser } from './types'
 
 function useForceUpdate() {
@@ -16,7 +14,7 @@ interface Props {
   thread: any
   onSubmit: (any) => void
   onCancel: () => void
-  className: any
+  className: string
   currentUser: ICurrentUserCurrentUser
 }
 
@@ -28,8 +26,6 @@ export const CommentForm: React.FC<Props> =({
   ...rest
 }) => {
 
-  // const dispatch = useDispatch()
-  // const comments = useSelector(state => state.comments)
   const textareaRef = useRef<any>()
 
   useEffect(() => {
@@ -44,30 +40,10 @@ export const CommentForm: React.FC<Props> =({
 
   const forceUpdate = useForceUpdate()
 
-  // TODO: It might be a good idea to separate visibility check into a parent
-  // component to keep this component solely concerned with internal state & layout.
-  // const modifierClasses = !comments.isAddingComment
-  //   ? 'j-commentForm--inactive'
-  //   : ''
   const modifierClasses = ''
 
   const handleSubmit = () => {
     const payload = getSavePayload()
-    // dispatch({ type: 'addCommentSave', payload })
-
-    // maybe this dispatch happens here instead? but cant get access to props
-    // dispatch({
-    //   type: 'addCommentSave',
-    //   payload: {
-    //     type: 'newComment',
-    //     comment: payload,
-    //     // from: sel.from,
-    //     // to: sel.to,
-    //     // key: comment.id,
-    //   }
-    // })
-
-    textareaRef.current.value = '' // clear (could change this to controlled value too)
     if (onSubmit) onSubmit(payload)
   }
 
@@ -103,15 +79,14 @@ export const CommentForm: React.FC<Props> =({
   }
 
   const handleCancel = () => {
-    // dispatch({ type: 'addCommentCancel' })
-    if (onCancel) onCancel()
+    onCancel && onCancel()
   }
 
-  const handleKeyDown = (e) => {
-    if ((e.metaKey || e.ctrlKey) && e.keyCode === 13) {
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if ((e.metaKey || e.ctrlKey) && e.keyCode === 13) { // 13 = Enter
       handleSubmit()
     }
-    if (e.keyCode === 27) {
+    if (e.keyCode === 27) { // 27 = Escape
       handleCancel()
     }
   }
@@ -128,7 +103,6 @@ export const CommentForm: React.FC<Props> =({
         !currentUser.currentUser.attributes.id && (
           <div className={classes + ' border-top'}>
             <p className="label">Please login or continue as guest.</p>
-
             <div className="button-row">
               <button
                 onClick={onLoginClick}
@@ -153,7 +127,6 @@ export const CommentForm: React.FC<Props> =({
           <form
             className={`${className} ${modifierClasses}`}
             {...rest}
-            onSubmit={handleSubmit}
           >
             <textarea
               data-autogrow
@@ -165,7 +138,7 @@ export const CommentForm: React.FC<Props> =({
               /* eslint-disable-next-line jsx-a11y/no-autofocus */
               autoFocus
               id="comment-form-input"
-            ></textarea>
+            />
             <div className="j-commentForm__actions px-2 pt-1 pb-2 d-flex flex-row-reverse">
               <button
                 type="button"
