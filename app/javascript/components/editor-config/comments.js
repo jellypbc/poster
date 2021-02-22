@@ -181,8 +181,7 @@ function submitRequest(data, url) {
     })
 }
 
-// Command for adding an annotation; it can be connected to the menu option for comments
-export const addAnnotation = function (state, dispatch) {
+export const addComment = function (state, dispatch) {
   let sel = state.selection
   if (sel.empty) return false
   console.log('dispatch', dispatch)
@@ -229,7 +228,7 @@ export const addAnnotation = function (state, dispatch) {
   return true
 }
 
-export const annotationIcon = {
+export const commentIcon = {
   width: 1024,
   height: 1024,
   path:

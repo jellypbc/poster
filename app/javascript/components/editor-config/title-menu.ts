@@ -1,5 +1,5 @@
 import { toggleMark } from 'prosemirror-commands'
-import { addAnnotation } from './comments'
+import { addComment } from './comments'
 import { schema } from './schema'
 import icons from './icons'
 
@@ -15,8 +15,8 @@ export default {
   comments: {
     addComment: {
       title: 'Add Comment',
-      run: addAnnotation,
-      // select: state => addAnnotation(state),
+      run: addComment,
+      // select: state => addComment(state),
       content: icons.comment,
     },
   },

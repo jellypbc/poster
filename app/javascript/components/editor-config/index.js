@@ -12,5 +12,5 @@ export const titleOptions = {
 }
 
 export { default as menu } from './menu'
-export { default as annotationMenu } from './annotation-popup'
+export { default as commentMenu } from './comment-popup'
 export { default as titleMenu } from './title-menu'

@@ -19,7 +19,7 @@ import {
   titleOptions,
   menu,
   titleMenu,
-  annotationMenu,
+  commentMenu,
 } from './editor-config/index'
 
 import { commentPluginKey } from './editor-config/comments'
@@ -200,7 +200,7 @@ export const PostEditor: React.FC<Props> = (props) => {
   }
 
   const renderTitleEditor = ({ editor, view }) => {
-    const menubar = isEditable ? titleMenu : annotationMenu
+    const menubar = isEditable ? titleMenu : commentMenu
     return (
       <div className="header">
         <div className="header-nav">
@@ -216,7 +216,7 @@ export const PostEditor: React.FC<Props> = (props) => {
   }
 
   const renderBodyEditor = ({ editor, view }) => {
-    const menubar = isEditable ? menu : annotationMenu
+    const menubar = isEditable ? menu : commentMenu
     return (
       <div>
         <Floater view={view}>
