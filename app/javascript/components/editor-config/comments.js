@@ -12,10 +12,11 @@ import classnames from 'classnames'
 export const commentPluginKey = new PluginKey('comments')
 
 class Comment {
-  constructor(text, id, user) {
+  constructor(id, text, user, highlightedText) {
     this.id = id
     this.text = text
     this.user = user
+    this.highlightedText = highlightedText
   }
 }
 
@@ -79,7 +80,7 @@ class CommentState {
     const existingComments = config.doc.comments.comments || []
 
     let decos = existingComments.map((c) =>
-      deco(c.from, c.to, new Comment(c.text, c.id, c.user))
+      deco(c.from, c.to, new Comment(c.id, c.text, c.user, c.highlightedText))
     )
 
     return new CommentState(
@@ -160,6 +161,7 @@ function submitCreateComment(action, comment, field) {
       data_key: comment.id,
       text: comment.text,
       field_type: field,
+      highlighted_text: comment.highlightedText,
     },
   }
   if (currentPost) {
@@ -185,10 +187,11 @@ function submitRequest(data, url) {
 export const addAnnotation = function (state, dispatch) {
   let sel = state.selection
   if (sel.empty) return false
-  console.log('dispatch', dispatch)
+  let highlightedText = state.doc.textBetween(sel.from, sel.to)
   if (dispatch) {
     const root =
-      document.querySelector('#comment-modal') || document.createElement('div')
+      document.querySelector('#comment-modal') || 
+      document.createElement('div')
     root.id = '#comment-modal'
     document.body.appendChild(root)
 
@@ -196,16 +199,16 @@ export const addAnnotation = function (state, dispatch) {
 
     const handleNewComment = ({ text }) => {
       const user = buildUser()
-      const newComment = new Comment(text, randomID(), user)
+      const newComment = new Comment(randomID(), text, user, highlightedText)
 
-      dispatch(
-        state.tr.setMeta(commentPlugin, {
-          type: 'newComment',
-          from: sel.from,
-          to: sel.to,
-          comment: newComment,
-        })
-      )
+      const action = {
+        type: 'newComment',
+        from: sel.from,
+        to: sel.to,
+        comment: newComment,
+      }
+
+      dispatch(state.tr.setMeta(commentPlugin, action))
 
       handleClose()
     }
@@ -325,7 +328,7 @@ function ThreadedComment(props) {
         type: 'newComment',
         from: replyTo.from,
         to: replyTo.to,
-        comment: new Comment(text, randomID(), user),
+        comment: new Comment(randomID(), text, user, highlightedText),
       })
     )
   }
@@ -357,7 +360,6 @@ function ThreadedComment(props) {
           </a>
         </div>
       )}
-
       <p className="j-commentText">{comment.text}</p>
       {!isShowingReply && (
         <div>
