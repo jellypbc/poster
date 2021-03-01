@@ -1,5 +1,5 @@
 import React, { useCallback, useState, useMemo } from 'react'
-import { images } from '../store'
+import { addImageSuccess, closeImageModal, imagesSelector } from '../features/imagesSlice'
 import { useSelector, useDispatch } from 'react-redux'
 import Modal from 'react-modal'
 import Uppy from '@uppy/core'
@@ -8,12 +8,12 @@ import { DragDrop } from '@uppy/react'
 
 export const ImageModal: React.FC = () => {
   const dispatch = useDispatch()
-  const imagesState = useSelector((state) => state.images)
+  const { isAddingImage } = useSelector(imagesSelector)
 
   const token = document.head.querySelector('[name~=csrf-token][content]')
   const handleUpload = useCallback(
     (fileUrl) => {
-      dispatch(images.actions.addImageSuccess({ fileUrl: fileUrl }))
+      dispatch(addImageSuccess({ fileUrl: fileUrl }))
     },
     [dispatch]
   )
@@ -23,11 +23,11 @@ export const ImageModal: React.FC = () => {
     <div>
       <Modal
         onRequestClose={() => {
-          dispatch(images.actions.closeImageModal(null))
+          dispatch(closeImageModal(null))
         }}
         className="image-modal-container"
         shouldCloseOnOverlayClick={true}
-        isOpen={imagesState.isAddingImage}
+        isOpen={isAddingImage}
       >
         <div className="image-modal">
           <DragDrop
@@ -65,6 +65,9 @@ function useUppy(token, onUpload) {
       onUpload(fileUrl)
       // build a new Uppy instance for the next upload
       setUploaderGeneration(uploaderGeneration + 1)
+    })
+    _uppy.on('error', (result: any) => {
+      console.log("error!", result)
     })
     return _uppy
   }, [onUpload, token, uploaderGeneration])

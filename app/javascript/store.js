@@ -1,71 +1,22 @@
 import { configureStore, createReducer } from '@reduxjs/toolkit'
-import { images } from './reducers/imagesReducer'
+import { combineReducers } from 'redux'
 
-// unsafe side-effects for comment actions
-const commentsEffects = {
-  onCommentSuccess: (payload) => null,
-  onCommentAdd: (payload) => null,
-  onCommentStart: () => {
-    const commentFormInput = document.querySelector('#comment-form-input')
-    if (commentFormInput) commentFormInput.focus()
-  },
-}
+import userReducer from './features/userSlice'
+import postsReducer from './features/postsSlice'
+import imagesReducer from './features/imagesSlice'
+import citationsReducer from './features/citationsSlice'
+import commentsReducers from './features/commentsSlice'
 
-const commentsReducerDefaultState = {
-  isAddingComment: false,
-  comments: [],
-}
-
-const commentReducers = {
-  setComments: (state, action) => {
-    state.comments = action.payload.comments
-    // will set the posts comments from new data or componentDidMount?
-  },
-
-  addCommentStart: (state, action) => {
-    state.isAddingComment = true
-    if (commentsEffects.onCommentStart) {
-      commentsEffects.onCommentStart()
-    }
-    if (action.payload.onCommentAdd) {
-      commentsEffects.onCommentAdd = action.payload.onCommentAdd
-    }
-  },
-  addCommentCancel: (state, action) => {
-    state.isAddingComment = false
-    commentsEffects.onCommentAdd = (payload) => null
-  },
-  addCommentSave: (state, action) => {
-    state.isAddingComment = false
-    if (commentsEffects.onCommentAdd) {
-      commentsEffects.onCommentAdd(action.payload)
-    }
-    if (commentsEffects.onCommentSuccess) {
-      commentsEffects.onCommentSuccess(action.payload)
-    }
-    state.newestComment = action.payload
-  },
-}
-
-const postReducers = {
-  setCurrentPost: (state, action) => {
-    state.currentPost = action.payload.data
-  },
-}
-
-const userReducers = {
-  setCurrentUser: (state, action) => {
-    state.currentUser = action.payload.data
-  },
-}
+const rootReducer = combineReducers({
+  currentPost: postsReducer,
+  currentUser: userReducer,
+  images: imagesReducer,
+  comments: commentsReducers,
+  citations: citationsReducer
+})
 
 const store = configureStore({
-  reducer: {
-    comments: createReducer(commentsReducerDefaultState, commentReducers),
-    currentPost: createReducer({}, postReducers),
-    currentUser: createReducer({}, userReducers),
-    images: images.reducer,
-  },
+  reducer: rootReducer
 })
 
 // for debugging
@@ -133,4 +84,4 @@ const waitForStore = ({
   })
 }
 
-export { store, images, observeStore, waitForStore, TIMEOUT_ERROR }
+export { store, observeStore, waitForStore, TIMEOUT_ERROR }

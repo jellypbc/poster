@@ -1,11 +1,12 @@
 import { store, images, waitForStore } from '../../store'
 import { schema } from './schema'
+import { addImageStart } from '../../features/imagesSlice'
 
 // note: "pm" = ProseMirror, "store" = app-wide redux store
 export const addFigure = function (pmState, pmDispatch) {
   if (!pmDispatch) return true
 
-  store.dispatch(images.actions.addImageStart())
+  store.dispatch(addImageStart())
 
   waitForStore({
     selector: (storeState) => storeState.images,

@@ -22,6 +22,9 @@ import {
   annotationMenu,
 } from './editor-config/index'
 
+import { setCurrentUser } from '../features/userSlice'
+import { setCurrentPost } from '../features/postsSlice'
+
 import { commentPluginKey } from './editor-config/comments'
 import { citationPluginKey } from './editor-config/citations'
 
@@ -115,16 +118,11 @@ export const PostEditor: React.FC<Props> = (props) => {
     //     },
     //   }
     // )
-    store.dispatch({
-      type: 'setCurrentPost',
-      payload: post,
-    })
+
+    store.dispatch(setCurrentPost(post))
 
     if (user) {
-      store.dispatch({
-        type: 'setCurrentUser',
-        payload: user,
-      })
+      store.dispatch(setCurrentUser(user))
     }
 
     removeStaticRenderPlaceholder()
