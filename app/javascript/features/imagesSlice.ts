@@ -2,7 +2,9 @@ import { createSlice } from '@reduxjs/toolkit'
 
 interface ImagesState {
   isAddingImage: boolean;
-  lastImage: (object[] | null);
+  lastImage: {
+    fileUrl: string
+  };
 }
 
 const initialState: ImagesState = {
