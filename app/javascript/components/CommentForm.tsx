@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import { store } from '../store'
 import { saRequest } from '../utils/saRequest'
 import { autogrow } from '../utils/autogrow'
+import { setCurrentUser } from '../features/userSlice'
 
 // import { useSelector, useDispatch } from 'react-redux'
 
@@ -83,7 +84,7 @@ export const CommentForm: React.FC<Props> =({
         console.log({ res, err }) // DEBUG SAVE
 
         if (res.status === 200) {
-          store.dispatch({ type: 'setCurrentUser', payload: res.body })
+          store.dispatch(setCurrentUser(res.body))
           forceUpdate()
 
           const link = document.getElementById('login-link')
