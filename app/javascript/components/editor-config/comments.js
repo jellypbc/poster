@@ -319,7 +319,7 @@ function ThreadedComment(props) {
     setIsShowingReply(true)
   }
 
-  const handleReplySubmit = ({ text = 'Comment...' }) => {
+  const handleReplySubmit = ({ text = 'Comment...', highlightedText = '' }) => {
     const replyTo = commentPluginKey.getState(state).findComment(comment.id)
     const user = buildUser()
 
