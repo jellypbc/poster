@@ -121,13 +121,13 @@ function randomID() {
 }
 
 function submitDeleteComment(comment) {
-  var data = {
+  const data = {
     comment: {
       data_key: comment.id,
-      deleted_at: true,
-    },
+      deleted_at: true
+    }
   }
-  var url = '/remove_comment'
+  const url = '/remove_comment'
   submitRequest(data, url)
 }
 
