@@ -1,4 +1,3 @@
-// https://github.com/ProseMirror/website/blob/master/src/collab/client/comment.js
 import { Plugin, PluginKey } from 'prosemirror-state'
 import { Decoration, DecorationSet } from 'prosemirror-view'
 import { CommentForm } from '../CommentForm'
@@ -113,16 +112,7 @@ export const commentPlugin = new Plugin({
   props: {
     decorations(state) {
       return this.getState(state).decos
-    },
-    // handlePaste: function(){
-    //   console.log("pasting")
-    // },
-    //   console.log(event)
-    // },
-    // handleDOMEvents: function (view, event) {
-    //   console.log("PLUGIN eve", event)
-    //   return true
-    // }
+    }
   },
 })
 
@@ -177,7 +167,6 @@ function submitRequest(data, url) {
     })
 }
 
-// Command for adding an annotation; it can be connected to the menu option for comments
 export const addComment = function (state, dispatch) {
   let sel = state.selection
   if (sel.empty) return false
@@ -225,25 +214,14 @@ export const addComment = function (state, dispatch) {
   }
   return true
 }
-// Comment UI
 
 export const commentUI = function (transaction) {
   return new Plugin({
     props: {
       decorations(state) {
         return commentTooltip(state, transaction)
-      },
-    },
-    // handlePaste: function(){
-    //   console.log("pasting")
-    // },
-    // handleKeyDown: function(view, e){
-    //   console.log(event)
-    // },
-    // handleDOMEvents: function (view, event) {
-    //   console.log("PLUGIN eve", event)
-    //   return true
-    // }
+      }
+    }
   })
 }
 
@@ -259,7 +237,6 @@ function commentTooltip(state, dispatch) {
 
 function renderComments(comments, dispatch, state) {
   const node = document.createElement('div')
-  // const node = document.getElementById('comment-container')
   node.className = 'tooltip-wrapper animated fadeIn'
   ReactDOM.render(
     <ul className="commentList">
