@@ -184,7 +184,7 @@ function submitRequest(data, url) {
 }
 
 // Command for adding an annotation; it can be connected to the menu option for comments
-export const addAnnotation = function (state, dispatch) {
+export const addComment = function (state, dispatch) {
   let sel = state.selection
   if (sel.empty) return false
   let highlightedText = state.doc.textBetween(sel.from, sel.to)
