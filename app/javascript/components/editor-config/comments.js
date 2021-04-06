@@ -142,19 +142,10 @@ function submitDeleteComment(comment) {
 }
 
 function submitCreateComment(action, comment, field) {
-  var url = '/add_comment'
-  var { currentUser, currentPost } = store.getState()
+  const url = '/add_comment'
+  const { currentUser, currentPost } = store.getState()
 
-  // currentUser = {
-  //   data: {
-  //     attributes: {
-  //       name: "Anonymous",
-  //       avatar_url: User.default_avatar_url
-  //     }
-  //   }
-  // }
-
-  var data = {
+  let data = {
     comment: {
       data_to: action.to,
       data_from: action.from,
@@ -162,14 +153,17 @@ function submitCreateComment(action, comment, field) {
       text: comment.text,
       field_type: field,
       highlighted_text: comment.highlightedText,
-    },
+    }
   }
+
   if (currentPost) {
     data.comment.post_id = currentPost.currentPost.id
   }
+
   if (currentUser && currentUser.currentUser) {
     data.comment.user_id = currentUser.currentUser.id
   }
+
   submitRequest(data, url)
 }
 
@@ -179,7 +173,7 @@ function submitRequest(data, url) {
     .send(data)
     .set('accept', 'application/json')
     .end((err, res) => {
-      console.log({ res, err }) // DEBUG SAVE
+      console.log({ res, err }) 
     })
 }
 
