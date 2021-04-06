@@ -231,7 +231,13 @@ function commentTooltip(state, dispatch) {
   let comments = commentPlugin.getState(state).commentsAt(sel.from)
   if (!comments.length) return null
   return DecorationSet.create(state.doc, [
-    Decoration.widget(sel.from, renderComments(comments, dispatch, state)),
+    Decoration.widget(
+      sel.from, 
+      renderComments(comments, dispatch, state), 
+      {
+        ignoreSelection: true
+      }
+    ),
   ])
 }
 
