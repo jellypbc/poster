@@ -17,7 +17,7 @@ interface Props {
   thread: any
   onSubmit: (any) => void
   onCancel: () => void
-  className: any
+  className: string
   currentUser: ICurrentUserCurrentUser
 }
 

@@ -21,7 +21,7 @@ import {
 } from 'prosemirror-commands'
 
 import { schema } from './schema'
-import { addAnnotation } from './comments'
+import { addComment } from './comments'
 import { addCitation } from './citations'
 import menu from './menu'
 
@@ -66,7 +66,7 @@ const keys = {
   'Shift-Ctrl-3': setBlockType(schema.nodes.heading, { level: 3 }),
   'Shift-Ctrl-4': setBlockType(schema.nodes.heading, { level: 4 }),
   'Mod-_': insertRule,
-  'Mod-Shift-m': addAnnotation,
+  'Mod-Shift-m': addComment,
   'Mod-Shift-l': addCitation,
 }
 
@@ -83,7 +83,7 @@ const titleKeys = {
   'Shift-Mod-z': redo,
   'Mod-y': redo,
   'Mod-i': toggleMark(schema.marks.em),
-  'Mod-Shift-m': addAnnotation,
+  'Mod-Shift-m': addComment,
 }
 
 export const bodyEditorKeys = keymap(keys)

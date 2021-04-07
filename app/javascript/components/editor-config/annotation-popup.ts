@@ -1,11 +1,11 @@
-import { addAnnotation } from './comments'
+import { addComment } from './comments'
 
 export default {
   comments: {
     addComment: {
       title: 'Add Comment',
-      run: addAnnotation,
-      content: 'Add Annotation',
+      run: addComment,
+      content: 'Add Comment',
     },
   },
 }

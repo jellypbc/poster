@@ -1,4 +1,3 @@
-// https://github.com/ProseMirror/website/blob/master/src/collab/client/comment.js
 import { Plugin, PluginKey } from 'prosemirror-state'
 import { Decoration, DecorationSet } from 'prosemirror-view'
 import { CommentForm } from '../CommentForm'
@@ -113,16 +112,7 @@ export const commentPlugin = new Plugin({
   props: {
     decorations(state) {
       return this.getState(state).decos
-    },
-    // handlePaste: function(){
-    //   console.log("pasting")
-    // },
-    //   console.log(event)
-    // },
-    // handleDOMEvents: function (view, event) {
-    //   console.log("PLUGIN eve", event)
-    //   return true
-    // }
+    }
   },
 })
 
@@ -131,30 +121,21 @@ function randomID() {
 }
 
 function submitDeleteComment(comment) {
-  var data = {
+  const data = {
     comment: {
       data_key: comment.id,
-      deleted_at: true,
-    },
+      deleted_at: true
+    }
   }
-  var url = '/remove_comment'
+  const url = '/remove_comment'
   submitRequest(data, url)
 }
 
 function submitCreateComment(action, comment, field) {
-  var url = '/add_comment'
-  var { currentUser, currentPost } = store.getState()
+  const url = '/add_comment'
+  const { currentUser, currentPost } = store.getState()
 
-  // currentUser = {
-  //   data: {
-  //     attributes: {
-  //       name: "Anonymous",
-  //       avatar_url: User.default_avatar_url
-  //     }
-  //   }
-  // }
-
-  var data = {
+  let data = {
     comment: {
       data_to: action.to,
       data_from: action.from,
@@ -162,14 +143,17 @@ function submitCreateComment(action, comment, field) {
       text: comment.text,
       field_type: field,
       highlighted_text: comment.highlightedText,
-    },
+    }
   }
+
   if (currentPost) {
     data.comment.post_id = currentPost.currentPost.id
   }
+
   if (currentUser && currentUser.currentUser) {
     data.comment.user_id = currentUser.currentUser.id
   }
+
   submitRequest(data, url)
 }
 
@@ -179,12 +163,11 @@ function submitRequest(data, url) {
     .send(data)
     .set('accept', 'application/json')
     .end((err, res) => {
-      console.log({ res, err }) // DEBUG SAVE
+      console.log({ res, err }) 
     })
 }
 
-// Command for adding an annotation; it can be connected to the menu option for comments
-export const addAnnotation = function (state, dispatch) {
+export const addComment = function (state, dispatch) {
   let sel = state.selection
   if (sel.empty) return false
   let highlightedText = state.doc.textBetween(sel.from, sel.to)
@@ -232,32 +215,13 @@ export const addAnnotation = function (state, dispatch) {
   return true
 }
 
-export const annotationIcon = {
-  width: 1024,
-  height: 1024,
-  path:
-    'M512 219q-116 0-218 39t-161 107-59 145q0 64 40 122t115 100l49 28-15 54q-13 52-40 98 86-36 157-97l24-21 32 3q39 4 74 4 116 0 218-39t161-107 59-145-59-145-161-107-218-39zM1024 512q0 99-68 183t-186 133-257 48q-40 0-82-4-113 100-262 138-28 8-65 12h-2q-8 0-15-6t-9-15v-0q-1-2-0-6t1-5 2-5l3-5t4-4 4-5q4-4 17-19t19-21 17-22 18-29 15-33 14-43q-89-50-141-125t-51-160q0-99 68-183t186-133 257-48 257 48 186 133 68 183z',
-}
-
-// Comment UI
-
 export const commentUI = function (transaction) {
   return new Plugin({
     props: {
       decorations(state) {
         return commentTooltip(state, transaction)
-      },
-    },
-    // handlePaste: function(){
-    //   console.log("pasting")
-    // },
-    // handleKeyDown: function(view, e){
-    //   console.log(event)
-    // },
-    // handleDOMEvents: function (view, event) {
-    //   console.log("PLUGIN eve", event)
-    //   return true
-    // }
+      }
+    }
   })
 }
 
@@ -267,13 +231,18 @@ function commentTooltip(state, dispatch) {
   let comments = commentPlugin.getState(state).commentsAt(sel.from)
   if (!comments.length) return null
   return DecorationSet.create(state.doc, [
-    Decoration.widget(sel.from, renderComments(comments, dispatch, state)),
+    Decoration.widget(
+      sel.from, 
+      renderComments(comments, dispatch, state), 
+      {
+        ignoreSelection: true
+      }
+    ),
   ])
 }
 
 function renderComments(comments, dispatch, state) {
   const node = document.createElement('div')
-  // const node = document.getElementById('comment-container')
   node.className = 'tooltip-wrapper animated fadeIn'
   ReactDOM.render(
     <ul className="commentList">

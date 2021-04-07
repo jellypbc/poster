@@ -7,7 +7,7 @@ import {
 } from 'prosemirror-commands'
 import { redo, undo } from 'prosemirror-history'
 import { wrapInList } from './schema-list'
-import { addAnnotation } from './comments'
+import { addComment } from './comments'
 import { addCitation } from './citations'
 import { addFigure } from './images'
 import { schema } from './schema'
@@ -68,8 +68,8 @@ export default {
   comments: {
     addComment: {
       title: 'Add Comment',
-      run: addAnnotation,
-      // select: state => addAnnotation(state),
+      run: addComment,
+      // select: state => addComment(state),
       content: icons.comment,
     },
   },
