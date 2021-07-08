@@ -36,7 +36,7 @@
     "immer": "^8.0.1",
     "jquery": "3.5.1",
     "katex": "^0.12.0",
-    "lodash": "4.17.19",
+    "lodash": "4.17.21",
     "popper.js": "^1.16.0",
     "prop-types": "^15.7.2",
     "prosemirror-commands": "1.1.4",
