@@ -91,7 +91,7 @@ GEM
     childprocess (3.0.0)
     coderay (1.1.3)
     concurrent-ruby (1.1.7)
-    connection_pool (2.2.3)
+    connection_pool (2.2.5)
     content_disposition (1.0.0)
     crass (1.0.6)
     declarative (0.0.20)
@@ -413,7 +413,7 @@ GEM
     shrine-google_cloud_storage (3.0.1)
       google-cloud-storage (~> 1.6)
       shrine (~> 3.0)
-    sidekiq (6.1.1)
+    sidekiq (6.4.0)
       connection_pool (>= 2.2.2)
       rack (~> 2.0)
       redis (>= 4.2.0)
@@ -539,7 +539,7 @@ DEPENDENCIES
   shoulda-matchers
   shrine (~> 3.3)
   shrine-google_cloud_storage (~> 3.0)
-  sidekiq (~> 6.1.1)
+  sidekiq (~> 6.4.0)
   sidekiq-batch
   sidekiq-cron
   slim
