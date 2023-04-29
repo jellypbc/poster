@@ -1,9 +1,9 @@
 source "https://rubygems.org"
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby "2.7.2"
+ruby "2.7.6"
 
-gem "bundler", "~> 2.2.3"
+gem "bundler"
 gem "rails", "~> 6.1"
 gem "pg", "~> 1.2"
 gem "puma", "~> 5.0"
