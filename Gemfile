@@ -85,3 +85,5 @@ group :production do
   gem "newrelic_rpm"
 end
 
+
+gem "dockerfile-rails", ">= 1.2", :group => :development
