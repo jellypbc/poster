@@ -202,8 +202,8 @@ GEM
       mimemagic
       multipart-post
     http_parser.rb (0.6.0)
-    httparty (0.18.1)
-      mime-types (~> 3.0)
+    httparty (0.21.0)
+      mini_mime (>= 1.0.0)
       multi_xml (>= 0.5.2)
     httpclient (2.8.3)
     i18n (1.8.5)
@@ -236,9 +236,6 @@ GEM
     memoist (0.16.2)
     memory_profiler (1.0.0)
     method_source (1.0.0)
-    mime-types (3.3.1)
-      mime-types-data (~> 3.2015)
-    mime-types-data (3.2020.0512)
     mimemagic (0.3.10)
       nokogiri (~> 1)
       rake
