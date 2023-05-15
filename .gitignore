@@ -37,3 +37,4 @@ yarn-debug.log*
 
 # Test artifacts
 .artifacts
+.yarn

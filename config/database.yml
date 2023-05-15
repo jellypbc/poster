@@ -22,7 +22,7 @@ test:
 
 production:
   <<: *default
-  database: <%= ENV['DB_NAME'] || 'poster-prod' %>
+  database: <%= ENV['DB_NAME'] || 'poster' %>
   username: <%= ENV['DB_USER'] || 'poster' %>
   password: <%= ENV['DB_PASSWORD'] || '' %>
   host: <%= ENV['DATABASE_URL'] || ENV['DB_HOST'] || 'localhost' %>

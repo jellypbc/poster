@@ -3,7 +3,7 @@
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = "jellyposter-app"
+app = "jellyposter"
 primary_region = "sea"
 
 [http_service]
@@ -13,5 +13,5 @@ primary_region = "sea"
   auto_start_machines = true
 
 [[statics]]
-  guest_path = "/app/public"
+  guest_path = "/rails/public"
   url_prefix = "/"
