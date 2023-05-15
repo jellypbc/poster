@@ -6,7 +6,7 @@ ruby "2.7.6"
 gem "bundler"
 gem "rails", "~> 6.1"
 gem "pg", "~> 1.2"
-gem "puma", "~> 5.0"
+gem "puma", "~> 5"
 gem "sassc-rails", "~> 2.1"
 gem "webpacker", "~> 5.1"
 gem "turbolinks", "~> 5"
@@ -81,7 +81,11 @@ end
 
 group :production do
   gem "bugsnag"
-  gem "scout_apm"
-  gem "newrelic_rpm"
+  # gem "scout_apm"
+  # gem "newrelic_rpm"
 end
 
+gem "dockerfile-rails", ">= 1.2", :group => :development
+gem "net-smtp", "~> 0.3.3", :require => false
+gem "net-imap", "~> 0.3.4", :require => false
+gem "net-pop", "~> 0.1.2", :require => false

@@ -1,0 +1,17 @@
+# fly.toml app configuration file generated for jellyposter-app on 2023-04-28T17:21:37-10:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = "jellyposter"
+primary_region = "sea"
+
+[http_service]
+  internal_port = 3000
+  force_https = true
+  auto_stop_machines = true
+  auto_start_machines = true
+
+[[statics]]
+  guest_path = "/rails/public"
+  url_prefix = "/"
