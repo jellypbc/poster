@@ -2,7 +2,7 @@
   "name": "jellyposter",
   "private": true,
   "engines": {
-    "node": "14.x || 15.x"
+    "node": "14.x || 15.x || 18.x"
   },
   "dependencies": {
     "@aeaton/prosemirror-placeholder": "^0.1.0",
